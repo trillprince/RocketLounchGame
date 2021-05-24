@@ -565,6 +565,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 398617244}
+  - component: {fileID: 398617245}
   m_Layer: 0
   m_Name: Rocket
   m_TagString: Untagged
@@ -587,6 +588,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &398617245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398617243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 917857922df568e46bf0002cccc9165e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &403972811
 GameObject:
   m_ObjectHideFlags: 0
@@ -775,7 +788,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 541084657}
-  - component: {fileID: 541084656}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
@@ -783,20 +795,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &541084656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 541084655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 917857922df568e46bf0002cccc9165e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _leftTapText: {fileID: 1147891479}
-  _rightTapText: {fileID: 1485744981}
 --- !u!4 &541084657
 Transform:
   m_ObjectHideFlags: 0
@@ -1252,7 +1250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &806692271
 MonoBehaviour:
   m_ObjectHideFlags: 0
