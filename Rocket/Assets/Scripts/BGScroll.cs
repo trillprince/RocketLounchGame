@@ -44,6 +44,12 @@ public class BGScroll : MonoBehaviour
         ReinitializeOffset();
     }
 
+    public void SetXVelocityDefault()
+    {
+        XVelocity = 0f;
+        ReinitializeOffset();
+    }
+
     private void ReinitializeOffset()
     {
         _offset = new Vector2(XVelocity, YVelocity);

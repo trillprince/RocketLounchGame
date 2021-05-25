@@ -11,7 +11,7 @@ public class RocketMovement : MonoBehaviour
     private TouchControls _touchControls;
     private Coroutine _movementProcess;
     private float _moveSpeed = 5f;
-    private float _rotateSpeed = 3f;
+    private float _rotateSpeed = 8f;
     private bool _rocketLounched = false;
     private int _sideToRotate;
     private BGScroll _background;
@@ -39,6 +39,10 @@ public class RocketMovement : MonoBehaviour
         {
             MoveAndRotateToScreenSide(context);
         };
+        /*_touchControls.Touch.TouchHold.canceled += _ =>
+        {
+            _background.SetXVelocityDefault();
+        };*/
     }
 
 
@@ -67,7 +71,7 @@ public class RocketMovement : MonoBehaviour
     {
         while (context.phase == InputActionPhase.Performed)
         {
-            Move(sideToMove);
+            /*Move(sideToMove);*/
             Rotate();
             yield return null;
         }
@@ -80,6 +84,7 @@ public class RocketMovement : MonoBehaviour
 
     private void Rotate()
     {
-        transform.localRotation = Quaternion.Euler(transform.localRotation.x , transform.localRotation.y , _sideToRotate * -_rotateSpeed * Time.deltaTime);
+        /*transform.Rotate(transform.rotation.x, transform.rotation.y, _sideToRotate*_rotateSpeed*Time.deltaTime, Space.Self);*/
+        transform.rotation *= Quaternion.Euler(0, 0 ,_sideToRotate*_rotateSpeed*Time.deltaTime);
     }
 }
