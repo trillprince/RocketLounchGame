@@ -14,6 +14,7 @@ public class RocketMovement : MonoBehaviour
     private float _rotateSpeed = 3f;
     private bool _rocketLounched = false;
     private int _sideToRotate;
+    private BGScroll _background;
 
     public bool RocketLounched
     {
@@ -32,6 +33,7 @@ public class RocketMovement : MonoBehaviour
 
     private void Awake()
     {
+        _background = FindObjectOfType<BGScroll>();
         _touchControls = new TouchControls();
         _touchControls.Touch.TouchHold.performed += context =>
         {
@@ -44,11 +46,13 @@ public class RocketMovement : MonoBehaviour
     {
         if (GetPositionOfTouch().x < Screen.width / 2)
         {
+            _background.MoveRightScroll();
             _sideToRotate = 1;
             StartCoroutine(TransformWithDuration(-transform.right, context));
         }
         else if (GetPositionOfTouch().x > Screen.width / 2)
         {
+            _background.MoveLeftScroll();
             _sideToRotate = -1;
             StartCoroutine(TransformWithDuration(transform.right, context));
         }

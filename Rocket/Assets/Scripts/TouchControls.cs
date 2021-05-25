@@ -24,7 +24,7 @@ public class @TouchControls : IInputActionCollection, IDisposable
                     ""id"": ""f50902cc-a56b-4750-a8df-db2dd61b01f5"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold(duration=0.1)""
+                    ""interactions"": ""Hold""
                 },
                 {
                     ""name"": ""TouchPosition"",
