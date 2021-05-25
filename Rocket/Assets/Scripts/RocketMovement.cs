@@ -39,10 +39,7 @@ public class RocketMovement : MonoBehaviour
         {
             MoveAndRotateToScreenSide(context);
         };
-        /*_touchControls.Touch.TouchHold.canceled += _ =>
-        {
-            _background.SetXVelocityDefault();
-        };*/
+        
     }
 
 
@@ -50,13 +47,13 @@ public class RocketMovement : MonoBehaviour
     {
         if (GetPositionOfTouch().x < Screen.width / 2)
         {
-            _background.MoveRightScroll();
+            /*_background.MoveRightScroll();*/
             _sideToRotate = 1;
             StartCoroutine(TransformWithDuration(-transform.right, context));
         }
         else if (GetPositionOfTouch().x > Screen.width / 2)
         {
-            _background.MoveLeftScroll();
+            /*_background.MoveLeftScroll();*/
             _sideToRotate = -1;
             StartCoroutine(TransformWithDuration(transform.right, context));
         }
@@ -71,20 +68,18 @@ public class RocketMovement : MonoBehaviour
     {
         while (context.phase == InputActionPhase.Performed)
         {
-            /*Move(sideToMove);*/
             Rotate();
             yield return null;
         }
     }
 
-    private void Move(Vector3 sideToMove)
-    {
-        transform.Translate(sideToMove * _moveSpeed * Time.deltaTime, Space.Self);
-    }
-
     private void Rotate()
     {
-        /*transform.Rotate(transform.rotation.x, transform.rotation.y, _sideToRotate*_rotateSpeed*Time.deltaTime, Space.Self);*/
         transform.rotation *= Quaternion.Euler(0, 0 ,_sideToRotate*_rotateSpeed*Time.deltaTime);
+    }
+
+    public Vector3 GetRocketDirection()
+    {
+        return transform.up;
     }
 }
