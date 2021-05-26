@@ -9,47 +9,44 @@ using UnityEngine.UI;
 public class RocketMovement : MonoBehaviour
 {
     private TouchControls _touchControls;
-
-    [SerializeField]
-    private float _rotateSpeed = 0f;
-
-    [SerializeField]
+    private float _rotateSpeed = 40f;
     private float _rotateMaxSpeed = 70f;
-
-    [SerializeField]
     private float speedAcceleration = 400f;
-
-    [SerializeField]
     private float speedDegradation = 150f;
-
     private bool _rocketLounched = false;
-
-    [SerializeField]
     private bool _touchPressing = false;
+    private float _rocketSpeed = 50f;
+
+    public float RocketSpeed
+    {
+        get => _rocketSpeed;
+        set => _rocketSpeed = value;
+    }
 
     public void LounchRocket()
     {
         _rocketLounched = true;
     }
-
+    
+    private void Awake()
+    {
+        _touchControls = new TouchControls();
+        _touchControls.Touch.TouchHold.performed += context => { _touchPressing = true; };
+        _touchControls.Touch.TouchHold.canceled += context => { _touchPressing = false; };
+    }
 
     private void OnEnable()
     {
         _touchControls.Enable();
+        LounchManager.RocketLounch += LounchRocket;
     }
 
     private void OnDisable()
     {
         _touchControls.Disable();
+        LounchManager.RocketLounch -= LounchRocket;
     }
 
-    private void Awake()
-    {
-        _touchControls = new TouchControls();
-
-        _touchControls.Touch.TouchHold.performed += context => { _touchPressing = true; };
-        _touchControls.Touch.TouchHold.canceled += context => { _touchPressing = false; };
-    }
 
     public void Update()
     {
