@@ -11,8 +11,8 @@ public class BGScroll : MonoBehaviour
     [Range(-2, 2)] public float _xVelocity = 0;
     [Range(-2, 2)] public float _yVelocity;
     [SerializeField] private RocketMovement _rocketMovement;
-
-
+    private bool _rocketLounched;
+    
 
     private void Awake()
     {
@@ -24,6 +24,7 @@ public class BGScroll : MonoBehaviour
 
     void Update()
     {
+        
         ScrollFromRocketDir();
         _material.mainTextureOffset += _offset * Time.deltaTime;
     }

@@ -9,12 +9,12 @@ public class RocketHeight : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _text;
     [SerializeField] private float _height = 0;
     private BGScroll _bg;
-    private RocketMovement _rocket;
+    private float _rocketSpeed;
     private Vector2 _heightDir;
     private void Awake()
     {
         _bg = FindObjectOfType<BGScroll>();
-        _rocket = FindObjectOfType<RocketMovement>();
+        _rocketSpeed = FindObjectOfType<RocketMovement>().RocketSpeed;
     }
 
     private void Update()
@@ -24,7 +24,7 @@ public class RocketHeight : MonoBehaviour
 
     private void HeightValueUpdate()
     {
-        _height += _bg._yVelocity * 100 * Time.deltaTime;
+        _height += _bg._yVelocity * _rocketSpeed * Time.deltaTime;
         _text.text = Mathf.Floor(_height).ToString();
     }
 }
