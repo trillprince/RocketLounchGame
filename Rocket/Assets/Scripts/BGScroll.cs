@@ -24,20 +24,7 @@ public class BGScroll : MonoBehaviour
         _material.mainTextureOffset += _offset * Time.deltaTime;
     }
 
-    /*
-    public void MoveLeftScroll()
-    {
-        _xVelocity = 0.3f;
-        ReinitializeOffset();
-    }
-
-    public void MoveRightScroll()
-    {
-        _xVelocity = -0.3f;
-        ReinitializeOffset();
-    }
-    */
-
+  
     private void ReinitializeOffset()
     {
         _offset = new Vector2(_xVelocity, _yVelocity).normalized * 0.5f;

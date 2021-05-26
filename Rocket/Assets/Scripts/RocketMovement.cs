@@ -9,17 +9,29 @@ using UnityEngine.UI;
 public class RocketMovement : MonoBehaviour
 {
     private TouchControls _touchControls;
-    private Coroutine _movementProcess;
-    private float _moveSpeed = 5f;
-    private float _rotateSpeed = 8f;
-    private bool _rocketLounched = false;
-    private int _sideToRotate;
-    private BGScroll _background;
 
-    public bool RocketLounched
+    [SerializeField]
+    private float _rotateSpeed = 0f;
+
+    [SerializeField]
+    private float _rotateMaxSpeed = 70f;
+
+    [SerializeField]
+    private float speedAcceleration = 400f;
+
+    [SerializeField]
+    private float speedDegradation = 150f;
+
+    private bool _rocketLounched = false;
+
+    [SerializeField]
+    private bool _touchPressing = false;
+
+    public void LounchRocket()
     {
-        get => _rocketLounched;
+        _rocketLounched = true;
     }
+
 
     private void OnEnable()
     {
@@ -33,49 +45,86 @@ public class RocketMovement : MonoBehaviour
 
     private void Awake()
     {
-        _background = FindObjectOfType<BGScroll>();
         _touchControls = new TouchControls();
-        _touchControls.Touch.TouchHold.performed += context =>
-        {
-            MoveAndRotateToScreenSide(context);
-        };
-        
+
+        _touchControls.Touch.TouchHold.performed += context => { _touchPressing = true; };
+        _touchControls.Touch.TouchHold.canceled += context => { _touchPressing = false; };
     }
 
+    public void Update()
+    {
+        if (!_rocketLounched)
+        {
+           return;
+        }
+        Rotate();
+        if (_touchPressing)
+        {
+            MoveOnTouchScreen();
+        }
+        else
+        {
+            DegradateSpeed();
+        } 
+    }
 
-    void MoveAndRotateToScreenSide(InputAction.CallbackContext context)
+    private void MoveOnTouchScreen()
     {
         if (GetPositionOfTouch().x < Screen.width / 2)
         {
-            /*_background.MoveRightScroll();*/
-            _sideToRotate = 1;
-            StartCoroutine(TransformWithDuration(-transform.right, context));
+            _rotateSpeed += Time.deltaTime * speedAcceleration;
         }
         else if (GetPositionOfTouch().x > Screen.width / 2)
         {
-            /*_background.MoveLeftScroll();*/
-            _sideToRotate = -1;
-            StartCoroutine(TransformWithDuration(transform.right, context));
+            _rotateSpeed -= Time.deltaTime * speedAcceleration;
+        }
+
+        if (_rotateSpeed >= _rotateMaxSpeed)
+        {
+            _rotateSpeed = _rotateMaxSpeed;
+        }
+
+        if (_rotateSpeed <= -_rotateMaxSpeed)
+        {
+            _rotateSpeed = -_rotateMaxSpeed;
         }
     }
+
+    private void DegradateSpeed()
+    {
+        if (_rotateSpeed > 0)
+        {
+            if (_rotateSpeed - speedDegradation * Time.deltaTime < 0)
+            {
+                _rotateSpeed = 0;
+            }
+            else
+            {
+                _rotateSpeed -= speedDegradation * Time.deltaTime;
+            }
+        }
+        else if (_rotateSpeed < 0)
+        {
+            if (_rotateSpeed + speedDegradation * Time.deltaTime > 0)
+            {
+                _rotateSpeed = 0;
+            }
+            else
+            {
+                _rotateSpeed += speedDegradation * Time.deltaTime;
+            }
+        }
+    }
+
 
     Vector2 GetPositionOfTouch()
     {
         return _touchControls.Touch.TouchPosition.ReadValue<Vector2>();
     }
-
-    private IEnumerator TransformWithDuration(Vector2 sideToMove, InputAction.CallbackContext context)
-    {
-        while (context.phase == InputActionPhase.Performed)
-        {
-            Rotate();
-            yield return null;
-        }
-    }
-
+    
     private void Rotate()
     {
-        transform.rotation *= Quaternion.Euler(0, 0 ,_sideToRotate*_rotateSpeed*Time.deltaTime);
+        transform.rotation *= Quaternion.Euler(0, 0, _rotateSpeed * Time.deltaTime);
     }
 
     public Vector3 GetRocketDirection()
