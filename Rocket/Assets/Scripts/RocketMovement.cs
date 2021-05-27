@@ -11,12 +11,15 @@ public class RocketMovement : MonoBehaviour
     private TouchControls _touchControls;
     private float _rotateSpeed = 40f;
     private float _rotateMaxSpeed = 70f;
-    private float speedAcceleration = 400f;
-    private float speedDegradation = 150f;
+    private float _rotSpeedAcceleration = 400f;
+    private float _rotSpeedDegradation = 150f;
     private bool _rocketLounched = false;
     private bool _touchPressing = false;
-    [SerializeField] [Range(0,50f)] private float _rocketSpeed = 0;
-    private float _rocketMaxSpeed = 50f;
+    [SerializeField] [Range(0,80f)] private float _rocketSpeed = 0;
+    private float _rocketMaxSpeed = 80f;
+    private float _rocketSpeedAcceleration = 10f;
+    private float _rocketSpeedDegradation = 5f;
+    
     [SerializeField] private bool _middleEngineEnabled = false;
 
     public float RocketSpeed
@@ -40,7 +43,7 @@ public class RocketMovement : MonoBehaviour
     {
         if (!_middleEngineEnabled && _rocketSpeed > 0)
         {
-            _rocketSpeed -= Time.deltaTime * 10;
+            _rocketSpeed -= Time.deltaTime * _rocketSpeedDegradation;
         }
         else if (!_middleEngineEnabled && _rocketSpeed < 0)
         {
@@ -49,7 +52,7 @@ public class RocketMovement : MonoBehaviour
         
         if (_middleEngineEnabled && _rocketSpeed < _rocketMaxSpeed)
         {
-            _rocketSpeed += Time.deltaTime * 10;
+            _rocketSpeed += Time.deltaTime * _rocketSpeedAcceleration;
         }
         else if (_rocketSpeed > _rocketMaxSpeed)
         {
@@ -100,11 +103,11 @@ public class RocketMovement : MonoBehaviour
     {
         if (GetPositionOfTouch().x < Screen.width / 2)
         {
-            _rotateSpeed += Time.deltaTime * speedAcceleration;
+            _rotateSpeed += Time.deltaTime * _rotSpeedAcceleration;
         }
         else if (GetPositionOfTouch().x > Screen.width / 2)
         {
-            _rotateSpeed -= Time.deltaTime * speedAcceleration;
+            _rotateSpeed -= Time.deltaTime * _rotSpeedAcceleration;
         }
 
         if (_rotateSpeed >= _rotateMaxSpeed)
@@ -122,24 +125,24 @@ public class RocketMovement : MonoBehaviour
     {
         if (_rotateSpeed > 0)
         {
-            if (_rotateSpeed - speedDegradation * Time.deltaTime < 0)
+            if (_rotateSpeed - _rotSpeedDegradation * Time.deltaTime < 0)
             {
                 _rotateSpeed = 0;
             }
             else
             {
-                _rotateSpeed -= speedDegradation * Time.deltaTime;
+                _rotateSpeed -= _rotSpeedDegradation * Time.deltaTime;
             }
         }
         else if (_rotateSpeed < 0)
         {
-            if (_rotateSpeed + speedDegradation * Time.deltaTime > 0)
+            if (_rotateSpeed + _rotSpeedDegradation * Time.deltaTime > 0)
             {
                 _rotateSpeed = 0;
             }
             else
             {
-                _rotateSpeed += speedDegradation * Time.deltaTime;
+                _rotateSpeed += _rotSpeedDegradation * Time.deltaTime;
             }
         }
     }
