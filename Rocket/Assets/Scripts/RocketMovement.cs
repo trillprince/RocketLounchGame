@@ -15,7 +15,9 @@ public class RocketMovement : MonoBehaviour
     private float speedDegradation = 150f;
     private bool _rocketLounched = false;
     private bool _touchPressing = false;
-    private float _rocketSpeed = 50f;
+    [SerializeField] [Range(0,50f)] private float _rocketSpeed = 0;
+    private float _rocketMaxSpeed = 50f;
+    [SerializeField] private bool _middleEngineEnabled = false;
 
     public float RocketSpeed
     {
@@ -23,13 +25,41 @@ public class RocketMovement : MonoBehaviour
         set => _rocketSpeed = value;
     }
 
+    public void MiddleEngineEnabled(bool isEnabled)
+    {
+        _middleEngineEnabled = isEnabled;
+    }
+
     public void LounchRocket()
     {
         _rocketLounched = true;
+        MiddleEngineEnabled(true);
     }
-    
+
+    private void MiddleEngineSpeed()
+    {
+        if (!_middleEngineEnabled && _rocketSpeed > 0)
+        {
+            _rocketSpeed -= Time.deltaTime * 10;
+        }
+        else if (!_middleEngineEnabled && _rocketSpeed < 0)
+        {
+            _rocketSpeed = 0;
+        }
+        
+        if (_middleEngineEnabled && _rocketSpeed < _rocketMaxSpeed)
+        {
+            _rocketSpeed += Time.deltaTime * 10;
+        }
+        else if (_rocketSpeed > _rocketMaxSpeed)
+        {
+            _rocketSpeed = _rocketMaxSpeed;
+        }
+        
+    }
     private void Awake()
     {
+        MiddleEngineEnabled(false);
         _touchControls = new TouchControls();
         _touchControls.Touch.TouchHold.performed += context => { _touchPressing = true; };
         _touchControls.Touch.TouchHold.canceled += context => { _touchPressing = false; };
@@ -54,6 +84,7 @@ public class RocketMovement : MonoBehaviour
         {
            return;
         }
+        MiddleEngineSpeed();
         Rotate();
         if (_touchPressing)
         {

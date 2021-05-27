@@ -9,22 +9,50 @@ public class RocketHeight : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _text;
     [SerializeField] private float _height = 0;
     private BGScroll _bg;
-    private float _rocketSpeed;
+    private RocketMovement _rocket;
     private Vector2 _heightDir;
+    private bool _rocketLounched;
+
+    private void OnEnable()
+    {
+        LounchManager.RocketLounch += LounchRocket;
+    }
+
+    private void OnDisable()
+    {
+        LounchManager.RocketLounch -= LounchRocket;
+    }
+
+    private void LounchRocket()
+    {
+        _rocketLounched = true;
+    }
+
+    public float Height
+    {
+        get => _height;
+        set => _height = value;
+    }
+
     private void Awake()
     {
         _bg = FindObjectOfType<BGScroll>();
-        _rocketSpeed = FindObjectOfType<RocketMovement>().RocketSpeed;
+        _rocket = FindObjectOfType<RocketMovement>();
     }
 
     private void Update()
     {
+        if (!_rocketLounched)
+        {
+            return;
+        }
         HeightValueUpdate();
     }
 
     private void HeightValueUpdate()
     {
-        _height += _bg._yVelocity * _rocketSpeed * Time.deltaTime;
-        _text.text = Mathf.Floor(_height).ToString();
+        Height += _bg._yVelocity * _rocket.RocketSpeed * Time.deltaTime;
+        _text.text = Mathf.Floor(Height).ToString();
     }
+    
 }
