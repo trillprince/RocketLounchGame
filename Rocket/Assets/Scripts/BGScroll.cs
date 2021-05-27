@@ -12,6 +12,7 @@ public class BGScroll : MonoBehaviour
     [Range(-2, 2)] public float _yVelocity;
     [SerializeField] private RocketMovement _rocketMovement;
     private bool _rocketLounched;
+    [SerializeField] private float _smoothness = 100;
 
     private void OnEnable()
     {
@@ -48,13 +49,13 @@ public class BGScroll : MonoBehaviour
 
     private void ReinitializeOffset()
     {
-        _offset = new Vector2(_xVelocity, _yVelocity).normalized * _rocketMovement.RocketSpeed/100;
+        _offset = new Vector2(_xVelocity, _yVelocity).normalized * _rocketMovement.RocketSpeed/_smoothness;
     }
 
     public void ScrollFromRocketDir()
     {
         _xVelocity = _rocketMovement.GetRocketDirection().x;
         _yVelocity = _rocketMovement.GetRocketDirection().y;
-        ReinitializeOffset();
+        Invoke("ReinitializeOffset",1f);;
     }
 }
