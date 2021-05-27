@@ -12,11 +12,24 @@ public class BGScroll : MonoBehaviour
     [Range(-2, 2)] public float _yVelocity;
     [SerializeField] private RocketMovement _rocketMovement;
     private bool _rocketLounched;
-    
+
+    private void OnEnable()
+    {
+        LounchManager.RocketLounch += LounchRocket;
+    }
+
+    private void OnDisable()
+    {
+        LounchManager.RocketLounch -= LounchRocket;
+    }
+
+    private void LounchRocket()
+    {
+        _rocketLounched = true;
+    }
 
     private void Awake()
     {
-        enabled = false;
         _rocketMovement = FindObjectOfType<RocketMovement>();
         _material = GetComponent<Renderer>().material;
         _offset = new Vector2(_xVelocity, _yVelocity);
@@ -24,7 +37,10 @@ public class BGScroll : MonoBehaviour
 
     void Update()
     {
-        
+        if (!_rocketLounched)
+        {
+            return;
+        }
         ScrollFromRocketDir();
         _material.mainTextureOffset += _offset * Time.deltaTime;
     }
@@ -32,7 +48,7 @@ public class BGScroll : MonoBehaviour
 
     private void ReinitializeOffset()
     {
-        _offset = new Vector2(_xVelocity, _yVelocity).normalized * 0.5f;
+        _offset = new Vector2(_xVelocity, _yVelocity).normalized * _rocketMovement.RocketSpeed/100;
     }
 
     public void ScrollFromRocketDir()
