@@ -37,7 +37,8 @@ public class RocketHeight : MonoBehaviour
     private void Awake()
     {
         _bg = FindObjectOfType<BGScroll>();
-        _rocket = FindObjectOfType<RocketMovement>();
+        _rocket = GetComponent<RocketMovement>();
+        _text = FindObjectOfType<TextMeshProUGUI>();
     }
 
     private void Update()
