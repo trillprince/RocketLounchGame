@@ -5,13 +5,21 @@ namespace Common.Scripts
 {
     public class LounchManager : MonoBehaviour
     {
-        public delegate void Station();
+        public delegate void Station(bool engineEnabled);
         public static event Station RocketLounch;
+        public static event Station MiddleEngineEnable;
+        public static event Station MiddleEngineDisable;
         
-        
-        public void LounchTheRocket()
+
+        public void MiddleEngine(bool isEnabled)
         {
-            RocketLounch?.Invoke();
+            if (isEnabled)
+            {
+                MiddleEngineEnable(isEnabled);
+                return;
+            }
+
+            MiddleEngineDisable(isEnabled);
         }
     }
 }
