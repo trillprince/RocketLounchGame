@@ -7,8 +7,12 @@ public class SceneController : MonoBehaviour
 {
     void Start()
     {
-        SceneManager.LoadScene(1);
+       
     }
 
+    public void LoadLevel()
+    {
+        SceneManager.LoadScene(1);
+    }
     
 }

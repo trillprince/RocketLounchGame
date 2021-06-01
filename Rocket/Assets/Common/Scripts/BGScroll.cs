@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Common.Scripts;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -11,12 +12,12 @@ public class BGScroll : MonoBehaviour
     private Vector2 _offset;
     [Range(-2, 2)] public float _xVelocity = 0;
     [Range(-2, 2)] public float _yVelocity;
-    private RocketMovement _rocketMovement;
+    [SerializeField] private RocketMovement _rocketMovement;
     private bool _rocketLounched;
     [SerializeField] private float _smoothness = 100;
 
     [Inject]
-    private void Conctruct(RocketMovement rocketMovement)
+    private void Construct(RocketMovement rocketMovement)
     {
         _rocketMovement = rocketMovement;
     }
