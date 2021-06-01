@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Common.Scripts;
 using TMPro;
 using UnityEngine;
 
@@ -8,8 +6,8 @@ public class RocketHeight : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _text;
     [SerializeField] private float _height = 0;
-    private BGScroll _bg;
-    private RocketMovement _rocket;
+    [SerializeField] private BGScroll _bg;
+    [SerializeField] private RocketMovement _rocket;
     private Vector2 _heightDir;
     private bool _rocketLounched;
 

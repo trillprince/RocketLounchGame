@@ -126,6 +126,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: {fileID: 0}
   _height: 0
+  _bg: {fileID: 0}
+  _rocket: {fileID: 0}
 --- !u!1 &1051556676514102301
 GameObject:
   m_ObjectHideFlags: 0

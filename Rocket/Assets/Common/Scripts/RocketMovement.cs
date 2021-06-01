@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+using Common.Scripts;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class RocketMovement : MonoBehaviour
 {
@@ -19,39 +14,39 @@ public class RocketMovement : MonoBehaviour
     private float _rocketMaxSpeed = 80f;
     private float _rocketSpeedAcceleration = 10f;
     private float _rocketSpeedDegradation = 5f;
-    
     [SerializeField] private bool _middleEngineEnabled = false;
 
+    private void Awake()
+    {
+        _middleEngineEnabled = false;
+        _touchControls = new TouchControls();
+        _touchControls.Touch.TouchHold.performed += context => { _touchPressing = true; };
+        _touchControls.Touch.TouchHold.canceled += context => { _touchPressing = false; };
+    }
+    
     public float RocketSpeed
     {
         get => _rocketSpeed;
-        set => _rocketSpeed = value;
     }
 
-    public bool MiddleEngineEnabled
-    {
-        get => _middleEngineEnabled;
-        set => _middleEngineEnabled = value;
-    }
-
-    public void LounchRocket()
+    private void LounchRocket()
     {
         _rocketLounched = true;
-        MiddleEngineEnabled = true;
+        _middleEngineEnabled = true;
     }
 
     private void MiddleEngineSpeed()
     {
-        if (!MiddleEngineEnabled && _rocketSpeed > 0)
+        if (!_middleEngineEnabled && _rocketSpeed > 0)
         {
             _rocketSpeed -= Time.deltaTime * _rocketSpeedDegradation;
         }
-        else if (!MiddleEngineEnabled && _rocketSpeed < 0)
+        else if (!_middleEngineEnabled && _rocketSpeed < 0)
         {
             _rocketSpeed = 0;
         }
         
-        if (MiddleEngineEnabled && _rocketSpeed < _rocketMaxSpeed)
+        if (_middleEngineEnabled && _rocketSpeed < _rocketMaxSpeed)
         {
             _rocketSpeed += Time.deltaTime * _rocketSpeedAcceleration;
         }
@@ -61,13 +56,7 @@ public class RocketMovement : MonoBehaviour
         }
         
     }
-    private void Awake()
-    {
-        MiddleEngineEnabled = false;
-        _touchControls = new TouchControls();
-        _touchControls.Touch.TouchHold.performed += context => { _touchPressing = true; };
-        _touchControls.Touch.TouchHold.canceled += context => { _touchPressing = false; };
-    }
+    
 
     private void OnEnable()
     {
