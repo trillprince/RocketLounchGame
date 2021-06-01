@@ -21,9 +21,9 @@ public class RocketHeight : MonoBehaviour
         LounchManager.RocketLounch -= LounchRocket;
     }
 
-    private void LounchRocket()
+    private void LounchRocket(bool isLounched)
     {
-        _rocketLounched = true;
+        _rocketLounched = isLounched;
     }
 
     public float Height

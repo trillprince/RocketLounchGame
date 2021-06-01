@@ -24,17 +24,17 @@ public class BGScroll : MonoBehaviour
     
     private void OnEnable()
     {
-        LounchManager.RocketLounch += LounchRocket;
+        LounchManager.MiddleEngineEnable += LounchRocket;
     }
 
     private void OnDisable()
     {
-        LounchManager.RocketLounch -= LounchRocket;
+        LounchManager.MiddleEngineEnable -= LounchRocket;
     }
 
-    private void LounchRocket()
+    private void LounchRocket(bool isLounched)
     {
-        _rocketLounched = true;
+        _rocketLounched = isLounched;
     }
 
     private void Awake()

@@ -16,6 +16,7 @@ public class RocketMovement : MonoBehaviour
     private float _rocketSpeedDegradation = 5f;
     [SerializeField] private bool _middleEngineEnabled = false;
 
+    
     private void Awake()
     {
         _middleEngineEnabled = false;
@@ -29,12 +30,16 @@ public class RocketMovement : MonoBehaviour
         get => _rocketSpeed;
     }
 
-    private void LounchRocket()
+    private void MiddleEngine(bool isEnabled)
     {
-        _rocketLounched = true;
-        _middleEngineEnabled = true;
+        if (!_rocketLounched)
+        {
+            _rocketLounched = true;
+        }
+        _middleEngineEnabled = isEnabled;
+        Debug.Log(isEnabled);
     }
-
+    
     private void MiddleEngineSpeed()
     {
         if (!_middleEngineEnabled && _rocketSpeed > 0)
@@ -61,13 +66,15 @@ public class RocketMovement : MonoBehaviour
     private void OnEnable()
     {
         _touchControls.Enable();
-        LounchManager.RocketLounch += LounchRocket;
+        LounchManager.MiddleEngineEnable += MiddleEngine;
+        LounchManager.MiddleEngineDisable += MiddleEngine;
     }
 
     private void OnDisable()
     {
         _touchControls.Disable();
-        LounchManager.RocketLounch -= LounchRocket;
+        LounchManager.MiddleEngineEnable -= MiddleEngine;
+        LounchManager.MiddleEngineDisable -= MiddleEngine;
     }
 
 
