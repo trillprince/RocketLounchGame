@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "219329605378",
+    "project_id": "rocketlounch-4e206",
+    "firebase_url": "https://rocketlounch-4e206-default-rtdb.firebaseio.com/",
+    "storage_bucket": "rocketlounch-4e206.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:219329605378:android:59f292b240140258ba9c1b",
+        "android_client_info": {
+          "package_name": "com.SparX.Rocket.Android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "219329605378-fmg2o2e16josqn548eg82uhau2k3bquq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.SparX.Rocket.Android",
+            "certificate_hash": "2b83dbc2c93bfda55bc597fea8eee5107a4e3743"
+          }
+        },
+        {
+          "client_id": "219329605378-3doabe1338fqa72t6cfdptt1pcr62f3r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUIBHnKIU48MdTfceLMYmx0f_DT3w1iYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "219329605378-3doabe1338fqa72t6cfdptt1pcr62f3r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "219329605378-6q393p0uf00sfg54428j7ch1ravv4skh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.SparX.Rocket.iOS"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
