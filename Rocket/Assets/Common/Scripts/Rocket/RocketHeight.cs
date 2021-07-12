@@ -1,10 +1,10 @@
 using Common.Scripts;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RocketHeight : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _text;
     [SerializeField] private float _height = 0;
     [SerializeField] private BGScroll _bg;
     [SerializeField] private RocketMovement _rocket;
@@ -14,11 +14,13 @@ public class RocketHeight : MonoBehaviour
     private void OnEnable()
     {
         LounchManager.MiddleEngineEnable += LounchRocket;
+        HeightText.Height += GetHeight;
     }
 
     private void OnDisable()
     {
         LounchManager.MiddleEngineEnable -= LounchRocket;
+        HeightText.Height -= GetHeight;
     }
 
     private void LounchRocket(bool isLounched)
@@ -36,8 +38,8 @@ public class RocketHeight : MonoBehaviour
     {
         _bg = FindObjectOfType<BGScroll>();
         _rocket = GetComponent<RocketMovement>();
-        _text = FindObjectOfType<TextMeshProUGUI>();
     }
+    
 
     private void Update()
     {
@@ -51,7 +53,11 @@ public class RocketHeight : MonoBehaviour
     private void HeightValueUpdate()
     {
         Height += _bg._yVelocity * _rocket.RocketSpeed * Time.deltaTime;
-        _text.text = Mathf.Floor(Height).ToString();
+    }
+
+    float GetHeight()
+    {
+        return Mathf.Floor(Height);
     }
     
 }
