@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2ae5b74d314872a96ee9e3e8934d2d, type: 3}
   m_Name: FirstLounch
   m_EditorClassIdentifier: 
-  _nameOfMission: FirstLounch
+  _nameOfMission: 'First Satellite '
+  _tiefOfMission: 0
   _cargoList:
   - {fileID: 9194714471267269330, guid: f6c77d8cfa575ce48b68ea7a2dad605f, type: 3}
   - {fileID: 9194714471267269330, guid: f6c77d8cfa575ce48b68ea7a2dad605f, type: 3}
   - {fileID: 9194714471267269330, guid: f6c77d8cfa575ce48b68ea7a2dad605f, type: 3}
-  cargoHightList: f4010000e8030000dc050000
-  _cargosDelievered: 000000
+  cargoHeightList: f4010000200300004c040000
   _rewards: 00000000010000000200000003000000
   _rewardsAmount: f4010000e80300003200000001000000

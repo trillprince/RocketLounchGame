@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Common.Scripts.CargoSystem;
 using Common.Scripts.MissionSystem;
 using Common.Scripts.UI.InGame;
 using UnityEngine;
@@ -10,7 +11,14 @@ namespace Common.Scripts.Rocket
     {
 
         private GameObject _currentCargo;
-        
+        private RocketMovement _rocketMovement;
+
+        private void Awake()
+        {
+            _rocketMovement = GetComponent<RocketMovement>();
+            Debug.Log(_rocketMovement);
+        }
+
         private void OnEnable()
         {
             MissionManager.SetCargo += SetCargo;
@@ -30,7 +38,8 @@ namespace Common.Scripts.Rocket
 
         void DropCargo()
         {
-            Instantiate(_currentCargo, transform.position, Quaternion.identity);
+            var cargo = Instantiate(_currentCargo, transform.position, Quaternion.identity);
+            cargo.GetComponent<CargoMovement>().InitCargo(_rocketMovement);
         }
     }
 }

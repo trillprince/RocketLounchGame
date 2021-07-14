@@ -6,6 +6,7 @@ namespace Common.Scripts.Infrastructure
     public class LocationInstaller: MonoInstaller
     {
         [SerializeField] private GameObject _rocketPrefab;
+        [SerializeField] private GameObject [] _backgrounds;
         public override void InstallBindings()
         {
             BindRocket();
@@ -15,8 +16,9 @@ namespace Common.Scripts.Infrastructure
         {
             Container
                 .Bind(typeof(RocketMovement),typeof(RocketHeight))
-                .FromComponentInNewPrefab(_rocketPrefab).AsSingle();
+                .FromComponentInNewPrefab(_rocketPrefab)
+                .AsSingle();
         }
-        
+
     }
 }

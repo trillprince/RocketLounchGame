@@ -17,7 +17,7 @@ namespace Common.Scripts.MissionSystem
         private int _currentCargoIndex = 0;
         private int _cargoCount;
         private int _lateDropHeight = 50;
-        private int _perfectDropHeight = 150;
+        private int _perfectDropHeight = 50;
 
         public delegate void Mission (bool readyToDrop);
 
@@ -31,9 +31,9 @@ namespace Common.Scripts.MissionSystem
 
         private void Start()
         {
-            _cargoCount = currentMissionInfo.CargoHightList.Count;
+            _cargoCount = currentMissionInfo.CargoHeightList.Count;
             _cargosDropped = new bool[_cargoCount];
-            _cargoHeightList = currentMissionInfo.CargoHightList;
+            _cargoHeightList = currentMissionInfo.CargoHeightList;
         }
         private void OnEnable()
         {

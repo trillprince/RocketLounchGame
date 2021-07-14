@@ -8,14 +8,13 @@ namespace Common.Scripts.MissionSystem
     public class MissionInfo : ScriptableObject
     {
         [SerializeField] private string _nameOfMission;
+        [SerializeField] private MissionTier _tiefOfMission;
         [SerializeField] private List <GameObject> _cargoList;
-        [SerializeField] private List <int> cargoHightList;
-        [SerializeField] private bool [] _cargosDelievered;
+        [SerializeField] private List <int> cargoHeightList;
         [SerializeField] private List<Reward> _rewards;
         [SerializeField] private List<int> _rewardsAmount;
 
-        
-        public enum Reward
+        enum Reward
         {
             Coins,
             Fuel,
@@ -23,15 +22,19 @@ namespace Common.Scripts.MissionSystem
             Investors,
             Boxes
         }
+
+        enum MissionTier
+        {
+            One,
+            Two,
+            Three,
+            Four,
+            Five
+        }
         
-        public List<int> CargoHightList => cargoHightList;
+        public List<int> CargoHeightList => cargoHeightList;
 
         public List<GameObject> CargoList => _cargoList;
-
-        public bool[] CargosDelievered
-        {
-            get => _cargosDelievered;
-            set => _cargosDelievered = value;
-        }
+        
     }
 }
