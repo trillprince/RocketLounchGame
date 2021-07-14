@@ -27,5 +27,11 @@ namespace Common.Scripts.MissionSystem
         public List<int> CargoHightList => cargoHightList;
 
         public List<GameObject> CargoList => _cargoList;
+
+        public bool[] CargosDelievered
+        {
+            get => _cargosDelievered;
+            set => _cargosDelievered = value;
+        }
     }
 }

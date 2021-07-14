@@ -2148,7 +2148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b76ff20b772acd4c8f35446adcf4ff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentMissionInfo: {fileID: 11400000, guid: fb468b2198b68cd4f9187e51d286a644, type: 2}
+  currentMissionInfo: {fileID: 11400000, guid: fb468b2198b68cd4f9187e51d286a644, type: 2}
 --- !u!1 &1889915827
 GameObject:
   m_ObjectHideFlags: 0
