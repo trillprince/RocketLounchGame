@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Common.Scripts.MissionSystem
 {
@@ -8,7 +9,7 @@ namespace Common.Scripts.MissionSystem
     {
         [SerializeField] private string _nameOfMission;
         [SerializeField] private List <GameObject> _cargoList;
-        [SerializeField] private List <int> _cargoHignessList;
+        [SerializeField] private List <int> cargoHightList;
         [SerializeField] private bool [] _cargosDelievered;
         [SerializeField] private List<Reward> _rewards;
         [SerializeField] private List<int> _rewardsAmount;
@@ -22,11 +23,9 @@ namespace Common.Scripts.MissionSystem
             Investors,
             Boxes
         }
+        
+        public List<int> CargoHightList => cargoHightList;
 
-
-        public List<int> CargoHignessList
-        {
-            get => _cargoHignessList;
-        }
+        public List<GameObject> CargoList => _cargoList;
     }
 }

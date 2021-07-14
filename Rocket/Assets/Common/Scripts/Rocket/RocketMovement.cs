@@ -1,28 +1,37 @@
 using Common.Scripts;
+using Common.Scripts.Input;
 using UnityEngine;
 
 public class RocketMovement : MonoBehaviour
 {
-    private TouchControls _touchControls;
     private float _rotateSpeed = 40f;
     private float _rotateMaxSpeed = 70f;
     private float _rotSpeedAcceleration = 400f;
     private float _rotSpeedDegradation = 150f;
     private bool _rocketLounched = false;
-    private bool _touchPressing = false;
     [SerializeField] [Range(0,80f)] private float _rocketSpeed = 0;
     private float _rocketMaxSpeed = 80f;
     private float _rocketSpeedAcceleration = 10f;
     private float _rocketSpeedDegradation = 5f;
     [SerializeField] private bool _middleEngineEnabled = false;
+    private bool _isTouching = false;
+    private Vector2 _touchPos;
 
+    private void TouchStart(Vector2 touchPos)
+    {
+        _isTouching = true;
+        _touchPos = touchPos;
+    }
+
+    private void TouchEnd()
+    {
+        _isTouching = false;
+    }
+    
     
     private void Awake()
     {
         _middleEngineEnabled = false;
-        _touchControls = new TouchControls();
-        _touchControls.Touch.TouchHold.performed += context => { _touchPressing = true; };
-        _touchControls.Touch.TouchHold.canceled += context => { _touchPressing = false; };
     }
     
     public float RocketSpeed
@@ -65,16 +74,19 @@ public class RocketMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        _touchControls.Enable();
         LounchManager.MiddleEngineEnable += MiddleEngine;
         LounchManager.MiddleEngineDisable += MiddleEngine;
+        InputManager.TouchStart += TouchStart;
+        InputManager.TouchEnd += TouchEnd;
+        
     }
 
     private void OnDisable()
     {
-        _touchControls.Disable();
         LounchManager.MiddleEngineEnable -= MiddleEngine;
         LounchManager.MiddleEngineDisable -= MiddleEngine;
+        InputManager.TouchStart -= TouchStart;
+        InputManager.TouchEnd -= TouchEnd;
     }
 
 
@@ -86,23 +98,23 @@ public class RocketMovement : MonoBehaviour
         }
         MiddleEngineSpeed();
         Rotate();
-        if (_touchPressing)
+        if (_isTouching)
         {
-            MoveOnTouchScreen();
+            MoveOnTouchScreen(_touchPos);
         }
         else
         {
             DegradateSpeed();
-        } 
+        }
     }
 
-    private void MoveOnTouchScreen()
+    private void MoveOnTouchScreen(Vector2 touchPos)
     {
-        if (GetPositionOfTouch().x < Screen.width / 2)
+        if (touchPos.x < Screen.width / 2)
         {
             _rotateSpeed += Time.deltaTime * _rotSpeedAcceleration;
         }
-        else if (GetPositionOfTouch().x > Screen.width / 2)
+        else if (touchPos.x > Screen.width / 2)
         {
             _rotateSpeed -= Time.deltaTime * _rotSpeedAcceleration;
         }
@@ -142,12 +154,6 @@ public class RocketMovement : MonoBehaviour
                 _rotateSpeed += _rotSpeedDegradation * Time.deltaTime;
             }
         }
-    }
-
-
-    Vector2 GetPositionOfTouch()
-    {
-        return _touchControls.Touch.TouchPosition.ReadValue<Vector2>();
     }
     
     private void Rotate()
