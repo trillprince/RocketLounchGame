@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1728830794014281237}
   - component: {fileID: 6128518605480020401}
   - component: {fileID: -3293995058366109355}
+  - component: {fileID: 7677925284676640619}
   m_Layer: 0
   m_Name: CubeCargo
   m_TagString: Untagged
@@ -119,5 +120,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0086e58cd6a008445a43041dfe5c034f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7677925284676640619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9194714471267269330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98b745e0e66240c45ad5b72665951ec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

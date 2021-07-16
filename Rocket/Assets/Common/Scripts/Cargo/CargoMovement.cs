@@ -11,7 +11,6 @@ namespace Common.Scripts.CargoSystem
         private int _smoothness = 10;
         private float _timeTillDestroy = 3f;
         private float _rotateSpeed = 30f;
-        private int _xRot;
         private int _yRot;
         private int _zRot;
         
@@ -33,7 +32,7 @@ namespace Common.Scripts.CargoSystem
         void CargoRotate()
         {
             transform.Rotate(
-                _xRot * _rotateSpeed * Time.deltaTime,
+                transform.rotation.x,
                 _yRot * _rotateSpeed * Time.deltaTime, 
                 _zRot * _rotateSpeed * Time.deltaTime
                 );
@@ -47,9 +46,8 @@ namespace Common.Scripts.CargoSystem
 
         private void SetRandomRot()
         {
-            _xRot = Random.Range(-1, 1);
-            _yRot  = Random.Range(-1, 1);
-            _zRot = Random.Range(-1, 1);
+            _yRot  = Random.Range(-1, 2);
+            _zRot = Random.Range(-1, 2);
         }
 
     }
