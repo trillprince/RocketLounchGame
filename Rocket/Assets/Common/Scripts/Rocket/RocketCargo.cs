@@ -4,6 +4,7 @@ using Common.Scripts.CargoSystem;
 using Common.Scripts.MissionSystem;
 using Common.Scripts.UI.InGame;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Common.Scripts.Rocket
 {
@@ -22,13 +23,13 @@ namespace Common.Scripts.Rocket
         private void OnEnable()
         {
             MissionManager.SetCargo += SetCargo;
-            DropCargoButton.CargoDropped += DropCargo;
+            CargoDropListener.CargoDropped += DropCargo;
         }
 
         private void OnDisable()
         {
             MissionManager.SetCargo -= SetCargo;
-            DropCargoButton.CargoDropped -= DropCargo;
+            CargoDropListener.CargoDropped -= DropCargo;
         }
         
         void SetCargo(GameObject cargo)

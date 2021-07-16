@@ -37,12 +37,12 @@ namespace Common.Scripts.MissionSystem
         }
         private void OnEnable()
         {
-            DropCargoButton.CargoDropped += UpdateCargoStatus;
+            CargoDropListener.CargoDropped += UpdateCargoStatus;
         }
 
         private void OnDisable()
         {
-            DropCargoButton.CargoDropped -= UpdateCargoStatus;
+            CargoDropListener.CargoDropped -= UpdateCargoStatus;
         }
 
         [Inject]

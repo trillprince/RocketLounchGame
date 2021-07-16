@@ -17,13 +17,13 @@ public class RocketMovement : MonoBehaviour
     private bool _isTouching = false;
     private Vector2 _touchPos;
 
-    private void TouchStart(Vector2 touchPos)
+    private void OnTouchStartEvent(Vector2 touchPos)
     {
         _isTouching = true;
         _touchPos = touchPos;
     }
 
-    private void TouchEnd()
+    private void OnTouchEndEvent()
     {
         _isTouching = false;
     }
@@ -76,8 +76,8 @@ public class RocketMovement : MonoBehaviour
     {
         LounchManager.MiddleEngineEnable += MiddleEngine;
         LounchManager.MiddleEngineDisable += MiddleEngine;
-        InputManager.TouchStart += TouchStart;
-        InputManager.TouchEnd += TouchEnd;
+        InputManager.OnTouchStartEvent += OnTouchStartEvent;
+        InputManager.OnTouchEndEvent += OnTouchEndEvent;
         
     }
 
@@ -85,8 +85,8 @@ public class RocketMovement : MonoBehaviour
     {
         LounchManager.MiddleEngineEnable -= MiddleEngine;
         LounchManager.MiddleEngineDisable -= MiddleEngine;
-        InputManager.TouchStart -= TouchStart;
-        InputManager.TouchEnd -= TouchEnd;
+        InputManager.OnTouchStartEvent -= OnTouchStartEvent;
+        InputManager.OnTouchEndEvent -= OnTouchEndEvent;
     }
 
 
