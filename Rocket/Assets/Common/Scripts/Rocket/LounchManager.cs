@@ -1,25 +1,31 @@
+using System.Collections;
 using UnityEngine;
-using Zenject;
 
-namespace Common.Scripts
+namespace Common.Scripts.Rocket
 {
     public class LounchManager : MonoBehaviour
     {
         public delegate void Station(bool engineEnabled);
-        public static event Station RocketLounch;
         public static event Station MiddleEngineEnable;
         public static event Station MiddleEngineDisable;
+        private float _timeTillLounch = 2f;
         
 
         public void MiddleEngine(bool isEnabled)
         {
             if (isEnabled)
             {
-                MiddleEngineEnable(isEnabled);
+                StartCoroutine(WaitTillLounch(isEnabled));
                 return;
             }
 
-            MiddleEngineDisable(isEnabled);
+            MiddleEngineDisable?.Invoke(isEnabled);
+        }
+
+        IEnumerator WaitTillLounch(bool isEnabled)
+        {
+            yield return new WaitForSeconds(_timeTillLounch);
+            MiddleEngineEnable?.Invoke(isEnabled);
         }
     }
 }

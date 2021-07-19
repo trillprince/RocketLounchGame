@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Common.Scripts.CargoSystem;
+using Common.Scripts.Cargo;
 using Common.Scripts.MissionSystem;
 using Common.Scripts.UI.InGame;
 using UnityEngine;

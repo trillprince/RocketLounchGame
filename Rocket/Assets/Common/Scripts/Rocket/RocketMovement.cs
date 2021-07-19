@@ -1,168 +1,185 @@
-using Common.Scripts;
 using Common.Scripts.Input;
 using UnityEngine;
 
-public class RocketMovement : MonoBehaviour
+namespace Common.Scripts.Rocket
 {
-    private float _rotateSpeed = 40f;
-    private float _rotateMaxSpeed = 70f;
-    private float _rotSpeedAcceleration = 400f;
-    private float _rotSpeedDegradation = 150f;
-    private bool _rocketLounched = false;
-    [SerializeField] [Range(0,80f)] private float _rocketSpeed = 0;
-    private float _rocketMaxSpeed = 80f;
-    private float _rocketSpeedAcceleration = 10f;
-    private float _rocketSpeedDegradation = 5f;
-    [SerializeField] private bool _middleEngineEnabled = false;
-    private bool _isTouching = false;
-    private Vector2 _touchPos;
+    public class RocketMovement : MonoBehaviour
+    {
+        private float _rotateSpeed = 40f;
+        private float _rotateMaxSpeed = 70f;
+        private float _rotSpeedAcceleration = 400f;
+        private float _rotSpeedDegradation = 150f;
+        private bool _rocketLounched = false;
+        [SerializeField] [Range(0,80f)] private float _rocketSpeed = 0;
+        private float _rocketMaxSpeed = 80f;
+        private float _rocketSpeedAcceleration = 10f;
+        private float _rocketSpeedDegradation = 5f;
+        [SerializeField] private bool _middleEngineEnabled = false;
+        private bool _isTouching = false;
+        private Vector2 _touchPos;
+        private bool _controlActive;
 
-    private void OnTouchStartEvent(Vector2 touchPos)
-    {
-        _isTouching = true;
-        _touchPos = touchPos;
-    }
+        private void Start()
+        {
+            _controlActive = false;
+        }
 
-    private void OnTouchEndEvent()
-    {
-        _isTouching = false;
-    }
-    
-    
-    private void Awake()
-    {
-        _middleEngineEnabled = false;
-    }
-    
-    public float RocketSpeed
-    {
-        get => _rocketSpeed;
-    }
+        private void OnTouchStartEvent(Vector2 touchPos)
+        {
+            if (_controlActive)
+            {
+                _isTouching = true;
+                _touchPos = touchPos;
+            }
+        }
 
-    private void MiddleEngine(bool isEnabled)
-    {
-        if (!_rocketLounched)
+        private void OnTouchEndEvent()
         {
-            _rocketLounched = true;
+            if (_controlActive)
+            {
+                _isTouching = false; 
+            }
         }
-        _middleEngineEnabled = isEnabled;
-        Debug.Log(isEnabled);
-    }
     
-    private void MiddleEngineSpeed()
-    {
-        if (!_middleEngineEnabled && _rocketSpeed > 0)
+    
+        private void Awake()
         {
-            _rocketSpeed -= Time.deltaTime * _rocketSpeedDegradation;
+            _middleEngineEnabled = false;
         }
-        else if (!_middleEngineEnabled && _rocketSpeed < 0)
+    
+        public float RocketSpeed
         {
-            _rocketSpeed = 0;
+            get => _rocketSpeed;
         }
+
+        private void MiddleEngine(bool isEnabled)
+        {
+            if (!_rocketLounched)
+            {
+                _rocketLounched = true;
+            }
+            _middleEngineEnabled = isEnabled;
+            Debug.Log(isEnabled);
+        }
+    
+        private void MiddleEngineSpeed()
+        {
+            if (!_middleEngineEnabled && _rocketSpeed > 0)
+            {
+                _rocketSpeed -= Time.deltaTime * _rocketSpeedDegradation;
+            }
+            else if (!_middleEngineEnabled && _rocketSpeed < 0)
+            {
+                _rocketSpeed = 0;
+            }
         
-        if (_middleEngineEnabled && _rocketSpeed < _rocketMaxSpeed)
-        {
-            _rocketSpeed += Time.deltaTime * _rocketSpeedAcceleration;
-        }
-        else if (_rocketSpeed > _rocketMaxSpeed)
-        {
-            _rocketSpeed = _rocketMaxSpeed;
-        }
+            if (_middleEngineEnabled && _rocketSpeed < _rocketMaxSpeed)
+            {
+                _rocketSpeed += Time.deltaTime * _rocketSpeedAcceleration;
+            }
+            else if (_rocketSpeed > _rocketMaxSpeed)
+            {
+                _rocketSpeed = _rocketMaxSpeed;
+            }
         
-    }
+        }
     
 
-    private void OnEnable()
-    {
-        LounchManager.MiddleEngineEnable += MiddleEngine;
-        LounchManager.MiddleEngineDisable += MiddleEngine;
-        InputManager.OnTouchStartEvent += OnTouchStartEvent;
-        InputManager.OnTouchEndEvent += OnTouchEndEvent;
+        private void OnEnable()
+        {
+            LounchManager.MiddleEngineEnable += MiddleEngine;
+            LounchManager.MiddleEngineDisable += MiddleEngine;
+            InputManager.OnTouchStartEvent += OnTouchStartEvent;
+            InputManager.OnTouchEndEvent += OnTouchEndEvent;
         
-    }
-
-    private void OnDisable()
-    {
-        LounchManager.MiddleEngineEnable -= MiddleEngine;
-        LounchManager.MiddleEngineDisable -= MiddleEngine;
-        InputManager.OnTouchStartEvent -= OnTouchStartEvent;
-        InputManager.OnTouchEndEvent -= OnTouchEndEvent;
-    }
-
-
-    public void Update()
-    {
-        if (!_rocketLounched)
-        {
-           return;
-        }
-        MiddleEngineSpeed();
-        Rotate();
-        if (_isTouching)
-        {
-            MoveOnTouchScreen(_touchPos);
-        }
-        else
-        {
-            DegradateSpeed();
-        }
-    }
-
-    private void MoveOnTouchScreen(Vector2 touchPos)
-    {
-        if (touchPos.x < Screen.width / 2)
-        {
-            _rotateSpeed += Time.deltaTime * _rotSpeedAcceleration;
-        }
-        else if (touchPos.x > Screen.width / 2)
-        {
-            _rotateSpeed -= Time.deltaTime * _rotSpeedAcceleration;
         }
 
-        if (_rotateSpeed >= _rotateMaxSpeed)
+        private void OnDisable()
         {
-            _rotateSpeed = _rotateMaxSpeed;
+            LounchManager.MiddleEngineEnable -= MiddleEngine;
+            LounchManager.MiddleEngineDisable -= MiddleEngine;
+            InputManager.OnTouchStartEvent -= OnTouchStartEvent;
+            InputManager.OnTouchEndEvent -= OnTouchEndEvent;
         }
 
-        if (_rotateSpeed <= -_rotateMaxSpeed)
-        {
-            _rotateSpeed = -_rotateMaxSpeed;
-        }
-    }
 
-    private void DegradateSpeed()
-    {
-        if (_rotateSpeed > 0)
+        public void Update()
         {
-            if (_rotateSpeed - _rotSpeedDegradation * Time.deltaTime < 0)
+            if (!_rocketLounched)
             {
-                _rotateSpeed = 0;
+                return;
             }
-            else
+            MiddleEngineSpeed();
+            if (_controlActive)
             {
-                _rotateSpeed -= _rotSpeedDegradation * Time.deltaTime;
+                Rotate();
+                if (_isTouching)
+                {
+                    MoveOnTouchScreen(_touchPos);
+                }
+                else
+                {
+                    DegradateSpeed();
+                }
             }
         }
-        else if (_rotateSpeed < 0)
+
+        private void MoveOnTouchScreen(Vector2 touchPos)
         {
-            if (_rotateSpeed + _rotSpeedDegradation * Time.deltaTime > 0)
+            if (touchPos.x < Screen.width / 2)
             {
-                _rotateSpeed = 0;
+                _rotateSpeed += Time.deltaTime * _rotSpeedAcceleration;
             }
-            else
+            else if (touchPos.x > Screen.width / 2)
             {
-                _rotateSpeed += _rotSpeedDegradation * Time.deltaTime;
+                _rotateSpeed -= Time.deltaTime * _rotSpeedAcceleration;
+            }
+
+            if (_rotateSpeed >= _rotateMaxSpeed)
+            {
+                _rotateSpeed = _rotateMaxSpeed;
+            }
+
+            if (_rotateSpeed <= -_rotateMaxSpeed)
+            {
+                _rotateSpeed = -_rotateMaxSpeed;
             }
         }
-    }
+
+        private void DegradateSpeed()
+        {
+            if (_rotateSpeed > 0)
+            {
+                if (_rotateSpeed - _rotSpeedDegradation * Time.deltaTime < 0)
+                {
+                    _rotateSpeed = 0;
+                }
+                else
+                {
+                    _rotateSpeed -= _rotSpeedDegradation * Time.deltaTime;
+                }
+            }
+            else if (_rotateSpeed < 0)
+            {
+                if (_rotateSpeed + _rotSpeedDegradation * Time.deltaTime > 0)
+                {
+                    _rotateSpeed = 0;
+                }
+                else
+                {
+                    _rotateSpeed += _rotSpeedDegradation * Time.deltaTime;
+                }
+            }
+        }
     
-    private void Rotate()
-    {
-        transform.rotation *= Quaternion.Euler(0, 0, _rotateSpeed * Time.deltaTime);
-    }
+        private void Rotate()
+        {
+            transform.rotation *= Quaternion.Euler(0, 0, _rotateSpeed * Time.deltaTime);
+        }
 
-    public Vector3 GetRocketDirection()
-    {
-        return transform.up;
+        public Vector3 GetRocketDirection()
+        {
+            return transform.up;
+        }
     }
 }

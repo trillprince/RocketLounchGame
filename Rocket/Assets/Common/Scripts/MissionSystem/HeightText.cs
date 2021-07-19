@@ -1,55 +1,54 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Common.Scripts.MissionSystem;
 using TMPro;
 using UnityEngine;
 
-public class HeightText : MonoBehaviour
+namespace Common.Scripts.MissionSystem
 {
-    [SerializeField] private TextMeshProUGUI _textMesh;
-    private Color _defaultColor = Color.white;
-    private Color _dropReadyColor = Color.green;
+    public class HeightText : MonoBehaviour
+    {
+        [SerializeField] private TextMeshProUGUI _textMesh;
+        private Color _defaultColor = Color.white;
+        private Color _dropReadyColor = Color.green;
 
-    public delegate float HeightValue();
+        public delegate float HeightValue();
 
-    public static event HeightValue Height;
+        public static event HeightValue Height;
         
-    private void Update()
-    {
-        ShowRocketHeight();
-    }
-
-    private void Awake()
-    {
-        _textMesh = GetComponent<TextMeshProUGUI>();
-    }
-
-    private void OnEnable()
-    {
-        MissionManager.TimeToDrop += SetColorToDrop;
-    }
-
-    private void OnDisable()
-    {
-        MissionManager.TimeToDrop -= SetColorToDrop;
-    }
-
-    void SetColorToDrop(bool readyToDrop)
-    {
-        if (readyToDrop)
+        private void Update()
         {
-            _textMesh.color = _dropReadyColor;
-            return;
+            ShowRocketHeight();
         }
 
-        _textMesh.color = _defaultColor;
+        private void Awake()
+        {
+            _textMesh = GetComponent<TextMeshProUGUI>();
+        }
 
-    }
+        private void OnEnable()
+        {
+            MissionManager.TimeToDrop += SetColorToDrop;
+        }
 
-    void ShowRocketHeight()
-    {
-        _textMesh.text = Height?.Invoke().ToString();
-    }
+        private void OnDisable()
+        {
+            MissionManager.TimeToDrop -= SetColorToDrop;
+        }
+
+        void SetColorToDrop(bool readyToDrop)
+        {
+            if (readyToDrop)
+            {
+                _textMesh.color = _dropReadyColor;
+                return;
+            }
+
+            _textMesh.color = _defaultColor;
+
+        }
+
+        void ShowRocketHeight()
+        {
+            _textMesh.text = Height?.Invoke().ToString();
+        }
     
+    }
 }

@@ -1,19 +1,16 @@
-using System;
-using System.Collections;
+using Common.Scripts.Rocket;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Common.Scripts.CargoSystem
+namespace Common.Scripts.Cargo
 {
     public class CargoMovement : MonoBehaviour
     {
         private RocketMovement _rocketMovement;
-        private int _smoothness = 10;
-        private float _timeTillDestroy = 3f;
-        private float _rotateSpeed = 30f;
-        private int _yRot;
+        private int _smoothness = 7;
+        private float _rotateSpeed = 50f;
         private int _zRot;
-        
+
         private void Start()
         {
             SetRandomRot();
@@ -33,7 +30,7 @@ namespace Common.Scripts.CargoSystem
         {
             transform.Rotate(
                 transform.rotation.x,
-                _yRot * _rotateSpeed * Time.deltaTime, 
+                transform.rotation.y, 
                 _zRot * _rotateSpeed * Time.deltaTime
                 );
         }
@@ -46,9 +43,9 @@ namespace Common.Scripts.CargoSystem
 
         private void SetRandomRot()
         {
-            _yRot  = Random.Range(-1, 2);
-            _zRot = Random.Range(-1, 2);
+            _zRot = Random.value < 0.5f ? -1 : 1;
         }
+        
 
     }
 }

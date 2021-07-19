@@ -13,22 +13,17 @@ namespace Common.Scripts.UI.InGame
         public static event DropCargo CargoDropped;
         private bool _dropReady;
 
-    
-        private void Awake()
-        {
-
-        }
 
         private void OnEnable()
         {
             MissionManager.TimeToDrop += DropReady;
-            InputManager.StartEvent += DropOnOnTouch;
+            InputManager.OnTouchStartEvent += DropOnOnTouch;
         }
 
         private void OnDisable()
         {
             MissionManager.TimeToDrop -= DropReady;
-            InputManager.StartEvent -= DropOnOnTouch;
+            InputManager.OnTouchStartEvent -= DropOnOnTouch;
         }
 
         void DropReady(bool isReady)
@@ -36,9 +31,8 @@ namespace Common.Scripts.UI.InGame
             _dropReady = isReady;
         }
 
-        void DropOnOnTouch()
+        void DropOnOnTouch(Vector2 touchPos)
         {
-            Debug.Log("aye");
             if (_dropReady)
             {
                 CargoDropped?.Invoke();

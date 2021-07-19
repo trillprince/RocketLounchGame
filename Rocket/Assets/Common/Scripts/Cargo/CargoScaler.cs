@@ -5,7 +5,7 @@ namespace Common.Scripts.Cargo
 {
     public class CargoScaler : MonoBehaviour
     {
-        private float _scaleDownSpeed = 25f;
+        private float _scaleDownSpeed = 10;
         private Vector3 _cargoScale;
         private Vector3 _minScale;
 
@@ -13,7 +13,7 @@ namespace Common.Scripts.Cargo
         private void Awake()
         {
             _cargoScale = transform.localScale;
-            _minScale = new Vector3(_cargoScale.x/2, _cargoScale.y/2, _cargoScale.z/2);
+            _minScale = new Vector3(_cargoScale.x/10, _cargoScale.y/10, _cargoScale.z/10);
         }
 
         void ScaleDown()
