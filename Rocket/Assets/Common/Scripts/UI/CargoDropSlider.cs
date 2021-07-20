@@ -146,10 +146,12 @@ namespace Common.Scripts.UI
             {
                 if (!_cargoDropped)
                 {
+                    SetDropAccurateness(DropAccurateness.NotGood);
                     _cargoDropSlider.value = 0;
                     NoPlayerInteraction?.Invoke();
                 }
                 StartCoroutine(SliderActive(isActive, _timeTillDisable));
+                _cargoDropped = false;
                 return;
             }
             StartCoroutine(SliderActive(isActive, 0));
