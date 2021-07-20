@@ -13,6 +13,7 @@ namespace Common.Scripts.UI
         private const string _notGoodDropText = "You can do better !";
         private const string _goodDropText = "Very Nice !";
         private const string _perfectDropText = "Awesome !";
+        private const string _noInteractionText = "Are you here ?";
         private Color _redColor = Color.red;
         private Color _yellowColor = Color.yellow;
         private Color _greenColor = Color.green;
@@ -28,11 +29,13 @@ namespace Common.Scripts.UI
         private void OnEnable()
         {
             CargoDropListener.CargoDropped += SetTextValues;
+            CargoDropSlider.NoPlayerInteraction += NoInteractionText;
         }
 
         private void OnDisable()
         {
             CargoDropListener.CargoDropped -= SetTextValues;
+            CargoDropSlider.NoPlayerInteraction -= NoInteractionText;
             _textMesh.text = String.Empty;
         }
 
@@ -67,5 +70,11 @@ namespace Common.Scripts.UI
         {
             gameObject.SetActive(isActive);
         }
+
+        void NoInteractionText()
+        {
+            _textMesh.text = _noInteractionText;
+        }
+        
     }
 }

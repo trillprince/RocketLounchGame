@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Common.Scripts.MissionSystem;
+using Common.Scripts.UI.InGame;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,6 +24,12 @@ namespace Common.Scripts.UI
         private DropAccurateness _currentDropAccurateness;
         private bool _fillActive;
         private float _timeTillDisable = 2f;
+        private bool _cargoDropped;
+
+        public delegate void SliderStatus();
+
+        public static  event SliderStatus NoPlayerInteraction;
+        
 
         public DropAccurateness CurrentDropAccurateness
         {
@@ -33,11 +40,14 @@ namespace Common.Scripts.UI
         private void OnEnable()
         {
             MissionManager.TimeToDrop += FillActive;
+            CargoDropListener.CargoDropped += CargoDropped;
+            
         }
 
         private void OnDisable()
         {
             MissionManager.TimeToDrop -= FillActive;
+            CargoDropListener.CargoDropped -= CargoDropped;
         }
 
 
@@ -124,11 +134,21 @@ namespace Common.Scripts.UI
             return _currentDropAccurateness;
         }
 
+        void CargoDropped()
+        {
+            _cargoDropped = true;
+        }
+
         void FillActive(bool isActive)
         {
             _fillActive = isActive;
             if (!_fillActive)
             {
+                if (!_cargoDropped)
+                {
+                    _cargoDropSlider.value = 0;
+                    NoPlayerInteraction?.Invoke();
+                }
                 StartCoroutine(SliderActive(isActive, _timeTillDisable));
                 return;
             }
@@ -145,6 +165,8 @@ namespace Common.Scripts.UI
             }
             
         }
+        
+        
         
     }
 }
