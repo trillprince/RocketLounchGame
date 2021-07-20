@@ -16,8 +16,8 @@ namespace Common.Scripts.MissionSystem
         private RocketHeight _rocketHeight;
         private int _currentCargoIndex = 0;
         private int _cargoCount;
-        private int _lateDropHeight = 50;
-        private int _perfectDropHeight = 50;
+        private int _endDropHeight = 300;
+        private int _startDropHeight = 10;
 
         public delegate void Mission (bool readyToDrop);
 
@@ -27,12 +27,14 @@ namespace Common.Scripts.MissionSystem
         public delegate void Cargo(GameObject cargo);
 
         public static event Cargo SetCargo;
-        
+
+        public int CargoCount => _cargoCount;
+
 
         private void Start()
         {
             _cargoCount = currentMissionInfo.CargoHeightList.Count;
-            _cargosDropped = new bool[_cargoCount];
+            _cargosDropped = new bool[CargoCount];
             _cargoHeightList = currentMissionInfo.CargoHeightList;
         }
         private void OnEnable()
@@ -64,14 +66,14 @@ namespace Common.Scripts.MissionSystem
         void DropTimeCheck()
         {
             float rocketHeight = _rocketHeight.Height;
-            if (!_cargosDropped[_currentCargoIndex] && _cargoHeightList[_currentCargoIndex] - rocketHeight < _perfectDropHeight )
+            if (!_cargosDropped[_currentCargoIndex] && _cargoHeightList[_currentCargoIndex] - rocketHeight < _startDropHeight )
             {
-                if ( rocketHeight - _cargoHeightList[_currentCargoIndex] < _lateDropHeight)
+                if ( rocketHeight - _cargoHeightList[_currentCargoIndex] < _endDropHeight)
                 {
                     TimeToDrop?.Invoke(true);
                     SetCargo?.Invoke(currentMissionInfo.CargoList[_currentCargoIndex]);
                 }
-                else if (rocketHeight - _cargoHeightList[_currentCargoIndex] > _lateDropHeight)
+                else if (rocketHeight - _cargoHeightList[_currentCargoIndex] > _endDropHeight)
                 {
                     UpdateCargoStatus();
                 }
@@ -80,7 +82,7 @@ namespace Common.Scripts.MissionSystem
         void UpdateCargoStatus()
         {
             _cargosDropped[_currentCargoIndex] = true;
-            if (_cargoCount - _currentCargoIndex > 1)
+            if (CargoCount - _currentCargoIndex > 1)
             {
                 _currentCargoIndex++;
             }
