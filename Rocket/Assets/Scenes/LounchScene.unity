@@ -239,18 +239,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1.0251147
   m_Center: {x: -0.002107501, y: 0, z: 0.024141908}
---- !u!114 &692811
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 692804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd49ece8a70523c4cbc3ab693f5d49be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &59577348
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,7 +284,7 @@ GameObject:
   - component: {fileID: 75918829}
   - component: {fileID: 75918828}
   m_Layer: 5
-  m_Name: DropAccuratenessText
+  m_Name: CargoDropAccuratenessText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1294,7 +1282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3cdb51659746c0a9f9603b33298d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rocketPrefab: {fileID: 6822532173048773414, guid: 37a28d2842143cf4d9fadb2bfdeb0471, type: 3}
+  _rocketPrefab: {fileID: 7317173104841082524, guid: b9dbbb83dacdafe41b3da32bae2ee6b4, type: 3}
   _backgrounds: []
 --- !u!114 &1007176465
 MonoBehaviour:

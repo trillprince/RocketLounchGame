@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Common.Scripts.UI.InGame;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Common.Scripts.UI
 {
@@ -11,13 +13,19 @@ namespace Common.Scripts.UI
         private TextMeshProUGUI _textMesh;
         private CargoDropSlider _cargoDropSlider;
         private const string _notGoodDropText = "You can do better !";
-        private const string _goodDropText = "Very Nice !";
+        private const string _notGoodDropText2 = "Cargo almost stuck !";
+        private const string _goodDropText = "Very nice !";
+        private const string _goodDropText2 = "Good jod !";
         private const string _perfectDropText = "Awesome !";
+        private const string _perfectDropText2 = "Wonderful !";
         private const string _noInteractionText = "Are you here ?";
         private Color _redColor = Color.red;
         private Color _yellowColor = Color.yellow;
         private Color _greenColor = Color.green;
         private float _waitTillClearText = 2f;
+        private List<string> _notGoodDropTexts;
+        private List<string> _goodDropTexts;
+        private List<string> _perfectDropTexts;
 
         private void Awake()
         {
@@ -29,14 +37,19 @@ namespace Common.Scripts.UI
         private void OnEnable()
         {
             CargoDropListener.CargoDropped += SetTextValues;
-            CargoDropSlider.NoPlayerInteraction += NoInteractionText;
+            CargoDropSlider.NoPlayerInteraction += SetTextValues;
         }
 
         private void OnDisable()
         {
             CargoDropListener.CargoDropped -= SetTextValues;
-            CargoDropSlider.NoPlayerInteraction -= NoInteractionText;
+            CargoDropSlider.NoPlayerInteraction -= SetTextValues;
             _textMesh.text = String.Empty;
+        }
+
+        private void Start()
+        {
+            
         }
 
         void SetTextValues()
@@ -55,6 +68,10 @@ namespace Common.Scripts.UI
                 case CargoDropSlider.DropAccurateness.Perfect:
                     _textMesh.text = _perfectDropText;
                     SetTextColor(_greenColor);
+                    break;
+                case CargoDropSlider.DropAccurateness.NoInteraction:
+                    _textMesh.text = _noInteractionText;
+                    SetTextColor(_redColor);
                     break;
             }
         }

@@ -53,6 +53,7 @@ namespace Common.Scripts.UI
 
         public enum DropAccurateness
         {
+            NoInteraction,
             NotGood,
             Nice,
             Perfect
@@ -109,11 +110,11 @@ namespace Common.Scripts.UI
             }
             if (!_filled)
             {
-                _cargoDropSlider.value += Time.deltaTime * _fillSpeed;
+                _cargoDropSlider.value += Mathf.Sin(Time.deltaTime * _fillSpeed);
             }
             else if (_filled)
             {
-                _cargoDropSlider.value -= Time.deltaTime * _fillSpeed;
+                _cargoDropSlider.value -= Mathf.Sin(Time.deltaTime * _fillSpeed);;
             }
         }
 
@@ -146,7 +147,7 @@ namespace Common.Scripts.UI
             {
                 if (!_cargoDropped)
                 {
-                    SetDropAccurateness(DropAccurateness.NotGood);
+                    SetDropAccurateness(DropAccurateness.NoInteraction);
                     _cargoDropSlider.value = 0;
                     NoPlayerInteraction?.Invoke();
                 }
