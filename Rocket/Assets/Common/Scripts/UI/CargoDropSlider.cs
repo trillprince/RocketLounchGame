@@ -23,7 +23,11 @@ namespace Common.Scripts.UI
         private float _timeTillDisable = 2f;
         private bool _cargoDropped;
         [SerializeField] private Image _perfectDropImage;
+        [SerializeField] private Image _normalDropImage;
+        private RectTransform _perfectDropRect;
+        private RectTransform _normalDropRect;
         private Slider _cargoDropSlider;
+
 
 
         public delegate void SliderStatus();
@@ -63,11 +67,13 @@ namespace Common.Scripts.UI
         {
             _cargoDropSlider = GetComponent<Slider>();
             _dropAccuratenessText = GetComponentInChildren<DropAccuratenessText>();
+            _perfectDropRect = _perfectDropImage.GetComponent<RectTransform>();
+            _normalDropRect = _normalDropImage.GetComponent<RectTransform>();
         }
 
         private void Start()
         {
-            SetPosForPerfectDropImage();
+            SetImagesRectTransform();
             StartCoroutine(SliderActive(false, 0));
         }
 
@@ -80,16 +86,32 @@ namespace Common.Scripts.UI
             }
         }
 
-        void SetPosForPerfectDropImage()
+        void SetImagesRectTransform()
         {
-            RectTransform rectTransform = _perfectDropImage.GetComponent<RectTransform>();
-            Vector2 anchorMin = rectTransform.anchorMin;
-            Vector2 anchorMax = rectTransform.anchorMax;
-            anchorMin.y = (float)Math.Round(Random.Range(0f, 0.8f),1);
-            anchorMax.y = anchorMin.y + 0.2f;
-            rectTransform.anchorMin = anchorMin;
-            rectTransform.anchorMax = anchorMax;
+            SetNormalDropImageTransform();
+            SetPerfectDropImageTransform();
         }
+
+        void SetNormalDropImageTransform()
+        {
+            Vector2 normalDropAnchorMin = _normalDropRect.anchorMin;
+            Vector2 normalDropAnchorMax = _normalDropRect.anchorMax;
+            normalDropAnchorMin.y = (float)Math.Round(Random.Range(0f, 0.6f),1);
+            normalDropAnchorMax.y = normalDropAnchorMin.y + 0.4f;
+            _normalDropRect.anchorMin = normalDropAnchorMin;
+            _normalDropRect.anchorMax = normalDropAnchorMax;
+        }
+
+        void SetPerfectDropImageTransform()
+        {
+            Vector2 perfectDropAnchorMin = _perfectDropRect.anchorMin;
+            Vector2 perfectDropAnchorMax = _perfectDropRect.anchorMax;
+            perfectDropAnchorMin.y = _normalDropRect.anchorMin.y + 0.1f;
+            perfectDropAnchorMax.y = _normalDropRect.anchorMax.y - 0.1f;
+            _perfectDropRect.anchorMin = perfectDropAnchorMin;
+            _perfectDropRect.anchorMax = perfectDropAnchorMax;
+        }
+        
 
         void SetVisualValues()
         {
@@ -172,7 +194,7 @@ namespace Common.Scripts.UI
             {
                 image.enabled = isActive;
             }
-            SetPosForPerfectDropImage();
+            SetImagesRectTransform();
         }
 
         void DropTimeListener(MissionManager.DropStatus dropStatus)
