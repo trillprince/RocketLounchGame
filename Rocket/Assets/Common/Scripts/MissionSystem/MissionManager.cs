@@ -18,8 +18,22 @@ namespace Common.Scripts.MissionSystem
         private int _cargoCount;
         private int _endDropHeight = 300;
         private int _startDropHeight = 10;
+        private DropStatus _currentDropStatus = DropStatus.Waiting;
 
-        public delegate void Mission (bool readyToDrop);
+        private DropStatus CurrentDropStatus
+        {
+            get => _currentDropStatus;
+            set => _currentDropStatus = value;
+        }
+
+        public enum DropStatus
+        {
+            Waiting,
+            Start,
+            End
+        }
+        
+        public delegate void Mission (DropStatus dropStatus);
 
         public static event Mission TimeToDrop;
 
@@ -29,6 +43,8 @@ namespace Common.Scripts.MissionSystem
         public static event Cargo SetCargo;
 
         public int CargoCount => _cargoCount;
+
+       
 
 
         private void Start()
@@ -70,7 +86,7 @@ namespace Common.Scripts.MissionSystem
             {
                 if ( rocketHeight - _cargoHeightList[_currentCargoIndex] < _endDropHeight)
                 {
-                    TimeToDrop?.Invoke(true);
+                    DropEventInvoker(DropStatus.Start);
                     SetCargo?.Invoke(currentMissionInfo.CargoList[_currentCargoIndex]);
                 }
                 else if (rocketHeight - _cargoHeightList[_currentCargoIndex] > _endDropHeight)
@@ -86,8 +102,17 @@ namespace Common.Scripts.MissionSystem
             {
                 _currentCargoIndex++;
             }
-            TimeToDrop?.Invoke(false);
+            DropEventInvoker(DropStatus.End);
         }
-       
+
+        void DropEventInvoker(DropStatus dropStatusToSet)
+        {
+            if (dropStatusToSet == CurrentDropStatus)
+            {
+                return;
+            }
+            CurrentDropStatus = dropStatusToSet;
+            TimeToDrop?.Invoke(CurrentDropStatus);
+        }
     }
 }

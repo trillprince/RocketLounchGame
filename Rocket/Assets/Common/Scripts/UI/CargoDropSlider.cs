@@ -5,18 +5,15 @@ using Common.Scripts.UI.InGame;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Common.Scripts.UI
 {
     public class CargoDropSlider : MonoBehaviour
     {
-        private Slider _cargoDropSlider;
         private DropAccuratenessText _dropAccuratenessText;
         [SerializeField] private Image _fillImage;
         private float _sliderMaxValue = 1;
-        private Color _redColor = Color.red;
-        private Color _yellowColor = Color.yellow;
-        private Color _greenColor = Color.green;
         private bool _filled = false;
         private const float _fillSpeed = 1.5f;
         private const float _valueForBadDrop = 0.3f;
@@ -25,6 +22,9 @@ namespace Common.Scripts.UI
         private bool _fillActive;
         private float _timeTillDisable = 2f;
         private bool _cargoDropped;
+        [SerializeField] private Image _perfectDropImage;
+        private Slider _cargoDropSlider;
+
 
         public delegate void SliderStatus();
 
@@ -39,14 +39,14 @@ namespace Common.Scripts.UI
 
         private void OnEnable()
         {
-            MissionManager.TimeToDrop += FillActive;
+            MissionManager.TimeToDrop += DropTimeListener;
             CargoDropListener.CargoDropped += CargoDropped;
             
         }
 
         private void OnDisable()
         {
-            MissionManager.TimeToDrop -= FillActive;
+            MissionManager.TimeToDrop -= DropTimeListener;
             CargoDropListener.CargoDropped -= CargoDropped;
         }
 
@@ -67,6 +67,7 @@ namespace Common.Scripts.UI
 
         private void Start()
         {
+            SetPosForPerfectDropImage();
             StartCoroutine(SliderActive(false, 0));
         }
 
@@ -79,21 +80,32 @@ namespace Common.Scripts.UI
             }
         }
 
+        void SetPosForPerfectDropImage()
+        {
+            RectTransform rectTransform = _perfectDropImage.GetComponent<RectTransform>();
+            Vector2 anchorMin = rectTransform.anchorMin;
+            Vector2 anchorMax = rectTransform.anchorMax;
+            anchorMin.y = (float)Math.Round(Random.Range(0f, 0.8f),1);
+            anchorMax.y = anchorMin.y + 0.2f;
+            rectTransform.anchorMin = anchorMin;
+            rectTransform.anchorMax = anchorMax;
+        }
+
         void SetVisualValues()
         {
             if (_cargoDropSlider.value < _valueForBadDrop)
             {
-                SetColor(_redColor);
+                
                 SetDropAccurateness(DropAccurateness.NotGood);
             }
             else if (_cargoDropSlider.value > _valueForBadDrop && _cargoDropSlider.value < _valueForNormalDrop)
             {
-                SetColor(_yellowColor);
+                
                 SetDropAccurateness(DropAccurateness.Nice);
             }
             else if (_cargoDropSlider.value > _valueForNormalDrop)
             {
-                SetColor(_greenColor);
+                
                 SetDropAccurateness(DropAccurateness.Perfect);
             }
         }
@@ -117,13 +129,7 @@ namespace Common.Scripts.UI
                 _cargoDropSlider.value -= Mathf.Sin(Time.deltaTime * _fillSpeed);;
             }
         }
-
-        void SetColor(Color color)
-        {
-            var tmpColor = _fillImage.color;
-            tmpColor = color;
-            _fillImage.color = color;
-        }
+        
 
         void SetDropAccurateness(DropAccurateness dropAccurateness)
         {
@@ -166,9 +172,20 @@ namespace Common.Scripts.UI
             {
                 image.enabled = isActive;
             }
-            
+            SetPosForPerfectDropImage();
         }
-        
+
+        void DropTimeListener(MissionManager.DropStatus dropStatus)
+        {
+            if (dropStatus == MissionManager.DropStatus.Start)
+            {
+                FillActive(true);
+            }
+            else
+            {
+                FillActive(false);
+            }
+        }
         
         
     }

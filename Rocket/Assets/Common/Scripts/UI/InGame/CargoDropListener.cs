@@ -43,9 +43,15 @@ namespace Common.Scripts.UI.InGame
                 new List<CargoDropSlider.DropAccurateness>(_missionManager.CargoCount);
         }
 
-        void DropReady(bool isReady)
+        void DropReady(MissionManager.DropStatus dropStatus)
         {
-            _dropReady = isReady;
+            if (dropStatus == MissionManager.DropStatus.Start)
+            {
+                _dropReady = true;
+                return;
+            }
+            _dropReady = false;
+
         }
 
         void DropOnOnTouch(Vector2 touchPos)
