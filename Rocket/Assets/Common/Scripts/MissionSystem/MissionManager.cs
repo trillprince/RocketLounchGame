@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Common.Scripts.UI.InGame;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Common.Scripts.MissionSystem

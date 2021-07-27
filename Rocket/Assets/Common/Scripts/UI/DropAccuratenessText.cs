@@ -15,7 +15,7 @@ namespace Common.Scripts.UI
         private const string _notGoodDropText = "You can do better !";
         private const string _goodDropText = "Very nice !";
         private const string _perfectDropText = "Awesome !";
-        private const string _noInteractionText = "Are you here ?";
+        private const string _noInteractionText = "Too slow !";
         private Color _redColor = Color.red;
         private Color _yellowColor = Color.yellow;
         private Color _greenColor = Color.green;

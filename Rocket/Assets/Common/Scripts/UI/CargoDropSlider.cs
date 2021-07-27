@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Common.Scripts.Input;
 using Common.Scripts.MissionSystem;
 using Common.Scripts.UI.InGame;
 using UnityEditor;
@@ -16,10 +17,8 @@ namespace Common.Scripts.UI
         private float _sliderMaxValue = 1;
         private bool _filled = false;
         private const float _fillSpeed = 1.5f;
-        private const float _valueForBadDrop = 0.3f;
-        private const float _valueForNormalDrop = 0.8f;
         private DropAccurateness _currentDropAccurateness;
-        private bool _fillActive;
+        private bool _handleActive;
         private float _timeTillDisable = 2f;
         private bool _cargoDropped;
         [SerializeField] private Image _perfectDropImage;
@@ -29,11 +28,10 @@ namespace Common.Scripts.UI
         private Slider _cargoDropSlider;
 
 
-
         public delegate void SliderStatus();
 
-        public static  event SliderStatus NoPlayerInteraction;
-        
+        public static event SliderStatus NoPlayerInteraction;
+
 
         public DropAccurateness CurrentDropAccurateness
         {
@@ -45,7 +43,6 @@ namespace Common.Scripts.UI
         {
             MissionManager.TimeToDrop += DropTimeListener;
             CargoDropListener.CargoDropped += CargoDropped;
-            
         }
 
         private void OnDisable()
@@ -79,10 +76,9 @@ namespace Common.Scripts.UI
 
         void Update()
         {
-            if (_fillActive)
+            if (_handleActive)
             {
-                FillMove();
-                SetVisualValues();
+                HandleMove();
             }
         }
 
@@ -96,7 +92,7 @@ namespace Common.Scripts.UI
         {
             Vector2 normalDropAnchorMin = _normalDropRect.anchorMin;
             Vector2 normalDropAnchorMax = _normalDropRect.anchorMax;
-            normalDropAnchorMin.y = (float)Math.Round(Random.Range(0f, 0.6f),1);
+            normalDropAnchorMin.y = (float) Math.Round(Random.Range(0f, 0.6f), 1);
             normalDropAnchorMax.y = normalDropAnchorMin.y + 0.4f;
             _normalDropRect.anchorMin = normalDropAnchorMin;
             _normalDropRect.anchorMax = normalDropAnchorMax;
@@ -111,25 +107,10 @@ namespace Common.Scripts.UI
             _perfectDropRect.anchorMin = perfectDropAnchorMin;
             _perfectDropRect.anchorMax = perfectDropAnchorMax;
         }
-        
 
-        void SetVisualValues()
+
+        void CheckCurrentDropAccuracy()
         {
-            /*if (_cargoDropSlider.value < _valueForBadDrop)
-            {
-                SetDropAccurateness(DropAccurateness.NotGood);
-            }
-            else if (_cargoDropSlider.value > _valueForBadDrop && _cargoDropSlider.value < _valueForNormalDrop)
-            {
-                
-                SetDropAccurateness(DropAccurateness.Nice);
-            }
-            else if (_cargoDropSlider.value > _valueForNormalDrop)
-            {
-                
-                SetDropAccurateness(DropAccurateness.Perfect);
-            }*/
-
             if (_cargoDropSlider.value >= _perfectDropRect.anchorMin.y &&
                 _cargoDropSlider.value <= _perfectDropRect.anchorMax.y)
             {
@@ -140,32 +121,34 @@ namespace Common.Scripts.UI
             {
                 SetDropAccurateness(DropAccurateness.Nice);
             }
-            else 
+            else
             {
                 SetDropAccurateness(DropAccurateness.NotGood);
             }
         }
 
-        void FillMove()
+        void HandleMove()
         {
             if (_cargoDropSlider.value >= _sliderMaxValue)
             {
                 _filled = true;
             }
-            else if(_cargoDropSlider.value <= 0)
+            else if (_cargoDropSlider.value <= 0)
             {
                 _filled = false;
             }
+
             if (!_filled)
             {
                 _cargoDropSlider.value += Mathf.Sin(Time.deltaTime * _fillSpeed);
             }
             else if (_filled)
             {
-                _cargoDropSlider.value -= Mathf.Sin(Time.deltaTime * _fillSpeed);;
+                _cargoDropSlider.value -= Mathf.Sin(Time.deltaTime * _fillSpeed);
+                ;
             }
         }
-        
+
 
         void SetDropAccurateness(DropAccurateness dropAccurateness)
         {
@@ -180,12 +163,13 @@ namespace Common.Scripts.UI
         void CargoDropped()
         {
             _cargoDropped = true;
+            CheckCurrentDropAccuracy();
         }
 
-        void FillActive(bool isActive)
+        void HandleActive(bool isActive)
         {
-            _fillActive = isActive;
-            if (!_fillActive)
+            _handleActive = isActive;
+            if (!_handleActive)
             {
                 if (!_cargoDropped)
                 {
@@ -193,14 +177,16 @@ namespace Common.Scripts.UI
                     _cargoDropSlider.value = 0;
                     NoPlayerInteraction?.Invoke();
                 }
+
                 StartCoroutine(SliderActive(isActive, _timeTillDisable));
                 _cargoDropped = false;
                 return;
             }
+
             StartCoroutine(SliderActive(isActive, 0));
         }
 
-        IEnumerator SliderActive(bool isActive,float timeToWait)
+        IEnumerator SliderActive(bool isActive, float timeToWait)
         {
             yield return new WaitForSeconds(timeToWait);
             _dropAccuratenessText.TextActive(isActive);
@@ -208,6 +194,7 @@ namespace Common.Scripts.UI
             {
                 image.enabled = isActive;
             }
+
             SetImagesRectTransform();
         }
 
@@ -215,14 +202,12 @@ namespace Common.Scripts.UI
         {
             if (dropStatus == MissionManager.DropStatus.Start)
             {
-                FillActive(true);
+                HandleActive(true);
             }
             else
             {
-                FillActive(false);
+                HandleActive(false);
             }
         }
-        
-        
     }
 }

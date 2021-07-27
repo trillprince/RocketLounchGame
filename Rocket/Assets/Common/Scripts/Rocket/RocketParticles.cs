@@ -24,15 +24,5 @@ namespace Common.Scripts.Rocket
             };
         }
 
-        void Start()
-        {
-            
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
     }
 }
