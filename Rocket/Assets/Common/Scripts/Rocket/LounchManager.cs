@@ -8,6 +8,8 @@ namespace Common.Scripts.Rocket
         public delegate void Station(bool engineEnabled);
         public static event Station MiddleEngineEnable;
         public static event Station MiddleEngineDisable;
+
+        public static event Station Lounching;
         private float _timeTillLounch = 2f;
         
 
@@ -15,6 +17,7 @@ namespace Common.Scripts.Rocket
         {
             if (isEnabled)
             {
+                Lounching?.Invoke(true);
                 StartCoroutine(WaitTillLounch(isEnabled));
                 return;
             }

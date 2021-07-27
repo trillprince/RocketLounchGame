@@ -8,8 +8,8 @@ public class AfterDropRocketMove : MonoBehaviour
 {
     private float _scaleSmoothness = 2f;
     private float _rotateSpeed = 2f;
-    private readonly float _minScale = 0.6f;
-    private readonly float _maxScale = 1.8f;
+    private readonly float _minScale = 0.7f;
+    private readonly float _maxScale = 2f;
     private readonly float _minXRot = -20;
     private readonly float _maxXRot = 20;
     private Vector3 _currentTargetRot;
