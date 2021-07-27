@@ -115,9 +115,8 @@ namespace Common.Scripts.UI
 
         void SetVisualValues()
         {
-            if (_cargoDropSlider.value < _valueForBadDrop)
+            /*if (_cargoDropSlider.value < _valueForBadDrop)
             {
-                
                 SetDropAccurateness(DropAccurateness.NotGood);
             }
             else if (_cargoDropSlider.value > _valueForBadDrop && _cargoDropSlider.value < _valueForNormalDrop)
@@ -129,6 +128,21 @@ namespace Common.Scripts.UI
             {
                 
                 SetDropAccurateness(DropAccurateness.Perfect);
+            }*/
+
+            if (_cargoDropSlider.value >= _perfectDropRect.anchorMin.y &&
+                _cargoDropSlider.value <= _perfectDropRect.anchorMax.y)
+            {
+                SetDropAccurateness(DropAccurateness.Perfect);
+            }
+            else if (_cargoDropSlider.value >= _normalDropRect.anchorMin.y &&
+                     _cargoDropSlider.value <= _normalDropRect.anchorMax.y)
+            {
+                SetDropAccurateness(DropAccurateness.Nice);
+            }
+            else 
+            {
+                SetDropAccurateness(DropAccurateness.NotGood);
             }
         }
 

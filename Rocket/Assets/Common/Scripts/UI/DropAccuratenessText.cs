@@ -13,19 +13,13 @@ namespace Common.Scripts.UI
         private TextMeshProUGUI _textMesh;
         private CargoDropSlider _cargoDropSlider;
         private const string _notGoodDropText = "You can do better !";
-        private const string _notGoodDropText2 = "Cargo almost stuck !";
         private const string _goodDropText = "Very nice !";
-        private const string _goodDropText2 = "Good jod !";
         private const string _perfectDropText = "Awesome !";
-        private const string _perfectDropText2 = "Wonderful !";
         private const string _noInteractionText = "Are you here ?";
         private Color _redColor = Color.red;
         private Color _yellowColor = Color.yellow;
         private Color _greenColor = Color.green;
         private float _waitTillClearText = 2f;
-        private List<string> _notGoodDropTexts;
-        private List<string> _goodDropTexts;
-        private List<string> _perfectDropTexts;
 
         private void Awake()
         {
@@ -45,11 +39,6 @@ namespace Common.Scripts.UI
             CargoDropListener.CargoDropped -= SetTextValues;
             CargoDropSlider.NoPlayerInteraction -= SetTextValues;
             _textMesh.text = String.Empty;
-        }
-
-        private void Start()
-        {
-            
         }
 
         void SetTextValues()
