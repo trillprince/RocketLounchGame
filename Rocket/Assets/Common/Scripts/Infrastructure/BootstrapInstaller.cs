@@ -1,10 +1,13 @@
 using Zenject;
 
-public class BootstrapInstaller : MonoInstaller
+namespace Common.Scripts.Infrastructure
 {
-    public override void InstallBindings()
+    public class BootstrapInstaller : MonoInstaller
     {
+        public override void InstallBindings()
+        {
         
+        }
     }
 }
 

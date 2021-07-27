@@ -1,24 +1,28 @@
 using System;
 using System.Collections.Generic;
-using Common.Scripts.Infrastructure;
 
-public class GameStateMachine
+namespace Common.Scripts.Infrastructure
 {
-    private readonly Dictionary<Type, IState> _states;
-    private IState _activeState;
-
-    public GameStateMachine()
+    public class GameStateMachine
     {
-        _states = new Dictionary<Type, IState>
+        private readonly Dictionary<Type, IState> _states;
+        private IState _activeState;
+
+        public GameStateMachine(SceneLoader sceneLoader)
         {
-            [typeof(BootStrapState)] = new BootStrapState(this)
-        };
-    }
-    public void Enter<TState>() where TState : IState
-    {  
-        _activeState?.Exit();
-        IState state = _states[typeof(TState)];
-        _activeState = state;
-        state.Enter();
+            _states = new Dictionary<Type, IState>
+            {
+                [typeof(BootStrapState)] = new BootStrapState(this,sceneLoader),
+                [typeof(LoadLevelState)] = new LoadLevelState(this,sceneLoader)
+                
+            };
+        }
+        public void Enter<TState>() where TState : IState
+        {  
+            _activeState?.Exit();
+            IState state = _states[typeof(TState)];
+            _activeState = state;
+            state.Enter();
+        }
     }
 }

@@ -1,14 +1,16 @@
-using Common.Scripts.Infrastructure;
 using UnityEngine;
 
-public class GameBootstrapper : MonoBehaviour,ICoroutineRunner
+namespace Common.Scripts.Infrastructure
 {
-    private Game _game;
-
-    private void Awake()
+    public class GameBootstrapper : MonoBehaviour,ICoroutineRunner
     {
-        _game = new Game();
-        _game.StateMachine.Enter<BootStrapState>();
-        DontDestroyOnLoad(this);
+        private Game _game;
+
+        private void Awake() 
+        {
+            _game = new Game(this);
+            _game.StateMachine.Enter<BootStrapState>();
+            DontDestroyOnLoad(this);
+        }
     }
 }

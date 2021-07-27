@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace Common.Scripts.Infrastructure
 {
-    public class SceneLoader : MonoBehaviour
+    public class SceneLoader
     {
         private readonly ICoroutineRunner _coroutineRunner;
 
@@ -14,9 +14,14 @@ namespace Common.Scripts.Infrastructure
 
         public void Load(string name, Action onLoaded = null) => _coroutineRunner.StartCoroutine(LoadScene(name, onLoaded));
 
-        public IEnumerator LoadScene(string name, Action onLoaded = null)
+        public IEnumerator LoadScene(string nextScene, Action onLoaded = null)
         {
-            AsyncOperation waitNextScene = SceneManager.LoadSceneAsync(name);
+            if (SceneManager.GetActiveScene().name == nextScene)
+            {
+                onLoaded?.Invoke();
+                yield break;
+            }
+            AsyncOperation waitNextScene = SceneManager.LoadSceneAsync(nextScene);
             while (!waitNextScene.isDone)
                 yield return null;
 
