@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Common.Scripts.UI.InGame;
 using TMPro;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Common.Scripts.UI
 {
@@ -43,8 +40,7 @@ namespace Common.Scripts.UI
 
         void SetTextValues()
         {
-            CargoDropSlider.DropAccurateness dropAccurateness = _cargoDropSlider.CurrentDropAccurateness;
-            switch (dropAccurateness)
+            switch (_cargoDropSlider.CurrentDropAccurateness)
             {
                 case CargoDropSlider.DropAccurateness.NotGood:
                     _textMesh.text = _notGoodDropText;

@@ -7,12 +7,12 @@ namespace Common.Scripts.Planet
     public class StartPlanet : MonoBehaviour
     {
         private bool _isMoving;
-        private RocketMovement _rocketMovement;
+        private OnTouchRocketMove _onTouchRocketMove;
 
         [Inject]
-        void Contructor(RocketMovement rocketMovement)
+        void Contructor(OnTouchRocketMove onTouchRocketMove)
         {
-            _rocketMovement = rocketMovement;
+            _onTouchRocketMove = onTouchRocketMove;
         }
 
         private void OnEnable()
@@ -32,7 +32,7 @@ namespace Common.Scripts.Planet
 
         void PlanetMovement()
         {
-            transform.Translate(-_rocketMovement.GetRocketDirection() * _rocketMovement.RocketSpeed/12 * Time.deltaTime);
+            transform.Translate(-_onTouchRocketMove.GetRocketDirection() * _onTouchRocketMove.RocketSpeed/12 * Time.deltaTime);
         }
 
         private void FixedUpdate()

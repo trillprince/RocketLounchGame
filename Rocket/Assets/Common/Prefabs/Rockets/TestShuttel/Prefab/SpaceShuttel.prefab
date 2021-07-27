@@ -19413,6 +19413,7 @@ GameObject:
   - component: {fileID: 7495480475088940341}
   - component: {fileID: 7748814197363045637}
   - component: {fileID: -1203488835213373570}
+  - component: {fileID: -8477370640602789437}
   m_Layer: 0
   m_Name: SpaceShuttel
   m_TagString: Untagged
@@ -19464,7 +19465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _height: 0
   _bg: {fileID: 0}
-  _rocket: {fileID: 0}
+  onTouchRocket: {fileID: 0}
 --- !u!114 &-1203488835213373570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19475,5 +19476,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fc9f89ba84f3514e830f1672228a843, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8477370640602789437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7317173104841082524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 748ab4e8b670fd244a459438885dd729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

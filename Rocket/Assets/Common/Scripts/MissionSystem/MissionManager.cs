@@ -62,9 +62,9 @@ namespace Common.Scripts.MissionSystem
         }
 
         [Inject]
-        public void Constructor(RocketHeight rocketMovement)
+        public void Constructor(RocketHeight rocketHeight)
         {
-            _rocketHeight = rocketMovement;
+            _rocketHeight = rocketHeight;
         }
         
         public void MissionInfo(MissionInfo missionInfo)

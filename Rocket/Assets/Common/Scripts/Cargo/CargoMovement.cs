@@ -6,7 +6,7 @@ namespace Common.Scripts.Cargo
 {
     public class CargoMovement : MonoBehaviour
     {
-        private RocketMovement _rocketMovement;
+        private OnTouchRocketMove _onTouchRocketMove;
         private int _smoothness = 7;
         private float _rotateSpeed = 50f;
         private int _zRot;
@@ -17,13 +17,13 @@ namespace Common.Scripts.Cargo
         }
 
 
-        public void InitCargo(RocketMovement rocketMovement)
+        public void InitCargo(OnTouchRocketMove onTouchRocketMove)
         {
-            _rocketMovement = rocketMovement;
+            _onTouchRocketMove = onTouchRocketMove;
         }
         void CargoMove()
         {
-            transform.Translate(-_rocketMovement.GetRocketDirection() * _rocketMovement.RocketSpeed/_smoothness * Time.deltaTime);
+            transform.Translate(-_onTouchRocketMove.GetRocketDirection() * _onTouchRocketMove.RocketSpeed/_smoothness * Time.deltaTime);
         }
 
         void CargoRotate()

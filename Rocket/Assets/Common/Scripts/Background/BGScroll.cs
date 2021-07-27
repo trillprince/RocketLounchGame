@@ -5,6 +5,7 @@ using Common.Scripts;
 using Common.Scripts.Rocket;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 public class BGScroll : MonoBehaviour
@@ -13,14 +14,14 @@ public class BGScroll : MonoBehaviour
     private Vector2 _offset;
     [Range(-2, 2)] public float _xVelocity = 0;
     [Range(-2, 2)] public float _yVelocity;
-    [SerializeField] private RocketMovement _rocketMovement;
+    [FormerlySerializedAs("onTouchRocketMovement")] [FormerlySerializedAs("_rocketMovement")] [SerializeField] private OnTouchRocketMove onTouchRocketMove;
     private bool _rocketLounched;
     [SerializeField] private float _smoothness = 100;
 
     [Inject]
-    private void Construct(RocketMovement rocketMovement)
+    private void Construct(OnTouchRocketMove onTouchRocketMove)
     {
-        _rocketMovement = rocketMovement;
+        this.onTouchRocketMove = onTouchRocketMove;
     }
     
     private void OnEnable()
@@ -57,13 +58,13 @@ public class BGScroll : MonoBehaviour
 
     private void ReinitializeOffset()
     {
-        _offset = new Vector2(_xVelocity, _yVelocity).normalized * _rocketMovement.RocketSpeed/_smoothness;
+        _offset = new Vector2(_xVelocity, _yVelocity).normalized * onTouchRocketMove.RocketSpeed/_smoothness;
     }
 
     public void ScrollFromRocketDir()
     {
-        _xVelocity = _rocketMovement.GetRocketDirection().x;
-        _yVelocity = _rocketMovement.GetRocketDirection().y;
+        _xVelocity = onTouchRocketMove.GetRocketDirection().x;
+        _yVelocity = onTouchRocketMove.GetRocketDirection().y;
         Invoke("ReinitializeOffset",1f);;
     }
 }

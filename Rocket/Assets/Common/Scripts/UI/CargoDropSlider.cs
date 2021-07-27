@@ -31,6 +31,7 @@ namespace Common.Scripts.UI
         public delegate void SliderStatus();
 
         public static event SliderStatus NoPlayerInteraction;
+        
 
 
         public DropAccurateness CurrentDropAccurateness
@@ -177,7 +178,6 @@ namespace Common.Scripts.UI
                     _cargoDropSlider.value = 0;
                     NoPlayerInteraction?.Invoke();
                 }
-
                 StartCoroutine(SliderActive(isActive, _timeTillDisable));
                 _cargoDropped = false;
                 return;
@@ -194,7 +194,6 @@ namespace Common.Scripts.UI
             {
                 image.enabled = isActive;
             }
-
             SetImagesRectTransform();
         }
 

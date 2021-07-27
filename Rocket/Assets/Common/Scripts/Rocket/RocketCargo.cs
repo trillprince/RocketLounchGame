@@ -12,12 +12,12 @@ namespace Common.Scripts.Rocket
     {
 
         private GameObject _currentCargo;
-        private RocketMovement _rocketMovement;
+        private OnTouchRocketMove _onTouchRocketMove;
 
         private void Awake()
         {
-            _rocketMovement = GetComponent<RocketMovement>();
-            Debug.Log(_rocketMovement);
+            _onTouchRocketMove = GetComponent<OnTouchRocketMove>();
+            Debug.Log(_onTouchRocketMove);
         }
 
         private void OnEnable()
@@ -40,7 +40,7 @@ namespace Common.Scripts.Rocket
         void DropCargo()
         {
             var cargo = Instantiate(_currentCargo, transform.position, Quaternion.identity);
-            cargo.GetComponent<CargoMovement>().InitCargo(_rocketMovement);
+            cargo.GetComponent<CargoMovement>().InitCargo(_onTouchRocketMove);
         }
     }
 }

@@ -1,9 +1,10 @@
 using Common.Scripts.Input;
+using Common.Scripts.UI;
 using UnityEngine;
 
 namespace Common.Scripts.Rocket
 {
-    public class RocketMovement : MonoBehaviour
+    public class OnTouchRocketMove : MonoBehaviour
     {
         private float _rotateSpeed = 40f;
         private float _rotateMaxSpeed = 70f;
@@ -91,8 +92,8 @@ namespace Common.Scripts.Rocket
             LounchManager.MiddleEngineDisable += MiddleEngine;
             InputManager.OnTouchStartEvent += OnTouchStartEvent;
             InputManager.OnTouchEndEvent += OnTouchEndEvent;
-        
         }
+
 
         private void OnDisable()
         {
@@ -181,5 +182,6 @@ namespace Common.Scripts.Rocket
         {
             return transform.up;
         }
+        
     }
 }

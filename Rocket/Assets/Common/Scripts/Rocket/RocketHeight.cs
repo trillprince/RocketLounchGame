@@ -3,13 +3,14 @@ using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class RocketHeight : MonoBehaviour
 {
     [SerializeField] private float _height = 0;
     [SerializeField] private BGScroll _bg;
-    [SerializeField] private RocketMovement _rocket;
+    [FormerlySerializedAs("_rocket")] [SerializeField] private OnTouchRocketMove onTouchRocket;
     private Vector2 _heightDir;
     private bool _rocketLounched;
 
@@ -39,7 +40,7 @@ public class RocketHeight : MonoBehaviour
     private void Awake()
     {
         _bg = FindObjectOfType<BGScroll>();
-        _rocket = GetComponent<RocketMovement>();
+        onTouchRocket = GetComponent<OnTouchRocketMove>();
     }
     
 
@@ -54,7 +55,7 @@ public class RocketHeight : MonoBehaviour
 
     private void HeightValueUpdate()
     {
-        Height += _bg._yVelocity * _rocket.RocketSpeed * Time.deltaTime;
+        Height += _bg._yVelocity * onTouchRocket.RocketSpeed * Time.deltaTime;
     }
 
     float GetHeight()

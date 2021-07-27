@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Common.Scripts.Input;
 using Common.Scripts.MissionSystem;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Common.Scripts.UI.InGame
 {
@@ -68,15 +65,6 @@ namespace Common.Scripts.UI.InGame
             _dropAccuratenesses.Add(dropAccurateness);
         }
 
-        public CargoDropSlider.DropAccurateness GetLastAccurateness()
-        {
-            if(_dropAccuratenesses.Count>0)
-            {
-                return _dropAccuratenesses[_dropAccuratenesses.Count - 1];
-            }
-            return default;
-        }
-    
     
     }
 }
