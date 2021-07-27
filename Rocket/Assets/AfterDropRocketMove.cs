@@ -8,11 +8,12 @@ public class AfterDropRocketMove : MonoBehaviour
 {
     private float _scaleSmoothness = 2f;
     private float _rotateSpeed = 2f;
-    private readonly Vector3 _minScale = new Vector3(0.6f,0.6f,0.6f);
-    private readonly Vector3 _maxScale = new Vector3(2f,2f,2f);
-    private float _minRot = -20;
-    private float _maxRot = 20;
+    private readonly float _minScale = 0.6f;
+    private readonly float _maxScale = 1.8f;
+    private readonly float _minXRot = -20;
+    private readonly float _maxXRot = 20;
     private Vector3 _currentTargetRot;
+    private Vector3 _currentTargetScale;
     private bool _cargoDropped;
     private float _timeTillStopScaling = 3f;
 
@@ -30,25 +31,27 @@ public class AfterDropRocketMove : MonoBehaviour
         yield return new WaitForSeconds(_timeTillStopScaling);
         _cargoDropped = false;
         ResetTargetXRot();
+        ResetTargetScale();
     }
 
     private void Start()
     {
         ResetTargetXRot();
+        ResetTargetScale();
     }
 
     private void FixedUpdate()
     {
         if (_cargoDropped)
         {
-            // ScaleDown();
+            ScaleDown();
             Rotate();
         }
     }
     
     private void ScaleDown()
     {
-        transform.localScale = Vector3.Slerp(transform.localScale, _minScale, Time.deltaTime/_scaleSmoothness);
+        transform.localScale = Vector3.Lerp(transform.localScale, _currentTargetScale, Time.deltaTime/_scaleSmoothness);
     }
 
     private void Rotate()
@@ -61,6 +64,12 @@ public class AfterDropRocketMove : MonoBehaviour
 
     void ResetTargetXRot()
     {
-        _currentTargetRot =  new Vector3 (Random.Range(_minRot, _maxRot),0,0);
+        _currentTargetRot =  new Vector3 (Random.Range(_minXRot, _maxXRot),0,0);
+    }
+
+    void ResetTargetScale()
+    {
+        var scale = Random.Range(_minScale, _maxScale);
+        _currentTargetScale = new Vector3(scale, scale, scale);
     }
 }
