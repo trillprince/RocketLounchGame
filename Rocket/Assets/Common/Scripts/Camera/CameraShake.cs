@@ -10,7 +10,7 @@ namespace Common.Scripts.Camera
         private Vector3 _originalPos;
         private ShakeStage _currentShakeStage;
         private readonly float _lounchShakeAmount = 0.1f;
-        private readonly float _flightShakeAmount = 0.03f;
+        private readonly float _flightShakeAmount = 0.04f;
         private readonly float _shakeSmoothness = 5f;
         private float _currentShakeAmount;
 
@@ -75,8 +75,8 @@ namespace Common.Scripts.Camera
             }
             else if(_currentShakeStage == ShakeStage.Flight)
             {
-                _camTransform.localPosition = _originalPos + Random.insideUnitSphere * Mathf.Lerp(_currentShakeAmount,shakeAmount,Time.deltaTime/_shakeSmoothness);
-                _currentShakeAmount = shakeAmount;
+                _currentShakeAmount = Mathf.Lerp(_currentShakeAmount, shakeAmount, Time.deltaTime / _shakeSmoothness);
+                _camTransform.localPosition = _originalPos + Random.insideUnitSphere * _currentShakeAmount;
             }
         
         }
