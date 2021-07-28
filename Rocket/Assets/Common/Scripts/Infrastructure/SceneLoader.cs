@@ -1,7 +1,6 @@
 using UnityEngine;
 using System;
 using System.Collections;
-using TMPro.EditorUtilities;
 using UnityEngine.SceneManagement;
 
 namespace Common.Scripts.Infrastructure
