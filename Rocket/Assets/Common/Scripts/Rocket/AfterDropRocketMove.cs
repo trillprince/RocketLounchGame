@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
+using Common.Scripts.Cargo;
 using Common.Scripts.UI;
-using Common.Scripts.UI.InGame;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

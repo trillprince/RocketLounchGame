@@ -19,7 +19,7 @@ namespace Common.Scripts.Infrastructure
         }
 
         private void EnterLoadLevel() => 
-            _stateMachine.Enter<LoadLevelState>();
+            _stateMachine.Enter<LoadLevelState,string>("LounchScene");
 
         void RegisterServices()
         {

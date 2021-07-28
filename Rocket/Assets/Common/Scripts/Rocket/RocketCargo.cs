@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Common.Scripts.Cargo;
 using Common.Scripts.MissionSystem;
-using Common.Scripts.UI.InGame;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

@@ -1,5 +1,16 @@
-﻿public interface IState
+﻿using System;
+
+public interface IState: IExitableState
 {
     void Enter();
-    void Exit(); 
+}
+public interface IPayloadedState<IPayload>: IExitableState
+{
+    void Enter(IPayload payload);
+    
+}
+
+public interface IExitableState
+{
+    void Exit();
 }

@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
+using Common.Scripts.Cargo;
 using Common.Scripts.Input;
 using Common.Scripts.MissionSystem;
-using Common.Scripts.UI.InGame;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;

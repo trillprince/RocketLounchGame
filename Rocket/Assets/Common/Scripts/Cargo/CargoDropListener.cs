@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Common.Scripts.Input;
 using Common.Scripts.MissionSystem;
+using Common.Scripts.UI;
 using UnityEngine;
 
-namespace Common.Scripts.UI.InGame
+namespace Common.Scripts.Cargo
 {
     public class CargoDropListener : MonoBehaviour
     {
