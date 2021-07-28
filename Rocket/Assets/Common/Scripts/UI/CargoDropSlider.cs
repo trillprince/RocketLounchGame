@@ -28,9 +28,9 @@ namespace Common.Scripts.UI
         private Slider _cargoDropSlider;
 
 
-        public delegate void SliderStatus();
+        public delegate void SliderStatus(DropAccurateness dropAccuracy);
 
-        public static event SliderStatus NoPlayerInteraction;
+        public static event SliderStatus DropAccuracy;
         
 
 
@@ -115,16 +115,16 @@ namespace Common.Scripts.UI
             if (_cargoDropSlider.value >= _perfectDropRect.anchorMin.y &&
                 _cargoDropSlider.value <= _perfectDropRect.anchorMax.y)
             {
-                SetDropAccurateness(DropAccurateness.Perfect);
+                SetDropAccurateness(DropAccurateness.Perfect,DropAccuracy);
             }
             else if (_cargoDropSlider.value >= _normalDropRect.anchorMin.y &&
                      _cargoDropSlider.value <= _normalDropRect.anchorMax.y)
             {
-                SetDropAccurateness(DropAccurateness.Nice);
+                SetDropAccurateness(DropAccurateness.Nice,DropAccuracy);
             }
             else
             {
-                SetDropAccurateness(DropAccurateness.NotGood);
+                SetDropAccurateness(DropAccurateness.NotGood,DropAccuracy);
             }
         }
 
@@ -146,14 +146,15 @@ namespace Common.Scripts.UI
             else if (_filled)
             {
                 _cargoDropSlider.value -= Mathf.Sin(Time.deltaTime * _fillSpeed);
-                ;
+                
             }
         }
 
 
-        void SetDropAccurateness(DropAccurateness dropAccurateness)
+        void SetDropAccurateness(DropAccurateness dropAccurateness,SliderStatus accuracyEvent)
         {
             CurrentDropAccurateness = dropAccurateness;
+            accuracyEvent?.Invoke(CurrentDropAccurateness);
         }
 
         public DropAccurateness GetDropAccurateness()
@@ -174,9 +175,8 @@ namespace Common.Scripts.UI
             {
                 if (!_cargoDropped)
                 {
-                    SetDropAccurateness(DropAccurateness.NoInteraction);
+                    SetDropAccurateness(DropAccurateness.NoInteraction,DropAccuracy);
                     _cargoDropSlider.value = 0;
-                    NoPlayerInteraction?.Invoke();
                 }
                 StartCoroutine(SliderActive(isActive, _timeTillDisable));
                 _cargoDropped = false;

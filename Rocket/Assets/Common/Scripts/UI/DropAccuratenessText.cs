@@ -27,20 +27,18 @@ namespace Common.Scripts.UI
 
         private void OnEnable()
         {
-            CargoDropListener.CargoDropped += SetTextValues;
-            CargoDropSlider.NoPlayerInteraction += SetTextValues;
+            CargoDropSlider.DropAccuracy += SetTextValues;
         }
 
         private void OnDisable()
         {
-            CargoDropListener.CargoDropped -= SetTextValues;
-            CargoDropSlider.NoPlayerInteraction -= SetTextValues;
+            CargoDropSlider.DropAccuracy -= SetTextValues;
             _textMesh.text = String.Empty;
         }
 
-        void SetTextValues()
+        void SetTextValues(CargoDropSlider.DropAccurateness accuracy)
         {
-            switch (_cargoDropSlider.CurrentDropAccurateness)
+            switch (accuracy)
             {
                 case CargoDropSlider.DropAccurateness.NotGood:
                     _textMesh.text = _notGoodDropText;
@@ -72,11 +70,5 @@ namespace Common.Scripts.UI
         {
             gameObject.SetActive(isActive);
         }
-
-        void NoInteractionText()
-        {
-            _textMesh.text = _noInteractionText;
-        }
-        
     }
 }
