@@ -41,6 +41,7 @@ namespace Common.Scripts.Rocket
         {
             var cargo = Instantiate(_currentCargo, transform.position, Quaternion.identity);
             cargo.GetComponent<CargoMovement>().InitCargo(_onTouchRocketMove);
+            cargo.GetComponent<CargoScaler>().InitScale(transform.localScale);
         }
     }
 }

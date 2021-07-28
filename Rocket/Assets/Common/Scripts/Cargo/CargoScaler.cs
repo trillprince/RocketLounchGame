@@ -10,10 +10,19 @@ namespace Common.Scripts.Cargo
         private Vector3 _minScale;
 
 
+        public void InitScale(Vector3 rocketScale)
+        {
+            Vector3 newScale = new Vector3(
+                rocketScale.x * transform.localScale.x,
+                rocketScale.y * transform.localScale.y, 
+                rocketScale.z * transform.localScale.z);
+            
+             _cargoScale = newScale;
+        }
+
         private void Awake()
         {
-            _cargoScale = transform.localScale;
-            _minScale = new Vector3(_cargoScale.x/10, _cargoScale.y/10, _cargoScale.z/10);
+            _minScale = new Vector3(_cargoScale.x / 5, _cargoScale.y / 5, _cargoScale.z / 5);
         }
 
         void ScaleDown()
@@ -28,6 +37,5 @@ namespace Common.Scripts.Cargo
         {
             ScaleDown();
         }
-        
     }
 }
