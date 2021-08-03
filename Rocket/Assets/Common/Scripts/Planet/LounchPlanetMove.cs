@@ -4,10 +4,12 @@ using Zenject;
 
 namespace Common.Scripts.Planet
 {
-    public class StartPlanet : MonoBehaviour
+    public class LounchPlanetMove : MonoBehaviour
     {
         private bool _isMoving;
         private OnTouchRocketMove _onTouchRocketMove;
+        [SerializeField] 
+        [Range(10,40)]private int _moveSmoothness = 12;
 
         [Inject]
         void Contructor(OnTouchRocketMove onTouchRocketMove)
@@ -32,7 +34,7 @@ namespace Common.Scripts.Planet
 
         void PlanetMovement()
         {
-            transform.Translate(-_onTouchRocketMove.GetRocketDirection() * _onTouchRocketMove.RocketSpeed/12 * Time.deltaTime);
+            transform.Translate(-_onTouchRocketMove.GetRocketDirection() * _onTouchRocketMove.RocketSpeed/_moveSmoothness * Time.deltaTime);
         }
 
         private void FixedUpdate()

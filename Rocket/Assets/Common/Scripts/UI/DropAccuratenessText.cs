@@ -15,7 +15,6 @@ namespace Common.Scripts.UI
         private Color _redColor = Color.red;
         private Color _yellowColor = Color.yellow;
         private Color _greenColor = Color.green;
-        private float _waitTillClearText = 2f;
 
         private void Awake()
         {

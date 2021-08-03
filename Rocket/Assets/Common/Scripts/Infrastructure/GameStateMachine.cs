@@ -25,6 +25,12 @@ namespace Common.Scripts.Infrastructure
             state.Enter();
         }
 
+        public void Enter<TState, TPayLoad>(TPayLoad payload) where TState : class, IPayloadedState<TPayLoad>
+        {
+            TState state = ChangeState<TState>();
+            state.Enter(payload);
+        }
+
         private TState ChangeState<TState>() where TState : class, IExitableState
         {
             _activeState?.Exit();
@@ -37,11 +43,5 @@ namespace Common.Scripts.Infrastructure
 
         private TState GetState<TState>() where TState : class, IExitableState =>
             _states[typeof(TState)] as TState;
-
-        public void Enter<TState, TPayLoad>(TPayLoad payload) where TState : class, IPayloadedState<TPayLoad>
-        {
-            TState state = ChangeState<TState>();
-            state.Enter(payload);
-        }
     }
 }

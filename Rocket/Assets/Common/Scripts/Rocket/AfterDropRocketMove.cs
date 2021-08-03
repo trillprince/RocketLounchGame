@@ -11,8 +11,10 @@ namespace Common.Scripts.Rocket
     {
         private float _scaleSmoothness = 10f;
         private float _rotateSmoothness = 20f;
-        private readonly float _minScale = 0.8f;
-        private readonly float _maxScale = 2f;
+        private float _minScale;
+        private float _maxScale;
+        private readonly float _scaleDownValue = 0.7f;
+        private readonly float _scaleUpValue = 0.3f;
         private readonly float _minXRot = -20;
         private readonly float _maxXRot = 20;
         private readonly float _minYRot = -90;
@@ -22,6 +24,12 @@ namespace Common.Scripts.Rocket
         private float _timeTillLounch = 10f;
         private bool _rocketLouched;
 
+        private void Awake()
+        {
+            _minScale = transform.localScale.x - _scaleDownValue;
+            _maxScale = transform.localScale.x + _scaleUpValue;
+        }
+
         private void OnEnable()
         {
             CargoDropListener.CargoDropped += () =>
@@ -30,6 +38,11 @@ namespace Common.Scripts.Rocket
                 ResetTargetScale();
             };
             CargoDropSlider.DropAccuracy += ChangeRotSpeedOnAccuracy;
+
+            LounchManager.MiddleEngineEnable += engineEnabled =>
+            {
+                _rocketLouched = engineEnabled;
+            };
         }
 
         private void OnDisable()
@@ -40,8 +53,11 @@ namespace Common.Scripts.Rocket
 
         private void FixedUpdate()
         {
-            ScaleDown();
-            Rotation();
+            if (_rocketLouched)
+            {
+                ScaleDown();
+                Rotation();
+            }
         }
     
         private void ScaleDown()

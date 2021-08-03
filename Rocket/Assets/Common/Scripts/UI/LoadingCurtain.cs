@@ -10,7 +10,6 @@ namespace Common.Scripts.UI
 
         private void Awake()
         {
-            Curtain = GetComponent<CanvasGroup>();
             DontDestroyOnLoad(this);
         }
 
