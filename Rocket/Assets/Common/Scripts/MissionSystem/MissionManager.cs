@@ -14,8 +14,8 @@ namespace Common.Scripts.MissionSystem
         private RocketHeight _rocketHeight;
         private int _currentCargoIndex = 0;
         private int _cargoCount;
-        private int _endDropHeight = 300;
-        private int _startDropHeight = 10;
+        private int _endDropHeight = 500;
+        private int _startDropHeight = 200;
         private DropStatus _currentDropStatus = DropStatus.Waiting;
 
         private DropStatus CurrentDropStatus

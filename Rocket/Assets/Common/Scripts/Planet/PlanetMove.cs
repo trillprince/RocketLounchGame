@@ -1,15 +1,20 @@
+using System;
+using System.Collections.Generic;
 using Common.Scripts.Rocket;
 using UnityEngine;
 using Zenject;
 
 namespace Common.Scripts.Planet
 {
-    public class LounchPlanetMove : MonoBehaviour
+    public class PlanetMove : MonoBehaviour
     {
         private bool _isMoving;
         private OnTouchRocketMove _onTouchRocketMove;
         [SerializeField] 
-        [Range(10,40)]private int _moveSmoothness = 12;
+        [Range(10,4000)] private int _moveSmoothness = 12;
+
+        [SerializeField] private GameObject [] _movables;
+
 
         [Inject]
         void Contructor(OnTouchRocketMove onTouchRocketMove)
@@ -30,6 +35,7 @@ namespace Common.Scripts.Planet
         void MovePlanet(bool isMoving)
         {
             _isMoving = isMoving;
+
         }
 
         void PlanetMovement()
@@ -45,4 +51,5 @@ namespace Common.Scripts.Planet
             }
         }
     }
+    
 }

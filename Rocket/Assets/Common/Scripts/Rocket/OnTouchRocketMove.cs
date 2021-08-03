@@ -11,9 +11,9 @@ namespace Common.Scripts.Rocket
         private float _rotSpeedAcceleration = 400f;
         private float _rotSpeedDegradation = 150f;
         private bool _rocketLounched = false;
-        [SerializeField] [Range(0,80f)] private float _rocketSpeed = 0;
-        private float _rocketMaxSpeed = 80f;
-        private float _rocketSpeedAcceleration = 10f;
+        [SerializeField] private float _rocketSpeed;
+        private float _rocketMaxSpeed = 800f;
+        private float _rocketSpeedAcceleration = 20f;
         private float _rocketSpeedDegradation = 5f;
         [SerializeField] private bool _middleEngineEnabled = false;
         private bool _isTouching = false;
