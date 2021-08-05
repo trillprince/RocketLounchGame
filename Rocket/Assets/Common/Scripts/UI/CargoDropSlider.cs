@@ -140,11 +140,11 @@ namespace Common.Scripts.UI
             }
             if (!_filled)
             {
-                SetSliderValue(Mathf.Sin(Time.deltaTime * _fillSpeed));
+                SetSliderValue(_cargoDropSlider.value + Mathf.Sin(Time.deltaTime * _fillSpeed));
             }
             else if (_filled)
             {
-                SetSliderValue(- Mathf.Sin(Time.deltaTime * _fillSpeed));
+                SetSliderValue(_cargoDropSlider.value - Mathf.Sin(Time.deltaTime * _fillSpeed));
             }
             if (_fullFills == _maxFilledCount)
             {
@@ -180,17 +180,22 @@ namespace Common.Scripts.UI
                 image.enabled = isActive;
             }
             SetImagesRectTransform();
+            if (!isActive)
+            {
+                SetSliderValue(_sliderMaxValue);
+                _fullFills = 0;
+            }
         }
 
         void ActivateSlider()
         {
-            SliderActive(true);                                                 //
+            SliderActive(true);                                                 
             _cargoDropSlider.value = _sliderMaxValue;
         }
 
         private void SetSliderValue(float value)
         {
-            _cargoDropSlider.value += value;
+            _cargoDropSlider.value = value;
         }
     }
 
