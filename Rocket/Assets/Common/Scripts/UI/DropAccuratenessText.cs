@@ -1,4 +1,5 @@
 using System;
+using Common.Scripts.Cargo;
 using TMPro;
 using UnityEngine;
 
@@ -25,32 +26,32 @@ namespace Common.Scripts.UI
 
         private void OnEnable()
         {
-            CargoDropSlider.DropAccuracy += SetTextValues;
+            CargoDropSlider.OnGetDropAccuracy += SetTextValues;
         }
 
         private void OnDisable()
         {
-            CargoDropSlider.DropAccuracy -= SetTextValues;
+            CargoDropSlider.OnGetDropAccuracy -= SetTextValues;
             _textMesh.text = String.Empty;
         }
 
-        void SetTextValues(CargoDropSlider.DropAccurateness accuracy)
+        void SetTextValues(DropAccuracy accuracy)
         {
             switch (accuracy)
             {
-                case CargoDropSlider.DropAccurateness.NotGood:
+                case DropAccuracy.NotGood:
                     _textMesh.text = _notGoodDropText;
                     SetTextColor(_redColor);
                     break;
-                case CargoDropSlider.DropAccurateness.Nice:
+                case DropAccuracy.Nice:
                     _textMesh.text = _goodDropText;
                     SetTextColor(_yellowColor);
                     break;
-                case CargoDropSlider.DropAccurateness.Perfect:
+                case DropAccuracy.Perfect:
                     _textMesh.text = _perfectDropText;
                     SetTextColor(_greenColor);
                     break;
-                case CargoDropSlider.DropAccurateness.NoInteraction:
+                case DropAccuracy.NoInteraction:
                     _textMesh.text = _noInteractionText;
                     SetTextColor(_redColor);
                     break;

@@ -10,10 +10,7 @@ namespace Common.Scripts.Planet
     {
         private bool _isMoving;
         private OnTouchRocketMove _onTouchRocketMove;
-        [SerializeField] 
-        [Range(10,4000)] private int _moveSmoothness = 12;
-
-        [SerializeField] private GameObject [] _movables;
+        private int _moveSmoothness = 10;
 
 
         [Inject]
@@ -32,10 +29,10 @@ namespace Common.Scripts.Planet
             LounchManager.MiddleEngineEnable -= MovePlanet;
         }
 
+
         void MovePlanet(bool isMoving)
         {
             _isMoving = isMoving;
-
         }
 
         void PlanetMovement()
@@ -50,6 +47,6 @@ namespace Common.Scripts.Planet
                 PlanetMovement();
             }
         }
+
     }
-    
 }

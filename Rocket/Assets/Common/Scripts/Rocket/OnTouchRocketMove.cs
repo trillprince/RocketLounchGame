@@ -7,14 +7,14 @@ namespace Common.Scripts.Rocket
     public class OnTouchRocketMove : MonoBehaviour
     {
         private float _rotateSpeed = 40f;
-        private float _rotateMaxSpeed = 70f;
+        private float _rotateMaxSpeed = 90f;
         private float _rotSpeedAcceleration = 400f;
         private float _rotSpeedDegradation = 150f;
         private bool _rocketLounched = false;
         [SerializeField] private float _rocketSpeed;
-        private float _rocketMaxSpeed = 800f;
-        private float _rocketSpeedAcceleration = 20f;
-        private float _rocketSpeedDegradation = 5f;
+        private float _rocketMaxSpeed = 100f;
+        private float _rocketSpeedAcceleration = 15f;
+        private float _rocketSpeedDegradation = 15f;
         [SerializeField] private bool _middleEngineEnabled = false;
         private bool _isTouching = false;
         private Vector2 _touchPos;

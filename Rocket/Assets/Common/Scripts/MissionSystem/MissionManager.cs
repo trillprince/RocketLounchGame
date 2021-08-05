@@ -1,22 +1,20 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using Common.Scripts.Cargo;
+using Common.Scripts.Rocket;
 using UnityEngine;
 using Zenject;
 
 namespace Common.Scripts.MissionSystem
 {
     public class MissionManager : MonoBehaviour
-    { 
-        [SerializeField] private MissionInfo currentMissionInfo;
+    {
+        private const float _delayDecreaseStep = 0.3f;
         private bool [] _cargosDropped;
-        private List<int> _cargoHeightList;
-        private RocketHeight _rocketHeight;
         private int _currentCargoIndex = 0;
-        private int _cargoCount;
-        private int _endDropHeight = 500;
-        private int _startDropHeight = 200;
+        private int _cargoCount = 5;
         private DropStatus _currentDropStatus = DropStatus.Waiting;
+        private float _delayBeforeDrop = 4 + _delayDecreaseStep;
 
         private DropStatus CurrentDropStatus
         {
@@ -24,13 +22,12 @@ namespace Common.Scripts.MissionSystem
             set => _currentDropStatus = value;
         }
 
-        public enum DropStatus
+        public int CargoCount
         {
-            Waiting,
-            Start,
-            End
+            get => _cargoCount;
+            set => _cargoCount = value;
         }
-        
+
         public delegate void Mission (DropStatus dropStatus);
 
         public static event Mission TimeToDrop;
@@ -40,67 +37,24 @@ namespace Common.Scripts.MissionSystem
 
         public static event Cargo SetCargo;
 
-        public int CargoCount => _cargoCount;
-
-       
-
-
-        private void Start()
-        {
-            _cargoCount = currentMissionInfo.CargoHeightList.Count;
-            _cargosDropped = new bool[CargoCount];
-            _cargoHeightList = currentMissionInfo.CargoHeightList;
-        }
         private void OnEnable()
         {
-            CargoDropListener.CargoDropped += UpdateCargoStatus;
+            CargoDropController.OnCargoDrop += UpdateCargoStatus;
+            LounchManager.MiddleEngineEnable += engineEnabled =>
+            {
+                StartCoroutine(DropStart());
+            };
         }
 
         private void OnDisable()
         {
-            CargoDropListener.CargoDropped -= UpdateCargoStatus;
+            CargoDropController.CargoDropping -= UpdateCargoStatus;
         }
 
-        [Inject]
-        public void Constructor(RocketHeight rocketHeight)
-        {
-            _rocketHeight = rocketHeight;
-        }
-        
-        public void MissionInfo(MissionInfo missionInfo)
-        {
-            currentMissionInfo = missionInfo;
-        }
-
-        private void Update()
-        {
-            DropTimeCheck();
-        }
-
-        void DropTimeCheck()
-        {
-            float rocketHeight = _rocketHeight.Height;
-            if (!_cargosDropped[_currentCargoIndex] && _cargoHeightList[_currentCargoIndex] - rocketHeight < _startDropHeight )
-            {
-                if ( rocketHeight - _cargoHeightList[_currentCargoIndex] < _endDropHeight)
-                {
-                    DropEventInvoker(DropStatus.Start);
-                    SetCargo?.Invoke(currentMissionInfo.CargoList[_currentCargoIndex]);
-                }
-                else if (rocketHeight - _cargoHeightList[_currentCargoIndex] > _endDropHeight)
-                {
-                    UpdateCargoStatus();
-                }
-            }
-        }
         void UpdateCargoStatus()
         {
-            _cargosDropped[_currentCargoIndex] = true;
-            if (CargoCount - _currentCargoIndex > 1)
-            {
-                _currentCargoIndex++;
-            }
             DropEventInvoker(DropStatus.End);
+            StartCoroutine(DropStart());
         }
 
         void DropEventInvoker(DropStatus dropStatusToSet)
@@ -112,5 +66,21 @@ namespace Common.Scripts.MissionSystem
             CurrentDropStatus = dropStatusToSet;
             TimeToDrop?.Invoke(CurrentDropStatus);
         }
+
+        private IEnumerator DropStart()
+        {
+            /*SetCargo?.Invoke(currentMissionInfo.CargoList[_currentCargoIndex]);*/
+            _delayBeforeDrop -= _delayDecreaseStep;
+            yield return new WaitForSeconds(_delayBeforeDrop);
+            DropEventInvoker(DropStatus.Start);
+        }
+
+    }
+    
+    public enum DropStatus
+    {
+        Waiting,
+        Start,
+        End
     }
 }

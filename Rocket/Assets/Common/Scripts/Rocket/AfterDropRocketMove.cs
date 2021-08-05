@@ -32,12 +32,12 @@ namespace Common.Scripts.Rocket
 
         private void OnEnable()
         {
-            CargoDropListener.CargoDropped += () =>
+            CargoDropController.CargoDropping += () =>
             {
                 ResetTargetRot();
                 ResetTargetScale();
             };
-            CargoDropSlider.DropAccuracy += ChangeRotSpeedOnAccuracy;
+            CargoDropSlider.OnGetDropAccuracy += ChangeRotSpeedOnAccuracy;
 
             LounchManager.MiddleEngineEnable += engineEnabled =>
             {
@@ -47,7 +47,7 @@ namespace Common.Scripts.Rocket
 
         private void OnDisable()
         {
-            CargoDropSlider.DropAccuracy -= ChangeRotSpeedOnAccuracy;
+            CargoDropSlider.OnGetDropAccuracy -= ChangeRotSpeedOnAccuracy;
         }
 
 
@@ -83,17 +83,17 @@ namespace Common.Scripts.Rocket
             _currentTargetScale = new Vector3(scale, scale, scale);
         }
 
-        void ChangeRotSpeedOnAccuracy(CargoDropSlider.DropAccurateness accuracy)
+        void ChangeRotSpeedOnAccuracy(DropAccuracy accuracy)
         {
-            if (accuracy == CargoDropSlider.DropAccurateness.Perfect)
+            if (accuracy == DropAccuracy.Perfect)
             {
                 _rotateSmoothness -= 3;
             }
-            else if (accuracy == CargoDropSlider.DropAccurateness.Nice)
+            else if (accuracy == DropAccuracy.Nice)
             {
                 _rotateSmoothness -= 2;
             }
-            else if (accuracy == CargoDropSlider.DropAccurateness.NotGood)
+            else if (accuracy == DropAccuracy.NotGood)
             {
                 _rotateSmoothness -= 1;
             }

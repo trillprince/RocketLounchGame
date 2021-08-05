@@ -15,51 +15,45 @@ namespace Common.Scripts.UI
         private DropAccuratenessText _dropAccuratenessText;
         [SerializeField] private Image _fillImage;
         private float _sliderMaxValue = 1;
+        private float _sliderMinValue = 0;
         private bool _filled = false;
         private const float _fillSpeed = 1.5f;
-        private DropAccurateness _currentDropAccurateness;
-        private bool _handleActive;
+        private DropAccuracy _currentDropAccuracy;
         private float _timeTillDisable = 2f;
-        private bool _cargoDropped;
         [SerializeField] private Image _perfectDropImage;
         [SerializeField] private Image _normalDropImage;
         private RectTransform _perfectDropRect;
         private RectTransform _normalDropRect;
         private Slider _cargoDropSlider;
+        private int _fullFills = 0;
+        private int _maxFilledCount = 2;
 
 
-        public delegate void SliderStatus(DropAccurateness dropAccuracy);
+        public delegate void SliderStatus(DropAccuracy dropAccuracy);
 
-        public static event SliderStatus DropAccuracy;
+        public static event SliderStatus OnGetDropAccuracy;
         
+        private bool _handleActive;
 
 
-        public DropAccurateness CurrentDropAccurateness
+        public DropAccuracy CurrentDropAccuracy
         {
-            get => _currentDropAccurateness;
-            set => _currentDropAccurateness = value;
+            get => _currentDropAccuracy;
+            set => _currentDropAccuracy = value;
         }
 
         private void OnEnable()
         {
-            MissionManager.TimeToDrop += DropTimeListener;
-            CargoDropListener.CargoDropped += CargoDropped;
+            CargoDropController.CargoDropping += CargoDropping;
+            CargoDropController.OnGetStartDropStatus += ActivateSlider;
         }
 
         private void OnDisable()
         {
-            MissionManager.TimeToDrop -= DropTimeListener;
-            CargoDropListener.CargoDropped -= CargoDropped;
+            CargoDropController.CargoDropping -= CargoDropping;
+            CargoDropController.OnGetStartDropStatus -= ActivateSlider;
         }
-
-
-        public enum DropAccurateness
-        {
-            NoInteraction,
-            NotGood,
-            Nice,
-            Perfect
-        }
+        
 
         private void Awake()
         {
@@ -72,16 +66,9 @@ namespace Common.Scripts.UI
         private void Start()
         {
             SetImagesRectTransform();
-            StartCoroutine(SliderActive(false, 0));
+            StartCoroutine(ShowSlider(false, 0));
         }
 
-        void Update()
-        {
-            if (_handleActive)
-            {
-                HandleMove();
-            }
-        }
 
         void SetImagesRectTransform()
         {
@@ -115,16 +102,24 @@ namespace Common.Scripts.UI
             if (_cargoDropSlider.value >= _perfectDropRect.anchorMin.y &&
                 _cargoDropSlider.value <= _perfectDropRect.anchorMax.y)
             {
-                SetDropAccurateness(DropAccurateness.Perfect,DropAccuracy);
+                OnGetDropAccuracy?.Invoke(DropAccuracy.Perfect);
             }
             else if (_cargoDropSlider.value >= _normalDropRect.anchorMin.y &&
                      _cargoDropSlider.value <= _normalDropRect.anchorMax.y)
             {
-                SetDropAccurateness(DropAccurateness.Nice,DropAccuracy);
+                OnGetDropAccuracy?.Invoke(DropAccuracy.Nice);
             }
             else
             {
-                SetDropAccurateness(DropAccurateness.NotGood,DropAccuracy);
+                OnGetDropAccuracy?.Invoke(DropAccuracy.NotGood);
+            }
+        }
+
+        private void Update()
+        {
+            if (_handleActive)
+            {
+                HandleMove();
             }
         }
 
@@ -133,60 +128,50 @@ namespace Common.Scripts.UI
             if (_cargoDropSlider.value >= _sliderMaxValue)
             {
                 _filled = true;
+                if (_fullFills > 0)
+                {
+                    _fullFills++;
+                }
             }
             else if (_cargoDropSlider.value <= 0)
             {
                 _filled = false;
+                _fullFills++;
             }
-
             if (!_filled)
             {
-                _cargoDropSlider.value += Mathf.Sin(Time.deltaTime * _fillSpeed);
+                SetSliderValue(Mathf.Sin(Time.deltaTime * _fillSpeed));
             }
             else if (_filled)
             {
-                _cargoDropSlider.value -= Mathf.Sin(Time.deltaTime * _fillSpeed);
-                
+                SetSliderValue(- Mathf.Sin(Time.deltaTime * _fillSpeed));
+            }
+            if (_fullFills == _maxFilledCount)
+            {
+                OnGetDropAccuracy?.Invoke(DropAccuracy.NoInteraction);
+                SliderActive(false);
+                _fullFills = 0;
             }
         }
-
-
-        void SetDropAccurateness(DropAccurateness dropAccurateness,SliderStatus accuracyEvent)
+        void CargoDropping()
         {
-            CurrentDropAccurateness = dropAccurateness;
-            accuracyEvent?.Invoke(CurrentDropAccurateness);
-        }
-
-        public DropAccurateness GetDropAccurateness()
-        {
-            return _currentDropAccurateness;
-        }
-
-        void CargoDropped()
-        {
-            _cargoDropped = true;
+            _handleActive = false;
             CheckCurrentDropAccuracy();
+            SliderActive(false);
         }
 
-        void HandleActive(bool isActive)
+        void SliderActive(bool isActive)
         {
             _handleActive = isActive;
-            if (!_handleActive)
+            if (!isActive)
             {
-                if (!_cargoDropped)
-                {
-                    SetDropAccurateness(DropAccurateness.NoInteraction,DropAccuracy);
-                    _cargoDropSlider.value = 0;
-                }
-                StartCoroutine(SliderActive(isActive, _timeTillDisable));
-                _cargoDropped = false;
+                StartCoroutine(ShowSlider(isActive, _timeTillDisable));
                 return;
             }
-
-            StartCoroutine(SliderActive(isActive, 0));
+            StartCoroutine(ShowSlider(isActive, 0));
         }
 
-        IEnumerator SliderActive(bool isActive, float timeToWait)
+        IEnumerator ShowSlider(bool isActive, float timeToWait)
         {
             yield return new WaitForSeconds(timeToWait);
             _dropAccuratenessText.TextActive(isActive);
@@ -197,16 +182,16 @@ namespace Common.Scripts.UI
             SetImagesRectTransform();
         }
 
-        void DropTimeListener(MissionManager.DropStatus dropStatus)
+        void ActivateSlider()
         {
-            if (dropStatus == MissionManager.DropStatus.Start)
-            {
-                HandleActive(true);
-            }
-            else
-            {
-                HandleActive(false);
-            }
+            SliderActive(true);                                                 //
+            _cargoDropSlider.value = _sliderMaxValue;
+        }
+
+        private void SetSliderValue(float value)
+        {
+            _cargoDropSlider.value += value;
         }
     }
+
 }
