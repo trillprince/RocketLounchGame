@@ -1,5 +1,7 @@
 ﻿using System;
 using Common.Scripts.UI;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Common.Scripts.Infrastructure
 {
@@ -31,5 +33,6 @@ namespace Common.Scripts.Infrastructure
         {
             _curtain.Hide();
         }
+        
     }
 }

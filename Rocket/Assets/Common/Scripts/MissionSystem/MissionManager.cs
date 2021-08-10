@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Common.Scripts.Cargo;
@@ -10,9 +11,8 @@ namespace Common.Scripts.MissionSystem
     public class MissionManager : MonoBehaviour
     {
         private const float _delayDecreaseStep = 0.3f;
-        private bool [] _cargosDropped;
         private int _currentCargoIndex = 0;
-        private int _cargoCount = 5;
+        private int _cargoCount = 1;
         private DropStatus _currentDropStatus = DropStatus.Waiting;
         private float _delayBeforeDrop = 4 + _delayDecreaseStep;
 
@@ -31,11 +31,12 @@ namespace Common.Scripts.MissionSystem
         public delegate void Mission (DropStatus dropStatus);
 
         public static event Mission TimeToDrop;
-
-
+        
         public delegate void Cargo(GameObject cargo);
 
         public static event Cargo SetCargo;
+
+        public static event Action Landing; 
 
         private void OnEnable()
         {
@@ -53,7 +54,13 @@ namespace Common.Scripts.MissionSystem
 
         void UpdateCargoStatus()
         {
+            _currentCargoIndex++;
             DropEventInvoker(DropStatus.End);
+            if (_currentCargoIndex >= _cargoCount)
+            {
+                Landing?.Invoke();
+                return;
+            }
             StartCoroutine(DropStart());
         }
 
@@ -83,4 +90,5 @@ namespace Common.Scripts.MissionSystem
         Start,
         End
     }
+    
 }

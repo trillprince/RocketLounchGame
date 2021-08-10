@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using UnityEngine;
 using Zenject;
@@ -9,6 +10,7 @@ namespace Common.Scripts.Planet
     public class PlanetMove : MonoBehaviour
     {
         private bool _isMoving;
+        private Vector3 _startPos;
         private OnTouchRocketMove _onTouchRocketMove;
         private int _moveSmoothness = 10;
 
@@ -22,14 +24,20 @@ namespace Common.Scripts.Planet
         private void OnEnable()
         {
             LounchManager.MiddleEngineEnable += MovePlanet;
+            MissionManager.Landing += SetPlanetToStartPos;
         }
 
         private void OnDisable()
         {
             LounchManager.MiddleEngineEnable -= MovePlanet;
+            MissionManager.Landing -= SetPlanetToStartPos;
         }
 
-
+        private void Start()
+        {
+            _startPos = transform.position;
+        }
+        
         void MovePlanet(bool isMoving)
         {
             _isMoving = isMoving;
@@ -46,6 +54,12 @@ namespace Common.Scripts.Planet
             {
                 PlanetMovement();
             }
+        }
+
+        private void SetPlanetToStartPos()
+        {
+            transform.position = _startPos;
+            
         }
 
     }
