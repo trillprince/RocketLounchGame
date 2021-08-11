@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de2ae5b74d314872a96ee9e3e8934d2d, type: 3}
-  m_Name: Mission
+  m_Script: {fileID: 11500000, guid: 221e03c40f184d94b1ff71516527255a, type: 3}
+  m_Name: MissionModel
   m_EditorClassIdentifier: 
-  _nameOfMission: First Mission
-  cargoCount: 0
+  CargoCount: 0
+  _accuracies: 

@@ -21,13 +21,13 @@ namespace Common.Scripts.Rocket
 
         private void OnEnable()
         {
-            MissionManager.SetCargo += SetCargo;
+            DropStatusController.SetCargo += SetCargo;
             CargoDropController.CargoDropping += DropCargo;
         }
 
         private void OnDisable()
         {
-            MissionManager.SetCargo -= SetCargo;
+            DropStatusController.SetCargo -= SetCargo;
             CargoDropController.CargoDropping -= DropCargo;
         }
         
@@ -41,7 +41,7 @@ namespace Common.Scripts.Rocket
             if (_currentCargo != null)
             {
                 var cargo = Instantiate(_currentCargo, transform.position, Quaternion.identity);
-                cargo.GetComponent<CargoMovement>().InitCargo(_onTouchRocketMove);
+                cargo.GetComponent<CargoMovement>().InitCargo(GetComponent<RocketMovementController>());
                 cargo.GetComponent<CargoScaler>().InitScale(transform.localScale);
             }
         }

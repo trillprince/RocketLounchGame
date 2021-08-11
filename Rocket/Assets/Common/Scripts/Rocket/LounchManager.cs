@@ -6,7 +6,7 @@ namespace Common.Scripts.Rocket
     public class LounchManager : MonoBehaviour
     {
         public delegate void Station(bool engineEnabled);
-        public static event Station MiddleEngineEnable;
+        public static event Station OnRocketLounch;
         public static event Station MiddleEngineDisable;
 
         public static event Station Lounching;
@@ -28,7 +28,7 @@ namespace Common.Scripts.Rocket
         IEnumerator WaitTillLounch(bool isEnabled)
         {
             yield return new WaitForSeconds(_timeTillLounch);
-            MiddleEngineEnable?.Invoke(isEnabled);
+            OnRocketLounch?.Invoke(isEnabled);
         }
     }
 }

@@ -14550,12 +14550,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7980381319092247590}
-  - component: {fileID: 7495480475088940341}
   - component: {fileID: 7748814197363045637}
   - component: {fileID: -1203488835213373570}
   - component: {fileID: -8477370640602789437}
   - component: {fileID: 9054881059123598499}
   - component: {fileID: 3739997604464884810}
+  - component: {fileID: 3221616307045910671}
   m_Layer: 0
   m_Name: SpaceShuttel
   m_TagString: Untagged
@@ -14578,20 +14578,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!114 &7495480475088940341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7317173104841082524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 917857922df568e46bf0002cccc9165e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rocketSpeed: 0
-  _middleEngineEnabled: 0
 --- !u!114 &7748814197363045637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14644,9 +14630,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rb: {fileID: 0}
-  _maxFuel: 100
+  _maxFuel: 1000
   _curFuel: 0
-  _thrustForce: 0.2
+  _thrustForce: 1
 --- !u!54 &3739997604464884810
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14655,14 +14641,26 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7317173104841082524}
   serializedVersion: 2
-  m_Mass: 50
+  m_Mass: 20
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &3221616307045910671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7317173104841082524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e10caf8fd35583a419f60a214d448dea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7440320675955919920
 GameObject:
   m_ObjectHideFlags: 0

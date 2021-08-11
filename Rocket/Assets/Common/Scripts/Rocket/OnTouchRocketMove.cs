@@ -88,7 +88,7 @@ namespace Common.Scripts.Rocket
 
         private void OnEnable()
         {
-            LounchManager.MiddleEngineEnable += MiddleEngine;
+            LounchManager.OnRocketLounch += MiddleEngine;
             LounchManager.MiddleEngineDisable += MiddleEngine;
             InputManager.OnTouchStartEvent += OnTouchStartEvent;
             InputManager.OnTouchEndEvent += OnTouchEndEvent;
@@ -97,7 +97,7 @@ namespace Common.Scripts.Rocket
 
         private void OnDisable()
         {
-            LounchManager.MiddleEngineEnable -= MiddleEngine;
+            LounchManager.OnRocketLounch -= MiddleEngine;
             LounchManager.MiddleEngineDisable -= MiddleEngine;
             InputManager.OnTouchStartEvent -= OnTouchStartEvent;
             InputManager.OnTouchEndEvent -= OnTouchEndEvent;
@@ -110,7 +110,7 @@ namespace Common.Scripts.Rocket
             {
                 return;
             }
-            MiddleEngineSpeed();
+            
             if (_controlActive)
             {
                 Rotate();
@@ -176,11 +176,6 @@ namespace Common.Scripts.Rocket
         private void Rotate()
         {
             transform.rotation *= Quaternion.Euler(0, 0, _rotateSpeed * Time.deltaTime);
-        }
-
-        public Vector3 GetRocketDirection()
-        {
-            return transform.up;
         }
         
     }

@@ -27,7 +27,7 @@ namespace Common.Scripts.Camera
             {
                 ChangeShakeStage(ShakeStage.Lounch);
             };
-            LounchManager.MiddleEngineEnable += engineEnabled =>
+            LounchManager.OnRocketLounch += engineEnabled =>
             {
                 ChangeShakeStage(ShakeStage.Flight);
             };

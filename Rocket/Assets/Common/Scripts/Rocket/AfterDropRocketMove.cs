@@ -39,7 +39,7 @@ namespace Common.Scripts.Rocket
             };
             CargoDropSlider.OnGetDropAccuracy += ChangeRotSpeedOnAccuracy;
 
-            LounchManager.MiddleEngineEnable += engineEnabled =>
+            LounchManager.OnRocketLounch += engineEnabled =>
             {
                 _rocketLouched = engineEnabled;
             };

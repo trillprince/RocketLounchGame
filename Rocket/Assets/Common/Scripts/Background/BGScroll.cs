@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Common.Scripts;
 using Common.Scripts.Rocket;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
@@ -14,24 +9,24 @@ public class BGScroll : MonoBehaviour
     private Vector2 _offset;
     [Range(-2, 2)] public float _xVelocity = 0;
     [Range(-2, 2)] public float _yVelocity;
-    [FormerlySerializedAs("onTouchRocketMovement")] [FormerlySerializedAs("_rocketMovement")] [SerializeField] private OnTouchRocketMove onTouchRocketMove;
+    private RocketMovementController _rocketMovement;
     private bool _rocketLounched;
     [FormerlySerializedAs("_smoothness")] [SerializeField] private float _moveSmoothness = 100;
 
     [Inject]
-    private void Construct(OnTouchRocketMove onTouchRocketMove)
+    private void Construct(RocketMovementController rocketMovement)
     {
-        this.onTouchRocketMove = onTouchRocketMove;
+        _rocketMovement = rocketMovement;
     }
     
     private void OnEnable()
     {
-        LounchManager.MiddleEngineEnable += LounchRocket;
+        LounchManager.OnRocketLounch += LounchRocket;
     }
 
     private void OnDisable()
     {
-        LounchManager.MiddleEngineEnable -= LounchRocket;
+        LounchManager.OnRocketLounch -= LounchRocket;
     }
 
     private void LounchRocket(bool isLounched)
@@ -58,13 +53,14 @@ public class BGScroll : MonoBehaviour
 
     private void ReinitializeOffset()
     {
-        _offset = new Vector2(_xVelocity, _yVelocity).normalized * onTouchRocketMove.RocketSpeed/_moveSmoothness;
+        _offset = new Vector2(_xVelocity, _yVelocity).normalized * _rocketMovement.RocketSpeed/_moveSmoothness;
     }
 
     public void ScrollFromRocketDir()
     {
-        _xVelocity = onTouchRocketMove.GetRocketDirection().x;
-        _yVelocity = onTouchRocketMove.GetRocketDirection().y;
+        _xVelocity = _rocketMovement.GetRocketDirection().x;
+        _yVelocity = _rocketMovement.GetRocketDirection().y;
         Invoke("ReinitializeOffset",1f);;
     }
+    
 }

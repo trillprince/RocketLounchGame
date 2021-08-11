@@ -8,13 +8,16 @@ using Zenject;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class MissionManager : MonoBehaviour
+    public class DropStatusController : MonoBehaviour
     {
         private const float _delayDecreaseStep = 0.3f;
         private int _currentCargoIndex = 0;
-        private int _cargoCount = 1;
+        private int _cargoCount;
+        private MissionModelViewer _missionModelViewer;
         private DropStatus _currentDropStatus = DropStatus.Waiting;
         private float _delayBeforeDrop = 4 + _delayDecreaseStep;
+
+
 
         private DropStatus CurrentDropStatus
         {
@@ -41,15 +44,25 @@ namespace Common.Scripts.MissionSystem
         private void OnEnable()
         {
             CargoDropController.OnCargoDrop += UpdateCargoStatus;
-            LounchManager.MiddleEngineEnable += engineEnabled =>
-            {
-                StartCoroutine(DropStart());
-            };
+            CargoDropController.OnGetAccuracy += SetModelAccuracy;
+            GameController.OnChangeGameState += GameStateListener;
         }
 
         private void OnDisable()
         {
             CargoDropController.CargoDropping -= UpdateCargoStatus;
+            CargoDropController.OnGetAccuracy -= SetModelAccuracy;
+            GameController.OnChangeGameState -= GameStateListener;
+        }
+
+        private void Awake()
+        {
+            _missionModelViewer = GetComponentInParent<MissionModelViewer>();
+        }
+
+        private void Start()
+        {
+            CargoCount = _missionModelViewer.GetCargoCount();
         }
 
         void UpdateCargoStatus()
@@ -76,14 +89,27 @@ namespace Common.Scripts.MissionSystem
 
         private IEnumerator DropStart()
         {
-            /*SetCargo?.Invoke(currentMissionInfo.CargoList[_currentCargoIndex]);*/
+            SetCargo?.Invoke(_missionModelViewer.);
             _delayBeforeDrop -= _delayDecreaseStep;
             yield return new WaitForSeconds(_delayBeforeDrop);
             DropEventInvoker(DropStatus.Start);
         }
 
+        private void SetModelAccuracy(DropAccuracy dropAccuracy)
+        {
+            _missionModelViewer.AddAccuracy(dropAccuracy);
+        }
+
+        private void GameStateListener(GameState gameState)
+        {
+            if (gameState == GameState.CargoDrop)
+            {
+                StartCoroutine(DropStart());
+            }
+        }
+
     }
-    
+
     public enum DropStatus
     {
         Waiting,

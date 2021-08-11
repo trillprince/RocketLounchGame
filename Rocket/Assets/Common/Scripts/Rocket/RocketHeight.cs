@@ -16,13 +16,13 @@ public class RocketHeight : MonoBehaviour
 
     private void OnEnable()
     {
-        LounchManager.MiddleEngineEnable += LounchRocket;
+        LounchManager.OnRocketLounch += LounchRocket;
         HeightText.Height += GetHeight;
     }
 
     private void OnDisable()
     {
-        LounchManager.MiddleEngineEnable -= LounchRocket;
+        LounchManager.OnRocketLounch -= LounchRocket;
         HeightText.Height -= GetHeight;
     }
 

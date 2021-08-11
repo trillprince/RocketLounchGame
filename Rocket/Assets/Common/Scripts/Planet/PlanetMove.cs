@@ -11,26 +11,26 @@ namespace Common.Scripts.Planet
     {
         private bool _isMoving;
         private Vector3 _startPos;
-        private OnTouchRocketMove _onTouchRocketMove;
+        private RocketMovementController _rocketMovement;
         private int _moveSmoothness = 10;
 
 
         [Inject]
-        void Contructor(OnTouchRocketMove onTouchRocketMove)
+        void Contructor(RocketMovementController onTouchRocketMove)
         {
-            _onTouchRocketMove = onTouchRocketMove;
+            _rocketMovement = onTouchRocketMove;
         }
 
         private void OnEnable()
         {
-            LounchManager.MiddleEngineEnable += MovePlanet;
-            MissionManager.Landing += SetPlanetToStartPos;
+            LounchManager.OnRocketLounch += MovePlanet;
+            DropStatusController.Landing += MoveToDefaultPos;
         }
 
         private void OnDisable()
         {
-            LounchManager.MiddleEngineEnable -= MovePlanet;
-            MissionManager.Landing -= SetPlanetToStartPos;
+            LounchManager.OnRocketLounch -= MovePlanet;
+            DropStatusController.Landing -= MoveToDefaultPos;
         }
 
         private void Start()
@@ -45,7 +45,7 @@ namespace Common.Scripts.Planet
 
         void PlanetMovement()
         {
-            transform.Translate(-_onTouchRocketMove.GetRocketDirection() * _onTouchRocketMove.RocketSpeed/_moveSmoothness * Time.deltaTime);
+            transform.Translate(-_rocketMovement.GetRocketDirection() * _rocketMovement.RocketSpeed/_moveSmoothness * Time.deltaTime);
         }
 
         private void FixedUpdate()
@@ -56,10 +56,9 @@ namespace Common.Scripts.Planet
             }
         }
 
-        private void SetPlanetToStartPos()
+        public void MoveToDefaultPos()
         {
             transform.position = _startPos;
-            
         }
 
     }
