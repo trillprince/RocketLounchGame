@@ -14,6 +14,7 @@ public class RocketLandingController : MonoBehaviour
     [SerializeField] private float _thrustForce;
     private bool _isHeld;
     private float _fuelReduceSpeed = 1000;
+    private Vector2 _touchPos;
 
     private void Awake()
     {
@@ -23,11 +24,18 @@ public class RocketLandingController : MonoBehaviour
 
     private void OnEnable()
     {
-        InputManager.OnTouchHoldEvent += (vector2, b) => TouchHeld(b);
+        InputManager.OnTouchHoldEvent += TouchHeld;
+        RocketControl.Landing += RocketControlOnLanding;
     }
+
+    private void RocketControlOnLanding()
+    {
+        _rb.isKinematic = false;
+    }
+
     private void OnDisable()
     {
-        InputManager.OnTouchHoldEvent -= (vector2, b) => TouchHeld(b);
+        InputManager.OnTouchHoldEvent -= TouchHeld;
     }
 
     private void Update()
@@ -36,20 +44,26 @@ public class RocketLandingController : MonoBehaviour
         {
             Flying();
         }
-
     }
 
     void Flying()
     {
-        if (_curFuel > 0)
+        int touchPart = 0;
+        if (_touchPos.x < Screen.width / 2)
         {
-            _curFuel -= Time.deltaTime;
-            _rb.AddForce(_rb.transform.up * _thrustForce, ForceMode.Impulse);
+            touchPart = 1;
         }
+        else if (_touchPos.x > Screen.width / 2)
+        {
+            touchPart = -1;
+        }
+        Vector3 moveTo = new Vector3(touchPart, transform.up.y);
+        _rb.AddForce(moveTo * _thrustForce, ForceMode.Impulse);
     }
-    
-    void TouchHeld(bool isHeld)
+
+    void TouchHeld(Vector2 touchPos, bool isHeld)
     {
         _isHeld = isHeld;
+        _touchPos = touchPos;
     }
 }

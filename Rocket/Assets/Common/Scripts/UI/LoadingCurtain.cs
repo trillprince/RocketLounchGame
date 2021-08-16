@@ -14,33 +14,33 @@ namespace Common.Scripts.UI
             DontDestroyOnLoad(this);
         }
 
-        public void Show(Action action = null)
+        public void Show(Action OnFadeAction = null)
         {
-            StartCoroutine(FadeOut(action));
+            StartCoroutine(FadeOut(OnFadeAction));
         }
 
-        public void Hide(Action action = null)
+        public void Hide(Action OnFadeAction = null)
         {
-            StartCoroutine(FadeIn(action));
+            StartCoroutine(FadeIn(OnFadeAction));
         }
 
-        private IEnumerator FadeIn(Action action = null)
+        private IEnumerator FadeIn(Action OnFadeAction = null)
         {
             while(Curtain.alpha > 0)
             {
                 Curtain.alpha -= 0.03f;
                 yield return new WaitForSeconds(0.03f);
             }
-            action?.Invoke();
+            OnFadeAction?.Invoke();
         }
-        private IEnumerator FadeOut(Action action = null)
+        private IEnumerator FadeOut(Action OnFadeAction = null)
         {
             while(Curtain.alpha < 1)
             {
                 Curtain.alpha += 0.03f;
                 yield return new WaitForSeconds(0.03f);
             }
-            action?.Invoke();
+            OnFadeAction?.Invoke();
         }
 
     }

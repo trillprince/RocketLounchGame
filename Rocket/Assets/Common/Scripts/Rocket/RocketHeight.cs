@@ -26,9 +26,9 @@ public class RocketHeight : MonoBehaviour
         HeightText.Height -= GetHeight;
     }
 
-    private void IsMoving(bool isLounched)
+    private void IsMoving(bool isMoving)
     {
-        _rocketLounched = isLounched;
+        _rocketLounched = isMoving;
     }
 
     public float Height
