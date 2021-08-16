@@ -19,7 +19,7 @@ namespace Common.Scripts.UI
         private bool _filled = false;
         private const float _fillSpeed = 1.5f;
         private DropAccuracy _currentDropAccuracy;
-        private float _timeTillDisable = 2f;
+        private float _timeTillDisable = 1f;
         [SerializeField] private Image _perfectDropImage;
         [SerializeField] private Image _normalDropImage;
         private RectTransform _perfectDropRect;

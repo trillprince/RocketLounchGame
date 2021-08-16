@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace Common.Scripts.Rocket
 {
-    public class AfterDropRocketMove : MonoBehaviour
+    public class RocketAutoMovement : MonoBehaviour
     {
         private float _scaleSmoothness = 10f;
         private float _rotateSmoothness = 20f;
@@ -22,10 +22,16 @@ namespace Common.Scripts.Rocket
         private Vector3 _currentTargetRot  = new Vector3(0,-90,0);
         private Vector3 _currentTargetScale = new Vector3(1, 1,1);
         private float _timeTillLounch = 10f;
-        private bool _rocketLouched;
+        private bool _rocketMove;
+        private Quaternion _landingRot;
+        private Vector3 _landingPos;
+        private Vector3 _landingScale;
 
         private void Awake()
         {
+            _landingRot = transform.rotation;
+            _landingPos = transform.position;
+            _landingScale = transform.localScale;
             _minScale = transform.localScale.x - _scaleDownValue;
             _maxScale = transform.localScale.x + _scaleUpValue;
         }
@@ -38,22 +44,21 @@ namespace Common.Scripts.Rocket
                 ResetTargetScale();
             };
             CargoDropSlider.OnGetDropAccuracy += ChangeRotSpeedOnAccuracy;
-
-            LounchManager.OnRocketLounch += engineEnabled =>
-            {
-                _rocketLouched = engineEnabled;
-            };
+            RocketControl.RocketMoving += IsMoving;
+            RocketControl.Landing += SetLandingTransform;
         }
 
         private void OnDisable()
         {
             CargoDropSlider.OnGetDropAccuracy -= ChangeRotSpeedOnAccuracy;
+            RocketControl.RocketMoving -= IsMoving;
+            RocketControl.Landing -= SetLandingTransform;
         }
 
 
         private void FixedUpdate()
         {
-            if (_rocketLouched)
+            if (_rocketMove)
             {
                 ScaleDown();
                 Rotation();
@@ -82,6 +87,7 @@ namespace Common.Scripts.Rocket
             var scale = Random.Range(_minScale, _maxScale);
             _currentTargetScale = new Vector3(scale, scale, scale);
         }
+        
 
         void ChangeRotSpeedOnAccuracy(DropAccuracy accuracy)
         {
@@ -97,6 +103,22 @@ namespace Common.Scripts.Rocket
             {
                 _rotateSmoothness -= 1;
             }
+        }
+
+        void IsMoving(bool isMoving)
+        {
+            _rocketMove = isMoving;
+        }
+
+        void SetLandingTransform()
+        {
+            var tmp = _landingPos;
+            tmp.y += 10;
+            tmp.x = _landingPos.x + Random.Range(-15f, 15f);
+            _landingPos = tmp;
+            transform.position = _landingPos;
+            transform.localScale = _landingScale;
+            transform.rotation = _landingRot;
         }
     }
 }

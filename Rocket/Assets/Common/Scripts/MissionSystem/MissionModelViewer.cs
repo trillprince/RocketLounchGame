@@ -44,7 +44,11 @@ namespace Common.Scripts.MissionSystem
 
         public GameObject GetCargo()
         {
-            return _missionModel.Cargos.Peek();
+            if (_cargoCount > 0)
+            {
+                return _missionModel.Cargos.Dequeue();
+            }
+            return default;
         }
     }
 }

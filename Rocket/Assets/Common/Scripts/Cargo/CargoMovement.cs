@@ -6,7 +6,7 @@ namespace Common.Scripts.Cargo
 {
     public class CargoMovement : MonoBehaviour
     {
-        private RocketMovementController _onTouchRocketMove;
+        private RocketControl _onTouchRocketMove;
         private int _smoothness = 7;
         private float _rotateSpeed = 50f;
         private int _zRot;
@@ -17,7 +17,7 @@ namespace Common.Scripts.Cargo
         }
 
 
-        public void InitCargo(RocketMovementController rocketMovement)
+        public void InitCargo(RocketControl rocketMovement)
         {
             _onTouchRocketMove = rocketMovement;
         }

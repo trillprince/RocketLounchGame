@@ -11,12 +11,12 @@ namespace Common.Scripts.Planet
     {
         private bool _isMoving;
         private Vector3 _startPos;
-        private RocketMovementController _rocketMovement;
+        private RocketControl _rocketMovement;
         private int _moveSmoothness = 10;
 
 
         [Inject]
-        void Contructor(RocketMovementController onTouchRocketMove)
+        void Contructor(RocketControl onTouchRocketMove)
         {
             _rocketMovement = onTouchRocketMove;
         }
@@ -24,13 +24,20 @@ namespace Common.Scripts.Planet
         private void OnEnable()
         {
             LounchManager.OnRocketLounch += MovePlanet;
-            DropStatusController.OnOutOfCargo += MoveToDefaultPos;
+            LandingController.Landing += OnChangeGameState;
+            
         }
 
         private void OnDisable()
         {
             LounchManager.OnRocketLounch -= MovePlanet;
-            DropStatusController.OnOutOfCargo -= MoveToDefaultPos;
+            LandingController.Landing -= OnChangeGameState;
+        }
+
+        private void OnChangeGameState()
+        {
+            MoveToDefaultPos();
+            MovePlanet(false);
         }
 
         private void Start()
@@ -55,8 +62,7 @@ namespace Common.Scripts.Planet
                 PlanetMovement();
             }
         }
-
-        public void MoveToDefaultPos()
+        void MoveToDefaultPos()
         {
             transform.position = _startPos;
         }

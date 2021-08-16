@@ -34,7 +34,7 @@ namespace Common.Scripts.Rocket
             if (_currentCargo != null)
             {
                 var cargo = Instantiate(_currentCargo, transform.position, Quaternion.identity);
-                cargo.GetComponent<CargoMovement>().InitCargo(GetComponent<RocketMovementController>());
+                cargo.GetComponent<CargoMovement>().InitCargo(GetComponent<RocketControl>());
                 cargo.GetComponent<CargoScaler>().InitScale(transform.localScale);
             }
         }

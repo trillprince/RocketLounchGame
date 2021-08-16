@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: MissionModel
   m_EditorClassIdentifier: 
   _minCargoCount: 2
-  _maxCargoCount: 5
+  _maxCargoCount: 3
   _accuracies: 

@@ -17,6 +17,15 @@ namespace Common.Scripts.MissionSystem
         private DropStatus _currentDropStatus = DropStatus.Waiting;
         private float _delayBeforeDrop = 4 + _delayDecreaseStep;
 
+        public delegate void Mission (DropStatus dropStatus);
+
+        public static event Mission TimeToDrop;
+        
+        public delegate void Cargo(GameObject cargo);
+
+        public static event Cargo SetCargo;
+
+        public static event Action OnOutOfCargo;
 
 
         private DropStatus CurrentDropStatus
@@ -31,28 +40,18 @@ namespace Common.Scripts.MissionSystem
             set => _cargoCount = value;
         }
 
-        public delegate void Mission (DropStatus dropStatus);
-
-        public static event Mission TimeToDrop;
-        
-        public delegate void Cargo(GameObject cargo);
-
-        public static event Cargo SetCargo;
-
-        public static event Action OnOutOfCargo; 
-
         private void OnEnable()
         {
             CargoDropController.OnCargoDrop += UpdateCargoStatus;
             CargoDropController.OnGetAccuracy += SetModelAccuracy;
-            GameController.OnChangeGameState += GameStateListener;
+            GameController.OnStateSwitch += GameStateListener;
         }
 
         private void OnDisable()
         {
             CargoDropController.CargoDropping -= UpdateCargoStatus;
             CargoDropController.OnGetAccuracy -= SetModelAccuracy;
-            GameController.OnChangeGameState -= GameStateListener;
+            GameController.OnStateSwitch -= GameStateListener;
         }
 
         private void Awake()
@@ -89,7 +88,6 @@ namespace Common.Scripts.MissionSystem
 
         private IEnumerator DropStart()
         {
-            
             SetCargo?.Invoke(_missionModelViewer.GetCargo());
             _delayBeforeDrop -= _delayDecreaseStep;
             yield return new WaitForSeconds(_delayBeforeDrop);

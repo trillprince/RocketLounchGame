@@ -10,23 +10,23 @@ public class RocketHeight : MonoBehaviour
 {
     [SerializeField] private float _height = 0;
     [SerializeField] private BGScroll _bg;
-    [SerializeField] private RocketMovementController rocketMovement;
+    [SerializeField] private RocketControl rocketMovement;
     private Vector2 _heightDir;
     private bool _rocketLounched;
 
     private void OnEnable()
     {
-        LounchManager.OnRocketLounch += LounchRocket;
+        RocketControl.RocketMoving += IsMoving;
         HeightText.Height += GetHeight;
     }
 
     private void OnDisable()
     {
-        LounchManager.OnRocketLounch -= LounchRocket;
+        RocketControl.RocketMoving -= IsMoving;
         HeightText.Height -= GetHeight;
     }
 
-    private void LounchRocket(bool isLounched)
+    private void IsMoving(bool isLounched)
     {
         _rocketLounched = isLounched;
     }
@@ -40,7 +40,7 @@ public class RocketHeight : MonoBehaviour
     private void Awake()
     {
         _bg = FindObjectOfType<BGScroll>();
-        rocketMovement = GetComponent<RocketMovementController>();
+        rocketMovement = GetComponent<RocketControl>();
     }
     
 

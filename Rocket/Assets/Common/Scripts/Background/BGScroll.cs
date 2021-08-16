@@ -9,29 +9,36 @@ public class BGScroll : MonoBehaviour
     private Vector2 _offset;
     [Range(-2, 2)] public float _xVelocity = 0;
     [Range(-2, 2)] public float _yVelocity;
-    private RocketMovementController _rocketMovement;
-    private bool _rocketLounched;
+    private RocketControl _rocketMovement;
+    private bool _bgMove;
     [FormerlySerializedAs("_smoothness")] [SerializeField] private float _moveSmoothness = 100;
 
     [Inject]
-    private void Construct(RocketMovementController rocketMovement)
+    private void Construct(RocketControl rocketMovement)
     {
         _rocketMovement = rocketMovement;
     }
-    
+
     private void OnEnable()
     {
-        LounchManager.OnRocketLounch += LounchRocket;
+        LounchManager.OnRocketLounch += BgMove;
+        LandingController.Landing += Landing;
     }
 
     private void OnDisable()
     {
-        LounchManager.OnRocketLounch -= LounchRocket;
+        LounchManager.OnRocketLounch -= BgMove;
+        LandingController.Landing -= Landing;
     }
 
-    private void LounchRocket(bool isLounched)
+    private void Landing()
     {
-        _rocketLounched = isLounched;
+        BgMove(false);
+    }
+
+    private void BgMove(bool isLounched)
+    {
+        _bgMove = isLounched;
     }
 
     private void Awake()
@@ -42,7 +49,7 @@ public class BGScroll : MonoBehaviour
 
     void Update()
     {
-        if (!_rocketLounched)
+        if (!_bgMove)
         {
             return;
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Common.Scripts.UI
@@ -13,25 +14,34 @@ namespace Common.Scripts.UI
             DontDestroyOnLoad(this);
         }
 
-        public void Show()
+        public void Show(Action action = null)
         {
-            gameObject.SetActive(true);
-            Curtain.alpha = 1;
+            StartCoroutine(FadeOut(action));
         }
 
-        public void Hide()
+        public void Hide(Action action = null)
         {
-            StartCoroutine(FadeIn());
+            StartCoroutine(FadeIn(action));
         }
 
-        private IEnumerator FadeIn()
+        private IEnumerator FadeIn(Action action = null)
         {
             while(Curtain.alpha > 0)
             {
                 Curtain.alpha -= 0.03f;
                 yield return new WaitForSeconds(0.03f);
             }
-            gameObject.SetActive(false);
+            action?.Invoke();
         }
+        private IEnumerator FadeOut(Action action = null)
+        {
+            while(Curtain.alpha < 1)
+            {
+                Curtain.alpha += 0.03f;
+                yield return new WaitForSeconds(0.03f);
+            }
+            action?.Invoke();
+        }
+
     }
 }

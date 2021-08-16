@@ -4,28 +4,40 @@ using System.Collections.Generic;
 using Common.Scripts.Rocket;
 using UnityEngine;
 
-public class RocketMovementController : MonoBehaviour
+public class RocketControl : MonoBehaviour
 {
     private float _rocketSpeed = 40f;
     private float _rocketMaxSpeed = 100f;
     private float _rocketSpeedAcceleration = 15f;
-    private bool _rocketLounched = false;
-
+    private bool _rocketMove = false;
     public float RocketSpeed => _rocketSpeed;
+
+    public static event Action <bool> RocketMoving;
+    public static event Action Landing;
 
     private void OnEnable()
     {
-        LounchManager.OnRocketLounch += SetLounchStatus;
+        LounchManager.OnRocketLounch += IsMoving;
+        GameController.OnStateSwitch += OnOnStateSwitch;
     }
 
     private void OnDisable()
     {
-        LounchManager.OnRocketLounch -= SetLounchStatus;
+        LounchManager.OnRocketLounch -= IsMoving;
+    }
+
+    private void OnOnStateSwitch(GameState state)
+    {
+        if (state == GameState.Landing)
+        {
+            IsMoving(false);
+            Landing?.Invoke();
+        }
     }
 
     void Update()
     {
-        if (_rocketLounched)
+        if (_rocketMove)
         {
             SpeedCalculate();
         }
@@ -48,9 +60,10 @@ public class RocketMovementController : MonoBehaviour
         return transform.up;
     }
 
-    void SetLounchStatus (bool isLounched)
+    void IsMoving (bool isMoving)
     {
-        _rocketLounched = isLounched;
+        _rocketMove = isMoving;
+        RocketMoving?.Invoke(isMoving);
     }
 
     public void ChangeMovementType()

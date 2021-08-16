@@ -6,20 +6,25 @@ using UnityEngine;
 
 public class LandingController : MonoBehaviour
 {
-    private PlanetMove _planetMove;
-    private RocketMovementController _rocketMovement;
+    private RocketControl _rocketMovement;
+
+    public static event Action Landing;
 
     private void OnEnable()
     {
-        GameController.OnChangeGameState += OnChangeGameState;
+        GameController.OnStateSwitch += OnChangeGameState;
+    }
+
+    private void OnDisable()
+    {
+        GameController.OnStateSwitch -= OnChangeGameState;
     }
 
     private void OnChangeGameState(GameState state)
     {
         if (state == GameState.Landing)
         {
-            _planetMove.MoveToDefaultPos();
-            _rocketMovement.ChangeMovementType();
+            Landing?.Invoke();
         }
     }
 }
