@@ -11,13 +11,6 @@ namespace Common.Scripts.Rocket
     {
 
         private GameObject _currentCargo;
-        private OnTouchRocketMove _onTouchRocketMove;
-
-        private void Awake()
-        {
-            _onTouchRocketMove = GetComponent<OnTouchRocketMove>();
-            Debug.Log(_onTouchRocketMove);
-        }
 
         private void OnEnable()
         {

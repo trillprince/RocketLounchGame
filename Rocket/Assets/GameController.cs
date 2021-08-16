@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    private MissionModelViewer _missionModelViewer;
     private GameState _currentGameState = GameState.CargoDrop;
 
     public static Action <GameState> OnChangeGameState;
@@ -18,20 +17,10 @@ public class GameController : MonoBehaviour
         {
             SetGameState(GameState.CargoDrop);
         };
-        DropStatusController.Landing += () =>
+        DropStatusController.OnOutOfCargo += () =>
         {
             SetGameState(GameState.Landing);
         };
-    }
-
-    void Awake()
-    {
-        _missionModelViewer = GetComponentInChildren<MissionModelViewer>();
-    }
-
-    void Start()
-    {
-        _missionModelViewer.InitMissionModel(3,5);
     }
 
     void SetGameState(GameState state)

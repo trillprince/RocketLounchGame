@@ -7,23 +7,22 @@ namespace Common.Scripts.MissionSystem
     [CreateAssetMenu(fileName = "MissionModel", menuName = "ScriptableObjects/Gameplay/MissionModel")]
     public class MissionModel: ScriptableObject
     {
-        [SerializeField] private int _cargoCount;
+        [SerializeField] private int _minCargoCount;
+        [SerializeField] private int _maxCargoCount;
         [SerializeField] private List<DropAccuracy> _accuracies;
-        [SerializeField] private List<GameObject> _cargos;
+        private Queue<GameObject> _cargos;
         
-        public int CargoCount
-        {
-            get => _cargoCount;
-            set => _cargoCount = value;
-        }
-
         public List<DropAccuracy> Accuracies
         {
             get => _accuracies;
             set => _accuracies = value;
         }
 
-        public List<GameObject> Cargos
+        public int MINCargoCount => _minCargoCount;
+
+        public int MAXCargoCount => _maxCargoCount;
+
+        public Queue<GameObject> Cargos
         {
             get => _cargos;
             set => _cargos = value;

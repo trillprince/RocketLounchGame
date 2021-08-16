@@ -13,7 +13,7 @@ namespace Common.Scripts.MissionSystem
         private const float _delayDecreaseStep = 0.3f;
         private int _currentCargoIndex = 0;
         private int _cargoCount;
-        private MissionModelViewer _missionModelViewer;
+        [SerializeField] private MissionModelViewer _missionModelViewer;
         private DropStatus _currentDropStatus = DropStatus.Waiting;
         private float _delayBeforeDrop = 4 + _delayDecreaseStep;
 
@@ -39,7 +39,7 @@ namespace Common.Scripts.MissionSystem
 
         public static event Cargo SetCargo;
 
-        public static event Action Landing; 
+        public static event Action OnOutOfCargo; 
 
         private void OnEnable()
         {
@@ -71,7 +71,7 @@ namespace Common.Scripts.MissionSystem
             DropEventInvoker(DropStatus.End);
             if (_currentCargoIndex >= _cargoCount)
             {
-                Landing?.Invoke();
+                OnOutOfCargo?.Invoke();
                 return;
             }
             StartCoroutine(DropStart());
@@ -89,7 +89,8 @@ namespace Common.Scripts.MissionSystem
 
         private IEnumerator DropStart()
         {
-            SetCargo?.Invoke(_missionModelViewer.);
+            
+            SetCargo?.Invoke(_missionModelViewer.GetCargo());
             _delayBeforeDrop -= _delayDecreaseStep;
             yield return new WaitForSeconds(_delayBeforeDrop);
             DropEventInvoker(DropStatus.Start);

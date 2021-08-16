@@ -24,13 +24,13 @@ namespace Common.Scripts.Planet
         private void OnEnable()
         {
             LounchManager.OnRocketLounch += MovePlanet;
-            DropStatusController.Landing += MoveToDefaultPos;
+            DropStatusController.OnOutOfCargo += MoveToDefaultPos;
         }
 
         private void OnDisable()
         {
             LounchManager.OnRocketLounch -= MovePlanet;
-            DropStatusController.Landing -= MoveToDefaultPos;
+            DropStatusController.OnOutOfCargo -= MoveToDefaultPos;
         }
 
         private void Start()
