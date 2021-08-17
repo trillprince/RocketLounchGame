@@ -27,7 +27,7 @@ public class GameController : MonoBehaviour
 
     void OnEnable()
     {
-        LounchManager.OnRocketLounch += engineEnabled =>
+        LaunchManager.OnRocketLounch += engineEnabled =>
         {
             SetGameState(GameState.CargoDrop);
         };

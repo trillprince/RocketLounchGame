@@ -21,13 +21,13 @@ public class BGScroll : MonoBehaviour
 
     private void OnEnable()
     {
-        LounchManager.OnRocketLounch += BgMove;
+        LaunchManager.OnRocketLounch += BgMove;
         LandingController.Landing += Landing;
     }
 
     private void OnDisable()
     {
-        LounchManager.OnRocketLounch -= BgMove;
+        LaunchManager.OnRocketLounch -= BgMove;
         LandingController.Landing -= Landing;
     }
 

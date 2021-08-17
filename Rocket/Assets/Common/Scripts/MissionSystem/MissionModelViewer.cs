@@ -39,7 +39,6 @@ namespace Common.Scripts.MissionSystem
             {
                 _missionModel.Cargos.Enqueue(_cargo);
             }
-            Debug.Log(_missionModel.Cargos.Count);
         }
 
         public GameObject GetCargo()

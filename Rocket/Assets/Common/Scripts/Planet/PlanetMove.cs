@@ -23,14 +23,14 @@ namespace Common.Scripts.Planet
 
         private void OnEnable()
         {
-            LounchManager.OnRocketLounch += MovePlanet;
+            LaunchManager.OnRocketLounch += MovePlanet;
             LandingController.Landing += OnChangeGameState;
             
         }
 
         private void OnDisable()
         {
-            LounchManager.OnRocketLounch -= MovePlanet;
+            LaunchManager.OnRocketLounch -= MovePlanet;
             LandingController.Landing -= OnChangeGameState;
         }
 

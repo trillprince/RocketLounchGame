@@ -17,13 +17,13 @@ public class RocketControl : MonoBehaviour
 
     private void OnEnable()
     {
-        LounchManager.OnRocketLounch += IsMoving;
+        LaunchManager.OnRocketLounch += IsMoving;
         GameController.OnStateSwitch += OnOnStateSwitch;
     }
 
     private void OnDisable()
     {
-        LounchManager.OnRocketLounch -= IsMoving;
+        LaunchManager.OnRocketLounch -= IsMoving;
     }
 
     private void OnOnStateSwitch(GameState state)

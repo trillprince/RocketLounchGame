@@ -23,11 +23,11 @@ namespace Common.Scripts.Camera
 
         private void OnEnable()
         {
-            LounchManager.Lounching += engineEnabled =>
+            LaunchManager.Lounching += engineEnabled =>
             {
                 ChangeShakeStage(ShakeStage.Lounch);
             };
-            LounchManager.OnRocketLounch += engineEnabled =>
+            LaunchManager.OnRocketLounch += engineEnabled =>
             {
                 ChangeShakeStage(ShakeStage.Flight);
             };

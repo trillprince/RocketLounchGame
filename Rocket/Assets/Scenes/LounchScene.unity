@@ -123,17 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &692806 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4828895136265787298, guid: 212178c412c4b2b468c04d58c6fe1101, type: 3}
-  m_PrefabInstance: {fileID: 4828895136265094628}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca9b105cb51b36e458359069a8152dfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &59577348
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,7 +671,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4828895136342006027, guid: 212178c412c4b2b468c04d58c6fe1101, type: 3}
   m_PrefabInstance: {fileID: 4828895136265094628}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &310387158
+--- !u!114 &310387159
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -691,7 +680,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 310387156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd4cf58f41b055a4090be9c5e46b8bea, type: 3}
+  m_Script: {fileID: 11500000, guid: ca9b105cb51b36e458359069a8152dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &325330660
@@ -2113,8 +2102,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 692806}
-        m_TargetAssemblyTypeName: Common.Scripts.Rocket.LounchManager, Assembly-CSharp
+      - m_Target: {fileID: 310387159}
+        m_TargetAssemblyTypeName: Common.Scripts.Rocket.LaunchManager, Assembly-CSharp
         m_MethodName: MiddleEngine
         m_Mode: 6
         m_Arguments:
@@ -2186,6 +2175,26 @@ PrefabInstance:
       propertyPath: m_Convex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4828895136265787308, guid: 212178c412c4b2b468c04d58c6fe1101, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4828895136342006027, guid: 212178c412c4b2b468c04d58c6fe1101, type: 3}
+      propertyPath: m_TagString
+      value: LounchPad
+      objectReference: {fileID: 0}
+    - target: {fileID: 4828895136342006037, guid: 212178c412c4b2b468c04d58c6fe1101, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4828895136520791574, guid: 212178c412c4b2b468c04d58c6fe1101, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4828895136793102991, guid: 212178c412c4b2b468c04d58c6fe1101, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4938504819368702028, guid: 212178c412c4b2b468c04d58c6fe1101, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -2234,5 +2243,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planet
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4828895136265787298, guid: 212178c412c4b2b468c04d58c6fe1101, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 212178c412c4b2b468c04d58c6fe1101, type: 3}

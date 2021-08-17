@@ -12,7 +12,7 @@ namespace Common.Scripts.Rocket
         private void OnEnable()
         {
             EnableParticles(false);
-            LounchManager.OnRocketLounch += engineEnabled =>
+            LaunchManager.OnRocketLounch += engineEnabled =>
             {
                 EnableParticles(engineEnabled);
             };

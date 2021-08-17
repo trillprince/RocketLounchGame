@@ -88,8 +88,8 @@ namespace Common.Scripts.Rocket
 
         private void OnEnable()
         {
-            LounchManager.OnRocketLounch += MiddleEngine;
-            LounchManager.MiddleEngineDisable += MiddleEngine;
+            LaunchManager.OnRocketLounch += MiddleEngine;
+            LaunchManager.MiddleEngineDisable += MiddleEngine;
             InputManager.OnTouchStartEvent += OnTouchStartEvent;
             InputManager.OnTouchEndEvent += OnTouchEndEvent;
         }
@@ -97,8 +97,8 @@ namespace Common.Scripts.Rocket
 
         private void OnDisable()
         {
-            LounchManager.OnRocketLounch -= MiddleEngine;
-            LounchManager.MiddleEngineDisable -= MiddleEngine;
+            LaunchManager.OnRocketLounch -= MiddleEngine;
+            LaunchManager.MiddleEngineDisable -= MiddleEngine;
             InputManager.OnTouchStartEvent -= OnTouchStartEvent;
             InputManager.OnTouchEndEvent -= OnTouchEndEvent;
         }

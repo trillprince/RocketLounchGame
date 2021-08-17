@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Common.Scripts.Rocket
 {
-    public class LounchManager : MonoBehaviour
+    public class LaunchManager : MonoBehaviour
     {
         public delegate void Station(bool engineEnabled);
         public static event Station OnRocketLounch;

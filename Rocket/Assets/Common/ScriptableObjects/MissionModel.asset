@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221e03c40f184d94b1ff71516527255a, type: 3}
   m_Name: MissionModel
   m_EditorClassIdentifier: 
-  _minCargoCount: 0
-  _maxCargoCount: 0
-  _accuracies: 
+  _minCargoCount: 1
+  _maxCargoCount: 1
+  _accuracies: 03000000

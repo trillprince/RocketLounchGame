@@ -15,7 +15,8 @@ namespace Common.Scripts.Input
 
         public static event InputEnd OnTouchEndEvent;
 
-        public static Action <Vector2,bool> OnTouchHoldEvent;
+        public static event Action <Vector2> OnTouchHold;
+        public static event Action  OnTouchHoldEnd;
         
 
         private void Awake()
@@ -24,13 +25,13 @@ namespace Common.Scripts.Input
             _touchControls.Touch.TouchHold.started += context => 
             {
                 OnTouchStartEvent?.Invoke(GetPositionOfTouch());
-                OnTouchHoldEvent?.Invoke(GetPositionOfTouch(),true);
+                OnTouchHold?.Invoke(GetPositionOfTouch());
             };
                 
             _touchControls.Touch.TouchHold.canceled += context =>
             { 
                 OnTouchEndEvent?.Invoke();
-                OnTouchHoldEvent?.Invoke(GetPositionOfTouch(),false);
+                OnTouchHoldEnd?.Invoke();
             };
         }
 
