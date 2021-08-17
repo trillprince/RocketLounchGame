@@ -15,13 +15,14 @@ public class RocketLandingController : MonoBehaviour
     private bool _isHeld;
     private float _fuelReduceSpeed = 1000;
     private Vector2 _touchPos;
+    private Vector2 _moveToVec;
 
     private void Awake()
     {
         _curFuel = _maxFuel;
         _rb = GetComponent<Rigidbody>();
     }
-
+    
     private void OnEnable()
     {
         InputManager.OnTouchHoldEvent += TouchHeld;
@@ -46,6 +47,12 @@ public class RocketLandingController : MonoBehaviour
         }
     }
 
+    void TouchHeld(Vector2 touchPos, bool isHeld)
+    {
+        _isHeld = isHeld;
+        _touchPos = touchPos;
+    }
+
     void Flying()
     {
         int touchPart = 0;
@@ -57,13 +64,7 @@ public class RocketLandingController : MonoBehaviour
         {
             touchPart = -1;
         }
-        Vector3 moveTo = new Vector3(touchPart, transform.up.y);
-        _rb.AddForce(moveTo * _thrustForce, ForceMode.Impulse);
-    }
-
-    void TouchHeld(Vector2 touchPos, bool isHeld)
-    {
-        _isHeld = isHeld;
-        _touchPos = touchPos;
+        _moveToVec = new Vector3(touchPart, transform.up.y);
+        _rb.AddForce(_moveToVec * _thrustForce, ForceMode.Impulse);
     }
 }
