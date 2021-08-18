@@ -44,15 +44,15 @@ namespace Common.Scripts.Rocket
                 ResetTargetScale();
             };
             CargoDropSlider.OnGetDropAccuracy += ChangeRotSpeedOnAccuracy;
-            RocketControl.RocketMoving += IsMoving;
-            RocketControl.Landing += SetLandingTransform;
+            MovementTypeSwitcher.RocketMoving += IsMoving;
+            MovementTypeSwitcher.Landing += SetLandingTransform;
         }
 
         private void OnDisable()
         {
             CargoDropSlider.OnGetDropAccuracy -= ChangeRotSpeedOnAccuracy;
-            RocketControl.RocketMoving -= IsMoving;
-            RocketControl.Landing -= SetLandingTransform;
+            MovementTypeSwitcher.RocketMoving -= IsMoving;
+            MovementTypeSwitcher.Landing -= SetLandingTransform;
         }
 
 

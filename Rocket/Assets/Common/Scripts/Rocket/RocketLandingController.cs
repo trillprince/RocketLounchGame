@@ -12,7 +12,7 @@ public class RocketLandingController : MonoBehaviour
     private bool _landingReady;
     private bool _landingDone;
     private readonly float _maxRayDistance = 0.3f;
-    
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -22,14 +22,14 @@ public class RocketLandingController : MonoBehaviour
     {
         InputManager.OnTouchHold += TouchHold;
         InputManager.OnTouchHoldEnd += StopTouchHold; 
-        RocketControl.Landing += RocketControlOnLanding;
+        MovementTypeSwitcher.Landing += RocketControlOnLanding;
     }
 
     private void OnDisable()
     {
         InputManager.OnTouchHold -= TouchHold;
         InputManager.OnTouchHoldEnd -= StopTouchHold;
-        RocketControl.Landing -= RocketControlOnLanding;
+        MovementTypeSwitcher.Landing -= RocketControlOnLanding;
     }
 
     private void RocketControlOnLanding()

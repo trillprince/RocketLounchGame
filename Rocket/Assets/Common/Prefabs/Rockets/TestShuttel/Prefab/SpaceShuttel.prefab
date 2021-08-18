@@ -4815,7 +4815,7 @@ GameObject:
   - component: {fileID: 6081747489650812921}
   - component: {fileID: 4723500671232853460}
   - component: {fileID: 537425265489665093}
-  - component: {fileID: 123545458768397817}
+  - component: {fileID: 8478542047256478419}
   m_Layer: 0
   m_Name: Cube.001
   m_TagString: Untagged
@@ -4886,7 +4886,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &123545458768397817
+--- !u!64 &8478542047256478419
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14593,7 +14593,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _height: 0
   _bg: {fileID: 0}
-  rocketMovement: {fileID: 0}
+  movementMovement: {fileID: 0}
 --- !u!114 &-1203488835213373570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14660,6 +14660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e10caf8fd35583a419f60a214d448dea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rocketSpeedStats: {fileID: 11400000, guid: 6460fc6ef47e14844bc917ad9448df99, type: 2}
 --- !u!114 &8126073704496158644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14672,7 +14673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b928b2e7246e7c4098c944d05eae306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _meshCollider: {fileID: 3009889516418196037}
+  _meshCollider: {fileID: 5470178685575190350}
 --- !u!1 &7440320675955919920
 GameObject:
   m_ObjectHideFlags: 0
@@ -14684,7 +14685,7 @@ GameObject:
   - component: {fileID: 6860715443143475930}
   - component: {fileID: 2795461894566573124}
   - component: {fileID: 6038610372328138907}
-  - component: {fileID: 3009889516418196037}
+  - component: {fileID: 5470178685575190350}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -14757,7 +14758,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3009889516418196037
+--- !u!64 &5470178685575190350
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

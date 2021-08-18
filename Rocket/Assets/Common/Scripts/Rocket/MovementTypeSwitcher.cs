@@ -4,16 +4,24 @@ using System.Collections.Generic;
 using Common.Scripts.Rocket;
 using UnityEngine;
 
-public class RocketControl : MonoBehaviour
+public class MovementTypeSwitcher : MonoBehaviour
 {
-    private float _rocketSpeed = 40f;
-    private float _rocketMaxSpeed = 100f;
-    private float _rocketSpeedAcceleration = 15f;
+    [SerializeField] private RocketSpeedStats _rocketSpeedStats;
     private bool _rocketMove = false;
-    public float RocketSpeed => _rocketSpeed;
+    private float _currentSpeed;
+
+    private MovementType _movementType = MovementType.AutoMovement;
 
     public static event Action <bool> RocketMoving;
+
     public static event Action Landing;
+
+    public float CurrentSpeed
+    {
+        get => _currentSpeed ;
+        set => _currentSpeed = value;
+    }
+
 
     private void OnEnable()
     {
@@ -35,23 +43,19 @@ public class RocketControl : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        CurrentSpeed = _rocketSpeedStats.RocketStartSpeed;
+    }
+
     void Update()
     {
         if (_rocketMove)
         {
-            SpeedCalculate();
-        }
-    }
-
-    void SpeedCalculate()
-    {
-        if (RocketSpeed < _rocketMaxSpeed)
-        {
-            _rocketSpeed = RocketSpeed + Time.deltaTime * _rocketSpeedAcceleration;
-        }
-        else if (RocketSpeed > _rocketMaxSpeed)
-        {
-            _rocketSpeed = _rocketMaxSpeed;
+            CurrentSpeed = SpeedCalculator.CalculateSpeed(
+                CurrentSpeed,
+                _rocketSpeedStats.RocketMaxSpeed,
+                _rocketSpeedStats.RocketSpeedAcceleration);
         }
     }
 
@@ -66,8 +70,14 @@ public class RocketControl : MonoBehaviour
         RocketMoving?.Invoke(isMoving);
     }
 
-    public void ChangeMovementType()
+    private void ChangeMovementType(MovementType movementType)
     {
-        
+        _movementType = movementType;
     }
+}
+
+public enum MovementType
+{
+    AutoMovement,
+    PhysicMovement
 }

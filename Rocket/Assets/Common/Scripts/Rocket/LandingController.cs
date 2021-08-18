@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class LandingController : MonoBehaviour
 {
-    private RocketControl _rocketMovement;
+    private MovementTypeSwitcher _movementMovement;
 
     public static event Action Landing;
 

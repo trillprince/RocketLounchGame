@@ -11,14 +11,14 @@ namespace Common.Scripts.Planet
     {
         private bool _isMoving;
         private Vector3 _startPos;
-        private RocketControl _rocketMovement;
+        private MovementTypeSwitcher _movementMovement;
         private int _moveSmoothness = 10;
 
 
         [Inject]
-        void Contructor(RocketControl onTouchRocketMove)
+        void Contructor(MovementTypeSwitcher onTouchMovementMove)
         {
-            _rocketMovement = onTouchRocketMove;
+            _movementMovement = onTouchMovementMove;
         }
 
         private void OnEnable()
@@ -52,7 +52,7 @@ namespace Common.Scripts.Planet
 
         void PlanetMovement()
         {
-            transform.Translate(-_rocketMovement.GetRocketDirection() * _rocketMovement.RocketSpeed/_moveSmoothness * Time.deltaTime);
+            transform.Translate(-_movementMovement.GetRocketDirection() * _movementMovement.CurrentSpeed/_moveSmoothness * Time.deltaTime);
         }
 
         private void FixedUpdate()
