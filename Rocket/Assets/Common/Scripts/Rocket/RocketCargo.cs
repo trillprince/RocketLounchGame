@@ -9,7 +9,6 @@ namespace Common.Scripts.Rocket
 {
     public class RocketCargo : MonoBehaviour
     {
-
         private GameObject _currentCargo;
 
         private void OnEnable()
@@ -34,7 +33,6 @@ namespace Common.Scripts.Rocket
             if (_currentCargo != null)
             {
                 var cargo = Instantiate(_currentCargo, transform.position, Quaternion.identity);
-                cargo.GetComponent<CargoMovement>().InitCargo(GetComponent<MovementTypeSwitcher>());
                 cargo.GetComponent<CargoScaler>().InitScale(transform.localScale);
             }
         }

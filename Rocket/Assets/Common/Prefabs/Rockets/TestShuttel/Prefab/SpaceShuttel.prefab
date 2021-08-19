@@ -14553,7 +14553,6 @@ GameObject:
   - component: {fileID: 7748814197363045637}
   - component: {fileID: -1203488835213373570}
   - component: {fileID: -8477370640602789437}
-  - component: {fileID: 9054881059123598499}
   - component: {fileID: 3739997604464884810}
   - component: {fileID: 3221616307045910671}
   - component: {fileID: 8126073704496158644}
@@ -14593,7 +14592,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _height: 0
   _bg: {fileID: 0}
-  movementMovement: {fileID: 0}
+  movementStateMovementState: {fileID: 0}
 --- !u!114 &-1203488835213373570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14618,20 +14617,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 748ab4e8b670fd244a459438885dd729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9054881059123598499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7317173104841082524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10a382eb04d2eef4c9c1a2f82fe82d31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rb: {fileID: 0}
-  _thrustForce: 8
 --- !u!54 &3739997604464884810
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14660,7 +14645,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e10caf8fd35583a419f60a214d448dea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rocketSpeedStats: {fileID: 11400000, guid: 6460fc6ef47e14844bc917ad9448df99, type: 2}
 --- !u!114 &8126073704496158644
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,7 +10,6 @@ using Zenject;
 
 public class GameController : MonoBehaviour
 {
-    private GameState _currentGameState = GameState.CargoDrop;
     private LoadingCurtain _loadingCurtain;
     private float _timeBeforeStateSwitch = 3f;
 
@@ -43,7 +42,6 @@ public class GameController : MonoBehaviour
 
     void SetGameState(GameState state)
     {
-        _currentGameState = state;
         OnStateSwitch?.Invoke(state);
         _loadingCurtain.Hide();
     }

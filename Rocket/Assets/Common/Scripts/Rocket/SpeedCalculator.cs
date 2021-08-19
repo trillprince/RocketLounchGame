@@ -3,7 +3,7 @@
 public static class SpeedCalculator
 {
     
-    public static float CalculateSpeed(float currentSpeed,float maxSpeed,float speedAcceleration)
+    public static void CalculateSpeed (ref float currentSpeed,float maxSpeed,float speedAcceleration)
     {
         if (currentSpeed < maxSpeed)
         {
@@ -13,6 +13,5 @@ public static class SpeedCalculator
         {
             currentSpeed = maxSpeed;
         }
-        return currentSpeed;
     }
 }

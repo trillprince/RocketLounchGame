@@ -10,26 +10,18 @@ public class RocketHeight : MonoBehaviour
 {
     [SerializeField] private float _height = 0;
     [SerializeField] private BGScroll _bg;
-    [FormerlySerializedAs("rocketMovement")] [SerializeField] private MovementTypeSwitcher movementMovement;
     private Vector2 _heightDir;
-    private bool _rocketLounched;
 
     private void OnEnable()
     {
-        MovementTypeSwitcher.RocketMoving += IsMoving;
         HeightText.Height += GetHeight;
     }
 
     private void OnDisable()
     {
-        MovementTypeSwitcher.RocketMoving -= IsMoving;
         HeightText.Height -= GetHeight;
     }
 
-    private void IsMoving(bool isMoving)
-    {
-        _rocketLounched = isMoving;
-    }
 
     public float Height
     {
@@ -40,22 +32,20 @@ public class RocketHeight : MonoBehaviour
     private void Awake()
     {
         _bg = FindObjectOfType<BGScroll>();
-        movementMovement = GetComponent<MovementTypeSwitcher>();
     }
     
 
     private void Update()
     {
-        if (!_rocketLounched)
+        if (MovementStateController.RocketAutoMove)
         {
-            return;
+            HeightValueUpdate();
         }
-        HeightValueUpdate();
     }
 
     private void HeightValueUpdate()
     {
-        Height += _bg._yVelocity * movementMovement.CurrentSpeed * Time.deltaTime;
+        Height += _bg._yVelocity * RocketSpeed.CurrentSpeed * Time.deltaTime;
     }
 
     float GetHeight()

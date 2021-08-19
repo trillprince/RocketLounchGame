@@ -6,7 +6,6 @@ namespace Common.Scripts.Cargo
 {
     public class CargoMovement : MonoBehaviour
     {
-        private MovementTypeSwitcher _onTouchMovementMove;
         private int _smoothness = 7;
         private float _rotateSpeed = 50f;
         private int _zRot;
@@ -15,16 +14,10 @@ namespace Common.Scripts.Cargo
         {
             SetRandomRot();
         }
-
-
-        public void InitCargo(MovementTypeSwitcher movementMovement)
-        {
-            _onTouchMovementMove = movementMovement;
-        }
         
         void CargoMove()
         {
-            transform.Translate(-_onTouchMovementMove.GetRocketDirection() * _onTouchMovementMove.CurrentSpeed/_smoothness * Time.deltaTime);
+            transform.Translate(-RocketSpeed.GetRocketDirection() * RocketSpeed.CurrentSpeed/_smoothness * Time.deltaTime);
         }
 
         void CargoRotate()

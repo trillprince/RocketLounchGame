@@ -22,7 +22,6 @@ namespace Common.Scripts.Rocket
         private Vector3 _currentTargetRot  = new Vector3(0,-90,0);
         private Vector3 _currentTargetScale = new Vector3(1, 1,1);
         private float _timeTillLounch = 10f;
-        private bool _rocketMove;
         private Quaternion _landingRot;
         private Vector3 _landingPos;
         private Vector3 _landingScale;
@@ -44,21 +43,19 @@ namespace Common.Scripts.Rocket
                 ResetTargetScale();
             };
             CargoDropSlider.OnGetDropAccuracy += ChangeRotSpeedOnAccuracy;
-            MovementTypeSwitcher.RocketMoving += IsMoving;
-            MovementTypeSwitcher.Landing += SetLandingTransform;
+            MovementStateController.OnMovementStateSwitch += SetLandingTransform;
         }
 
         private void OnDisable()
         {
             CargoDropSlider.OnGetDropAccuracy -= ChangeRotSpeedOnAccuracy;
-            MovementTypeSwitcher.RocketMoving -= IsMoving;
-            MovementTypeSwitcher.Landing -= SetLandingTransform;
+            MovementStateController.OnMovementStateSwitch -= SetLandingTransform;
         }
 
 
         private void FixedUpdate()
         {
-            if (_rocketMove)
+            if (MovementStateController.RocketAutoMove)
             {
                 ScaleDown();
                 Rotation();
@@ -105,20 +102,18 @@ namespace Common.Scripts.Rocket
             }
         }
 
-        void IsMoving(bool isMoving)
+        void SetLandingTransform(MovementState movementState)
         {
-            _rocketMove = isMoving;
-        }
-
-        void SetLandingTransform()
-        {
-            var tmp = _landingPos;
-            tmp.y += 10;
-            tmp.x = _landingPos.x + Random.Range(-15f, 15f);
-            _landingPos = tmp;
-            transform.position = _landingPos;
-            transform.localScale = _landingScale;
-            transform.rotation = _landingRot;
+            if (movementState == MovementState.PhysicMovement)
+            {
+                var tmp = _landingPos;
+                tmp.y += 10;
+                tmp.x = _landingPos.x + Random.Range(-15f, 15f);
+                _landingPos = tmp;
+                transform.position = _landingPos;
+                transform.localScale = _landingScale;
+                transform.rotation = _landingRot;
+            }
         }
     }
 }

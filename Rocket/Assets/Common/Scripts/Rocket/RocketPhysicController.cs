@@ -1,7 +1,7 @@
 using Common.Scripts.Input;
 using UnityEngine;
 
-public class RocketLandingController : MonoBehaviour
+public class RocketPhysicController : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private float _thrustForce;
@@ -22,20 +22,23 @@ public class RocketLandingController : MonoBehaviour
     {
         InputManager.OnTouchHold += TouchHold;
         InputManager.OnTouchHoldEnd += StopTouchHold; 
-        MovementTypeSwitcher.Landing += RocketControlOnLanding;
+        MovementStateController.OnMovementStateSwitch += OnMovementStateChange;
     }
 
     private void OnDisable()
     {
         InputManager.OnTouchHold -= TouchHold;
         InputManager.OnTouchHoldEnd -= StopTouchHold;
-        MovementTypeSwitcher.Landing -= RocketControlOnLanding;
+        MovementStateController.OnMovementStateSwitch -= OnMovementStateChange;
     }
 
-    private void RocketControlOnLanding()
+    private void OnMovementStateChange(MovementState movementType)
     {
-        _rb.isKinematic = false;
-        _landingReady = true;
+        if (movementType == MovementState.PhysicMovement)
+        {
+            _rb.isKinematic = false;
+            _landingReady = true;
+        }
     }
 
     private void FixedUpdate()

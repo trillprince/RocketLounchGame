@@ -9,14 +9,14 @@ public class BGScroll : MonoBehaviour
     private Vector2 _offset;
     [Range(-2, 2)] public float _xVelocity = 0;
     [Range(-2, 2)] public float _yVelocity;
-    private MovementTypeSwitcher _movementMovement;
+    private MovementStateController _movementStateMovementState;
     private bool _bgMove;
-    [FormerlySerializedAs("_smoothness")] [SerializeField] private float _moveSmoothness = 100;
+    [SerializeField] private float _moveSmoothness = 100;
 
     [Inject]
-    private void Construct(MovementTypeSwitcher movementMovement)
+    private void Construct(MovementStateController movementStateMovementState)
     {
-        _movementMovement = movementMovement;
+        _movementStateMovementState = movementStateMovementState;
     }
 
     private void OnEnable()
@@ -60,13 +60,13 @@ public class BGScroll : MonoBehaviour
 
     private void ReinitializeOffset()
     {
-        _offset = new Vector2(_xVelocity, _yVelocity).normalized * _movementMovement.CurrentSpeed/_moveSmoothness;
+        _offset = new Vector2(_xVelocity, _yVelocity).normalized * RocketSpeed.CurrentSpeed/_moveSmoothness;
     }
 
     public void ScrollFromRocketDir()
     {
-        _xVelocity = _movementMovement.GetRocketDirection().x;
-        _yVelocity = _movementMovement.GetRocketDirection().y;
+        _xVelocity = RocketSpeed.GetRocketDirection().x;
+        _yVelocity = RocketSpeed.GetRocketDirection().y;
         Invoke("ReinitializeOffset",1f);;
     }
     

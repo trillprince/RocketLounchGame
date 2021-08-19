@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class LandingController : MonoBehaviour
 {
-    private MovementTypeSwitcher _movementMovement;
+    private MovementStateController _movementStateMovementState;
 
     public static event Action Landing;
 
