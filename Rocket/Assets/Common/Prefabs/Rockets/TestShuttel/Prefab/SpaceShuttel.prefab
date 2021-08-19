@@ -14556,6 +14556,8 @@ GameObject:
   - component: {fileID: 3739997604464884810}
   - component: {fileID: 3221616307045910671}
   - component: {fileID: 8126073704496158644}
+  - component: {fileID: 3873374825825986699}
+  - component: {fileID: 1130575692192250461}
   m_Layer: 0
   m_Name: SpaceShuttel
   m_TagString: Untagged
@@ -14592,7 +14594,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _height: 0
   _bg: {fileID: 0}
-  movementStateMovementState: {fileID: 0}
 --- !u!114 &-1203488835213373570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14658,6 +14659,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _meshCollider: {fileID: 5470178685575190350}
+--- !u!114 &3873374825825986699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7317173104841082524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10a382eb04d2eef4c9c1a2f82fe82d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rb: {fileID: 0}
+  _thrustForce: 1
+--- !u!114 &1130575692192250461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7317173104841082524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05a821023c554b5abc799293504addc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rocketSpeedStats: {fileID: 11400000, guid: 6460fc6ef47e14844bc917ad9448df99, type: 2}
 --- !u!1 &7440320675955919920
 GameObject:
   m_ObjectHideFlags: 0
