@@ -26,6 +26,7 @@ namespace Common.Scripts.Rocket
         private Vector3 _landingPos;
         private Vector3 _landingScale;
         private Transform _transform;
+        private MovementState _nextMovementState;
 
         private void SetMinMaxScale(Transform transform)
         {
@@ -33,25 +34,16 @@ namespace Common.Scripts.Rocket
             _maxScale = transform.localScale.x + _scaleUpValue;
         }
 
-        private void SaveStartTransform(Transform startTranform)
-        {
-            _landingRot = startTranform.rotation;
-            _landingPos = startTranform.position;
-            _landingScale = startTranform.localScale;
-        }
-
-        public RocketAutoMovement(Transform transform, Transform startTranform)
+        public RocketAutoMovement(Transform transform)
         {
             _transform = transform;
             SetMinMaxScale(_transform);
-            SaveStartTransform(startTranform);
             CargoDropController.CargoDropping += () =>
             {
                 ResetTargetRot();
                 ResetTargetScale();
             };
             CargoDropSlider.OnGetDropAccuracy += ChangeRotSpeedOnAccuracy;
-            MovementStateController.OnMovementStateSwitch += SetLandingTransform;
         }
 
         private void ScaleDown()
@@ -78,7 +70,7 @@ namespace Common.Scripts.Rocket
             var scale = Random.Range(_minScale, _maxScale);
             _currentTargetScale = new Vector3(scale, scale, scale);
         }
-        
+
         void ChangeRotSpeedOnAccuracy(DropAccuracy accuracy)
         {
             if (accuracy == DropAccuracy.Perfect)
@@ -94,26 +86,10 @@ namespace Common.Scripts.Rocket
                 _rotateSmoothness -= 1;
             }
         }
-
-        void SetLandingTransform(MovementState movementState)
-        {
-            if (movementState == MovementState.PhysicMovement)
-            {
-                var tmp = _landingPos;
-                tmp.y += 10;
-                tmp.x = _landingPos.x + Random.Range(-15f, 15f);
-                _landingPos = tmp;
-                _transform.position = _landingPos;
-                _transform.localScale = _landingScale;
-                _transform.rotation = _landingRot;
-            }
-        }
-
         public void Move(Action<MovementState> changeState)
         {
             ScaleDown();
             Rotation();
         }
-
     }
 }
