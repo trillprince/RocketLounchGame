@@ -7,29 +7,31 @@ using UnityEngine;
 
 public  class MovementStateController : MonoBehaviour
 {
-    private static bool _rocketAutoMove;
-
     private IMoveComponent _movementComponent;
-    private MovementResult movementResult;
-
+    private MovementResult _movementResult;
+    private MovementState _movementState = MovementState.NoMovement;
+    private Transform _startTransform;
+    
     public static event Action <MovementState> OnMovementStateSwitch;
-    public static bool RocketAutoMove => _rocketAutoMove;
 
     private void OnEnable()
     {
         GameController.OnStateSwitch += OnOnStateSwitch;
-        LaunchManager.OnRocketLounch += OnLounch;
     }
 
     private void OnDisable()
     {
         GameController.OnStateSwitch -= OnOnStateSwitch;
-        LaunchManager.OnRocketLounch -= OnLounch;
     }
 
-    private void Update()
+    private void Start()
     {
-        _movementComponent?.Move(transform, ChangeMovementComponent);
+        _startTransform = transform;
+    }
+
+    private void FixedUpdate()
+    {
+        _movementComponent?.Move(ChangeMovementComponent);
     }
     
     private void ChangeMovementComponent(MovementState movementResult)
@@ -37,9 +39,10 @@ public  class MovementStateController : MonoBehaviour
         switch (movementResult)
         {
             case MovementState.AutoMovement:
+                _movementComponent = new RocketAutoMovement(transform,_startTransform);
                 break;
             case MovementState.PhysicMovement:
-                _movementComponent = new RocketLandingMove(GetComponent<Rigidbody>(), changeMovementResult);
+                _movementComponent = new RocketLandingMove(transform,GetComponent<Rigidbody>(), ChangeMovementResult);
                 break;
             case MovementState.NoMovement:
                 _movementComponent = null;
@@ -47,25 +50,25 @@ public  class MovementStateController : MonoBehaviour
         }
     }
 
-    private void changeMovementResult(MovementResult movementResult)
+    private void ChangeMovementResult(MovementResult movementResult)
     {
-        this.movementResult = movementResult;
+        this._movementResult = movementResult;
         //TODO: if success/fail -> end game
     }
 
 
     private void OnOnStateSwitch(GameState state)
     {
-        if (state == GameState.Landing)
+        if (state == GameState.CargoDrop)
+        {
+            OnMovementStateSwitch?.Invoke(MovementState.AutoMovement);
+            ChangeMovementComponent(MovementState.AutoMovement);
+        }
+        else if (state == GameState.Landing)
         {
             OnMovementStateSwitch?.Invoke(MovementState.PhysicMovement);
+            ChangeMovementComponent(MovementState.PhysicMovement);
         }
-    }
-    
-    void OnLounch (bool isMoving)
-    {
-        _rocketAutoMove = isMoving;
-        OnMovementStateSwitch?.Invoke(MovementState.AutoMovement);
     }
 
 }

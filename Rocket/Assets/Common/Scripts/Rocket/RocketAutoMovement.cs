@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace Common.Scripts.Rocket
 {
-    public class RocketAutoMovement : MonoBehaviour
+    public class RocketAutoMovement : IMoveComponent
     {
         private float _scaleSmoothness = 10f;
         private float _rotateSmoothness = 20f;
@@ -19,24 +19,32 @@ namespace Common.Scripts.Rocket
         private readonly float _maxXRot = 20;
         private readonly float _minYRot = -90;
         private readonly float _maxYRot = 90;
-        private Vector3 _currentTargetRot  = new Vector3(0,-90,0);
-        private Vector3 _currentTargetScale = new Vector3(1, 1,1);
+        private Vector3 _currentTargetRot = new Vector3(0, -90, 0);
+        private Vector3 _currentTargetScale = new Vector3(1, 1, 1);
         private float _timeTillLounch = 10f;
         private Quaternion _landingRot;
         private Vector3 _landingPos;
         private Vector3 _landingScale;
+        private Transform _transform;
 
-        private void Awake()
+        private void SetMinMaxScale(Transform transform)
         {
-            _landingRot = transform.rotation;
-            _landingPos = transform.position;
-            _landingScale = transform.localScale;
             _minScale = transform.localScale.x - _scaleDownValue;
             _maxScale = transform.localScale.x + _scaleUpValue;
         }
 
-        private void OnEnable()
+        private void SaveStartTransform(Transform startTranform)
         {
+            _landingRot = startTranform.rotation;
+            _landingPos = startTranform.position;
+            _landingScale = startTranform.localScale;
+        }
+
+        public RocketAutoMovement(Transform transform, Transform startTranform)
+        {
+            _transform = transform;
+            SetMinMaxScale(_transform);
+            SaveStartTransform(startTranform);
             CargoDropController.CargoDropping += () =>
             {
                 ResetTargetRot();
@@ -46,37 +54,23 @@ namespace Common.Scripts.Rocket
             MovementStateController.OnMovementStateSwitch += SetLandingTransform;
         }
 
-        private void OnDisable()
-        {
-            CargoDropSlider.OnGetDropAccuracy -= ChangeRotSpeedOnAccuracy;
-            MovementStateController.OnMovementStateSwitch -= SetLandingTransform;
-        }
-
-
-        private void FixedUpdate()
-        {
-            if (MovementStateController.RocketAutoMove)
-            {
-                ScaleDown();
-                Rotation();
-            }
-        }
-    
         private void ScaleDown()
         {
-            transform.localScale = Vector3.Lerp(transform.localScale, _currentTargetScale, Time.deltaTime/_scaleSmoothness);
+            _transform.localScale =
+                Vector3.Lerp(_transform.localScale, _currentTargetScale, Time.deltaTime / _scaleSmoothness);
         }
 
         private void Rotation()
         {
-            transform.rotation = Quaternion.Lerp(
-                transform.rotation,
-                Quaternion.Euler(_currentTargetRot.x,_currentTargetRot.y, transform.eulerAngles.z), 
-                Time.deltaTime/_rotateSmoothness);
+            _transform.rotation = Quaternion.Lerp(
+                _transform.rotation,
+                Quaternion.Euler(_currentTargetRot.x, _currentTargetRot.y, _transform.eulerAngles.z),
+                Time.deltaTime / _rotateSmoothness);
         }
+
         void ResetTargetRot()
         {
-            _currentTargetRot =  new Vector3 (Random.Range(_minXRot, _maxXRot),Random.Range(_minYRot, _maxYRot),0);
+            _currentTargetRot = new Vector3(Random.Range(_minXRot, _maxXRot), Random.Range(_minYRot, _maxYRot), 0);
         }
 
         void ResetTargetScale()
@@ -85,7 +79,6 @@ namespace Common.Scripts.Rocket
             _currentTargetScale = new Vector3(scale, scale, scale);
         }
         
-
         void ChangeRotSpeedOnAccuracy(DropAccuracy accuracy)
         {
             if (accuracy == DropAccuracy.Perfect)
@@ -110,10 +103,17 @@ namespace Common.Scripts.Rocket
                 tmp.y += 10;
                 tmp.x = _landingPos.x + Random.Range(-15f, 15f);
                 _landingPos = tmp;
-                transform.position = _landingPos;
-                transform.localScale = _landingScale;
-                transform.rotation = _landingRot;
+                _transform.position = _landingPos;
+                _transform.localScale = _landingScale;
+                _transform.rotation = _landingRot;
             }
         }
+
+        public void Move(Action<MovementState> changeState)
+        {
+            ScaleDown();
+            Rotation();
+        }
+
     }
 }

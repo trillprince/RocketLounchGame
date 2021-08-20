@@ -9,17 +9,17 @@ public class RocketLandingMove : IMoveComponent
     private int _destroySpeed = 7;
     private bool _landingDone;
     private readonly float _maxRayDistance = 0.3f;
-
     private bool touchHold;
     private Vector2 touchPos;
-
     private Action<MovementResult> changeMovementResult;
+    private Transform _transform;
 
-    public RocketLandingMove(Rigidbody rigidbody, Action<MovementResult> changeMovementResult)
+    public RocketLandingMove(Transform transform, Rigidbody rigidbody, Action<MovementResult> changeMovementResult)
     {
         _rb = rigidbody;
-        ActivatePhysic();
+        _transform = transform;
         this.changeMovementResult = changeMovementResult;
+        ActivatePhysic();
         InputManager.OnTouchHold += touchPos =>
         {
             this.touchPos = touchPos;
@@ -51,10 +51,10 @@ public class RocketLandingMove : IMoveComponent
         _rb.AddForce(moveToVec * _thrustForce, ForceMode.Impulse);
     }
 
-    void LandingCheck(Transform transform , Action <MovementState> changeState)
+    void LandingCheck(Action <MovementState> changeState)
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, -transform.up, out hit, _maxRayDistance))
+        if (Physics.Raycast(_transform.position, -_transform.up, out hit, _maxRayDistance))
         {
             bool onPad = hit.collider.CompareTag("LounchPad");
             bool crashing = _rb.velocity.magnitude >= _destroySpeed;
@@ -71,13 +71,13 @@ public class RocketLandingMove : IMoveComponent
         }
     }
 
-    public void Move(Transform transform, Action<MovementState> changeState)
+    public void Move(Action<MovementState> changeState)
     {
         if (touchHold)
         {
             Flying(touchPos);
         }
-        LandingCheck(transform, changeState);
+        LandingCheck(changeState);
     }
 }
 

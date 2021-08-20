@@ -42,13 +42,10 @@ namespace Common.Scripts.Rocket
 
         private void CalculateSpeed()
         {
-            if (MovementStateController.RocketAutoMove)
-            {
-                SpeedCalculator.CalculateSpeed(
-                    ref _currentSpeed,
-                    _rocketSpeedStats.RocketMaxSpeed,
-                    _rocketSpeedStats.RocketSpeedAcceleration);
-            }
+            SpeedCalculator.CalculateSpeed(
+                ref _currentSpeed,
+                _rocketSpeedStats.RocketMaxSpeed,
+                _rocketSpeedStats.RocketSpeedAcceleration);
         }
     }
 }

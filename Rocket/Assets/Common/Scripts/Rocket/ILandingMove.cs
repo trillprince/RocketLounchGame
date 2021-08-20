@@ -3,6 +3,6 @@ using UnityEngine;
 
 public interface IMoveComponent
 {
-    public void Move(Transform transform, Action<MovementState> changeState);
-}
+    public void Move(Action<MovementState> changeState = null);
+} 
     
