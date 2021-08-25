@@ -12,6 +12,9 @@ public class BoundariesCheck
     private Bounds _boundOfMesh;
     private MeshCollider _meshCollider;
 
+    public delegate void Boundaries();
+    public event Boundaries OnBoundariesCheck; 
+
     public BoundariesCheck(Rigidbody rigidbody, MeshCollider meshCollider, Camera camera)
     {
         _rb = rigidbody;
@@ -23,7 +26,7 @@ public class BoundariesCheck
                 Camera.main.transform.position.z - _rb.position.z));
     }
 
-    public bool OnScreenBoundaries()
+    public void OnScreenBoundaries(Boundaries action)
     {
         Vector3 viewPos = _rb.position;
         if (viewPos.x <= _screenBounds.x + _boundOfMesh.size.x ||
@@ -38,9 +41,9 @@ public class BoundariesCheck
                 _screenBounds.y + _boundOfMesh.size.y,
                 _screenBounds.y * -1 - _boundOfMesh.size.y);
             _rb.position = viewPos;
-            Debug.Log("aye");
-            return false;
+            action?.Invoke();
+            return;
         }
-        return true;
+        action.Invoke();
     }
 }

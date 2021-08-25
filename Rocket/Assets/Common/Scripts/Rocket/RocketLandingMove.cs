@@ -17,7 +17,7 @@ public class RocketLandingMove : IMoveComponent
     private Action<Action<Vector2>, Action> _onInputSubscribe;
     private Action<Action<Vector2>, Action> _onInputUnsubscribe;
 
-    public RocketLandingMove(Transform transform, Rigidbody rigidbody, 
+    public RocketLandingMove(Transform transform, Rigidbody rigidbody,
         Action<MovementResult> changeMovementResult,
         Action<Action<Vector2>, Action> onInputSubscribe,
         Action<Action<Vector2>, Action> onInputUnsubscribe)
@@ -27,14 +27,14 @@ public class RocketLandingMove : IMoveComponent
         _changeMovementResult = changeMovementResult;
         _onInputSubscribe = onInputSubscribe;
         _onInputUnsubscribe = onInputUnsubscribe;
-        _onInputSubscribe?.Invoke(OnTouchHold,OnTouchHoldEnd);
+        _onInputSubscribe?.Invoke(OnTouchHold, OnTouchHoldEnd);
         _boundariesCheck = new BoundariesCheck(_rb, _rb.GetComponentInChildren<MeshCollider>(), Camera.main);
         PhysicActive(true);
     }
 
     ~RocketLandingMove()
     {
-        _onInputUnsubscribe?.Invoke(OnTouchHold,OnTouchHoldEnd);
+        _onInputUnsubscribe?.Invoke(OnTouchHold, OnTouchHoldEnd);
     }
 
     private void OnTouchHoldEnd()
@@ -64,6 +64,7 @@ public class RocketLandingMove : IMoveComponent
         {
             touchPart = -1;
         }
+
         Vector3 moveToVec = new Vector3(touchPart, 0.8f);
         _rb.AddForce(moveToVec * _thrustForce, ForceMode.Impulse);
     }
@@ -91,10 +92,13 @@ public class RocketLandingMove : IMoveComponent
 
     public void Move(Action<MovementState> changeState)
     {
-        if (_boundariesCheck.OnScreenBoundaries() && _touchHold)
+        _boundariesCheck.OnScreenBoundaries((() =>
         {
-            Flying(_touchPos);
-        }
+            if (_touchHold)
+            {
+                Flying(_touchPos);
+            }
+        }));
         LandingCheck(changeState);
     }
 }
