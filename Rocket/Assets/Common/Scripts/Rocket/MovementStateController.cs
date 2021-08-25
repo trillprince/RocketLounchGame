@@ -13,7 +13,7 @@ public class MovementStateController : MonoBehaviour
     private MovementState _movementState = MovementState.NoMovement;
     private Transform _startTransform;
     private event Action <Transform,MovementState>  OnMovementStateSwitch;
-
+    
     private void OnEnable()
     {
         GameController.OnStateSwitch += OnOnStateSwitch;
@@ -26,7 +26,8 @@ public class MovementStateController : MonoBehaviour
 
     private void Start()
     {
-        _startTransform = transform;
+        _movementTransition = new TransitionToLanding(transform, MovementState.PhysicMovement,
+            OnMovementStateChangeSubscribe, OnMovementStateChangeUnsubscribe);
     }
 
     private void FixedUpdate()
@@ -36,23 +37,21 @@ public class MovementStateController : MonoBehaviour
     
     private void ChangeMovementComponent(MovementState movementResult)
     {
-        OnMovementStateSwitch?.Invoke(transform,movementResult);
         switch (movementResult)
         {
             case MovementState.AutoMovement:
                 _movementComponent = new RocketAutoMovement(transform);
-                _movementTransition = new TransitionToLanding(transform, _startTransform, movementResult,
-                    OnMovementStateChangeSubscribe, OnMovementStateChangeUnsubscribe);
                 break;
             case MovementState.PhysicMovement:
                 _movementComponent = new RocketLandingMove(transform,
                     GetComponent<Rigidbody>(), 
-                    ChangeMovementResult);
+                    ChangeMovementResult,OnInputSubscribe,OnInputUnsubscribe);
                 break;
             case MovementState.NoMovement:
                 _movementComponent = null;
                 break;
         }
+        OnMovementStateSwitch?.Invoke(transform,movementResult);
     }
 
     private void ChangeMovementResult(MovementResult movementResult)
@@ -78,11 +77,22 @@ public class MovementStateController : MonoBehaviour
     {
         OnMovementStateSwitch += action;
     }
+
     private void OnMovementStateChangeUnsubscribe(Action<Transform, MovementState> action)
     {
         OnMovementStateSwitch -= action;
     }
 
+    private void OnInputSubscribe(Action<Vector2> touchHold, Action touchHoldEnd)
+    {
+        InputManager.OnTouchHold += touchHold;
+        InputManager.OnTouchHoldEnd += touchHoldEnd;
+    }
+    private void OnInputUnsubscribe(Action<Vector2> touchHold, Action touchHoldEnd)
+    {
+        InputManager.OnTouchHold -= touchHold;
+        InputManager.OnTouchHoldEnd -= touchHoldEnd;
+    }
 }
 
 public enum MovementState

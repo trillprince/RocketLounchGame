@@ -4,20 +4,36 @@ using Random = UnityEngine.Random;
 
 public class TransitionToLanding: IMovementTransition
 {
-    private MovementState _nextMovementState;
+    private MovementState _transisionMovementState;
     private Quaternion _landingRot;
     private Vector3 _landingPos;
     private Vector3 _landingScale;
-    private Transform _transform;
+    private Action<Action<Transform, MovementState>> _onMovementChangeSubscribe;
+    private Action<Action<Transform, MovementState>> _onMovementChangeUnsubscribe;
 
-    public TransitionToLanding(Transform transform, Transform startTransform, MovementState nextMovementState,
+    public TransitionToLanding(Transform startTransform, MovementState transitionMovementState,
         Action <Action <Transform,MovementState>> onMovementChangeSubscribe,Action <Action <Transform,MovementState>> onMovementChangeUnsubscribe)
     {
-        _transform = transform;
-        _nextMovementState = nextMovementState;
-        onMovementChangeUnsubscribe?.Invoke(Transition);
-        onMovementChangeSubscribe?.Invoke(Transition);
+        _transisionMovementState = transitionMovementState;
+        _onMovementChangeSubscribe = onMovementChangeSubscribe;
+        _onMovementChangeUnsubscribe = onMovementChangeUnsubscribe;
         SaveStartTransform(startTransform);
+        SubscribeToEvents();
+    }
+    
+    ~TransitionToLanding()
+    {
+        UnsubscribeFromEvents();
+    }
+
+    private void SubscribeToEvents()
+    {
+        _onMovementChangeSubscribe?.Invoke(Transition);
+    }
+    
+    private void UnsubscribeFromEvents()
+    {
+        _onMovementChangeUnsubscribe?.Invoke(Transition);
     }
     
     private void SaveStartTransform(Transform startTranform)
@@ -30,7 +46,7 @@ public class TransitionToLanding: IMovementTransition
     
     void SetLandingTransform(Transform transform, MovementState movementState)
     {
-        if (_nextMovementState == movementState)
+        if (_transisionMovementState == movementState)
         {
             var tmp = _landingPos;
             tmp.y += 10;

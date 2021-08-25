@@ -9,31 +9,48 @@ public class RocketLandingMove : IMoveComponent
     private int _destroySpeed = 7;
     private bool _landingDone;
     private readonly float _maxRayDistance = 0.3f;
-    private bool touchHold;
-    private Vector2 touchPos;
-    private Action<MovementResult> changeMovementResult;
+    private bool _touchHold;
+    private Vector2 _touchPos;
     private Transform _transform;
+    private BoundariesCheck _boundariesCheck;
+    private Action<MovementResult> _changeMovementResult;
+    private Action<Action<Vector2>, Action> _onInputSubscribe;
+    private Action<Action<Vector2>, Action> _onInputUnsubscribe;
 
-    public RocketLandingMove(Transform transform, Rigidbody rigidbody, Action<MovementResult> changeMovementResult)
+    public RocketLandingMove(Transform transform, Rigidbody rigidbody, 
+        Action<MovementResult> changeMovementResult,
+        Action<Action<Vector2>, Action> onInputSubscribe,
+        Action<Action<Vector2>, Action> onInputUnsubscribe)
     {
         _rb = rigidbody;
         _transform = transform;
-        this.changeMovementResult = changeMovementResult;
-        ActivatePhysic();
-        InputManager.OnTouchHold += touchPos =>
-        {
-            this.touchPos = touchPos;
-            this.touchHold = true;
-        };
-        InputManager.OnTouchHoldEnd += () =>
-        {
-            this.touchHold = false;
-        };
+        _changeMovementResult = changeMovementResult;
+        _onInputSubscribe = onInputSubscribe;
+        _onInputUnsubscribe = onInputUnsubscribe;
+        _onInputSubscribe?.Invoke(OnTouchHold,OnTouchHoldEnd);
+        _boundariesCheck = new BoundariesCheck(_rb, _rb.GetComponentInChildren<MeshCollider>(), Camera.main);
+        PhysicActive(true);
     }
 
-    private void ActivatePhysic()
+    ~RocketLandingMove()
     {
-        _rb.isKinematic = false;
+        _onInputUnsubscribe?.Invoke(OnTouchHold,OnTouchHoldEnd);
+    }
+
+    private void OnTouchHoldEnd()
+    {
+        _touchHold = false;
+    }
+
+    private void OnTouchHold(Vector2 touchPos)
+    {
+        _touchPos = touchPos;
+        _touchHold = true;
+    }
+
+    private void PhysicActive(bool isActive)
+    {
+        _rb.isKinematic = !isActive;
     }
 
     void Flying(Vector2 touchPos)
@@ -51,7 +68,7 @@ public class RocketLandingMove : IMoveComponent
         _rb.AddForce(moveToVec * _thrustForce, ForceMode.Impulse);
     }
 
-    void LandingCheck(Action <MovementState> changeState)
+    void LandingCheck(Action<MovementState> changeState)
     {
         RaycastHit hit;
         if (Physics.Raycast(_transform.position, -_transform.up, out hit, _maxRayDistance))
@@ -61,23 +78,23 @@ public class RocketLandingMove : IMoveComponent
             if (onPad && !crashing)
             {
                 changeState?.Invoke(MovementState.NoMovement);
-                changeMovementResult.Invoke(MovementResult.Successful);
+                _changeMovementResult.Invoke(MovementResult.Successful);
             }
+
             if (hit.collider != null)
             {
                 changeState?.Invoke(MovementState.NoMovement);
-                changeMovementResult.Invoke(MovementResult.Failed);
+                _changeMovementResult.Invoke(MovementResult.Failed);
             }
         }
     }
 
     public void Move(Action<MovementState> changeState)
     {
-        if (touchHold)
+        if (_boundariesCheck.OnScreenBoundaries() && _touchHold)
         {
-            Flying(touchPos);
+            Flying(_touchPos);
         }
         LandingCheck(changeState);
     }
 }
-
