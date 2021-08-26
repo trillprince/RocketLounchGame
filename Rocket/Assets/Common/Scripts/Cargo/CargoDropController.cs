@@ -54,8 +54,8 @@ namespace Common.Scripts.Cargo
         {
             if (DropReady)
             {
+                Debug.Log("drop ready");
                 CargoDropping?.Invoke();
-                DropReady = false;
             }
         }
 
@@ -63,6 +63,7 @@ namespace Common.Scripts.Cargo
         {
             OnCargoDrop?.Invoke();
             OnGetAccuracy?.Invoke(accuracy);
+            DropReady = false;
         }
     }
     public enum DropAccuracy

@@ -64,12 +64,13 @@ namespace Common.Scripts.MissionSystem
             CargoCount = _missionModelViewer.GetCargoCount();
         }
 
-        void UpdateCargoStatus()
+        void UpdateCargoStatus()    
         {
             _currentCargoIndex++;
             DropEventInvoker(DropStatus.End);
-            if (_currentCargoIndex >= _cargoCount)
+            if (_currentCargoIndex == _cargoCount)
             {
+                Debug.Log($"out of cargo {_currentCargoIndex} {_cargoCount}");
                 OnOutOfCargo?.Invoke();
                 return;
             }
@@ -78,7 +79,7 @@ namespace Common.Scripts.MissionSystem
 
         void DropEventInvoker(DropStatus dropStatusToSet)
         {
-            if (dropStatusToSet == CurrentDropStatus)
+            if (dropStatusToSet == CurrentDropStatus || dropStatusToSet == DropStatus.End)
             {
                 return;
             }

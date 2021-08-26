@@ -32,6 +32,7 @@ public class GameController : MonoBehaviour
         };
         DropStatusController.OnOutOfCargo += () =>
         {
+            Debug.Log("aye");
             StartCoroutine(WaitTillStateSwitch());
         };
         StateSwitching += () =>

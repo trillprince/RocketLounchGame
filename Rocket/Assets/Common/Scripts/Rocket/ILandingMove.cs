@@ -1,8 +1,10 @@
 ﻿using System;
-using UnityEngine;
 
-public interface IMoveComponent
+namespace Common.Scripts.Rocket
 {
-    public void Move(Action<MovementState> changeState = null);
+    public interface IMoveComponent
+    {
+        public void Move(Action<MovementState> changeState = null);
+    }
 } 
     

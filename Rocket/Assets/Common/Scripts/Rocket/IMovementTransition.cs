@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
-public interface IMovementTransition
+namespace Common.Scripts.Rocket
 {
-    void Transition(Transform transform, MovementState state);
+    public interface IMovementTransition
+    {
+        void Transition(Transform transform, MovementState state);
+    }
 }

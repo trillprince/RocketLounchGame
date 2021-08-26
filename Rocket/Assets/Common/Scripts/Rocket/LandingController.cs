@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Common.Scripts.Planet;
+using Common.Scripts.Rocket;
 using UnityEngine;
 
 public class LandingController : MonoBehaviour
