@@ -98,7 +98,7 @@ public class RocketLandingMove : IMoveComponent
             {
                 Flying(_touchPos);
             }
-        }));
+        }),_thrustForce);
         LandingCheck(changeState);
     }
 }

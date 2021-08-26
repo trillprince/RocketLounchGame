@@ -26,7 +26,7 @@ public class BoundariesCheck
                 Camera.main.transform.position.z - _rb.position.z));
     }
 
-    public void OnScreenBoundaries(Boundaries action)
+    public void OnScreenBoundaries(Boundaries action, float ricochetForce)
     {
         Vector3 viewPos = _rb.position;
         if (viewPos.x <= _screenBounds.x + _boundOfMesh.size.x ||
@@ -41,8 +41,8 @@ public class BoundariesCheck
                 _screenBounds.y + _boundOfMesh.size.y,
                 _screenBounds.y * -1 - _boundOfMesh.size.y);
             _rb.position = viewPos;
-            action?.Invoke();
-            return;
+            _rb.velocity = default;
+            _rb.AddForce(-_rb.velocity * ricochetForce,ForceMode.Impulse);
         }
         action.Invoke();
     }
