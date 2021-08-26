@@ -9,12 +9,13 @@ namespace Common.Scripts.Rocket
     public class MovementStateController : MonoBehaviour
     {
         private IMoveComponent _movementComponent;
+        private Dictionary<Type, IMoveComponent> _movementComponents;
         private IMovementTransition _movementTransition;
         private MovementResult _movementResult;
         private MovementState _movementState = MovementState.NoMovement;
         private Transform _startTransform;
-        private event Action <Transform,MovementState>  OnMovementStateSwitch;
-    
+        private event Action<Transform, MovementState> OnMovementStateSwitch;
+
         private void OnEnable()
         {
             GameController.OnStateSwitch += OnOnStateSwitch;
@@ -29,30 +30,39 @@ namespace Common.Scripts.Rocket
         {
             _movementTransition = new TransitionToLanding(transform, MovementState.PhysicMovement,
                 OnMovementStateChangeSubscribe, OnMovementStateChangeUnsubscribe);
+
+            _movementComponents = new Dictionary<Type, IMoveComponent>
+            {
+                [typeof(RocketAutoMovement)] = new RocketAutoMovement(transform),
+                [typeof(RocketLandingMove)] = new RocketLandingMove(transform,
+                    GetComponent<Rigidbody>(),
+                    ChangeMovementResult, OnInputSubscribe, OnInputUnsubscribe)
+            };
         }
 
         private void FixedUpdate()
         {
             _movementComponent?.Move(ChangeMovementComponent);
         }
-    
+
         private void ChangeMovementComponent(MovementState movementResult)
         {
             switch (movementResult)
             {
                 case MovementState.AutoMovement:
-                    _movementComponent = new RocketAutoMovement(transform);
+                    _movementComponent = _movementComponents[typeof(RocketAutoMovement)];
+                    _movementComponent.Enable();
                     break;
                 case MovementState.PhysicMovement:
-                    _movementComponent = new RocketLandingMove(transform,
-                        GetComponent<Rigidbody>(), 
-                        ChangeMovementResult,OnInputSubscribe,OnInputUnsubscribe);
+                    _movementComponent = _movementComponents[typeof(RocketLandingMove)];
+                    _movementComponent.Enable();
                     break;
                 case MovementState.NoMovement:
                     _movementComponent = null;
                     break;
             }
-            OnMovementStateSwitch?.Invoke(transform,movementResult);
+
+            OnMovementStateSwitch?.Invoke(transform, movementResult);
         }
 
         private void ChangeMovementResult(MovementResult movementResult)
@@ -89,6 +99,7 @@ namespace Common.Scripts.Rocket
             InputManager.OnTouchHold += touchHold;
             InputManager.OnTouchHoldEnd += touchHoldEnd;
         }
+
         private void OnInputUnsubscribe(Action<Vector2> touchHold, Action touchHoldEnd)
         {
             InputManager.OnTouchHold -= touchHold;

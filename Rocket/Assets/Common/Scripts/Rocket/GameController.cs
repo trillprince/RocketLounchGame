@@ -3,60 +3,63 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Common.Scripts.MissionSystem;
-using Common.Scripts.Rocket;
 using Common.Scripts.UI;
 using UnityEngine;
 using Zenject;
 
-public class GameController : MonoBehaviour
+namespace Common.Scripts.Rocket
 {
-    private LoadingCurtain _loadingCurtain;
-    private float _timeBeforeStateSwitch = 3f;
+    public class GameController : MonoBehaviour
+    {
+        private LoadingCurtain _loadingCurtain;
+        private float _timeBeforeStateSwitch = 3f;
 
-    public delegate void StateSwitch(GameState state);
+        public delegate void StateSwitch(GameState state);
 
-    public static event StateSwitch OnStateSwitch;
+        public static event StateSwitch OnStateSwitch;
 
-    private event Action StateSwitching; 
+        private event Action StateSwitching; 
     
-    private void Awake()
-    {
-        _loadingCurtain = FindObjectOfType<LoadingCurtain>();
-    }
-
-    void OnEnable()
-    {
-        LaunchManager.OnRocketLounch += engineEnabled =>
+        private void Awake()
         {
-            SetGameState(GameState.CargoDrop);
-        };
-        DropStatusController.OnOutOfCargo += () =>
+            _loadingCurtain = FindObjectOfType<LoadingCurtain>();
+        }
+
+        void OnEnable()
         {
-            Debug.Log("aye");
-            StartCoroutine(WaitTillStateSwitch());
-        };
-        StateSwitching += () =>
+            LaunchManager.OnRocketLounch += engineEnabled =>
+            {
+                SetGameState(GameState.CargoDrop);
+            };
+            DropStatusController.OnOutOfCargo += () =>
+            {
+                Debug.Log("aye");
+                StartCoroutine(WaitTillStateSwitch());
+            };
+            StateSwitching += () =>
+            {
+                SetGameState(GameState.Landing);
+            };
+        }
+        
+
+        void SetGameState(GameState state)
         {
-            SetGameState(GameState.Landing);
-        };
+            OnStateSwitch?.Invoke(state);
+            _loadingCurtain.Hide();
+        }
+
+        IEnumerator WaitTillStateSwitch()
+        {
+            yield return new WaitForSeconds(_timeBeforeStateSwitch); 
+            _loadingCurtain.Show(StateSwitching);
+        }
     }
 
-    void SetGameState(GameState state)
+
+    public enum GameState
     {
-        OnStateSwitch?.Invoke(state);
-        _loadingCurtain.Hide();
+        CargoDrop,
+        Landing
     }
-
-    IEnumerator WaitTillStateSwitch()
-    {
-        yield return new WaitForSeconds(_timeBeforeStateSwitch); 
-        _loadingCurtain.Show(StateSwitching);
-    }
-}
-
-
-public enum GameState
-{
-    CargoDrop,
-    Landing
 }

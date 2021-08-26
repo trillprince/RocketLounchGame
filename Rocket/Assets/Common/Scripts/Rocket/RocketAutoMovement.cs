@@ -38,12 +38,6 @@ namespace Common.Scripts.Rocket
         {
             _transform = transform;
             SetMinMaxScale(_transform);
-            CargoDropController.CargoDropping += () =>
-            {
-                ResetTargetRot();
-                ResetTargetScale();
-            };
-            CargoDropSlider.OnGetDropAccuracy += ChangeRotSpeedOnAccuracy;
         }
 
         private void ScaleDown()
@@ -90,6 +84,16 @@ namespace Common.Scripts.Rocket
         {
             ScaleDown();
             Rotation();
+        }
+
+        public void Enable()
+        {
+            CargoDropController.CargoDropping += () =>
+            {
+                ResetTargetRot();
+                ResetTargetScale();
+            };
+            CargoDropSlider.OnGetDropAccuracy += ChangeRotSpeedOnAccuracy;
         }
     }
 }

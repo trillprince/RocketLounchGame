@@ -29,9 +29,6 @@ namespace Common.Scripts.Rocket
             _changeMovementResult = changeMovementResult;
             _onInputSubscribe = onInputSubscribe;
             _onInputUnsubscribe = onInputUnsubscribe;
-            _onInputSubscribe?.Invoke(OnTouchHold, OnTouchHoldEnd);
-            _boundariesCheck = new BoundariesCheck(_rb, _rb.GetComponentInChildren<MeshCollider>(), UnityEngine.Camera.main);
-            PhysicActive(true);
         }
 
         ~RocketLandingMove()
@@ -49,12 +46,7 @@ namespace Common.Scripts.Rocket
             _touchPos = touchPos;
             _touchHold = true;
         }
-
-        private void PhysicActive(bool isActive)
-        {
-            _rb.isKinematic = !isActive;
-        }
-
+        
         void Flying(Vector2 touchPos)
         {
             int touchPart = 0;
@@ -94,7 +86,7 @@ namespace Common.Scripts.Rocket
 
         public void Move(Action<MovementState> changeState)
         {
-            _boundariesCheck.OnScreenBoundaries(_impulseForce,(() =>
+            _boundariesCheck.OnScreenBoundaries((() =>
             {
                 if (_touchHold)
                 {
@@ -102,6 +94,13 @@ namespace Common.Scripts.Rocket
                 }
             }));
             LandingCheck(changeState);
+        }
+
+        public void Enable()
+        {
+            _rb.isKinematic = false;
+            _onInputSubscribe?.Invoke(OnTouchHold, OnTouchHoldEnd);
+            _boundariesCheck = new BoundariesCheck(_rb, _rb.GetComponentInChildren<MeshCollider>(), UnityEngine.Camera.main);
         }
     }
 }

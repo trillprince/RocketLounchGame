@@ -10,6 +10,7 @@ namespace Common.Scripts.Camera
         private Rigidbody _rb;
         private Bounds _boundOfMesh;
         private MeshCollider _meshCollider;
+        private float _impusleForce = 100;
 
         public delegate void Boundaries();
         public event Boundaries OnBoundariesCheck; 
@@ -25,7 +26,7 @@ namespace Common.Scripts.Camera
                     UnityEngine.Camera.main.transform.position.z - _rb.position.z));
         }
 
-        public void OnScreenBoundaries(float force,Boundaries afterBoundCheckAction)
+        public void OnScreenBoundaries(Boundaries afterBoundCheckAction)
         {
             Vector3 viewPos = _rb.position;
             if (viewPos.x <= _screenBounds.x + _boundOfMesh.size.x ||
@@ -40,8 +41,9 @@ namespace Common.Scripts.Camera
                     _screenBounds.y + _boundOfMesh.size.y,
                     _screenBounds.y * -1 - _boundOfMesh.size.y);
                 _rb.position = viewPos;
-                _rb.velocity = default;
-                _rb.AddForce(-_rb.velocity * force,ForceMode.Impulse);
+                _rb.velocity = _rb.velocity.normalized;
+                _rb.AddForce(-_rb.velocity * _impusleForce,ForceMode.Impulse);
+                Debug.Log(-_rb.velocity * _impusleForce);
             }
             afterBoundCheckAction.Invoke();
         }
