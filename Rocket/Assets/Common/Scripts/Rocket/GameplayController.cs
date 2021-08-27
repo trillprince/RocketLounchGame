@@ -9,7 +9,7 @@ using Zenject;
 
 namespace Common.Scripts.Rocket
 {
-    public class GameController : MonoBehaviour
+    public class GameplayController : MonoBehaviour
     {
         private LoadingCurtain _loadingCurtain;
         private float _timeBeforeStateSwitch = 3f;
@@ -25,15 +25,19 @@ namespace Common.Scripts.Rocket
             _loadingCurtain = FindObjectOfType<LoadingCurtain>();
         }
 
+        private void Start()
+        {
+            OnStateSwitch?.Invoke(GameState.WaitForLaunch);
+        }
+
         void OnEnable()
         {
-            LaunchManager.OnRocketLounch += engineEnabled =>
+            LaunchManager.OnRocketLounch += () =>
             {
                 SetGameState(GameState.CargoDrop);
             };
             DropStatusController.OnOutOfCargo += () =>
             {
-                Debug.Log("aye");
                 StartCoroutine(WaitTillStateSwitch());
             };
             StateSwitching += () =>
@@ -59,6 +63,7 @@ namespace Common.Scripts.Rocket
 
     public enum GameState
     {
+        WaitForLaunch,
         CargoDrop,
         Landing
     }

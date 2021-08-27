@@ -1,73 +1,42 @@
+using System.Threading.Tasks;
+using Common.Scripts.Planet;
 using Common.Scripts.Rocket;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Zenject;
 
-public class BGScroll : MonoBehaviour
+namespace Common.Scripts.Background
 {
-    private Material _material;
-    private Vector2 _offset;
-    [Range(-2, 2)] public float _xVelocity = 0;
-    [Range(-2, 2)] public float _yVelocity;
-    private MovementStateController _movementStateMovementState;
-    private bool _bgMove;
-    [SerializeField] private float _moveSmoothness = 100;
-
-    [Inject]
-    private void Construct(MovementStateController movementStateMovementState)
+    public class BgScroll : IMovableEnvironment
     {
-        _movementStateMovementState = movementStateMovementState;
-    }
+        private readonly Material _material;
+        private Vector2 _offset;
+        private float _xVelocity = 0;
+        private float _yVelocity;
+        private float _moveSmoothness;
 
-    private void OnEnable()
-    {
-        LaunchManager.OnRocketLounch += BgMove;
-        LandingController.Landing += Landing;
-    }
-
-    private void OnDisable()
-    {
-        LaunchManager.OnRocketLounch -= BgMove;
-        LandingController.Landing -= Landing;
-    }
-
-    private void Landing()
-    {
-        BgMove(false);
-    }
-
-    private void BgMove(bool isLounched)
-    {
-        _bgMove = isLounched;
-    }
-
-    private void Awake()
-    {
-        _material = GetComponent<Renderer>().material;
-        _offset = new Vector2(_xVelocity, _yVelocity);
-    }
-
-    void Update()
-    {
-        if (!_bgMove)
+        public BgScroll(Renderer renderer,float moveSmoothness)
         {
-            return;
+            _material = renderer.material;
+            _offset = new Vector2(_xVelocity, _yVelocity);
+            _moveSmoothness = moveSmoothness;
         }
-        ScrollFromRocketDir();
-        _material.mainTextureOffset += _offset * Time.deltaTime;
-    }
+        
+        private void ReinitializeOffset()
+        {
+            _offset = new Vector2(_xVelocity, _yVelocity).normalized * RocketSpeed.CurrentSpeed/_moveSmoothness;
+        }
 
+        private void ScrollFromRocketDir()
+        {
+            _xVelocity = RocketSpeed.GetRocketDirection().x;
+            _yVelocity = RocketSpeed.GetRocketDirection().y;
+            Task.Delay(1).ContinueWith(task => { if(task.IsCompleted) ReinitializeOffset();});
+        }
 
-    private void ReinitializeOffset()
-    {
-        _offset = new Vector2(_xVelocity, _yVelocity).normalized * RocketSpeed.CurrentSpeed/_moveSmoothness;
+        public void Move()
+        {
+            ScrollFromRocketDir();
+            _material.mainTextureOffset += _offset * Time.deltaTime;
+        }
+        
     }
-
-    public void ScrollFromRocketDir()
-    {
-        _xVelocity = RocketSpeed.GetRocketDirection().x;
-        _yVelocity = RocketSpeed.GetRocketDirection().y;
-        Invoke("ReinitializeOffset",1f);;
-    }
-    
 }

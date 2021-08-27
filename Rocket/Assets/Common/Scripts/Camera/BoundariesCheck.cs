@@ -13,7 +13,6 @@ namespace Common.Scripts.Camera
         private float _impusleForce = 100;
 
         public delegate void Boundaries();
-        public event Boundaries OnBoundariesCheck; 
 
         public BoundariesCheck(Rigidbody rigidbody, MeshCollider meshCollider, UnityEngine.Camera camera)
         {
@@ -41,8 +40,7 @@ namespace Common.Scripts.Camera
                     _screenBounds.y + _boundOfMesh.size.y,
                     _screenBounds.y * -1 - _boundOfMesh.size.y);
                 _rb.position = viewPos;
-                _rb.velocity = _rb.velocity.normalized;
-                _rb.AddForce(-_rb.velocity * _impusleForce,ForceMode.Impulse);
+                _rb.AddForce(-_rb.velocity.normalized * _impusleForce,ForceMode.Impulse);
                 Debug.Log(-_rb.velocity * _impusleForce);
             }
             afterBoundCheckAction.Invoke();

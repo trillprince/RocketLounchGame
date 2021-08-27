@@ -7,65 +7,35 @@ using Zenject;
 
 namespace Common.Scripts.Planet
 {
-    public class PlanetMove : MonoBehaviour
+    public class PlanetMove : IMovableOnGameState 
     {
-        private bool _isMoving;
-        private Vector3 _startPos;
-        private MovementStateController _movementStateMovementState;
+        private Vector3 _ladingPos;
         private int _moveSmoothness = 10;
-
-
-        [Inject]
-        void Contructor(MovementStateController onTouchMovementStateMove)
-        {
-            _movementStateMovementState = onTouchMovementStateMove;
-        }
-
-        private void OnEnable()
-        {
-            LaunchManager.OnRocketLounch += MovePlanet;
-            LandingController.Landing += OnChangeGameState;
-            
-        }
-
-        private void OnDisable()
-        {
-            LaunchManager.OnRocketLounch -= MovePlanet;
-            LandingController.Landing -= OnChangeGameState;
-        }
-
-        private void OnChangeGameState()
-        {
-            MoveToDefaultPos();
-            MovePlanet(false);
-        }
-
-        private void Start()
-        {
-            _startPos = transform.position;
-        }
+        private Transform _planetTransform;
         
-        void MovePlanet(bool isMoving)
+
+        public PlanetMove(Transform planetTransform)
         {
-            _isMoving = isMoving;
+            _planetTransform = planetTransform;
+            _ladingPos = planetTransform.position;
         }
 
-        void PlanetMovement()
+        void SetLandingPosition()
         {
-            transform.Translate(-RocketSpeed.GetRocketDirection() * RocketSpeed.CurrentSpeed/_moveSmoothness * Time.deltaTime);
+            _planetTransform.position = _ladingPos;
         }
 
-        private void FixedUpdate()
+        public void Move()
         {
-            if (_isMoving)
+            _planetTransform.Translate(-RocketSpeed.GetRocketDirection() * RocketSpeed.CurrentSpeed/_moveSmoothness * Time.deltaTime);
+        }
+
+        public void OnGameStateSwitch(GameState gameState)
+        {
+            if (gameState == GameState.Landing)
             {
-                PlanetMovement();
+                SetLandingPosition();
             }
         }
-        void MoveToDefaultPos()
-        {
-            transform.position = _startPos;
-        }
-
     }
 }

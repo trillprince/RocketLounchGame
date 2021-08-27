@@ -5,30 +5,24 @@ namespace Common.Scripts.Rocket
 {
     public class LaunchManager : MonoBehaviour
     {
-        public delegate void Station(bool engineEnabled);
+        public delegate void Station();
+
         public static event Station OnRocketLounch;
-        public static event Station MiddleEngineDisable;
 
         public static event Station Lounching;
         private float _timeTillLounch = 2f;
-        
 
-        public void MiddleEngine(bool isEnabled)
+
+        public void Launch()
         {
-            if (isEnabled)
-            {
-                Lounching?.Invoke(true);
-                StartCoroutine(WaitTillLounch(isEnabled));
-                return;
-            }
-
-            MiddleEngineDisable?.Invoke(isEnabled);
+            Lounching?.Invoke();
+            StartCoroutine(WaitTillLounch());
         }
 
-        IEnumerator WaitTillLounch(bool isEnabled)
+        IEnumerator WaitTillLounch()
         {
             yield return new WaitForSeconds(_timeTillLounch);
-            OnRocketLounch?.Invoke(isEnabled);
+            OnRocketLounch?.Invoke();
         }
     }
 }

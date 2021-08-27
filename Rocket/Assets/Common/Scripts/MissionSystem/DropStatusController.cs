@@ -44,14 +44,14 @@ namespace Common.Scripts.MissionSystem
         {
             CargoDropController.OnCargoDrop += UpdateCargoStatus;
             CargoDropController.OnGetAccuracy += SetModelAccuracy;
-            GameController.OnStateSwitch += GameStateListener;
+            GameplayController.OnStateSwitch += GameStateListener;
         }
 
         private void OnDisable()
         {
             CargoDropController.CargoDropping -= UpdateCargoStatus;
             CargoDropController.OnGetAccuracy -= SetModelAccuracy;
-            GameController.OnStateSwitch -= GameStateListener;
+            GameplayController.OnStateSwitch -= GameStateListener;
         }
 
         private void Awake()

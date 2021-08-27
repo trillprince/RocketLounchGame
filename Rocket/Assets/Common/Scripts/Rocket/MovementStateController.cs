@@ -18,12 +18,12 @@ namespace Common.Scripts.Rocket
 
         private void OnEnable()
         {
-            GameController.OnStateSwitch += OnOnStateSwitch;
+            GameplayController.OnStateSwitch += OnOnStateSwitch;
         }
 
         private void OnDisable()
         {
-            GameController.OnStateSwitch -= OnOnStateSwitch;
+            GameplayController.OnStateSwitch -= OnOnStateSwitch;
         }
 
         private void Start()

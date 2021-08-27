@@ -15,9 +15,10 @@ namespace Common.Scripts.Infrastructure
         private void BindRocket()
         {
             Container
-                .Bind(typeof(MovementStateController),typeof(RocketCargo))
+                .Bind(typeof(RocketCargo))
                 .FromComponentInNewPrefab(_rocketPrefab)
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
         }
 
     }
