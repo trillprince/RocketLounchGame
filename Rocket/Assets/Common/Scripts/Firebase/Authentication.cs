@@ -1,4 +1,5 @@
 ﻿using System;
+using Common.Scripts.Infrastructure;
 using Firebase.Auth;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
@@ -16,12 +17,12 @@ namespace Common.Scripts.Firebase
 
         private void OnEnable()
         {
-            FirebaseInit.FirebaseInited += ConfigurePlayGames;
+            NetworkService.OnFireBaseInit += ConfigurePlayGames;
         }
 
         private void OnDisable()
         {
-            FirebaseInit.FirebaseInited -= ConfigurePlayGames;
+            NetworkService.OnFireBaseInit -= ConfigurePlayGames;
         }
         
         void ConfigurePlayGames()

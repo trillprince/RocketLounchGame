@@ -7,7 +7,7 @@ namespace Common.Scripts.Infrastructure
     {
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
-        private MenuBootStrapper _menuBootStrapper;
+        private MenuBootStrap _menuBootStrap;
 
         public MenuBootStrapState(GameStateMachine gameStateMachine,SceneLoader sceneLoader)
         {
@@ -22,7 +22,7 @@ namespace Common.Scripts.Infrastructure
 
         private void MenuInit()
         {
-            _menuBootStrapper = new MenuBootStrapper();
+            _menuBootStrap = new MenuBootStrap();
         }
 
         public void Exit()

@@ -1,16 +1,18 @@
+using System;
 using Firebase;
 using Firebase.Analytics;
 using UnityEngine;
 
 namespace Common.Scripts.Firebase
 {
-    public class FirebaseInit : MonoBehaviour
+    public class FirebaseBootStrap
     {
-        public delegate void FirebaseInitialization();
+        public FirebaseBootStrap(Action onFireBaseInit)
+        {
+            Init(onFireBaseInit);
+        }
 
-        public static event FirebaseInitialization FirebaseInited;
-    
-        private void Awake()
+        private static void Init(Action onFireBaseInit)
         {
             FirebaseApp.CheckDependenciesAsync().ContinueWith(task =>
             {
@@ -19,12 +21,10 @@ namespace Common.Scripts.Firebase
                     Debug.Log("Failed to initialize firebase " + task.Exception);
                     return;
                 }
+
                 FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
-                FirebaseInited?.Invoke();
+                onFireBaseInit?.Invoke();
             });
-        
         }
-    
-    
     }
 }
