@@ -14,17 +14,12 @@ namespace Common.Scripts.Infrastructure
 
         public void Enter()
         {
-            RegisterServices();
             _sceneLoader.Load(Initial,onLoaded: EnterLoadLevel);
         }
 
         private void EnterLoadLevel() => 
-            _stateMachine.Enter<LoadLevelState,string>("LounchScene");
+            _stateMachine.Enter<MenuBootStrapState,string>(SceneInfo.GetSceneName(SceneInfo.SceneName.Menu));
 
-        void RegisterServices()
-        {
-        
-        }
 
         public void  Exit()
         {

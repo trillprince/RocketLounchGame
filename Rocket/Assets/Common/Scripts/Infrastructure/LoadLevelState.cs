@@ -9,18 +9,15 @@ namespace Common.Scripts.Infrastructure
     {
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
-        private readonly LoadingCurtain _curtain;
 
-        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain)
+        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
-            _curtain = curtain;
         }
 
         public void Enter(string sceneName)
-        { 
-            _curtain.Show();
+        {
             _sceneLoader.Load(sceneName,OnLoaded);
         }
 
@@ -31,7 +28,7 @@ namespace Common.Scripts.Infrastructure
 
         public void Exit()
         {
-            _curtain.Hide();
+            
         }
         
     }

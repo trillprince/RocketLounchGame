@@ -54,7 +54,6 @@ namespace Common.Scripts.Cargo
         {
             if (DropReady)
             {
-                Debug.Log("drop ready");
                 CargoDropping?.Invoke();
             }
         }

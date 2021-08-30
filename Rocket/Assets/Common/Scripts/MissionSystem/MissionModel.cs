@@ -27,5 +27,7 @@ namespace Common.Scripts.MissionSystem
             get => _cargos;
             set => _cargos = value;
         }
+
+       
     }
 }

@@ -9,16 +9,17 @@ namespace Common.Scripts.Infrastructure
         private readonly Dictionary<Type, IExitableState> _states;
         private IExitableState _activeState;
 
-        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain curtain)
+        public GameStateMachine(SceneLoader sceneLoader)
         {
             _states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootStrapState)] = new BootStrapState(this, sceneLoader),
-                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain),
+                [typeof(MenuBootStrapState)] = new MenuBootStrapState(this,sceneLoader),
+                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader),
                 [typeof(GameLoopState)] = new GameLoopState(this)
             };
         }
-
+        
         public void Enter<TState>() where TState : class, IState
         {
             IState state = ChangeState<TState>();

@@ -29,11 +29,7 @@ namespace Common.Scripts.Data
         {
             var jsonData = JsonConvert.SerializeObject(data);
             PlayerPrefs.SetString(key,jsonData);
-            Debug.Log(jsonData);
-            _database.Child(key).SetRawJsonValueAsync(jsonData).ContinueWith(task =>
-            {
-                Debug.Log(task.Status);
-            } );
+           
         }
     
 

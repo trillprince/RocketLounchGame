@@ -44,14 +44,14 @@ namespace Common.Scripts.MissionSystem
         {
             CargoDropController.OnCargoDrop += UpdateCargoStatus;
             CargoDropController.OnGetAccuracy += SetModelAccuracy;
-            GameplayController.OnStateSwitch += GameStateListener;
+            GameStateController.OnStateSwitch += GameStateListener;
         }
 
         private void OnDisable()
         {
             CargoDropController.CargoDropping -= UpdateCargoStatus;
             CargoDropController.OnGetAccuracy -= SetModelAccuracy;
-            GameplayController.OnStateSwitch -= GameStateListener;
+            GameStateController.OnStateSwitch -= GameStateListener;
         }
 
         private void Awake()
@@ -61,7 +61,7 @@ namespace Common.Scripts.MissionSystem
 
         private void Start()
         {
-            CargoCount = _missionModelViewer.GetCargoCount();
+            CargoCount = _missionModelViewer.CargoCount;
         }
 
         void UpdateCargoStatus()    
@@ -79,7 +79,7 @@ namespace Common.Scripts.MissionSystem
 
         void DropEventInvoker(DropStatus dropStatusToSet)
         {
-            if (dropStatusToSet == CurrentDropStatus || dropStatusToSet == DropStatus.End)
+            if (dropStatusToSet == CurrentDropStatus)
             {
                 return;
             }

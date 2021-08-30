@@ -14,12 +14,12 @@ public class EnvironmentController : MonoBehaviour, IGameStateDependable
 
     private void OnEnable()
     {
-        GameplayController.OnStateSwitch += OnGameStateSwitch;
+        GameStateController.OnStateSwitch += OnGameStateSwitch;
     }
 
     private void OnDisable()
     {
-        GameplayController.OnStateSwitch -= OnGameStateSwitch;
+        GameStateController.OnStateSwitch -= OnGameStateSwitch;
     }
 
     private void Awake()

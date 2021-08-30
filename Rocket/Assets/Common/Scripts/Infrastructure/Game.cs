@@ -6,9 +6,9 @@ namespace Common.Scripts.Infrastructure
     {
         public GameStateMachine StateMachine;
 
-        public Game(ICoroutineRunner coroutineRunner, LoadingCurtain curtain)
+        public Game(ICoroutineRunner coroutineRunner)
         {
-            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner),curtain);
+            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner));
         }
     
     }

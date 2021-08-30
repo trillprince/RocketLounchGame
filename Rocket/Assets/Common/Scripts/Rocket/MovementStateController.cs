@@ -12,18 +12,16 @@ namespace Common.Scripts.Rocket
         private Dictionary<Type, IMoveComponent> _movementComponents;
         private IMovementTransition _movementTransition;
         private MovementResult _movementResult;
-        private MovementState _movementState = MovementState.NoMovement;
-        private Transform _startTransform;
         private event Action<Transform, MovementState> OnMovementStateSwitch;
 
         private void OnEnable()
         {
-            GameplayController.OnStateSwitch += OnOnStateSwitch;
+            GameStateController.OnStateSwitch += OnOnStateSwitch;
         }
 
         private void OnDisable()
         {
-            GameplayController.OnStateSwitch -= OnOnStateSwitch;
+            GameStateController.OnStateSwitch -= OnOnStateSwitch;
         }
 
         private void Start()
@@ -67,8 +65,8 @@ namespace Common.Scripts.Rocket
 
         private void ChangeMovementResult(MovementResult movementResult)
         {
-            this._movementResult = movementResult;
-            //TODO: if success/fail -> end game
+            _movementResult = movementResult;
+            
         }
 
 
