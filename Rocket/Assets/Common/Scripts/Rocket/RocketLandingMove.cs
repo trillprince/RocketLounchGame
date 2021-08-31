@@ -9,18 +9,17 @@ namespace Common.Scripts.Rocket
         private Rigidbody _rb;
         private float _impulseForce = 15;
         private int _destroySpeed = 7;
-        private bool _landingDone;
         private readonly float _maxRayDistance = 0.3f;
         private bool _touchHold;
         private Vector2 _touchPos;
-        private Transform _transform;
+        private readonly Transform _transform;
         private BoundariesCheck _boundariesCheck;
-        private Action<MovementResult> _changeMovementResult;
-        private Action<Action<Vector2>, Action> _onInputSubscribe;
-        private Action<Action<Vector2>, Action> _onInputUnsubscribe;
+        private readonly Action<LandingStatus> _changeMovementResult;
+        private readonly Action<Action<Vector2>, Action> _onInputSubscribe;
+        private readonly Action<Action<Vector2>, Action> _onInputUnsubscribe;
 
         public RocketLandingMove(Transform transform, Rigidbody rigidbody,
-            Action<MovementResult> changeMovementResult,
+            Action<LandingStatus> changeMovementResult,
             Action<Action<Vector2>, Action> onInputSubscribe,
             Action<Action<Vector2>, Action> onInputUnsubscribe)
         {
@@ -73,13 +72,13 @@ namespace Common.Scripts.Rocket
                 if (onPad && !crashing)
                 {
                     changeState?.Invoke(MovementState.NoMovement);
-                    _changeMovementResult.Invoke(MovementResult.Successful);
+                    _changeMovementResult.Invoke(LandingStatus.Successful);
                 }
 
                 if (hit.collider != null)
                 {
                     changeState?.Invoke(MovementState.NoMovement);
-                    _changeMovementResult.Invoke(MovementResult.Failed);
+                    _changeMovementResult.Invoke(LandingStatus.Failed);
                 }
             }
         }

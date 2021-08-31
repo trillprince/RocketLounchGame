@@ -6,13 +6,13 @@ using UnityEngine;
 
 namespace Common.Scripts.Rocket
 {
-    public class MovementStateController : MonoBehaviour
+    public class RocketStateController : MonoBehaviour
     {
         private IMoveComponent _movementComponent;
         private Dictionary<Type, IMoveComponent> _movementComponents;
         private IMovementTransition _movementTransition;
-        private MovementResult _movementResult;
         private event Action<Transform, MovementState> OnMovementStateSwitch;
+        public static event Action<LandingStatus> OnLandingStatus;
 
         private void OnEnable()
         {
@@ -34,7 +34,7 @@ namespace Common.Scripts.Rocket
                 [typeof(RocketAutoMovement)] = new RocketAutoMovement(transform),
                 [typeof(RocketLandingMove)] = new RocketLandingMove(transform,
                     GetComponent<Rigidbody>(),
-                    ChangeMovementResult, OnInputSubscribe, OnInputUnsubscribe)
+                    OnGetLandingStatus, OnInputSubscribe, OnInputUnsubscribe)
             };
         }
 
@@ -63,10 +63,9 @@ namespace Common.Scripts.Rocket
             OnMovementStateSwitch?.Invoke(transform, movementResult);
         }
 
-        private void ChangeMovementResult(MovementResult movementResult)
+        private void OnGetLandingStatus(LandingStatus landingStatus)
         {
-            _movementResult = movementResult;
-            
+            OnLandingStatus?.Invoke(landingStatus);
         }
 
 
@@ -112,7 +111,7 @@ namespace Common.Scripts.Rocket
         PhysicMovement
     }
 
-    public enum MovementResult
+    public enum LandingStatus
     {
         Successful,
         Failed

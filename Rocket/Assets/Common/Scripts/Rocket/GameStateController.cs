@@ -12,6 +12,8 @@ namespace Common.Scripts.Rocket
     public class GameStateController : MonoBehaviour
     {
         private float _timeBeforeStateSwitch = 3f;
+        private GameState _currentGameState;
+        private EndOfGameController _endOfGameController;
 
         public delegate void StateSwitch(GameState state);
 
@@ -33,12 +35,18 @@ namespace Common.Scripts.Rocket
             {
                 StartCoroutine(WaitTillStateSwitch(GameState.Landing));
             };
-           
+            
+            RocketStateController.OnLandingStatus += OnLanding;
+        }
+
+        private void OnLanding(LandingStatus status)
+        {
+            
         }
         
-
         void SetGameState(GameState state)
         {
+            _currentGameState = state;
             OnStateSwitch?.Invoke(state);
         }
 
@@ -54,6 +62,7 @@ namespace Common.Scripts.Rocket
     {
         WaitForLaunch,
         CargoDrop,
-        Landing
+        Landing,
+        EndOfGame
     }
 }

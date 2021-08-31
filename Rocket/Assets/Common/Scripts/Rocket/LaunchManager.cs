@@ -10,12 +10,12 @@ namespace Common.Scripts.Rocket
         public static event Station OnRocketLounch;
 
         public static event Station Lounching;
+        
         private float _timeTillLounch = 2f;
 
 
         public void Launch()
         {
-            Lounching?.Invoke();
             StartCoroutine(WaitTillLounch());
         }
 
