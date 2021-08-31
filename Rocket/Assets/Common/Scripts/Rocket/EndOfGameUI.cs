@@ -14,9 +14,15 @@ namespace Common.Scripts.Rocket
             _createWindow = createWindow;
         }
 
-        public void InstantiateUI()
+        public IWindow InstantiateUI()
         {
             _window = _createWindow?.Invoke();
+            _window?.Hide();
+            if (_window != null)
+            {
+                return _window;
+            }
+            return default;
         }
     }
 }

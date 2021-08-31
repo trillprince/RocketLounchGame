@@ -7,11 +7,14 @@ namespace Common.Scripts.Rocket
     {
         private EndOfGameUI _endOfGameUI;
         private EndOfGameModel _endOfGameModel;
+        private IWindow _endOfGameWindow;
         public void OnGameStateSwitch(GameState gameState)
         {
             if (gameState == GameState.EndOfGame)
             {
                 _endOfGameUI = new EndOfGameUI(CreateUI);
+                _endOfGameWindow = _endOfGameUI.InstantiateUI();
+                _endOfGameWindow.Show();
             }
         }
         private IWindow CreateUI()

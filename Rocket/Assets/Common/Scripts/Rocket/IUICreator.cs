@@ -2,6 +2,6 @@
 {
     public interface IUICreator
     {
-        public void InstantiateUI();
+        public IWindow InstantiateUI();
     }
 }
