@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Common.Scripts.Rocket
 {
-    public class EndOfGameUI: IUICreator
+    public class EndOfGameUI: IUICreator<IExitWindow>
     {
-        private Func<IWindow> _createWindow;
-        private IWindow _window;
+        private Func<IExitWindow> _createWindow;
+        private IExitWindow _window;
         
-        public EndOfGameUI(Func<IWindow> createWindow)
+        public EndOfGameUI(Func<IExitWindow> createWindow)
         {
             _createWindow = createWindow;
         }
 
-        public IWindow InstantiateUI()
+        public IExitWindow InstantiateUI()
         {
             _window = _createWindow?.Invoke();
             if (_window != null)

@@ -8,6 +8,7 @@ namespace Common.Scripts.Infrastructure
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
         private MenuBootStrap _menuBootStrap;
+        
 
         public MenuBootStrapState(GameStateMachine gameStateMachine,SceneLoader sceneLoader)
         {
@@ -27,6 +28,7 @@ namespace Common.Scripts.Infrastructure
 
         public void Exit()
         {
+            
         }
     }
 }

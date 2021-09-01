@@ -27,9 +27,9 @@ namespace Common.Scripts.Rocket
             _endOfGameUI.InstantiateUI();
         }
         
-        private IWindow CreateUI()
+        private IExitWindow CreateUI()
         {
-            IWindow window = Instantiate(_endOfGameModel.EndOfGameWindow).GetComponent<IWindow>();
+            IExitWindow window = Instantiate(_endOfGameModel.EndOfGameWindow).GetComponent<IExitWindow>();
             if (window != null)
             {
                 return window;

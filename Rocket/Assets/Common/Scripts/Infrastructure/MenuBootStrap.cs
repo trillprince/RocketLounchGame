@@ -8,6 +8,7 @@ namespace Common.Scripts.Infrastructure
     public class MenuBootStrap
     {
         private NetworkService _networkService;
+
         public MenuBootStrap()
         {
             _networkService = new NetworkService();

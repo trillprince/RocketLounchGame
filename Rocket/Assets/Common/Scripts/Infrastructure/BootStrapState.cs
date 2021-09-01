@@ -2,7 +2,6 @@ namespace Common.Scripts.Infrastructure
 {
     public class BootStrapState : IState
     {
-        private const string Initial = "Initial";
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
 
@@ -14,12 +13,11 @@ namespace Common.Scripts.Infrastructure
 
         public void Enter()
         {
-            _sceneLoader.Load(Initial,onLoaded: EnterLoadLevel);
+            EnterMenu();
         }
 
-        private void EnterLoadLevel() => 
-            _stateMachine.Enter<MenuBootStrapState,string>(SceneInfo.GetSceneName(SceneInfo.SceneName.Menu));
-
+        private void EnterMenu() => 
+            _stateMachine.Enter<MenuBootStrapState,string>(SceneInfo.SceneName.Menu.ToString());
 
         public void  Exit()
         {

@@ -16,7 +16,7 @@ namespace Common.Scripts.Infrastructure
                 [typeof(BootStrapState)] = new BootStrapState(this, sceneLoader),
                 [typeof(MenuBootStrapState)] = new MenuBootStrapState(this,sceneLoader),
                 [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader),
-                [typeof(GameLoopState)] = new GameLoopState(this)
+                [typeof(GameLoopState)] = new GameLoopState(this,sceneLoader)
             };
         }
         
