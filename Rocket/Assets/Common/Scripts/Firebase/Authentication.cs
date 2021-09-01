@@ -10,11 +10,6 @@ namespace Common.Scripts.Firebase
 
     public class Authentication : MonoBehaviour
     {
-        private void Awake()
-        {
-            DontDestroyOnLoad(this);
-        }
-
         private void OnEnable()
         {
             NetworkService.OnFireBaseInit += ConfigurePlayGames;

@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Common.Scripts.Infrastructure
 {
-    public class GameBootstrapper : MonoBehaviour
+    public class GameBootstrapper : MonoBehaviour,ICoroutineRunner
     {
         private GameStateMachine _gameStateMachine;
 
