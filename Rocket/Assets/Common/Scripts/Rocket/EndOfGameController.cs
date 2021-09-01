@@ -1,22 +1,32 @@
-﻿using Common.Scripts.Planet;
+﻿using System;
+using Common.Scripts.Infrastructure;
+using Common.Scripts.Planet;
 using UnityEngine;
 
 namespace Common.Scripts.Rocket
 {
-    public class EndOfGameController: MonoBehaviour,IGameStateDependable
+    public class EndOfGameController: MonoBehaviour
     {
         private EndOfGameUI _endOfGameUI;
-        private EndOfGameModel _endOfGameModel;
-        private IWindow _endOfGameWindow;
-        public void OnGameStateSwitch(GameState gameState)
+        [SerializeField] private EndOfGameModel _endOfGameModel;
+
+        private void OnEnable()
         {
-            if (gameState == GameState.EndOfGame)
-            {
-                _endOfGameUI = new EndOfGameUI(CreateUI);
-                _endOfGameWindow = _endOfGameUI.InstantiateUI();
-                _endOfGameWindow.Show();
-            }
+            RocketStateController.OnLanding += OnLandingUICreate;
         }
+
+        private void OnDisable()
+        {
+            RocketStateController.OnLanding += OnLandingUICreate;
+        }
+
+
+        private void OnLandingUICreate(LandingStatus landingStatus)
+        {
+            _endOfGameUI = new EndOfGameUI(CreateUI);
+            _endOfGameUI.InstantiateUI();
+        }
+        
         private IWindow CreateUI()
         {
             IWindow window = Instantiate(_endOfGameModel.EndOfGameWindow).GetComponent<IWindow>();

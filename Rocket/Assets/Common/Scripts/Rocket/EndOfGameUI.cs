@@ -17,7 +17,6 @@ namespace Common.Scripts.Rocket
         public IWindow InstantiateUI()
         {
             _window = _createWindow?.Invoke();
-            _window?.Hide();
             if (_window != null)
             {
                 return _window;

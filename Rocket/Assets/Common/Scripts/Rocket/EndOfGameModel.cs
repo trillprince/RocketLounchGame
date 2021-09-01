@@ -2,8 +2,9 @@
 
 namespace Common.Scripts.Rocket
 {
+    [CreateAssetMenu(fileName = "EndOfGameModel", menuName = "ScriptableObjects/Gameplay/EndOfGameModel")]
     public class EndOfGameModel : ScriptableObject
     {
-        public GameObject EndOfGameWindow { get; }
+        [SerializeField] public GameObject EndOfGameWindow;
     }
 }

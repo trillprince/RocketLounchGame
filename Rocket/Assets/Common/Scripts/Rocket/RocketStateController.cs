@@ -12,7 +12,7 @@ namespace Common.Scripts.Rocket
         private Dictionary<Type, IMoveComponent> _movementComponents;
         private IMovementTransition _movementTransition;
         private event Action<Transform, MovementState> OnMovementStateSwitch;
-        public static event Action<LandingStatus> OnLandingStatus;
+        public static event Action<LandingStatus> OnLanding; 
 
         private void OnEnable()
         {
@@ -59,13 +59,12 @@ namespace Common.Scripts.Rocket
                     _movementComponent = null;
                     break;
             }
-
             OnMovementStateSwitch?.Invoke(transform, movementResult);
         }
 
         private void OnGetLandingStatus(LandingStatus landingStatus)
         {
-            OnLandingStatus?.Invoke(landingStatus);
+            OnLanding?.Invoke(landingStatus);
         }
 
 

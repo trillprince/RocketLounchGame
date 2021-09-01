@@ -13,8 +13,6 @@ namespace Common.Scripts.Rocket
     {
         private float _timeBeforeStateSwitch = 3f;
         private GameState _currentGameState;
-        private EndOfGameController _endOfGameController;
-
         public delegate void StateSwitch(GameState state);
 
         public static event StateSwitch OnStateSwitch;
@@ -35,14 +33,8 @@ namespace Common.Scripts.Rocket
             {
                 StartCoroutine(WaitTillStateSwitch(GameState.Landing));
             };
-            
-            RocketStateController.OnLandingStatus += OnLanding;
         }
-
-        private void OnLanding(LandingStatus status)
-        {
-            
-        }
+        
         
         void SetGameState(GameState state)
         {
