@@ -1,23 +1,27 @@
+using System;
 using Common.Scripts.UI;
 using UnityEngine;
 using Zenject;
 
 namespace Common.Scripts.Infrastructure
 {
-    public class GameBootstrapper : MonoBehaviour,ICoroutineRunner
+    public class GameBootstrapper : MonoBehaviour
     {
-        private GameStateMachine _gameStateMachine;
+        public GameStateMachine StateMachine { get; private set; }
+        public SceneLoader Loader { get; private set; }
 
         [Inject]
-        public void Constructor(GameStateMachine gameStateMachine)
+        public void Constructor(GameStateMachine gameStateMachine,SceneLoader sceneLoader)
         {
-            _gameStateMachine = gameStateMachine;
+            StateMachine = gameStateMachine;
+            Loader = sceneLoader;
         }
-        
-        private void Awake() 
+
+        private void Awake()
         {
-            _gameStateMachine.Enter<BootStrapState>();
+            StateMachine.Enter<BootStrapState>();
             DontDestroyOnLoad(this);
         }
+
     }
 }

@@ -325,7 +325,7 @@ namespace ModestTree
         [Conditional("UNITY_EDITOR")]
 #endif
         public static void That(
-            bool condition, string message)
+            bool condition, string message) 
         {
             if (!condition)
             {

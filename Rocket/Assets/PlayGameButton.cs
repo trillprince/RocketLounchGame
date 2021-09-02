@@ -8,17 +8,15 @@ using Zenject;
 
 public class PlayGameButton : MonoBehaviour
 {
-    public Button _playGameButton;
-    public SceneLoader _sceneLoader;
-    public GameStateMachine _gameStateMachine;
-    
-    [Inject]
-    public void Constructor(SceneLoader sceneLoader, GameStateMachine gameStateMachine)
+    private Button _playGameButton;
+    private SceneLoader _sceneLoader;
+    private GameBootstrapper _gameBootstrapper;
+
+    private void Awake()
     {
-        _sceneLoader = sceneLoader;
-        _gameStateMachine = gameStateMachine;
+        _gameBootstrapper = FindObjectOfType<GameBootstrapper>();
     }
-    
+
     private void OnEnable()
     {
         _playGameButton = GetComponent<Button>();
@@ -30,14 +28,14 @@ public class PlayGameButton : MonoBehaviour
         _playGameButton.onClick.AddListener(PlayGame);
     }
 
-    public void PlayGame()
+    private void PlayGame()
     {
-        _sceneLoader.Load(SceneInfo.SceneName.LaunchScene.ToString(),ChangeGameState);
+        _gameBootstrapper.Loader.Load(SceneInfo.SceneName.LaunchScene.ToString(),ChangeGameState);
     }
 
     private void ChangeGameState()
     {
-        _gameStateMachine.Enter<GameLoopState>();
+        _gameBootstrapper.StateMachine.Enter<GameLoopState>();
     }
     
 }

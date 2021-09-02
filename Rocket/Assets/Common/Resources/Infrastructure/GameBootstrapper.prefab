@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a7b93d9e6db0b8468200bb8eb4b4d08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameBootStrapper: {fileID: 8037914794752381673, guid: c9b64a7610e5045498ad56b60fc34ec7, type: 3}
+  _coroutineRunner: {fileID: 3878268021133879950, guid: e62d0469b0ecd2f4b9f900e6070a8a7d, type: 3}
 --- !u!114 &849476459
 MonoBehaviour:
   m_ObjectHideFlags: 0
