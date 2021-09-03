@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class PlayGameButton : MonoBehaviour
+public class PlayGameButton : MonoBehaviour, IGameStateChanger
 {
     private Button _playGameButton;
     private GameStateMachine _gameStateMachine;
@@ -27,11 +27,10 @@ public class PlayGameButton : MonoBehaviour
     {
         _playGameButton.onClick.AddListener(ChangeGameState);
     }
-    
-    private void ChangeGameState()
+
+    public void ChangeGameState()
     {
         _playGameButton.enabled = false;
         _gameStateMachine.Enter<LoadLevelState,string>(SceneInfo.SceneName.LaunchScene.ToString());
     }
-    
 }

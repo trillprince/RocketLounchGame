@@ -25,6 +25,6 @@ public class EndOfGameWindow : MonoBehaviour,IExitWindow
    
     public void Exit()
     {
-        _gameStateMachine.Enter<MenuBootStrapState, string>(SceneInfo.SceneName.Menu.ToString());
+        _gameStateMachine.Enter<MenuBootStrapState>();
     }
 }

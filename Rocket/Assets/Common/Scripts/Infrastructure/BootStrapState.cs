@@ -17,7 +17,7 @@ namespace Common.Scripts.Infrastructure
         }
 
         private void EnterMenu() => 
-            _stateMachine.Enter<MenuBootStrapState,string>(SceneInfo.SceneName.Menu.ToString());
+            _stateMachine.Enter<MenuBootStrapState>();
 
         public void  Exit()
         {

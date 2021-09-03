@@ -7,17 +7,17 @@ namespace Common.Scripts.Infrastructure
     public class GameStateMachine
     {
         private readonly Dictionary<Type, IExitableState> _states;
-        private IExitableState _activeState;
-        public SceneLoader Loader { get; }
+        public IExitableState ActiveState { get; private set; }
+        private SceneLoader _loader;
 
         public GameStateMachine(SceneLoader sceneLoader)
         {
-            Loader = sceneLoader;
+            _loader = sceneLoader;
             _states = new Dictionary<Type, IExitableState>
             {
-                [typeof(BootStrapState)] = new BootStrapState(this, Loader),
-                [typeof(MenuBootStrapState)] = new MenuBootStrapState(this,Loader),
-                [typeof(LoadLevelState)] = new LoadLevelState(this, Loader),
+                [typeof(BootStrapState)] = new BootStrapState(this, sceneLoader),
+                [typeof(MenuBootStrapState)] = new MenuBootStrapState(this,sceneLoader),
+                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader),
                 [typeof(GameLoopState)] = new GameLoopState(this,sceneLoader)
             };
         }
@@ -36,10 +36,10 @@ namespace Common.Scripts.Infrastructure
 
         private TState ChangeState<TState>() where TState : class, IExitableState
         {
-            _activeState?.Exit();
+            ActiveState?.Exit();
 
             TState state = GetState<TState>();
-            _activeState = state;
+            ActiveState = state;
 
             return state;
         }

@@ -3,12 +3,13 @@ using UnityEngine;
 
 namespace Common.Scripts.Infrastructure
 {
-    public class MenuBootStrapState: IPayloadedState<string>
+    public class MenuBootStrapState: IState
     {
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
         private MenuBootStrap _menuBootStrap;
-        
+        private string _menuSceneName = "Menu";
+
 
         public MenuBootStrapState(GameStateMachine gameStateMachine,SceneLoader sceneLoader)
         {
@@ -16,9 +17,9 @@ namespace Common.Scripts.Infrastructure
             _sceneLoader = sceneLoader;
         }
 
-        public void Enter(string payload)
+        public void Enter()
         {
-            _sceneLoader.Load(payload,MenuInit);
+            _sceneLoader.Load(_menuSceneName,MenuInit);
         }
 
         private void MenuInit()
