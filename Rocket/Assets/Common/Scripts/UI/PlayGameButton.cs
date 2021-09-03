@@ -32,7 +32,6 @@ public class PlayGameButton : MonoBehaviour
     {
         _playGameButton.enabled = false;
         _gameStateMachine.Enter<LoadLevelState,string>(SceneInfo.SceneName.LaunchScene.ToString());
-        Debug.Log("aye");
     }
     
 }
