@@ -42,6 +42,7 @@ namespace Common.Scripts.MissionSystem
         {
             if (CargoCount > 0)
             {
+                CargoCount--;
                 return _missionModel.Cargos.Dequeue();
             }
             return default;

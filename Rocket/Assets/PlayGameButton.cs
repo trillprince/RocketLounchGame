@@ -9,33 +9,30 @@ using Zenject;
 public class PlayGameButton : MonoBehaviour
 {
     private Button _playGameButton;
-    private SceneLoader _sceneLoader;
-    private GameBootstrapper _gameBootstrapper;
+    private GameStateMachine _gameStateMachine;
 
-    private void Awake()
+    [Inject]
+    public void Constructor(GameStateMachine gameStateMachine)
     {
-        _gameBootstrapper = FindObjectOfType<GameBootstrapper>();
+        _gameStateMachine = gameStateMachine;
     }
-
+    
     private void OnEnable()
     {
         _playGameButton = GetComponent<Button>();
-        _playGameButton.onClick.AddListener(PlayGame);
+        _playGameButton.onClick.AddListener(ChangeGameState);
     }
 
     private void OnDisable()
     {
-        _playGameButton.onClick.AddListener(PlayGame);
+        _playGameButton.onClick.AddListener(ChangeGameState);
     }
-
-    private void PlayGame()
-    {
-        _gameBootstrapper.Loader.Load(SceneInfo.SceneName.LaunchScene.ToString(),ChangeGameState);
-    }
-
+    
     private void ChangeGameState()
     {
-        _gameBootstrapper.StateMachine.Enter<GameLoopState>();
+        _playGameButton.enabled = false;
+        _gameStateMachine.Enter<LoadLevelState,string>(SceneInfo.SceneName.LaunchScene.ToString());
+        Debug.Log("aye");
     }
     
 }

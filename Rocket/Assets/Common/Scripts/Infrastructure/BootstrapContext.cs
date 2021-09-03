@@ -12,6 +12,7 @@ namespace Common.Scripts.Infrastructure
         {
             BindGameStateMachine();
         }
+        
         private void BindGameStateMachine()
         {
             CoroutineRunner co = Container.InstantiatePrefabForComponent<CoroutineRunner>(_coroutineRunner);

@@ -8,14 +8,16 @@ namespace Common.Scripts.Infrastructure
     {
         private readonly Dictionary<Type, IExitableState> _states;
         private IExitableState _activeState;
+        public SceneLoader Loader { get; }
 
         public GameStateMachine(SceneLoader sceneLoader)
         {
+            Loader = sceneLoader;
             _states = new Dictionary<Type, IExitableState>
             {
-                [typeof(BootStrapState)] = new BootStrapState(this, sceneLoader),
-                [typeof(MenuBootStrapState)] = new MenuBootStrapState(this,sceneLoader),
-                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader),
+                [typeof(BootStrapState)] = new BootStrapState(this, Loader),
+                [typeof(MenuBootStrapState)] = new MenuBootStrapState(this,Loader),
+                [typeof(LoadLevelState)] = new LoadLevelState(this, Loader),
                 [typeof(GameLoopState)] = new GameLoopState(this,sceneLoader)
             };
         }

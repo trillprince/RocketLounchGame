@@ -49,7 +49,7 @@ namespace Common.Scripts.MissionSystem
 
         private void OnDisable()
         {
-            CargoDropController.CargoDropping -= UpdateCargoStatus;
+            CargoDropController.OnCargoDrop -= UpdateCargoStatus;
             CargoDropController.OnGetAccuracy -= SetModelAccuracy;
             GameStateController.OnStateSwitch -= GameStateListener;
         }
@@ -68,6 +68,7 @@ namespace Common.Scripts.MissionSystem
         {
             _currentCargoIndex++;
             DropEventInvoker(DropStatus.End);
+            Debug.Log($" {_currentCargoIndex} {_cargoCount}");
             if (_currentCargoIndex == _cargoCount)
             {
                 Debug.Log($"out of cargo {_currentCargoIndex} {_cargoCount}");

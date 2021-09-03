@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MissionController : MonoBehaviour
+namespace Common.Scripts.MissionSystem
 {
+    public class MissionController : MonoBehaviour
+    {
     
+    }
 }
