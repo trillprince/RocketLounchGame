@@ -3,12 +3,10 @@ namespace Common.Scripts.Infrastructure
     public class BootStrapState : IState
     {
         private readonly GameStateMachine _stateMachine;
-        private readonly SceneLoader _sceneLoader;
 
-        public BootStrapState(GameStateMachine stateMachine, SceneLoader sceneLoader)
+        public BootStrapState(GameStateMachine stateMachine)
         {
             _stateMachine = stateMachine;
-            _sceneLoader = sceneLoader;
         }
 
         public void Enter()

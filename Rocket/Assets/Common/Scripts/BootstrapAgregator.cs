@@ -4,7 +4,7 @@ using Common.Scripts.Infrastructure;
 using UnityEngine;
 using Zenject;
 
-public class LevelAgregator : MonoBehaviour
+public class BootstrapAgregator : MonoBehaviour
 {
     private GameStateMachine _gameStateMachine;
     

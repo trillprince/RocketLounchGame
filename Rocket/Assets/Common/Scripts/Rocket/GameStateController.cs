@@ -20,19 +20,30 @@ namespace Common.Scripts.Rocket
         
         private void Start()
         {
+            Debug.Log("Game state controller");
             OnStateSwitch?.Invoke(GameState.WaitForLaunch);
         }
 
         void OnEnable()
         {
-            LaunchManager.OnRocketLounch += () =>
-            {
-                SetGameState(GameState.CargoDrop);
-            };
-            DropStatusController.OnOutOfCargo += () =>
-            {
-                StartCoroutine(WaitTillStateSwitch(GameState.Landing));
-            };
+            LaunchManager.OnRocketLounch += SetStateOnRocketLaunch;
+            DropStatusController.OnOutOfCargo += SetStateOnOutOfCargo;
+        }
+
+        private void OnDisable()
+        {
+            LaunchManager.OnRocketLounch -= SetStateOnRocketLaunch;
+            DropStatusController.OnOutOfCargo -= SetStateOnOutOfCargo;
+        }
+
+        void SetStateOnRocketLaunch()
+        {
+            SetGameState(GameState.CargoDrop);
+        }
+
+        void SetStateOnOutOfCargo()
+        {
+            StartCoroutine(WaitTillStateSwitch(GameState.Landing));
         }
         
         

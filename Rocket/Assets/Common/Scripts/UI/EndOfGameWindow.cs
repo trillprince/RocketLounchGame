@@ -15,7 +15,7 @@ public class EndOfGameWindow : MonoBehaviour,IExitWindow
 
     private void Awake()
     {
-        _gameStateMachine = FindObjectOfType<LevelAgregator>().GetStateMachine();
+        _gameStateMachine = FindObjectOfType<BootstrapAgregator>().GetStateMachine();
     }
 
     private void Start()

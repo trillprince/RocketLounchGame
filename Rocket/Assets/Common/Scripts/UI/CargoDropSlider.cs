@@ -155,6 +155,7 @@ namespace Common.Scripts.UI
         }
         void CargoDropping()
         {
+            Debug.Log("slider");
             _handleActive = false;
             CheckCurrentDropAccuracy();
             SliderActive(false);

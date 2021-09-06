@@ -105,6 +105,7 @@ namespace Common.Scripts.MissionSystem
         {
             if (gameState == GameState.CargoDrop)
             {
+                Debug.Log("cargo drop state");
                 StartCoroutine(DropStart());
             }
         }

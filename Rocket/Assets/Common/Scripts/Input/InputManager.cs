@@ -33,6 +33,8 @@ namespace Common.Scripts.Input
                 OnTouchEndEvent?.Invoke();
                 OnTouchHoldEnd?.Invoke();
             };
+            
+            Debug.Log("touch active");
         }
 
    
