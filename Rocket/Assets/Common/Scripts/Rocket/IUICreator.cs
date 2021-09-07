@@ -1,6 +1,8 @@
-﻿namespace Common.Scripts.Rocket
+﻿using System;
+
+namespace Common.Scripts.Rocket
 {
-    public interface IUICreator<T> where T : IExitWindow
+    public interface IUICreator<T> 
     {
         public T InstantiateUI();
     }

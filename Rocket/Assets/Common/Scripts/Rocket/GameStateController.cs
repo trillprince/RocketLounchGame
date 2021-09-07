@@ -20,7 +20,6 @@ namespace Common.Scripts.Rocket
         
         private void Start()
         {
-            Debug.Log("Game state controller");
             OnStateSwitch?.Invoke(GameState.WaitForLaunch);
         }
 

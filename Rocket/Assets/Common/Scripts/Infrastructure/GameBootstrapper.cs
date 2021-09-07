@@ -8,7 +8,7 @@ namespace Common.Scripts.Infrastructure
     public class GameBootstrapper : MonoBehaviour
     {
         public GameStateMachine StateMachine { get; private set; }
-        
+
         [Inject]
         public void Constructor(GameStateMachine gameStateMachine)
         {

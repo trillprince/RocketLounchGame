@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Common.Scripts.Cargo;
 using Common.Scripts.Infrastructure;
+using Common.Scripts.Rocket;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -50,6 +51,11 @@ namespace Common.Scripts.MissionSystem
         private int GetRandomCargoCount()
         {
             return Random.Range(_missionModel.MINCargoCount,_missionModel.MAXCargoCount);
+        }
+
+        public void SetLandingStatus(LandingStatus landingStatus)
+        {
+            _missionModel.LandingStatus = landingStatus;
         }
     }
 }

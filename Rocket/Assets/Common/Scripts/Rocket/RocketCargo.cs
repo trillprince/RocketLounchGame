@@ -26,12 +26,10 @@ namespace Common.Scripts.Rocket
         void SetCargo(GameObject cargo)
         {
             _currentCargo = cargo;
-            Debug.Log($"SetCargo {_currentCargo}");
         }
 
         void DropCargo()
         {
-            Debug.Log($"current cargo count {_currentCargo}");
             if (_currentCargo != null)
             {
                 var cargo = Instantiate(_currentCargo, transform.position, Quaternion.identity);

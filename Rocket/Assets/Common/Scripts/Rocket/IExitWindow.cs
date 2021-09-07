@@ -2,6 +2,8 @@
 {
     public interface IExitWindow
     {
+        public void FillWithInfo();
         public void Exit();
     }
+
 }

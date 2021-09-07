@@ -1,4 +1,5 @@
-﻿using Common.Scripts.UI;
+﻿using System;
+using Common.Scripts.UI;
 using UnityEngine;
 
 namespace Common.Scripts.Infrastructure
@@ -8,23 +9,27 @@ namespace Common.Scripts.Infrastructure
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
         private MenuBootStrap _menuBootStrap;
-        private string _menuSceneName = "Menu";
+        private LoadingCurtain _loadingCurtain;
 
 
-        public MenuBootStrapState(GameStateMachine gameStateMachine,SceneLoader sceneLoader)
+        public MenuBootStrapState(GameStateMachine gameStateMachine,SceneLoader sceneLoader,LoadingCurtain loadingCurtain)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
+            _loadingCurtain = loadingCurtain;
         }
 
         public void Enter()
         {
-            _sceneLoader.Load(_menuSceneName,MenuInit);
+            InitServices();
         }
-
-        private void MenuInit()
+        
+        private void InitServices()
         {
-            _menuBootStrap = new MenuBootStrap();
+            _menuBootStrap = new MenuBootStrap((() =>
+            {
+                _loadingCurtain.Hide();
+            }));
         }
 
         public void Exit()

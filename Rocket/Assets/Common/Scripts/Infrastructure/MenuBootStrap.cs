@@ -9,9 +9,10 @@ namespace Common.Scripts.Infrastructure
     {
         private NetworkService _networkService;
 
-        public MenuBootStrap()
+        public MenuBootStrap(Action action = null)
         {
             _networkService = new NetworkService();
+            action?.Invoke();
         }
     }
 }

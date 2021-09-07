@@ -1,5 +1,6 @@
 ﻿using System;
 using Common.Scripts.Infrastructure;
+using Common.Scripts.MissionSystem;
 using Common.Scripts.Planet;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace Common.Scripts.Rocket
 {
     public class EndOfGameController: MonoBehaviour
     {
-        private EndOfGameUI _endOfGameUI;
+        private EndOfGameUI <IExitWindow> _endOfGameUI;
         [SerializeField] private EndOfGameModel _endOfGameModel;
 
         private void OnEnable()
@@ -17,24 +18,21 @@ namespace Common.Scripts.Rocket
 
         private void OnDisable()
         {
-            RocketStateController.OnLanding += OnLandingUICreate;
+            RocketStateController.OnLanding -= OnLandingUICreate;
         }
 
 
         private void OnLandingUICreate(LandingStatus landingStatus)
         {
-            _endOfGameUI = new EndOfGameUI(CreateUI);
-            _endOfGameUI.InstantiateUI();
+            _endOfGameUI = new EndOfGameUI<IExitWindow>(CreateUI);
+            _endOfGameUI.InstantiateUI().FillWithInfo();
+
         }
-        
+
         private IExitWindow CreateUI()
         {
-            IExitWindow window = Instantiate(_endOfGameModel.EndOfGameWindow).GetComponent<IExitWindow>();
-            if (window != null)
-            {
-                return window;
-            }
-            return default;
+            return Instantiate(_endOfGameModel.EndOfGameWindow).GetComponentInChildren<IExitWindow>();
         }
+
     }
 }

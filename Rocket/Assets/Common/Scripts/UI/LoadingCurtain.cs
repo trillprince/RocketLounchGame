@@ -2,15 +2,18 @@ using System;
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Common.Scripts.UI
 {
     public class LoadingCurtain : MonoBehaviour
     {
         public CanvasGroup Curtain;
+        private GraphicRaycaster _graphicRaycaster;
 
         private void Awake()
         {
+            _graphicRaycaster = GetComponent<GraphicRaycaster>();
             DontDestroyOnLoad(this);
         }
 

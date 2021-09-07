@@ -1,27 +1,22 @@
 ﻿using System;
+using Common.Scripts.MissionSystem;
 using Common.Scripts.Planet;
 using UnityEngine;
 
 namespace Common.Scripts.Rocket
 {
-    public class EndOfGameUI: IUICreator<IExitWindow>
+    public class EndOfGameUI<T>: IUICreator<T> where T : IExitWindow
     {
-        private Func<IExitWindow> _createWindow;
-        private IExitWindow _window;
-        
-        public EndOfGameUI(Func<IExitWindow> createWindow)
+        private Func<T> _createWindow;
+
+        public EndOfGameUI(Func<T> createWindow)
         {
             _createWindow = createWindow;
         }
 
-        public IExitWindow InstantiateUI()
+        public T InstantiateUI()
         {
-            _window = _createWindow?.Invoke();
-            if (_window != null)
-            {
-                return _window;
-            }
-            return default;
+            return _createWindow.Invoke();
         }
     }
 }

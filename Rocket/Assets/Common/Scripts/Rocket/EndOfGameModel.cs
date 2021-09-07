@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Common.Scripts.MissionSystem;
+using UnityEngine;
 
 namespace Common.Scripts.Rocket
 {
@@ -6,5 +7,6 @@ namespace Common.Scripts.Rocket
     public class EndOfGameModel : ScriptableObject
     {
         [SerializeField] public GameObject EndOfGameWindow;
+        [SerializeField] public MissionModel MissionModel;
     }
 }

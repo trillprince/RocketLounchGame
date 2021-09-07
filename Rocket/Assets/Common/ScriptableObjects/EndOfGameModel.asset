@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: EndOfGameModel
   m_EditorClassIdentifier: 
   EndOfGameWindow: {fileID: 3097324134219878178, guid: 8186dceed85611f418672a5e658189db, type: 3}
+  MissionModel: {fileID: 11400000, guid: 9803e1d959ec1d84e989664794b294b9, type: 2}

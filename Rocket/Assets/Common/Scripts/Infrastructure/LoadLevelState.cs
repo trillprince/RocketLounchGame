@@ -9,16 +9,21 @@ namespace Common.Scripts.Infrastructure
     {
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
+        private LoadingCurtain _loadingCurtain;
 
-        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader)
+        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
+            _loadingCurtain = loadingCurtain;
         }
 
         public void Enter(string sceneName)
         {
-            _sceneLoader.Load(sceneName,OnLoaded);
+            _loadingCurtain.Show((() =>
+            {
+                _sceneLoader.Load(sceneName,OnLoaded);
+            }));
         }
 
         private void OnLoaded()
