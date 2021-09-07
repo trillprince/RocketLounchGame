@@ -335,25 +335,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1219146011, guid: e43f117a444eda14080758a2ae2f89c7, type: 3}
-      propertyPath: m_BlocksRaycasts
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4557107615767489778, guid: e43f117a444eda14080758a2ae2f89c7, type: 3}
-      propertyPath: m_BlockingMask.m_Bits
-      value: 4294967295
-      objectReference: {fileID: 0}
     - target: {fileID: 4557107615767489779, guid: e43f117a444eda14080758a2ae2f89c7, type: 3}
       propertyPath: m_Name
       value: LoadingCurtain
-      objectReference: {fileID: 0}
-    - target: {fileID: 4557107615767489779, guid: e43f117a444eda14080758a2ae2f89c7, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4557107615767489788, guid: e43f117a444eda14080758a2ae2f89c7, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4557107615767489791, guid: e43f117a444eda14080758a2ae2f89c7, type: 3}
       propertyPath: m_Pivot.x
