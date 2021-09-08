@@ -9,14 +9,15 @@ public class PauseButton : MonoBehaviour
     private Button _pauseButton;
     public static event Action OnGamePause;
 
-    private void Awake()
+    private void OnEnable()
     {
         _pauseButton = GetComponent<Button>();
+        _pauseButton.onClick.AddListener(OnPause);
     }
 
-    private void Start()
+    private void OnDisable()
     {
-        _pauseButton.onClick.AddListener(OnPause);
+        _pauseButton.onClick.RemoveListener(OnPause);
     }
 
     private void OnPause()

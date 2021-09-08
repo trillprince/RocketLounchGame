@@ -21,7 +21,10 @@ namespace Common.Scripts.Infrastructure
 
         public void Enter()
         {
-            _sceneLoader.Load(SceneInfo.SceneName.Menu.ToString(), InitServices);
+            _loadingCurtain.Show((() =>
+            {
+                _sceneLoader.Load(SceneInfo.SceneName.Menu.ToString(), InitServices);
+            }));
         }
         
         private void InitServices()

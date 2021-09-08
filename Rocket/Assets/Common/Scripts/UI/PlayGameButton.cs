@@ -25,7 +25,7 @@ public class PlayGameButton : MonoBehaviour, IGameStateChanger
 
     private void OnDisable()
     {
-        _playGameButton.onClick.AddListener(ChangeGameState);
+        _playGameButton.onClick.RemoveListener(ChangeGameState);
     }
 
     public void ChangeGameState()

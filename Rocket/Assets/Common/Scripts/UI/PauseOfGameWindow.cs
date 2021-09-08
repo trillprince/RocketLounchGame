@@ -21,6 +21,7 @@ namespace Common.Scripts.UI
         {
             _munuButton.onClick.AddListener((() =>
             {
+                Time.timeScale = 1;
                 _gameStateMachine.Enter<MenuBootStrapState>();
             }));
             
