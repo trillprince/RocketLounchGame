@@ -2,21 +2,44 @@
 using Common.Scripts.MissionSystem;
 using Common.Scripts.Planet;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Common.Scripts.Rocket
 {
-    public class EndOfGameUI<T>: IUICreator<T> where T : IExitWindow
+    public class EndOfGameUI: IEventSubscriber,IUICreator<IWindow>
     {
-        private Func<T> _createWindow;
+        private IWindowModel _windowModel;
+        private Action<IUICreator<IWindow>> _onEventAction;
+        private readonly string _key = "EndOfGameUI";
 
-        public EndOfGameUI(Func<T> createWindow)
+        public EndOfGameUI(IWindowModel windowModel,Action<IUICreator<IWindow>> onEventAction)
         {
-            _createWindow = createWindow;
+            _windowModel = windowModel;
+            _onEventAction = onEventAction;
         }
 
-        public T InstantiateUI()
+        public void Subscribe()
         {
-            return _createWindow.Invoke();
+            RocketStateController.OnLanding += OnRocketLandingUiCreate;
+        }
+        public void Unsubscribe()
+        {
+            RocketStateController.OnLanding -= OnRocketLandingUiCreate;
+        }
+
+        private void OnRocketLandingUiCreate(LandingStatus landingStatus)
+        {
+            _onEventAction?.Invoke(this);
+        }
+
+        public IWindowModel GetWindowModel()
+        {
+            return _windowModel;
+        }
+
+        public string GetKey()
+        {
+            return _key;
         }
     }
 }

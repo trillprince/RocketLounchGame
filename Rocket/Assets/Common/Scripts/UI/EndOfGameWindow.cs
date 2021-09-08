@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
-public class EndOfGameWindow : MonoBehaviour,IExitWindow
+public class EndOfGameWindow : MonoBehaviour,IWindow
 {
     private GameStateMachine _gameStateMachine;
     [SerializeField] private TextMeshProUGUI _cargoDropInfoText;
@@ -23,11 +23,12 @@ public class EndOfGameWindow : MonoBehaviour,IExitWindow
     private void Awake()
     {
         _gameStateMachine = FindObjectOfType<BootstrapAgregator>().GetStateMachine();
+        _menuButton.onClick.AddListener(Exit);
     }
 
     private void Start()
     {
-        _menuButton.onClick.AddListener(Exit);
+        DisplayInfo();
     }
    
     public void Exit()
@@ -35,13 +36,23 @@ public class EndOfGameWindow : MonoBehaviour,IExitWindow
         _gameStateMachine.Enter<MenuBootStrapState>();
     }
 
-    public void FillWithInfo()
+    private void ShowCargoDropInfo()
     {
         foreach (DropAccuracy accuracy in _missionModel.Accuracies)
         {
             _cargoDropInfoText.text = $"{_currentText} \n - {accuracy.ToString()}";
             _currentText = _cargoDropInfoText.text;
         }
+    }
+
+    private void ShowLandingInfo()
+    {
         _landingInfoText.text = _missionModel.LandingStatus.ToString();
+    }
+
+    public void DisplayInfo()
+    {
+        ShowCargoDropInfo();
+        ShowLandingInfo();
     }
 }

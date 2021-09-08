@@ -2,8 +2,8 @@
 
 namespace Common.Scripts.Rocket
 {
-    public interface IUICreator<T> 
+    public interface IUICreator<T>
     {
-        public T InstantiateUI();
+        public IWindowModel GetWindowModel();
     }
 }

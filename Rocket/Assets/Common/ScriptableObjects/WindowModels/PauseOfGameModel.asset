@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 221e03c40f184d94b1ff71516527255a, type: 3}
-  m_Name: MissionModel
+  m_Script: {fileID: 11500000, guid: 9a6424e6cc8c450f9f18ffd34153e40f, type: 3}
+  m_Name: PauseOfGameModel
   m_EditorClassIdentifier: 
-  _minCargoCount: 1
-  _maxCargoCount: 2
-  _accuracies: 
+  _window: {fileID: 1606074339826163336, guid: ce419ba6b7220d14bb80ace7d75d4486, type: 3}
