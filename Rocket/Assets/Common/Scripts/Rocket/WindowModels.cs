@@ -10,7 +10,7 @@ namespace Common.Scripts.Rocket
         private IWindowModel[] _iWindowModels;
         [SerializeField] private ScriptableObject[] _windowModels;
         private bool _modelsInted = false;
-        public IWindowModel GetSpecificModel(Type type)
+        public IWindowModel GetSpecificModel (string key)
         {
             if (!_modelsInted)
             {
@@ -23,8 +23,9 @@ namespace Common.Scripts.Rocket
             }
             foreach (IWindowModel iWindowModel in _iWindowModels)
             {
-                if (iWindowModel.GetType() == type)
+                if (iWindowModel.GetKey() == key)
                 {
+                    Debug.Log(iWindowModel.GetKey() == key);
                     return iWindowModel;
                 }
             }

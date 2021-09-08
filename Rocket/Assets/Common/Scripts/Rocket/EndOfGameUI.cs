@@ -10,12 +10,13 @@ namespace Common.Scripts.Rocket
     {
         private IWindowModel _windowModel;
         private Action<IUICreator<IWindow>> _onEventAction;
-        private readonly string _key = "EndOfGameUI";
+        private readonly string _key = "EndOfGame";
 
         public EndOfGameUI(IWindowModel windowModel,Action<IUICreator<IWindow>> onEventAction)
         {
             _windowModel = windowModel;
             _onEventAction = onEventAction;
+            Subscribe();
         }
 
         public void Subscribe()
@@ -26,7 +27,7 @@ namespace Common.Scripts.Rocket
         {
             RocketStateController.OnLanding -= OnRocketLandingUiCreate;
         }
-
+        
         private void OnRocketLandingUiCreate(LandingStatus landingStatus)
         {
             _onEventAction?.Invoke(this);

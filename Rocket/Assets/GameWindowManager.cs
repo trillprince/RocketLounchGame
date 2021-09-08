@@ -18,22 +18,12 @@ public class GameWindowManager : MonoBehaviour
         InitUiCreatorDictionary();
     }
 
-    private void OnEnable()
-    {
-        _action += UpdateWindow;
-    }
-
-    private void OnDisable()
-    {
-        _action -= UpdateWindow;
-    }
-
     private void InitUiCreatorDictionary()
     {
         _uiCreators = new Dictionary<Type, IUICreator<IWindow>>
         {
-            [typeof(EndOfGameUI)] = new EndOfGameUI(_windowModels.GetSpecificModel(typeof(EndOfGameUI)),_action),
-            [typeof(PauseOfGameUI)] = new PauseOfGameUI(_windowModels.GetSpecificModel(typeof(PauseOfGameUI)),_action)
+            [typeof(EndOfGameUI)] = new EndOfGameUI(_windowModels.GetSpecificModel("EndOfGame"),UpdateWindow),
+            [typeof(PauseOfGameUI)] = new PauseOfGameUI(_windowModels.GetSpecificModel("PauseOfGame"),UpdateWindow)
         };
     }
 

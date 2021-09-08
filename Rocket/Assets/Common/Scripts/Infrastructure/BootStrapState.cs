@@ -22,13 +22,9 @@ namespace Common.Scripts.Infrastructure
 
         private void EnterMenu()
         {
-            _sceneLoader.Load(_menuSceneName,(() =>
-            {
-                _stateMachine.Enter<MenuBootStrapState>();
-            }));
-        } 
-            
-
+            _stateMachine.Enter<MenuBootStrapState>();
+        }
+        
         public void  Exit()
         {
         

@@ -8,6 +8,8 @@ namespace Common.Scripts.Rocket
     {
         [SerializeField] public GameObject EndOfGameWindow;
         [SerializeField] public MissionModel MissionModel;
+        private string _key = "EndOfGame";
+
         public GameObject GetWindowObject()
         {
             return EndOfGameWindow;
@@ -15,7 +17,7 @@ namespace Common.Scripts.Rocket
 
         public string GetKey()
         {
-            throw new System.NotImplementedException();
+            return _key;
         }
     }
 }

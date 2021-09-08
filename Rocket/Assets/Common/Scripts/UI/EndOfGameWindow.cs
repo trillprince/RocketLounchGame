@@ -5,6 +5,7 @@ using Common.Scripts.Cargo;
 using Common.Scripts.Infrastructure;
 using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
+using Common.Scripts.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,10 +20,12 @@ public class EndOfGameWindow : MonoBehaviour,IWindow
     [SerializeField] private Button _menuButton;
     [SerializeField] private MissionModel _missionModel;
     private string _currentText;
+    private LoadingCurtain _loadingCurtain;
 
     private void Awake()
     {
         _gameStateMachine = FindObjectOfType<BootstrapAgregator>().GetStateMachine();
+        _loadingCurtain = _gameStateMachine.Curtain;
         _menuButton.onClick.AddListener(Exit);
     }
 
@@ -31,9 +34,12 @@ public class EndOfGameWindow : MonoBehaviour,IWindow
         DisplayInfo();
     }
    
-    public void Exit()
+    private void Exit()
     {
-        _gameStateMachine.Enter<MenuBootStrapState>();
+        _loadingCurtain.Show((() =>
+        {
+            _gameStateMachine.Enter<MenuBootStrapState>();
+        }));
     }
 
     private void ShowCargoDropInfo()
