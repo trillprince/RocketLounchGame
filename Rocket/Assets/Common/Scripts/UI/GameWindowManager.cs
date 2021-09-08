@@ -6,12 +6,12 @@ using UnityEngine;
 
 public class GameWindowManager : MonoBehaviour
 {
-    private IWindow _currentWindow;
-    private Dictionary<Type, IUICreator<IWindow>> _uiCreators;
-    private IUICreator<IWindow> _uiCreator;
+    private IPauseWindow _currentWindow;
+    private Dictionary<Type, IUICreator<IPauseWindow>> _uiCreators;
+    private IUICreator<IPauseWindow> _uiCreator;
     [SerializeField] private WindowModels _windowModels;
     private IWindowModel _currentWindowModel;
-    private Action <IUICreator<IWindow>> _action;
+    private Action <IUICreator<IPauseWindow>> _action;
 
     private void Awake()
     {
@@ -20,21 +20,21 @@ public class GameWindowManager : MonoBehaviour
 
     private void InitUiCreatorDictionary()
     {
-        _uiCreators = new Dictionary<Type, IUICreator<IWindow>>
+        _uiCreators = new Dictionary<Type, IUICreator<IPauseWindow>>
         {
             [typeof(EndOfGameUI)] = new EndOfGameUI(_windowModels.GetSpecificModel("EndOfGame"),UpdateWindow),
             [typeof(PauseOfGameUI)] = new PauseOfGameUI(_windowModels.GetSpecificModel("PauseOfGame"),UpdateWindow)
         };
     }
 
-    private void UpdateWindow(IUICreator<IWindow> uiCreator)
+    private void UpdateWindow(IUICreator<IPauseWindow> uiCreator)
     {
         _currentWindow = CreateUI(uiCreator);
     }
 
-    private IWindow CreateUI(IUICreator<IWindow> uiCreator)
+    private IPauseWindow CreateUI(IUICreator<IPauseWindow> uiCreator)
     {
-        return Instantiate(uiCreator.GetWindowModel().GetWindowObject()).GetComponentInChildren<IWindow>();
+        return Instantiate(uiCreator.GetWindowModel().GetWindowObject()).GetComponentInChildren<IPauseWindow>();
     }
     
 }

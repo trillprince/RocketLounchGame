@@ -9,7 +9,7 @@ namespace Common.Scripts.Infrastructure
         private SceneLoader _sceneLoader;
         private string _menuSceneName = "Menu";
 
-        public BootStrapState(GameStateMachine stateMachine, LoadingCurtain loadingCurtain, SceneLoader sceneLoader)
+        public BootStrapState(GameStateMachine stateMachine, SceneLoader sceneLoader)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;

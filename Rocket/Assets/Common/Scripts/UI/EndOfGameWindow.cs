@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
-public class EndOfGameWindow : MonoBehaviour,IWindow
+public class EndOfGameWindow : MonoBehaviour,IPauseWindow
 {
     private GameStateMachine _gameStateMachine;
     [SerializeField] private TextMeshProUGUI _cargoDropInfoText;
@@ -31,7 +31,7 @@ public class EndOfGameWindow : MonoBehaviour,IWindow
 
     private void Start()
     {
-        DisplayInfo();
+        PauseTheGame(DisplayInfo);
     }
    
     private void Exit()
@@ -60,5 +60,11 @@ public class EndOfGameWindow : MonoBehaviour,IWindow
     {
         ShowCargoDropInfo();
         ShowLandingInfo();
+    }
+
+    public void PauseTheGame(Action onPause = null)
+    {
+        Time.timeScale = 0;
+        onPause?.Invoke();
     }
 }

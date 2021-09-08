@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a6424e6cc8c450f9f18ffd34153e40f, type: 3}
   m_Name: PauseOfGameModel
   m_EditorClassIdentifier: 
-  _window: {fileID: 1606074339826163336, guid: ce419ba6b7220d14bb80ace7d75d4486, type: 3}
+  _window: {fileID: 2612824627589142925, guid: ce419ba6b7220d14bb80ace7d75d4486, type: 3}

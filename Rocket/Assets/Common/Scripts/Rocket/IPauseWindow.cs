@@ -1,7 +1,9 @@
-﻿namespace Common.Scripts.Rocket
+﻿using System;
+
+namespace Common.Scripts.Rocket
 {
-    public interface IPauseWindow: IWindow
+    public interface IPauseWindow
     {
-        public void PauseTheGame();
+        public void PauseTheGame(Action onPause = null);
     }
 }

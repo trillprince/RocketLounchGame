@@ -6,13 +6,13 @@ using Random = UnityEngine.Random;
 
 namespace Common.Scripts.Rocket
 {
-    public class EndOfGameUI: IEventSubscriber,IUICreator<IWindow>
+    public class EndOfGameUI: IEventSubscriber,IUICreator<IPauseWindow>
     {
         private IWindowModel _windowModel;
-        private Action<IUICreator<IWindow>> _onEventAction;
+        private Action<IUICreator<IPauseWindow>> _onEventAction;
         private readonly string _key = "EndOfGame";
 
-        public EndOfGameUI(IWindowModel windowModel,Action<IUICreator<IWindow>> onEventAction)
+        public EndOfGameUI(IWindowModel windowModel,Action<IUICreator<IPauseWindow>> onEventAction)
         {
             _windowModel = windowModel;
             _onEventAction = onEventAction;
