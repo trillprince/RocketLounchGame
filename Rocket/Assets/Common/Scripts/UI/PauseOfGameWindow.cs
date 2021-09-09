@@ -19,16 +19,10 @@ namespace Common.Scripts.UI
 
         private void OnEnable()
         {
-            _munuButton.onClick.AddListener((() =>
-            {
-                Time.timeScale = 1;
-                _gameStateMachine.Enter<MenuBootStrapState>();
-            }));
-            
+            _munuButton.onClick.AddListener(MainMenu);
             _continueButton.onClick.AddListener((() =>
             {
-                Time.timeScale = 1;
-                Destroy(gameObject);
+                UnpauseTheGame();
             }));
         }
 
@@ -43,5 +37,17 @@ namespace Common.Scripts.UI
             onPause?.Invoke();
         }
 
+        public void UnpauseTheGame(Action onUnpause = null)
+        {
+            Time.timeScale = 1;
+            onUnpause?.Invoke();
+            Destroy(gameObject);
+        }
+
+        private void MainMenu()
+        {
+            Time.timeScale = 1;
+            _gameStateMachine.Enter<MenuBootStrapState>();
+        }
     }
 }

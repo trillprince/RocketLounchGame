@@ -67,4 +67,10 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
         Time.timeScale = 0;
         onPause?.Invoke();
     }
+
+    public void UnpauseTheGame(Action onUnpause = null)
+    {
+        Time.timeScale = 1;
+        onUnpause?.Invoke();
+    }
 }

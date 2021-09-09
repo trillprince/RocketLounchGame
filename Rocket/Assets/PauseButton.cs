@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PauseButton : MonoBehaviour
 {
     private Button _pauseButton;
-    public static event Action OnGamePause;
+    public static event Action <Action> OnGamePause;
 
     private void OnEnable()
     {
@@ -19,9 +19,16 @@ public class PauseButton : MonoBehaviour
     {
         _pauseButton.onClick.RemoveListener(OnPause);
     }
-
     private void OnPause()
     {
-        OnGamePause?.Invoke();
+        _pauseButton.interactable = false;
+        OnGamePause?.Invoke(OnUnpause);
     }
+    
+    private void OnUnpause()
+    {
+        _pauseButton.interactable = true;
+    }
+    
 }
+

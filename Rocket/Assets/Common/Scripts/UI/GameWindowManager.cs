@@ -7,6 +7,7 @@ using UnityEngine;
 public class GameWindowManager : MonoBehaviour
 {
     private IPauseWindow _currentWindow;
+    private IUICreator<IPauseWindow> _currentUiCreator;
     private Dictionary<Type, IUICreator<IPauseWindow>> _uiCreators;
     private IUICreator<IPauseWindow> _uiCreator;
     [SerializeField] private WindowModels _windowModels;
@@ -35,7 +36,9 @@ public class GameWindowManager : MonoBehaviour
 
     private void UpdateWindow(IUICreator<IPauseWindow> uiCreator)
     {
-        _currentWindow = CreateUI(uiCreator);
+        _currentUiCreator?.OnWindowClose();
+        _currentUiCreator = uiCreator;
+        _currentWindow = CreateUI(_currentUiCreator);
     }
 
     private IPauseWindow CreateUI(IUICreator<IPauseWindow> uiCreator)

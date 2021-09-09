@@ -13,5 +13,10 @@ namespace Common.Scripts.Rocket
         {
             RocketStateController.OnLanding -= action;
         }
+
+        public void Callback()
+        {
+            
+        }
     }
 }
