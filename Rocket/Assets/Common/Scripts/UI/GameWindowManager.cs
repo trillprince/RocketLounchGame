@@ -22,8 +22,14 @@ public class GameWindowManager : MonoBehaviour
     {
         _uiCreators = new Dictionary<Type, IUICreator<IPauseWindow>>
         {
-            [typeof(EndOfGameUI)] = new EndOfGameUI(_windowModels.GetSpecificModel("EndOfGame"),UpdateWindow),
-            [typeof(PauseOfGameUI)] = new PauseOfGameUI(_windowModels.GetSpecificModel("PauseOfGame"),UpdateWindow)
+            [typeof(EndOfGameUI)] = 
+                new EndOfGameUI(_windowModels.GetSpecificModel("EndOfGame"),
+                UpdateWindow, 
+                new EndOfGameEventListener()),
+            [typeof(PauseOfGameUI)] = 
+                new PauseOfGameUI(_windowModels.GetSpecificModel("PauseOfGame"),
+                    UpdateWindow, 
+                    new PauseOfGameEventSubscriber())
         };
     }
 

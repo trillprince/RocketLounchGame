@@ -6,28 +6,19 @@ using Random = UnityEngine.Random;
 
 namespace Common.Scripts.Rocket
 {
-    public class EndOfGameUI: IEventSubscriber,IUICreator<IPauseWindow>
+    public class EndOfGameUI: IUICreator<IPauseWindow>
     {
-        private IWindowModel _windowModel;
-        private Action<IUICreator<IPauseWindow>> _onEventAction;
+        private readonly IWindowModel _windowModel;
+        private readonly Action<IUICreator<IPauseWindow>> _onEventAction;
         private readonly string _key = "EndOfGame";
 
-        public EndOfGameUI(IWindowModel windowModel,Action<IUICreator<IPauseWindow>> onEventAction)
+        public EndOfGameUI(IWindowModel windowModel,Action<IUICreator<IPauseWindow>> onEventAction, IEventSubscriber<LandingStatus> iEventSubscriber)
         {
             _windowModel = windowModel;
             _onEventAction = onEventAction;
-            Subscribe();
+            iEventSubscriber.Subscribe(OnRocketLandingUiCreate);
         }
 
-        public void Subscribe()
-        {
-            RocketStateController.OnLanding += OnRocketLandingUiCreate;
-        }
-        public void Unsubscribe()
-        {
-            RocketStateController.OnLanding -= OnRocketLandingUiCreate;
-        }
-        
         private void OnRocketLandingUiCreate(LandingStatus landingStatus)
         {
             _onEventAction?.Invoke(this);
