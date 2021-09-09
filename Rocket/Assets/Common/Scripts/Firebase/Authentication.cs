@@ -1,4 +1,5 @@
 ﻿using System;
+using Common.Scripts.Infrastructure;
 using Firebase.Auth;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
@@ -9,19 +10,14 @@ namespace Common.Scripts.Firebase
 
     public class Authentication : MonoBehaviour
     {
-        private void Awake()
-        {
-            DontDestroyOnLoad(this);
-        }
-
         private void OnEnable()
         {
-            FirebaseInit.FirebaseInited += ConfigurePlayGames;
+            NetworkService.OnFireBaseInit += ConfigurePlayGames;
         }
 
         private void OnDisable()
         {
-            FirebaseInit.FirebaseInited -= ConfigurePlayGames;
+            NetworkService.OnFireBaseInit -= ConfigurePlayGames;
         }
         
         void ConfigurePlayGames()

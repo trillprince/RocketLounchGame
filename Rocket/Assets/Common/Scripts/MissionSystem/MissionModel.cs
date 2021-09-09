@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common.Scripts.Cargo;
+using Common.Scripts.Rocket;
 using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
@@ -10,6 +11,7 @@ namespace Common.Scripts.MissionSystem
         [SerializeField] private int _minCargoCount;
         [SerializeField] private int _maxCargoCount;
         [SerializeField] private List<DropAccuracy> _accuracies;
+        public LandingStatus LandingStatus { get; set; }
         private Queue<GameObject> _cargos;
         
         public List<DropAccuracy> Accuracies
@@ -27,5 +29,7 @@ namespace Common.Scripts.MissionSystem
             get => _cargos;
             set => _cargos = value;
         }
+
+       
     }
 }

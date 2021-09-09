@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8589470969239237790}
-  - component: {fileID: 4442443773062773243}
+  - component: {fileID: 849476458}
+  - component: {fileID: 849476459}
   m_Layer: 0
   m_Name: GameBootstrapper
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4442443773062773243
+--- !u!114 &849476458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,6 +41,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 7162557355828088715}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77537f4404b0950408dd350a80968e4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a7b93d9e6db0b8468200bb8eb4b4d08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameBootStrapper: {fileID: 8037914794752381673, guid: c9b64a7610e5045498ad56b60fc34ec7, type: 3}
+  _coroutineRunner: {fileID: 3878268021133879950, guid: e62d0469b0ecd2f4b9f900e6070a8a7d, type: 3}
+--- !u!114 &849476459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7162557355828088715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 849476458}
+  _installerPrefabs: []
+  _autoRun: 1
+  OnPreInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  _parentNewObjectsUnderSceneContext: 0
+  _contractNames: []
+  _parentContractNames: []

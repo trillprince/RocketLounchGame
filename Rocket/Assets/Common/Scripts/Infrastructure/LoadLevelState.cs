@@ -9,19 +9,21 @@ namespace Common.Scripts.Infrastructure
     {
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
-        private readonly LoadingCurtain _curtain;
+        private LoadingCurtain _loadingCurtain;
 
-        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain)
+        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
-            _curtain = curtain;
+            _loadingCurtain = loadingCurtain;
         }
 
         public void Enter(string sceneName)
-        { 
-            _curtain.Show();
-            _sceneLoader.Load(sceneName,OnLoaded);
+        {
+            _loadingCurtain.Show((() =>
+            {
+                _sceneLoader.Load(sceneName,OnLoaded);
+            }));
         }
 
         private void OnLoaded()
@@ -31,7 +33,7 @@ namespace Common.Scripts.Infrastructure
 
         public void Exit()
         {
-            _curtain.Hide();
+            
         }
         
     }
