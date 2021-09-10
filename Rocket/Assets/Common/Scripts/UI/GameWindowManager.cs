@@ -11,11 +11,11 @@ public class GameWindowManager : MonoBehaviour
     private Dictionary<Type, IUICreator<IPauseWindow>> _uiCreators;
     private IUICreator<IPauseWindow> _uiCreator;
     [SerializeField] private WindowModels _windowModels;
-    private IWindowModel _currentWindowModel;
-    private Action <IUICreator<IPauseWindow>> _action;
+    private IButtonController _buttonController;
 
     private void Awake()
     {
+        _buttonController = FindObjectOfType<ButtonManager>();
         InitUiCreatorDictionary();
     }
 
@@ -36,9 +36,14 @@ public class GameWindowManager : MonoBehaviour
 
     private void UpdateWindow(IUICreator<IPauseWindow> uiCreator)
     {
+        _buttonController.ButtonsActive(false);
         _currentUiCreator?.OnWindowClose();
         _currentUiCreator = uiCreator;
         _currentWindow = CreateUI(_currentUiCreator);
+        _currentWindow.Constructor((() =>
+        {
+            _buttonController.ButtonsActive(true);
+        }));
     }
 
     private IPauseWindow CreateUI(IUICreator<IPauseWindow> uiCreator)

@@ -31,7 +31,8 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
 
     private void Start()
     {
-        PauseTheGame(DisplayInfo);
+        PauseTheGame();
+        DisplayInfo();
     }
    
     private void Exit()
@@ -62,15 +63,18 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
         ShowLandingInfo();
     }
 
-    public void PauseTheGame(Action onPause = null)
+    public void Constructor(Action onUnpauseAction)
     {
-        Time.timeScale = 0;
-        onPause?.Invoke();
+        
     }
 
-    public void UnpauseTheGame(Action onUnpause = null)
+    public void PauseTheGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    public void UnpauseTheGame()
     {
         Time.timeScale = 1;
-        onUnpause?.Invoke();
     }
 }

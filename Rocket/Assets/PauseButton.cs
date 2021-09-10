@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PauseButton : MonoBehaviour
+public class PauseButton : MonoBehaviour,IControlledButton
 {
     private Button _pauseButton;
-    public static event Action <Action> OnGamePause;
+    public static event Action OnGamePause;
 
     private void OnEnable()
     {
@@ -21,14 +21,11 @@ public class PauseButton : MonoBehaviour
     }
     private void OnPause()
     {
-        _pauseButton.interactable = false;
-        OnGamePause?.Invoke(OnUnpause);
+        OnGamePause?.Invoke();
     }
     
-    private void OnUnpause()
+    public void SetInteractStatus(bool isActive)
     {
-        _pauseButton.interactable = true;
+        _pauseButton.interactable = isActive;
     }
-    
 }
-

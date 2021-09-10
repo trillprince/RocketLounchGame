@@ -11,6 +11,12 @@ namespace Common.Scripts.UI
         [SerializeField] private Button _munuButton;
         [SerializeField] private Button _continueButton;
         private GameStateMachine _gameStateMachine;
+        private Action _onUnpauseAction;
+
+        public void Constructor(Action onUnpauseAction)
+        {
+            _onUnpauseAction = onUnpauseAction;
+        }
 
         private void Awake()
         {
@@ -31,16 +37,15 @@ namespace Common.Scripts.UI
             PauseTheGame();
         }
 
-        public void PauseTheGame(Action onPause = null)
+        public void PauseTheGame()
         {
             Time.timeScale = 0;
-            onPause?.Invoke();
         }
 
-        public void UnpauseTheGame(Action onUnpause = null)
+        public void UnpauseTheGame()
         {
             Time.timeScale = 1;
-            onUnpause?.Invoke();
+            _onUnpauseAction?.Invoke();
             Destroy(gameObject);
         }
 
@@ -49,5 +54,6 @@ namespace Common.Scripts.UI
             Time.timeScale = 1;
             _gameStateMachine.Enter<MenuBootStrapState>();
         }
+
     }
 }

@@ -6,12 +6,12 @@ public class PauseOfGameEventSubscriber: IEventSubscriber
 
     public void Subscribe(Action action)
     {
-        /*PauseButton.OnGamePause */
+        PauseButton.OnGamePause += action;
     }
 
     public void Unsubscribe(Action action)
     {
-        /*PauseButton.OnGamePause */
+        PauseButton.OnGamePause -= action;
     }
     
     public void Callback()

@@ -4,7 +4,8 @@ namespace Common.Scripts.Rocket
 {
     public interface IPauseWindow
     {
-        public void PauseTheGame(Action onPause = null);
-        public void UnpauseTheGame(Action onUnpause = null);
+        public void Constructor(Action onUnpauseAction);
+        public void PauseTheGame();
+        public void UnpauseTheGame();
     }
 }
