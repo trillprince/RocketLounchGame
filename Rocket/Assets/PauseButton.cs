@@ -26,6 +26,6 @@ public class PauseButton : MonoBehaviour,IControlledButton
     
     public void SetInteractStatus(bool isActive)
     {
-        _pauseButton.interactable = isActive;
+        _pauseButton.gameObject.SetActive(isActive);
     }
 }

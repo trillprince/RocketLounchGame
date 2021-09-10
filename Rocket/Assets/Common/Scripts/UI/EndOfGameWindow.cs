@@ -21,6 +21,13 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
     [SerializeField] private MissionModel _missionModel;
     private string _currentText;
     private LoadingCurtain _loadingCurtain;
+    
+    
+    public void Constructor(Action onUnpauseAction)
+    {
+        
+    }
+
 
     private void Awake()
     {
@@ -61,11 +68,6 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
     {
         ShowCargoDropInfo();
         ShowLandingInfo();
-    }
-
-    public void Constructor(Action onUnpauseAction)
-    {
-        
     }
 
     public void PauseTheGame()
