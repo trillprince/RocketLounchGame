@@ -6,12 +6,11 @@ using UnityEngine.UI;
 
 public class PauseButton : MonoBehaviour,IControlledButton
 {
-    private Button _pauseButton;
+    [SerializeField] private Button _pauseButton;
     public static event Action OnGamePause;
 
     private void OnEnable()
     {
-        _pauseButton = GetComponent<Button>();
         _pauseButton.onClick.AddListener(OnPause);
     }
 
@@ -19,6 +18,7 @@ public class PauseButton : MonoBehaviour,IControlledButton
     {
         _pauseButton.onClick.RemoveListener(OnPause);
     }
+
     private void OnPause()
     {
         OnGamePause?.Invoke();
@@ -26,6 +26,6 @@ public class PauseButton : MonoBehaviour,IControlledButton
     
     public void SetInteractStatus(bool isActive)
     {
-        _pauseButton.gameObject.SetActive(isActive);
+        _pauseButton.interactable = isActive;
     }
 }

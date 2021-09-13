@@ -7,11 +7,10 @@ public class ButtonManager : MonoBehaviour,IButtonController
 {
     private IControlledButton[] _controlledButtons;
 
-    private void Awake()
+    private void OnEnable()
     {
         _controlledButtons = GetComponentsInChildren<IControlledButton>();
     }
-
 
     public void ButtonsActive(bool isActive)
     {

@@ -36,7 +36,7 @@ namespace Common.Scripts.Rocket
             return _windowModel;
         }
 
-        public void OnWindowClose()
+        public void OnCreatorDestroy()
         {
             _iEventSubscriber.Unsubscribe(OnRocketLandingUiCreate);
         }

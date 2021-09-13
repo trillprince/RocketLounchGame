@@ -29,10 +29,11 @@ namespace Common.Scripts.Infrastructure
         
         private void InitServices()
         {
-            _menuBootStrap = new MenuBootStrap((() =>
+            /*_menuBootStrap = new MenuBootStrap((() =>
             {
-                _loadingCurtain.Hide();
-            }));
+                
+            }));*/
+            _loadingCurtain.Hide();
         }
 
         public void Exit()

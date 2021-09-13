@@ -44,6 +44,7 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
    
     private void Exit()
     {
+        UnpauseTheGame();
         _loadingCurtain.Show((() =>
         {
             _gameStateMachine.Enter<MenuBootStrapState>();

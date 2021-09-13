@@ -1997,6 +1997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c3610e44132734797113a54c1483c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pauseButton: {fileID: 1717232219}
 --- !u!114 &1717232219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2412,7 +2413,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4938504819368702028, guid: 212178c412c4b2b468c04d58c6fe1101, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -17.347134
+      value: -19
       objectReference: {fileID: 0}
     - target: {fileID: 4938504819368702028, guid: 212178c412c4b2b468c04d58c6fe1101, type: 3}
       propertyPath: m_LocalPosition.z

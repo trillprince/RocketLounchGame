@@ -9,6 +9,7 @@ public class GameWindowManager : MonoBehaviour
     private IPauseWindow _currentWindow;
     private IUICreator<IPauseWindow> _currentUiCreator;
     private Dictionary<Type, IUICreator<IPauseWindow>> _uiCreators;
+    private Type[] _dictionaryKeys;
     private IUICreator<IPauseWindow> _uiCreator;
     [SerializeField] private WindowModels _windowModels;
     private IButtonController _buttonController;
@@ -21,6 +22,8 @@ public class GameWindowManager : MonoBehaviour
 
     private void InitUiCreatorDictionary()
     {
+        _dictionaryKeys = new[] {typeof(EndOfGameUI), typeof(PauseOfGameUI)};
+        
         _uiCreators = new Dictionary<Type, IUICreator<IPauseWindow>>
         {
             [typeof(EndOfGameUI)] = 
@@ -43,7 +46,6 @@ public class GameWindowManager : MonoBehaviour
     private void UpdateWindow(IUICreator<IPauseWindow> uiCreator)
     {
         _buttonController.ButtonsActive(false);
-        _currentUiCreator?.OnWindowClose();
         _currentUiCreator = uiCreator;
         _currentWindow = CreateUI(_currentUiCreator);
     }
@@ -54,5 +56,12 @@ public class GameWindowManager : MonoBehaviour
         window.Constructor(uiCreator.ConstructorAction);
         return window;
     }
-    
+
+    private void OnDisable()
+    {
+        foreach (Type type in _dictionaryKeys)
+        {
+           _uiCreators[type].OnCreatorDestroy();
+        }
+    }
 }

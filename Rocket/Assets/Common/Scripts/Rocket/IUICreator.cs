@@ -5,7 +5,7 @@ namespace Common.Scripts.Rocket
     public interface IUICreator<T>
     {
         public IWindowModel GetWindowModel();
-        public void OnWindowClose();
+        public void OnCreatorDestroy();
         public void OnCreatorUse();
         void ConstructorAction();
     }

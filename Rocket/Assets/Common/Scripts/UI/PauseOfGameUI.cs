@@ -1,5 +1,6 @@
 ﻿using System;
 using Common.Scripts.Rocket;
+using UnityEngine;
 
 public class PauseOfGameUI: IUICreator<IPauseWindow>
 {
@@ -22,9 +23,9 @@ public class PauseOfGameUI: IUICreator<IPauseWindow>
         return _windowModel;
     }
 
-    public void OnWindowClose()
+    public void OnCreatorDestroy()
     {
-        _eventSubscriber.Callback();
+        _eventSubscriber.Unsubscribe(OnPause);
     }
 
     public void OnCreatorUse()
