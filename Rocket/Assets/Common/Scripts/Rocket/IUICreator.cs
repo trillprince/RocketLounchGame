@@ -6,7 +6,6 @@ namespace Common.Scripts.Rocket
     {
         public IWindowModel GetWindowModel();
         public void OnCreatorDestroy();
-        public void OnCreatorUse();
-        void ConstructorAction();
+        public void OnCreatorCreate();
     }
 }

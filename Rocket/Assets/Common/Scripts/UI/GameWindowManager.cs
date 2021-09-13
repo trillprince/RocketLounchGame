@@ -28,22 +28,16 @@ public class GameWindowManager : MonoBehaviour
         {
             [typeof(EndOfGameUI)] = 
                 new EndOfGameUI(_windowModels.GetSpecificModel("EndOfGame"),
-                UpdateWindow, 
-                new EndOfGameEventListener(),(() =>
-                {
-                    _buttonController.ButtonsActive(true);
-                })),
+                CreateWindow, 
+                new EndOfGameEventListener()),
             [typeof(PauseOfGameUI)] = 
                 new PauseOfGameUI(_windowModels.GetSpecificModel("PauseOfGame"),
-                    UpdateWindow, 
-                    new PauseOfGameEventSubscriber(),(() =>
-                    {
-                        _buttonController.ButtonsActive(true);
-                    }))
+                    CreateWindow, 
+                    new PauseOfGameEventSubscriber())
         };
     }
 
-    private void UpdateWindow(IUICreator<IPauseWindow> uiCreator)
+    private void CreateWindow(IUICreator<IPauseWindow> uiCreator)
     {
         _buttonController.ButtonsActive(false);
         _currentUiCreator = uiCreator;
@@ -53,7 +47,10 @@ public class GameWindowManager : MonoBehaviour
     private IPauseWindow CreateUI(IUICreator<IPauseWindow> uiCreator)
     {
         var window = Instantiate(uiCreator.GetWindowModel().GetWindowObject()).GetComponentInChildren<IPauseWindow>();
-        window.Constructor(uiCreator.ConstructorAction);
+        window.Constructor((() =>
+        {
+            _buttonController.ButtonsActive(true);
+        }));
         return window;
     }
 

@@ -9,13 +9,12 @@ public class PauseOfGameUI: IUICreator<IPauseWindow>
     private readonly IEventSubscriber _eventSubscriber;
     private readonly Action _constructorAction;
 
-    public PauseOfGameUI(IWindowModel windowModel, Action<IUICreator<IPauseWindow>> windowCreating, IEventSubscriber eventSubscriber,Action constructorAction)
+    public PauseOfGameUI(IWindowModel windowModel, Action<IUICreator<IPauseWindow>> windowCreating, IEventSubscriber eventSubscriber)
     {
         _windowModel = windowModel;
         _windowCreating = windowCreating;
         _eventSubscriber = eventSubscriber;
-        _constructorAction = constructorAction;
-        OnCreatorUse();
+        OnCreatorCreate();
     }
     
     public IWindowModel GetWindowModel()
@@ -28,14 +27,9 @@ public class PauseOfGameUI: IUICreator<IPauseWindow>
         _eventSubscriber.Unsubscribe(OnPause);
     }
 
-    public void OnCreatorUse()
+    public void OnCreatorCreate()
     {
         _eventSubscriber.Subscribe(OnPause);
-    }
-
-    public void ConstructorAction()
-    {
-        _constructorAction?.Invoke();
     }
 
     private void OnPause()
