@@ -31,13 +31,13 @@ namespace Common.Scripts.Rocket
 
         void OnEnable()
         {
-            LaunchManager.OnRocketLounch += SetStateOnRocketLaunch;
+            LaunchManager.OnRocketLaunch += SetStateOnRocketLaunch;
             DropStatusController.OnOutOfCargo += SetStateOnOutOfCargo;
         }
 
         private void OnDisable()
         {
-            LaunchManager.OnRocketLounch -= SetStateOnRocketLaunch;
+            LaunchManager.OnRocketLaunch -= SetStateOnRocketLaunch;
             DropStatusController.OnOutOfCargo -= SetStateOnOutOfCargo;
         }
 

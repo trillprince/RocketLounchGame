@@ -32,11 +32,6 @@ namespace Common.Scripts.MissionSystem
         {
             CargoCount = GetRandomCargoCount();
             _missionModel.Accuracies = new List<DropAccuracy>(CargoCount);
-            _missionModel.Cargos = new Queue<GameObject>();
-            for (int i = 0; i < CargoCount; i++)
-            {
-                _missionModel.Cargos.Enqueue(_cargo);
-            }
         }
 
         public GameObject GetCargo()
@@ -44,7 +39,7 @@ namespace Common.Scripts.MissionSystem
             if (CargoCount > 0)
             {
                 CargoCount--;
-                return _missionModel.Cargos.Dequeue();
+                return _cargo;
             }
             return default;
         }
@@ -52,10 +47,6 @@ namespace Common.Scripts.MissionSystem
         {
             return Random.Range(_missionModel.MINCargoCount,_missionModel.MAXCargoCount);
         }
-
-        public void SetLandingStatus(LandingStatus landingStatus)
-        {
-            _missionModel.LandingStatus = landingStatus;
-        }
+        
     }
 }

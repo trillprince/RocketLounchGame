@@ -10,12 +10,11 @@ namespace Common.Scripts.MissionSystem
 {
     public class DropStatusController : MonoBehaviour
     {
-        private const float _delayDecreaseStep = 0.3f;
         private int _currentCargoIndex = 0;
         private int _cargoCount;
         [SerializeField] private MissionModelViewer _missionModelViewer;
         private DropStatus _currentDropStatus = DropStatus.Waiting;
-        private float _delayBeforeDrop = 4 + _delayDecreaseStep;
+        private float _delayBeforeDrop = 4;
 
         public delegate void Mission (DropStatus dropStatus);
 
@@ -68,10 +67,8 @@ namespace Common.Scripts.MissionSystem
         {
             _currentCargoIndex++;
             DropEventInvoker(DropStatus.End);
-            Debug.Log($" {_currentCargoIndex} {_cargoCount}");
             if (_currentCargoIndex == _cargoCount)
             {
-                Debug.Log($"out of cargo {_currentCargoIndex} {_cargoCount}");
                 OnOutOfCargo?.Invoke();
                 return;
             }
@@ -91,7 +88,6 @@ namespace Common.Scripts.MissionSystem
         private IEnumerator DropStart()
         {
             SetCargo?.Invoke(_missionModelViewer.GetCargo());
-            _delayBeforeDrop -= _delayDecreaseStep;
             yield return new WaitForSeconds(_delayBeforeDrop);
             DropEventInvoker(DropStatus.Start);
         }
@@ -105,7 +101,6 @@ namespace Common.Scripts.MissionSystem
         {
             if (gameState == GameState.CargoDrop)
             {
-                Debug.Log("cargo drop state");
                 StartCoroutine(DropStart());
             }
         }

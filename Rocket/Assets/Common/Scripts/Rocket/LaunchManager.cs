@@ -9,9 +9,9 @@ namespace Common.Scripts.Rocket
     {
         public delegate void Station();
 
-        public static event Station OnRocketLounch;
+        public static event Station OnRocketLaunch;
 
-        public static event Station Lounching;
+        public static event Station Launching;
         
         private float _timeTillLounch = 2f;
         private Button _button;
@@ -25,13 +25,13 @@ namespace Common.Scripts.Rocket
         public void Launch()
         {
             SetInteractStatus(false);
-            StartCoroutine(WaitTillLounch());
+            StartCoroutine(WaitTillLaunch());
         }
 
-        IEnumerator WaitTillLounch()
+        IEnumerator WaitTillLaunch()
         {
             yield return new WaitForSeconds(_timeTillLounch);
-            OnRocketLounch?.Invoke();
+            OnRocketLaunch?.Invoke();
         }
 
         public void SetInteractStatus(bool isActive)

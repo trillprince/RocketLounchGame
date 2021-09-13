@@ -46,7 +46,7 @@ public class GameWindowManager : MonoBehaviour
 
     private IPauseWindow CreateUI(IUICreator<IPauseWindow> uiCreator)
     {
-        var window = Instantiate(uiCreator.GetWindowModel().GetWindowObject()).GetComponentInChildren<IPauseWindow>();
+        var window = Instantiate(uiCreator.GetWindowModel().GetWindowObject(),transform).GetComponentInChildren<IPauseWindow>();
         window.Constructor((() =>
         {
             _buttonController.ButtonsActive(true);

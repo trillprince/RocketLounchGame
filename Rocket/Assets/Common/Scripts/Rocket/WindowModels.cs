@@ -25,7 +25,6 @@ namespace Common.Scripts.Rocket
             {
                 if (iWindowModel.GetKey() == key)
                 {
-                    Debug.Log(iWindowModel.GetKey() == key);
                     return iWindowModel;
                 }
             }
