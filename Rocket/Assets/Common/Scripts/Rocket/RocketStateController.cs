@@ -92,14 +92,14 @@ namespace Common.Scripts.Rocket
 
         private void OnInputSubscribe(Action<Vector2> touchHold, Action touchHoldEnd)
         {
-            InputManager.OnTouchHold += touchHold;
-            InputManager.OnTouchHoldEnd += touchHoldEnd;
+            InputManager.OnTouchStart += touchHold;
+            InputManager.OnTouchEnd += touchHoldEnd;
         }
 
         private void OnInputUnsubscribe(Action<Vector2> touchHold, Action touchHoldEnd)
         {
-            InputManager.OnTouchHold -= touchHold;
-            InputManager.OnTouchHoldEnd -= touchHoldEnd;
+            InputManager.OnTouchStart -= touchHold;
+            InputManager.OnTouchEnd -= touchHoldEnd;
         }
     }
 

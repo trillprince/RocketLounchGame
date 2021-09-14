@@ -3,20 +3,13 @@ using UnityEngine;
 
 namespace Common.Scripts.Input
 {
-    public class InputManager : MonoBehaviour
+    public class InputManager : MonoBehaviour,IControllable
     {
         private TouchControls _touchControls;
+
+        public static event Action<Vector2> OnTouchStart;
+        public static event Action OnTouchEnd;
         
-        public delegate void InputStart(Vector2 touchPosition);
-
-        public static event InputStart OnTouchStartEvent;
-        
-        public delegate void InputEnd();
-
-        public static event InputEnd OnTouchEndEvent;
-
-        public static event Action <Vector2> OnTouchHold;
-        public static event Action  OnTouchHoldEnd;
         
 
         private void Awake()
@@ -24,14 +17,12 @@ namespace Common.Scripts.Input
             _touchControls = new TouchControls();
             _touchControls.Touch.TouchHold.started += context => 
             {
-                OnTouchStartEvent?.Invoke(GetPositionOfTouch());
-                OnTouchHold?.Invoke(GetPositionOfTouch());
+                OnTouchStart?.Invoke(GetPositionOfTouch());
             };
                 
             _touchControls.Touch.TouchHold.canceled += context =>
             { 
-                OnTouchEndEvent?.Invoke();
-                OnTouchHoldEnd?.Invoke();
+                OnTouchEnd?.Invoke();
             };
         }
 
@@ -49,6 +40,16 @@ namespace Common.Scripts.Input
         Vector2 GetPositionOfTouch()
         {
             return _touchControls.Touch.TouchPosition.ReadValue<Vector2>();
+        }
+
+        public void Enable()
+        {
+            
+        }
+
+        public void Disable()
+        {
+            
         }
     }
 }
