@@ -7,14 +7,14 @@ using Random = UnityEngine.Random;
 
 namespace Common.Scripts.Rocket
 {
-    public class RocketAutoMovement : IMoveComponent
+    public class RocketAutoMovement : IRocketMoveComponent
     {
-        private float _scaleSmoothness = 10f;
-        private float _rotateSmoothness = 20f;
+        private float _scaleSmoothness = 5f;
+        private float _rotateSmoothness = 5f;
         private float _minScale;
         private float _maxScale;
-        private readonly float _scaleDownValue = 0.7f;
-        private readonly float _scaleUpValue = 0.3f;
+        private readonly float _scaleDownValue = 0.4f;
+        private readonly float _scaleUpValue = 0.4f;
         private readonly float _minXRot = -20;
         private readonly float _maxXRot = 20;
         private readonly float _minYRot = -90;
@@ -56,7 +56,7 @@ namespace Common.Scripts.Rocket
 
         void ResetTargetRot()
         {
-            _currentTargetRot = new Vector3(Random.Range(_minXRot, _maxXRot), Random.Range(_minYRot, _maxYRot), 0);
+            _currentTargetRot = new Vector3(0, Random.Range(_minYRot, _maxYRot), 0);
         }
 
         void ResetTargetScale()
@@ -65,21 +65,6 @@ namespace Common.Scripts.Rocket
             _currentTargetScale = new Vector3(scale, scale, scale);
         }
 
-        void ChangeRotSpeedOnAccuracy(DropAccuracy accuracy)
-        {
-            if (accuracy == DropAccuracy.Perfect)
-            {
-                _rotateSmoothness -= 3;
-            }
-            else if (accuracy == DropAccuracy.Nice)
-            {
-                _rotateSmoothness -= 2;
-            }
-            else if (accuracy == DropAccuracy.NotGood)
-            {
-                _rotateSmoothness -= 1;
-            }
-        }
         public void Move(Action<MovementState> changeState)
         {
             ScaleDown();
@@ -93,7 +78,6 @@ namespace Common.Scripts.Rocket
                 ResetTargetRot();
                 ResetTargetScale();
             };
-            CargoDropSlider.OnGetDropAccuracy += ChangeRotSpeedOnAccuracy;
         }
     }
 }

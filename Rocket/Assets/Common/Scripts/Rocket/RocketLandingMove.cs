@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Common.Scripts.Rocket
 {
-    public class RocketLandingMove : IMoveComponent
+    public class RocketLandingRocketMove : IRocketMoveComponent
     {
         private Rigidbody _rb;
         private float _impulseForce = 15;
@@ -18,7 +18,7 @@ namespace Common.Scripts.Rocket
         private readonly Action<Action<Vector2>, Action> _onInputSubscribe;
         private readonly Action<Action<Vector2>, Action> _onInputUnsubscribe;
 
-        public RocketLandingMove(Transform transform, Rigidbody rigidbody,
+        public RocketLandingRocketMove(Transform transform, Rigidbody rigidbody,
             Action<LandingStatus> changeMovementResult,
             Action<Action<Vector2>, Action> onInputSubscribe,
             Action<Action<Vector2>, Action> onInputUnsubscribe)
@@ -30,7 +30,7 @@ namespace Common.Scripts.Rocket
             _onInputUnsubscribe = onInputUnsubscribe;
         }
 
-        ~RocketLandingMove()
+        ~RocketLandingRocketMove()
         {
             _onInputUnsubscribe?.Invoke(OnTouchHold, OnTouchHoldEnd);
         }

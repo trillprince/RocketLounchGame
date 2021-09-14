@@ -8,8 +8,8 @@ namespace Common.Scripts.Rocket
 {
     public class RocketStateController : MonoBehaviour
     {
-        private IMoveComponent _movementComponent;
-        private Dictionary<Type, IMoveComponent> _movementComponents;
+        private IRocketMoveComponent _movementComponent;
+        private Dictionary<Type, IRocketMoveComponent> _movementComponents;
         private IMovementTransition _movementTransition;
         private event Action<Transform, MovementState> OnMovementStateSwitch;
         public static event Action<LandingStatus> OnLanding; 
@@ -29,10 +29,10 @@ namespace Common.Scripts.Rocket
             _movementTransition = new TransitionToLanding(transform, MovementState.PhysicMovement,
                 OnMovementStateChangeSubscribe, OnMovementStateChangeUnsubscribe);
 
-            _movementComponents = new Dictionary<Type, IMoveComponent>
+            _movementComponents = new Dictionary<Type, IRocketMoveComponent>
             {
                 [typeof(RocketAutoMovement)] = new RocketAutoMovement(transform),
-                [typeof(RocketLandingMove)] = new RocketLandingMove(transform,
+                [typeof(RocketLandingRocketMove)] = new RocketLandingRocketMove(transform,
                     GetComponent<Rigidbody>(),
                     OnGetLandingStatus, OnInputSubscribe, OnInputUnsubscribe)
             };
@@ -52,7 +52,7 @@ namespace Common.Scripts.Rocket
                     _movementComponent.Enable();
                     break;
                 case MovementState.PhysicMovement:
-                    _movementComponent = _movementComponents[typeof(RocketLandingMove)];
+                    _movementComponent = _movementComponents[typeof(RocketLandingRocketMove)];
                     _movementComponent.Enable();
                     break;
                 case MovementState.NoMovement:

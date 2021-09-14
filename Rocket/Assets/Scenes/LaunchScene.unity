@@ -201,7 +201,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.01, y: 0.9}
   m_AnchorMax: {x: 0.1, y: 0.95}
-  m_AnchoredPosition: {x: -98.582695, y: 23.854004}
+  m_AnchoredPosition: {x: -98.582695, y: 23.854126}
   m_SizeDelta: {x: 176.51973, y: 17.57666}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &75918828
@@ -503,7 +503,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 201935085}
-  - component: {fileID: 201935086}
   - component: {fileID: 201935087}
   m_Layer: 0
   m_Name: MissionSystem
@@ -527,20 +526,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &201935086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 201935084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43645f1402fab00459d52c21f48a1bf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _missionModel: {fileID: 11400000, guid: 9803e1d959ec1d84e989664794b294b9, type: 2}
-  _cargo: {fileID: 9194714471267269330, guid: f6c77d8cfa575ce48b68ea7a2dad605f, type: 3}
 --- !u!114 &201935087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2212,7 +2197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b76ff20b772acd4c8f35446adcf4ff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _missionModelViewer: {fileID: 0}
+  _cargo: {fileID: 9194714471267269330, guid: f6c77d8cfa575ce48b68ea7a2dad605f, type: 3}
 --- !u!114 &1832361423
 MonoBehaviour:
   m_ObjectHideFlags: 0

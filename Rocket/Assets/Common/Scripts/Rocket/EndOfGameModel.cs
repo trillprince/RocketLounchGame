@@ -7,7 +7,6 @@ namespace Common.Scripts.Rocket
     public class EndOfGameModel : ScriptableObject,IWindowModel
     {
         [SerializeField] public GameObject EndOfGameWindow;
-        [SerializeField] public MissionModel MissionModel;
         private string _key = "EndOfGame";
 
         public GameObject GetWindowObject()

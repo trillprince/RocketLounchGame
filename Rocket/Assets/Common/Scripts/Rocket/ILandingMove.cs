@@ -2,7 +2,7 @@
 
 namespace Common.Scripts.Rocket
 {
-    public interface IMoveComponent
+    public interface IRocketMoveComponent
     {
         public void Move(Action<MovementState> changeState = null);
 

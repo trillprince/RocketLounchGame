@@ -12,9 +12,9 @@ namespace Common.Scripts.MissionSystem
     {
         private int _currentCargoIndex = 0;
         private int _cargoCount;
-        [SerializeField] private MissionModelViewer _missionModelViewer;
         private DropStatus _currentDropStatus = DropStatus.Waiting;
         private float _delayBeforeDrop = 4;
+        [SerializeField] private GameObject _cargo;
 
         public delegate void Mission (DropStatus dropStatus);
 
@@ -33,34 +33,16 @@ namespace Common.Scripts.MissionSystem
             set => _currentDropStatus = value;
         }
 
-        public int CargoCount
-        {
-            get => _cargoCount;
-            set => _cargoCount = value;
-        }
-
         private void OnEnable()
         {
             CargoDropController.OnCargoDrop += UpdateCargoStatus;
-            CargoDropController.OnGetAccuracy += SetModelAccuracy;
             GameStateController.OnStateSwitch += GameStateListener;
         }
 
         private void OnDisable()
         {
             CargoDropController.OnCargoDrop -= UpdateCargoStatus;
-            CargoDropController.OnGetAccuracy -= SetModelAccuracy;
             GameStateController.OnStateSwitch -= GameStateListener;
-        }
-
-        private void Awake()
-        {
-            _missionModelViewer = GetComponentInParent<MissionModelViewer>();
-        }
-
-        private void Start()
-        {
-            CargoCount = _missionModelViewer.CargoCount;
         }
 
         void UpdateCargoStatus()    
@@ -87,14 +69,9 @@ namespace Common.Scripts.MissionSystem
 
         private IEnumerator DropStart()
         {
-            SetCargo?.Invoke(_missionModelViewer.GetCargo());
+            SetCargo?.Invoke(_cargo);
             yield return new WaitForSeconds(_delayBeforeDrop);
             DropEventInvoker(DropStatus.Start);
-        }
-
-        private void SetModelAccuracy(DropAccuracy dropAccuracy)
-        {
-            _missionModelViewer.AddAccuracy(dropAccuracy);
         }
 
         private void GameStateListener(GameState gameState)

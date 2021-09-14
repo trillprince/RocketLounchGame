@@ -18,7 +18,6 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
     [SerializeField] private TextMeshProUGUI _cargoDropInfoText;
     [SerializeField] private TextMeshProUGUI _landingInfoText;
     [SerializeField] private Button _menuButton;
-    [SerializeField] private MissionModel _missionModel;
     private string _currentText;
     private LoadingCurtain _loadingCurtain;
     
@@ -53,16 +52,11 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
 
     private void ShowCargoDropInfo()
     {
-        foreach (DropAccuracy accuracy in _missionModel.Accuracies)
-        {
-            _cargoDropInfoText.text = $"{_currentText} \n - {accuracy.ToString()}";
-            _currentText = _cargoDropInfoText.text;
-        }
+
     }
 
     private void ShowLandingInfo()
     {
-        _landingInfoText.text = _missionModel.LandingStatus.ToString();
     }
 
     public void DisplayInfo()
