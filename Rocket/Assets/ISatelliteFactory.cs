@@ -3,5 +3,5 @@ using UnityEngine;
 
 public interface ISatelliteFactory
 {
-    GameObject CreateSatellite();
+    GameObject CreateSatellite(Vector3 position,Quaternion rotation, Vector3 scale);
 }

@@ -13,13 +13,13 @@ namespace Common.Scripts.Rocket
 
         private void OnEnable()
         {
-            DropStatusController.SetCargo += SetCargo;
+            GameLoopController.SetCargo += SetCargo;
             CargoDropController.CargoDropping += DropCargo;
         }
 
         private void OnDisable()
         {
-            DropStatusController.SetCargo -= SetCargo;
+            GameLoopController.SetCargo -= SetCargo;
             CargoDropController.CargoDropping -= DropCargo;
         }
         

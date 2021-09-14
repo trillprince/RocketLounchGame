@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using Common.Scripts.Cargo;
 using Common.Scripts.Rocket;
 using UnityEngine;
@@ -8,13 +9,14 @@ using Zenject;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class DropStatusController : MonoBehaviour
+    public class GameLoopController : MonoBehaviour
     {
         private int _currentCargoIndex = 0;
         private int _cargoCount;
         private DropStatus _currentDropStatus = DropStatus.Waiting;
         private float _delayBeforeDrop = 4;
         [SerializeField] private GameObject _cargo;
+        private ISatelliteFactory _satelliteFactory;
 
         public delegate void Mission (DropStatus dropStatus);
 
@@ -43,6 +45,11 @@ namespace Common.Scripts.MissionSystem
         {
             CargoDropController.OnCargoDrop -= UpdateCargoStatus;
             GameStateController.OnStateSwitch -= GameStateListener;
+        }
+
+        private void Constructor(BasicSatelliteFactory satelliteFactory)
+        {
+            _satelliteFactory = satelliteFactory;
         }
 
         void UpdateCargoStatus()    

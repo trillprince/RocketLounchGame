@@ -29,14 +29,14 @@ namespace Common.Scripts.Cargo
 
         private void OnEnable()
         {
-            DropStatusController.TimeToDrop += CheckDropStatus;
+            GameLoopController.TimeToDrop += CheckDropStatus;
             InputManager.OnTouchStart += DropOnTouch;
             CargoDropSlider.OnGetDropAccuracy += SetDropAccuracy;
         }
 
         private void OnDisable()
         {
-            DropStatusController.TimeToDrop -= CheckDropStatus;
+            GameLoopController.TimeToDrop -= CheckDropStatus;
             InputManager.OnTouchStart -= DropOnTouch;
             CargoDropSlider.OnGetDropAccuracy -= SetDropAccuracy;
         }
