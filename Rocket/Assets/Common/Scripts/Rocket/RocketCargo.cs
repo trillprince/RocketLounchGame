@@ -11,18 +11,6 @@ namespace Common.Scripts.Rocket
     {
         private GameObject _currentCargo;
 
-        private void OnEnable()
-        {
-            GameLoopController.SetCargo += SetCargo;
-            CargoDropController.CargoDropping += DropCargo;
-        }
-
-        private void OnDisable()
-        {
-            GameLoopController.SetCargo -= SetCargo;
-            CargoDropController.CargoDropping -= DropCargo;
-        }
-        
         void SetCargo(GameObject cargo)
         {
             _currentCargo = cargo;

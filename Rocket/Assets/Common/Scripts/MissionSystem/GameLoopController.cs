@@ -13,89 +13,47 @@ namespace Common.Scripts.MissionSystem
     {
         private int _currentCargoIndex = 0;
         private int _cargoCount;
-        private DropStatus _currentDropStatus = DropStatus.Waiting;
-        private float _delayBeforeDrop = 4;
+        private float _waitTime = 4;
         [SerializeField] private GameObject _cargo;
         private ISatelliteFactory _satelliteFactory;
-
-        public delegate void Mission (DropStatus dropStatus);
-
-        public static event Mission TimeToDrop;
-        
-        public delegate void Cargo(GameObject cargo);
-
-        public static event Cargo SetCargo;
-
-        public static event Action OnOutOfCargo;
-
-
-        private DropStatus CurrentDropStatus
-        {
-            get => _currentDropStatus;
-            set => _currentDropStatus = value;
-        }
+        private RocketMovementController _rocketMovementController;
 
         private void OnEnable()
         {
-            CargoDropController.OnCargoDrop += UpdateCargoStatus;
             GameStateController.OnStateSwitch += GameStateListener;
         }
 
         private void OnDisable()
         {
-            CargoDropController.OnCargoDrop -= UpdateCargoStatus;
             GameStateController.OnStateSwitch -= GameStateListener;
         }
 
-        private void Constructor(BasicSatelliteFactory satelliteFactory)
+        [Inject]
+        private void Constructor(BasicSatelliteFactory satelliteFactory,RocketMovementController rocketMovementController)
         {
+            _rocketMovementController = rocketMovementController;
             _satelliteFactory = satelliteFactory;
         }
 
-        void UpdateCargoStatus()    
+        private IEnumerator WaitBeforeSatelliteSpawn(float waitTime)
         {
-            _currentCargoIndex++;
-            DropEventInvoker(DropStatus.End);
-            if (_currentCargoIndex == _cargoCount)
-            {
-                OnOutOfCargo?.Invoke();
-                return;
-            }
-            StartCoroutine(DropStart());
+            yield return new WaitForSeconds(waitTime);
+            CreateSpawner();
         }
 
-        void DropEventInvoker(DropStatus dropStatusToSet)
+        private void CreateSpawner()
         {
-            if (dropStatusToSet == CurrentDropStatus)
-            {
-                return;
-            }
-            CurrentDropStatus = dropStatusToSet;
-            TimeToDrop?.Invoke(CurrentDropStatus);
-        }
-
-        private IEnumerator DropStart()
-        {
-            SetCargo?.Invoke(_cargo);
-            yield return new WaitForSeconds(_delayBeforeDrop);
-            DropEventInvoker(DropStatus.Start);
+            ISpawner satelliteSpawner = new SatelliteSpawner(_satelliteFactory,_rocketMovementController.transform,_rocketMovementController.Rigidbody);
+            satelliteSpawner.Spawn();
         }
 
         private void GameStateListener(GameState gameState)
         {
             if (gameState == GameState.CargoDrop)
             {
-                StartCoroutine(DropStart());
+                StartCoroutine(WaitBeforeSatelliteSpawn(_waitTime));
             }
         }
 
     }
-
-    public enum DropStatus
-    {
-        Waiting,
-        Start,
-        End
-    }
-    
 }

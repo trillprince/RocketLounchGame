@@ -6,12 +6,12 @@ namespace Common.Scripts.Rocket
     {
         public void Subscribe(Action<LandingStatus> action)
         {
-            RocketStateController.OnLanding += action;
+            RocketMovementController.OnLanding += action;
         }
 
         public void Unsubscribe(Action<LandingStatus> action)
         {
-            RocketStateController.OnLanding -= action;
+            RocketMovementController.OnLanding -= action;
         }
 
         public void Callback()

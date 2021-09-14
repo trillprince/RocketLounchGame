@@ -6,11 +6,12 @@ using UnityEngine;
 
 namespace Common.Scripts.Rocket
 {
-    public class RocketStateController : MonoBehaviour
+    public class RocketMovementController : MonoBehaviour
     {
         private IRocketMoveComponent _movementComponent;
         private Dictionary<Type, IRocketMoveComponent> _movementComponents;
         private IMovementTransition _movementTransition;
+        public Rigidbody Rigidbody { get; private set; }
         private event Action<Transform, MovementState> OnMovementStateSwitch;
         public static event Action<LandingStatus> OnLanding; 
 
@@ -24,6 +25,11 @@ namespace Common.Scripts.Rocket
             GameStateController.OnStateSwitch -= OnOnStateSwitch;
         }
 
+        private void Awake()
+        {
+            Rigidbody = GetComponent<Rigidbody>();
+        }
+
         private void Start()
         {
             _movementTransition = new TransitionToLanding(transform, MovementState.PhysicMovement,
@@ -33,7 +39,7 @@ namespace Common.Scripts.Rocket
             {
                 [typeof(RocketAutoMovement)] = new RocketAutoMovement(transform),
                 [typeof(RocketLandingRocketMove)] = new RocketLandingRocketMove(transform,
-                    GetComponent<Rigidbody>(),
+                    Rigidbody,
                     OnGetLandingStatus, OnInputSubscribe, OnInputUnsubscribe)
             };
         }

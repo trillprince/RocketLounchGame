@@ -32,13 +32,11 @@ namespace Common.Scripts.Rocket
         void OnEnable()
         {
             LaunchManager.OnRocketLaunch += SetStateOnRocketLaunch;
-            GameLoopController.OnOutOfCargo += SetStateOnOutOfCargo;
         }
 
         private void OnDisable()
         {
             LaunchManager.OnRocketLaunch -= SetStateOnRocketLaunch;
-            GameLoopController.OnOutOfCargo -= SetStateOnOutOfCargo;
         }
 
         void SetStateOnRocketLaunch()

@@ -73,11 +73,11 @@ namespace Common.Scripts.Rocket
 
         public void Enable()
         {
-            CargoDropController.CargoDropping += () =>
+            /*CargoDropController.CargoDropping += () =>
             {
                 ResetTargetRot();
                 ResetTargetScale();
-            };
+            };*/
         }
     }
 }
