@@ -15,6 +15,7 @@ namespace Common.Scripts.MissionSystem
         private int _cargoCount;
         private float _waitTime = 4;
         [SerializeField] private GameObject _cargo;
+        [SerializeField] private GameObject _prefabOfSatellite;
         private ISatelliteFactory _satelliteFactory;
         private RocketMovementController _rocketMovementController;
 
@@ -43,8 +44,7 @@ namespace Common.Scripts.MissionSystem
 
         private void CreateSpawner()
         {
-            ISpawner satelliteSpawner = new SatelliteSpawner(_satelliteFactory,_rocketMovementController.transform,_rocketMovementController.Rigidbody);
-            satelliteSpawner.Spawn();
+            ISpawner satelliteSpawner = new SatelliteSpawner(_prefabOfSatellite,_rocketMovementController.transform,_rocketMovementController.Rigidbody,new ObjectPoolStorage());
         }
 
         private void GameStateListener(GameState gameState)

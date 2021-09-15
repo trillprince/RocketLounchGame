@@ -1,7 +1,10 @@
-﻿namespace Common.Scripts.MissionSystem
+﻿using UnityEngine;
+
+namespace Common.Scripts.MissionSystem
 {
     public interface ISpawner
     {
-        public void Spawn();
+        GameObject Spawn();
+        void Dispose(GameObject gameObject);
     }
 }

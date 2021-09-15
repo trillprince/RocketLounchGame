@@ -6,14 +6,16 @@ namespace Common.Scripts.MissionSystem
 {
     public class SatelliteSpawner: ISpawner
     {
-        private ISatelliteFactory _satelliteFactory;
+        private ObjectPool _objectPool;
         private Vector2 _screenBounds;
         private Transform _rocketTransform;
+        private GameObject _prefab;
 
-        public SatelliteSpawner(ISatelliteFactory satelliteFactory, Transform rocketTransform,Rigidbody  rocketRigidbody)
+        public SatelliteSpawner(GameObject prefab, Transform rocketTransform,Rigidbody  rocketRigidbody, ObjectPoolStorage objectPoolStorage)
         {
-            _satelliteFactory = satelliteFactory;
             _rocketTransform = rocketTransform;
+            _prefab = prefab;
+            _objectPool = objectPoolStorage.GetPool(_prefab);
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
@@ -21,12 +23,18 @@ namespace Common.Scripts.MissionSystem
                     UnityEngine.Camera.main.transform.position.z - rocketRigidbody.position.z));
         }
         
-        public void Spawn()
+        public GameObject Spawn()
         {
-            GameObject satellite = _satelliteFactory.CreateSatellite();
+            GameObject satellite =_objectPool.Pop();
             satellite.transform.position = CalculatePosition(satellite.GetComponent<MeshCollider>(),_rocketTransform);
+            return satellite;
         }
-        
+
+        public void Dispose(GameObject gameObject)
+        {
+            _objectPool.Push(gameObject);
+        }
+
         private Vector3 CalculatePosition(MeshCollider meshCollider, Transform transform)
         {
             return new Vector3((_screenBounds.x - transform.position.x)/2,

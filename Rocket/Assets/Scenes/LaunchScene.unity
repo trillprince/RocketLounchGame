@@ -286,6 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cargo: {fileID: 9194714471267269330, guid: f6c77d8cfa575ce48b68ea7a2dad605f, type: 3}
+  _prefabOfSatellite: {fileID: 4631217595465702339, guid: 01c02790710a91942aea6a53c7cb70e2, type: 3}
 --- !u!1 &237620515 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 709561824711534911, guid: 3dad0209cc08dec4d9e7f73e2a0e1bbd, type: 3}
