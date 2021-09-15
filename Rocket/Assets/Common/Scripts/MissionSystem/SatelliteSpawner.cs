@@ -15,7 +15,7 @@ namespace Common.Scripts.MissionSystem
         {
             _rocketTransform = rocketTransform;
             _prefab = prefab;
-            _objectPool = objectPoolStorage.GetPool(_prefab);
+            _objectPool = objectPoolStorage.GetPool(_prefab);   
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
@@ -37,8 +37,10 @@ namespace Common.Scripts.MissionSystem
 
         private Vector3 CalculatePosition(MeshCollider meshCollider, Transform transform)
         {
-            return new Vector3((_screenBounds.x - transform.position.x)/2,
-                _screenBounds.y + meshCollider.bounds.size.y,transform.position.z );
+            return new Vector3(
+                (_screenBounds.x - transform.position.x)/2,
+                -_screenBounds.y + meshCollider.bounds.size.y / 2,
+                transform.position.z);
         }
     }
 }

@@ -28,6 +28,7 @@ namespace Common.Scripts.Camera
         public void OnScreenBoundaries(Boundaries afterBoundCheckAction)
         {
             Vector3 viewPos = _rb.position;
+            // TODO: check use Math.abs
             if (viewPos.x <= _screenBounds.x + _boundOfMesh.size.x ||
                 viewPos.x >= _screenBounds.x * -1 - _boundOfMesh.size.x ||
                 viewPos.y <= _screenBounds.y + _boundOfMesh.size.y ||

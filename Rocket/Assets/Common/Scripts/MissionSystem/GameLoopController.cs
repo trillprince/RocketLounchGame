@@ -45,6 +45,7 @@ namespace Common.Scripts.MissionSystem
         private void CreateSpawner()
         {
             ISpawner satelliteSpawner = new SatelliteSpawner(_prefabOfSatellite,_rocketMovementController.transform,_rocketMovementController.Rigidbody,new ObjectPoolStorage());
+            satelliteSpawner.Spawn();
         }
 
         private void GameStateListener(GameState gameState)
