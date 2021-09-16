@@ -30,6 +30,16 @@ namespace Common.Scripts.Rocket
             Rigidbody = GetComponent<Rigidbody>();
         }
 
+        public Vector3 GetRocketDirection()
+        {
+            return RocketSpeed.RocketDirection;
+        }
+
+        public float GetRocketSpeed()
+        {
+            return RocketSpeed.CurrentSpeed;
+        }
+        
         private void Start()
         {
             _movementTransition = new TransitionToLanding(transform, MovementState.PhysicMovement,

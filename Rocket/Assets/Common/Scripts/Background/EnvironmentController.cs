@@ -11,6 +11,7 @@ public class EnvironmentController : MonoBehaviour, IGameStateDependable
     private List<IMovableEnvironment> _movableEnvironments;
     [SerializeField] private GameObject[] _movables;
     private GameState _currentGameState;
+    [SerializeField] private float _movesmootheness = 500;
 
     private void OnEnable()
     {
@@ -26,8 +27,8 @@ public class EnvironmentController : MonoBehaviour, IGameStateDependable
     {
         _movableEnvironments = new List<IMovableEnvironment>
         {
-            new BgScroll(_movables[0].GetComponent<Renderer>(), 3000),
-            new BgScroll(_movables[1].GetComponent<Renderer>(), 5000),
+            new BgScroll(_movables[0].GetComponent<Renderer>(), _movesmootheness),
+            new BgScroll(_movables[1].GetComponent<Renderer>(), _movesmootheness * 3),
             new PlanetMove(_movables[2].transform)
         };
     }

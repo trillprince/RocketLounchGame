@@ -18,6 +18,13 @@ namespace Common.Scripts.MissionSystem
         [SerializeField] private GameObject _prefabOfSatellite;
         private ISatelliteFactory _satelliteFactory;
         private RocketMovementController _rocketMovementController;
+        private ISatelliteController _satelliteController;
+        private bool _satelliteControllerEnabled;
+
+        private void Awake()
+        {
+            _satelliteController = CreateSatelliteController();
+        }
 
         private void OnEnable()
         {
@@ -29,6 +36,11 @@ namespace Common.Scripts.MissionSystem
             GameStateController.OnStateSwitch -= GameStateListener;
         }
 
+        private void Update()
+        {
+            _satelliteController.Execute();
+        }
+
         [Inject]
         private void Constructor(BasicSatelliteFactory satelliteFactory,RocketMovementController rocketMovementController)
         {
@@ -36,23 +48,23 @@ namespace Common.Scripts.MissionSystem
             _satelliteFactory = satelliteFactory;
         }
 
-        private IEnumerator WaitBeforeSatelliteSpawn(float waitTime)
+        private IEnumerator WaitBeforeGameStart(float waitTime)
         {
             yield return new WaitForSeconds(waitTime);
-            CreateSpawner();
+            _satelliteController.Enable();
         }
 
-        private void CreateSpawner()
+        private ISatelliteController CreateSatelliteController()
         {
-            ISpawner satelliteSpawner = new SatelliteSpawner(_prefabOfSatellite,_rocketMovementController.transform,_rocketMovementController.Rigidbody,new ObjectPoolStorage());
-            satelliteSpawner.Spawn();
+            return  new SatelliteController(
+                new SatelliteSpawner(_prefabOfSatellite,_rocketMovementController.transform,_rocketMovementController.Rigidbody,new ObjectPoolStorage()),_rocketMovementController);
         }
 
         private void GameStateListener(GameState gameState)
         {
             if (gameState == GameState.CargoDrop)
             {
-                StartCoroutine(WaitBeforeSatelliteSpawn(_waitTime));
+                StartCoroutine(WaitBeforeGameStart(_waitTime));
             }
         }
 

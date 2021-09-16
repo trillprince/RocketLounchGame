@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public class ObjectPool
@@ -12,12 +13,17 @@ public class ObjectPool
         _root = new GameObject($"[{_prefab.name}]").transform;
     }
 
+    protected virtual GameObject Instantiate()
+    {
+        return Object.Instantiate(_prefab);
+    }
+
     public GameObject Pop()
     {
         GameObject gameObject;
         if (_stack.Count == 0)
         {
-            gameObject = Object.Instantiate(_prefab);
+            gameObject = Instantiate();
             gameObject.name = _prefab.name;
             
         }
