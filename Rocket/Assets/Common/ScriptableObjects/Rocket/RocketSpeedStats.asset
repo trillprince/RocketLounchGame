@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: RocketSpeedStats
   m_EditorClassIdentifier: 
   _rocketStartSpeed: 40
-  _rocketMaxSpeed: 100
+  _rocketMaxSpeed: 300
   _rocketSpeedAcceleration: 15

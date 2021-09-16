@@ -6,6 +6,8 @@ using UnityEngine;
 public interface ISatellite
 {
     public void Constructor(RocketMovementController rocketMovementController);
-    public Transform Move();
+    public void Move();
+    public Transform GetTransform();
     public MeshCollider GetMeshCollider();
+ 
 }

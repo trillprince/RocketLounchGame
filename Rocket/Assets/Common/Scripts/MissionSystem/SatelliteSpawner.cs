@@ -10,7 +10,7 @@ namespace Common.Scripts.MissionSystem
         private Vector2 _screenBounds;
         private Transform _rocketTransform;
         private GameObject _prefab;
-        public Vector3 LastSpawnPos { get;set; }
+
 
         public SatelliteSpawner(GameObject prefab, Transform rocketTransform, Rigidbody rocketRigidbody,
             ObjectPoolStorage objectPoolStorage)
@@ -39,10 +39,11 @@ namespace Common.Scripts.MissionSystem
 
         private Vector3 GetSpawnPosition(MeshCollider meshCollider)
         {
-            return LastSpawnPos = new Vector3(
+            return new Vector3(
                 (_screenBounds.x - _rocketTransform.position.x) / 2,
                 -_screenBounds.y + meshCollider.bounds.size.y / 2,
                 _rocketTransform.position.z);
+            
         }
     }
 }

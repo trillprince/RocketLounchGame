@@ -19,9 +19,13 @@ public class BasicSatellite : MonoBehaviour,ISatellite
         _rocketMoveController = rocketMovementController;
     }
 
-    public Transform Move()
+    public void Move()
     {
         transform.Translate((-_rocketMoveController.GetRocketDirection()*_rocketMoveController.GetRocketSpeed())/_moveSmoothness * Time.deltaTime);
+    }
+
+    public Transform GetTransform()
+    {
         return transform;
     }
 
@@ -29,4 +33,5 @@ public class BasicSatellite : MonoBehaviour,ISatellite
     {
         return _meshCollider;
     }
+    
 }

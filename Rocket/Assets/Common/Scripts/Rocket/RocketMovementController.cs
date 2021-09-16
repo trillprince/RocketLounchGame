@@ -39,6 +39,11 @@ namespace Common.Scripts.Rocket
         {
             return RocketSpeed.CurrentSpeed;
         }
+
+        public Transform GetTransform()
+        {
+            return transform;
+        }
         
         private void Start()
         {
