@@ -4,7 +4,6 @@ namespace Common.Scripts.Rocket
 {
     public class RocketSpeed : MonoBehaviour
     {
-        [SerializeField] private RocketSpeedStats _rocketSpeedStats;
         private static float _currentSpeed;
         private static Vector3 _rocketDirection;
 
@@ -21,12 +20,11 @@ namespace Common.Scripts.Rocket
 
         private void Start()
         {
-            _currentSpeed = _rocketSpeedStats.RocketStartSpeed;
+            _currentSpeed = 60;
         }
 
         void Update()
         {
-            CalculateSpeed();
             CheckRocketDirection();
         }
 
@@ -40,12 +38,5 @@ namespace Common.Scripts.Rocket
             return RocketDirection;
         }
 
-        private void CalculateSpeed()
-        {
-            SpeedCalculator.CalculateSpeed(
-                ref _currentSpeed,
-                _rocketSpeedStats.RocketMaxSpeed,
-                _rocketSpeedStats.RocketSpeedAcceleration);
-        }
     }
 }

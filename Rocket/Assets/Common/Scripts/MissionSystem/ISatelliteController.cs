@@ -2,7 +2,7 @@
 {
     public interface ISatelliteController
     {
-        public void Enable();
+        public void Spawn();
 
         public void Execute();
 

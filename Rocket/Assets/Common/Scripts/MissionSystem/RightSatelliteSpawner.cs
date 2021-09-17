@@ -1,18 +1,15 @@
-﻿using Common.Scripts.Camera;
-using Common.Scripts.Rocket;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class SatelliteSpawner : ISatelliteSpawner
+    public class RightSatelliteSpawner : ISatelliteSpawner
     {
         private ObjectPool _objectPool;
         private Vector2 _screenBounds;
         private Transform _rocketTransform;
         private GameObject _prefab;
-
-
-        public SatelliteSpawner(GameObject prefab, Transform rocketTransform, Rigidbody rocketRigidbody,
+        
+        public RightSatelliteSpawner(GameObject prefab, Transform rocketTransform, Rigidbody rocketRigidbody,
             ObjectPoolStorage objectPoolStorage)
         {
             _rocketTransform = rocketTransform;
@@ -40,10 +37,9 @@ namespace Common.Scripts.MissionSystem
         private Vector3 GetSpawnPosition(MeshCollider meshCollider)
         {
             return new Vector3(
-                (_screenBounds.x - _rocketTransform.position.x) / 2,
+                (- _screenBounds.x + _rocketTransform.position.x) / 2,
                 -_screenBounds.y + meshCollider.bounds.size.y / 2,
                 _rocketTransform.position.z);
-            
         }
     }
 }

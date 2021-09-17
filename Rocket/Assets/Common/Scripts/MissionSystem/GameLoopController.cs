@@ -13,7 +13,8 @@ namespace Common.Scripts.MissionSystem
     {
         private int _currentCargoIndex = 0;
         private int _cargoCount;
-        private float _waitTime = 4;
+        private float _waitTimeBeforeStart = 4;
+        private float _waitTimeBeforeSpawn = 2;
         [SerializeField] private GameObject _cargo;
         [SerializeField] private GameObject _prefabOfSatellite;
         private ISatelliteFactory _satelliteFactory;
@@ -51,20 +52,23 @@ namespace Common.Scripts.MissionSystem
         private IEnumerator WaitBeforeGameStart(float waitTime)
         {
             yield return new WaitForSeconds(waitTime);
-            _satelliteController.Enable();
+            _satelliteController.Spawn();
+            StartCoroutine(WaitBeforeGameStart(_waitTimeBeforeSpawn));
         }
 
         private ISatelliteController CreateSatelliteController()
         {
-            return  new SatelliteController(
-                new SatelliteSpawner(_prefabOfSatellite,_rocketMovementController.transform,_rocketMovementController.Rigidbody,new ObjectPoolStorage()),_rocketMovementController);
+            ObjectPoolStorage objectPoolStorage = new ObjectPoolStorage();
+            return new SatelliteController(
+                new LeftSatelliteSpawner(_prefabOfSatellite,_rocketMovementController.transform,_rocketMovementController.Rigidbody,objectPoolStorage),
+                new RightSatelliteSpawner(_prefabOfSatellite,_rocketMovementController.transform,_rocketMovementController.Rigidbody,objectPoolStorage),_rocketMovementController);
         }
 
         private void GameStateListener(GameState gameState)
         {
             if (gameState == GameState.CargoDrop)
             {
-                StartCoroutine(WaitBeforeGameStart(_waitTime));
+                StartCoroutine(WaitBeforeGameStart(_waitTimeBeforeStart));
             }
         }
 
