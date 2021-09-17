@@ -14,14 +14,12 @@ namespace Common.Scripts.MissionSystem
     {
         private float _waitTimeBeforeStart = 4;
         private float _waitTimeBeforeSpawn = 2;
-        [SerializeField] private GameObject _cargo;
         [SerializeField] private GameObject _prefabOfSatellite;
         private RocketMovementController _rocketMovementController;
         private SatelliteController _satelliteController;
         private ObjectPoolStorage _objectPoolStorage;
         private RocketCargo _rocketCargo;
         private bool _touchHold;
-        private ISatellite _currentSatellite;
 
         private void Awake()
         {
@@ -51,9 +49,9 @@ namespace Common.Scripts.MissionSystem
             _satelliteController.Execute();
             if (_touchHold && _satelliteController.SatellitesExist())
             {
-                _rocketCargo.DropCargo(_currentSatellite);
-                _satelliteController.DequeueSatellite();
                 _touchHold = false;
+                _rocketCargo.DropCargo(_satelliteController.ScopedSatellite);
+                _satelliteController.DisposeScopedSatellite();
             }
         }
 
@@ -68,16 +66,20 @@ namespace Common.Scripts.MissionSystem
         private IEnumerator WaitBeforeGameStart(float waitTime)
         {
             yield return new WaitForSeconds(waitTime);
-            _currentSatellite = _satelliteController.Spawn();
-            _rocketCargo.UpdateSatellite(_currentSatellite);
+            _satelliteController.Spawn();
             StartCoroutine(WaitBeforeGameStart(_waitTimeBeforeSpawn));
+        }
+
+        private void UpdateScopedSatellite(ISatellite satellite)
+        {
+            _rocketCargo.UpdateSatellite(satellite);
         }
 
         private void CreateSatelliteController()
         {
             _satelliteController = new SatelliteController(
                 new LeftSatelliteSpawner(_prefabOfSatellite,_rocketMovementController,_objectPoolStorage),
-                new RightSatelliteSpawner(_prefabOfSatellite,_rocketMovementController,_objectPoolStorage),_rocketMovementController);
+                new RightSatelliteSpawner(_prefabOfSatellite,_rocketMovementController,_objectPoolStorage),_rocketMovementController,UpdateScopedSatellite);
         }
 
         private void GameStateListener(GameState gameState)

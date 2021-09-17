@@ -31,7 +31,7 @@ namespace Common.Scripts.Rocket
         public void UpdateSatellite(ISatellite currentSatellite)
         {
             _currentSatellite = currentSatellite;
-            _currentCargoController.UpdateCargoTargetSatellite(_currentSatellite);
+            _currentCargoController.UpdateCargoTargetSatellite(currentSatellite);
         }
     }
 }
