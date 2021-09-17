@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Common.Scripts.Rocket;
+using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
 {
@@ -9,17 +10,17 @@ namespace Common.Scripts.MissionSystem
         private Transform _rocketTransform;
         private GameObject _prefab;
         
-        public RightSatelliteSpawner(GameObject prefab, Transform rocketTransform, Rigidbody rocketRigidbody,
+        public RightSatelliteSpawner(GameObject prefab, RocketMovementController rocketMovementController,
             ObjectPoolStorage objectPoolStorage)
         {
-            _rocketTransform = rocketTransform;
+            _rocketTransform = rocketMovementController.transform;
             _prefab = prefab;
             _objectPool = objectPoolStorage.GetPool(_prefab);
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
                     Screen.height,
-                    UnityEngine.Camera.main.transform.position.z - rocketRigidbody.position.z));
+                    UnityEngine.Camera.main.transform.position.z - rocketMovementController.Rigidbody.position.z));
         }
 
         public GameObject Spawn()

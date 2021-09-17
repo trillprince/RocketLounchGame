@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using Common.Scripts.Cargo;
+using Common.Scripts.Input;
 using Common.Scripts.Rocket;
 using UnityEngine;
 using Zenject;
@@ -11,57 +12,72 @@ namespace Common.Scripts.MissionSystem
 {
     public class GameLoopController : MonoBehaviour
     {
-        private int _currentCargoIndex = 0;
-        private int _cargoCount;
         private float _waitTimeBeforeStart = 4;
         private float _waitTimeBeforeSpawn = 2;
         [SerializeField] private GameObject _cargo;
         [SerializeField] private GameObject _prefabOfSatellite;
-        private ISatelliteFactory _satelliteFactory;
         private RocketMovementController _rocketMovementController;
-        private ISatelliteController _satelliteController;
-        private bool _satelliteControllerEnabled;
+        private SatelliteController _satelliteController;
+        private ObjectPoolStorage _objectPoolStorage;
+        private RocketCargo _rocketCargo;
+        private bool _touchHold;
+        private ISatellite _currentSatellite;
 
         private void Awake()
         {
-            _satelliteController = CreateSatelliteController();
+           CreateSatelliteController();
         }
 
         private void OnEnable()
         {
             GameStateController.OnStateSwitch += GameStateListener;
+            InputManager.OnTouchStart += vector2 =>
+            {
+                _touchHold = true;
+            };
         }
 
         private void OnDisable()
         {
             GameStateController.OnStateSwitch -= GameStateListener;
+            InputManager.OnTouchEnd += () =>
+            {
+                _touchHold = false;
+            };
         }
 
         private void Update()
         {
             _satelliteController.Execute();
+            if (_touchHold && _satelliteController.SatellitesExist())
+            {
+                _rocketCargo.DropCargo(_currentSatellite);
+                _satelliteController.DequeueSatellite();
+                _touchHold = false;
+            }
         }
 
         [Inject]
-        private void Constructor(BasicSatelliteFactory satelliteFactory,RocketMovementController rocketMovementController)
+        private void Constructor(RocketMovementController rocketMovementController, ObjectPoolStorage objectPoolStorage, RocketCargo rocketCargo)
         {
             _rocketMovementController = rocketMovementController;
-            _satelliteFactory = satelliteFactory;
+            _objectPoolStorage = objectPoolStorage;
+            _rocketCargo = rocketCargo;
         }
 
         private IEnumerator WaitBeforeGameStart(float waitTime)
         {
             yield return new WaitForSeconds(waitTime);
-            _satelliteController.Spawn();
+            _currentSatellite = _satelliteController.Spawn();
+            _rocketCargo.UpdateSatellite(_currentSatellite);
             StartCoroutine(WaitBeforeGameStart(_waitTimeBeforeSpawn));
         }
 
-        private ISatelliteController CreateSatelliteController()
+        private void CreateSatelliteController()
         {
-            ObjectPoolStorage objectPoolStorage = new ObjectPoolStorage();
-            return new SatelliteController(
-                new LeftSatelliteSpawner(_prefabOfSatellite,_rocketMovementController.transform,_rocketMovementController.Rigidbody,objectPoolStorage),
-                new RightSatelliteSpawner(_prefabOfSatellite,_rocketMovementController.transform,_rocketMovementController.Rigidbody,objectPoolStorage),_rocketMovementController);
+            _satelliteController = new SatelliteController(
+                new LeftSatelliteSpawner(_prefabOfSatellite,_rocketMovementController,_objectPoolStorage),
+                new RightSatelliteSpawner(_prefabOfSatellite,_rocketMovementController,_objectPoolStorage),_rocketMovementController);
         }
 
         private void GameStateListener(GameState gameState)

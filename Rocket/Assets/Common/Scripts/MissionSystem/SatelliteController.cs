@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class SatelliteController : ISatelliteController
+    public class SatelliteController
     {
         private readonly ISatelliteSpawner _satelliteSpawner;
         private readonly ISatelliteSpawner _satelliteSpawner2;
         private readonly RocketMovementController _rocketMovementController;
         private bool _satellitesExist = false;
-        private List<ISatellite> _movableSatellites = new List<ISatellite>(10);
+        private Queue<ISatellite> _movableSatellites = new Queue<ISatellite>(10);
 
 
         public SatelliteController(
@@ -26,26 +26,25 @@ namespace Common.Scripts.MissionSystem
         private ISatellite CreateSatellite()
         {
             var range = Random.Range(-2, 2);
+            GameObject gameObject;
             if (range < 0)
             {
-                GameObject gameObject = _satelliteSpawner.Spawn();
-                ISatellite satellite = gameObject.GetComponent<ISatellite>();
-                satellite.Constructor(_rocketMovementController);
-                return satellite;
-               
+                gameObject = _satelliteSpawner.Spawn();
             }
             else
             {
-                GameObject gameObject = _satelliteSpawner2.Spawn();
-                ISatellite satellite = gameObject.GetComponent<ISatellite>();
-                satellite.Constructor(_rocketMovementController);
-                return satellite;
+                gameObject = _satelliteSpawner2.Spawn();
             }
+            ISatellite satellite = gameObject.GetComponent<ISatellite>();
+            satellite.Constructor(_rocketMovementController);
+            return satellite;
         }
 
-        public void Spawn()
+        public ISatellite Spawn()
         {
-            _movableSatellites.Add(CreateSatellite());
+            ISatellite satellite = CreateSatellite();
+            _movableSatellites.Enqueue(satellite);
+            return satellite;
         }
 
         private void SatelliteStateOnPosition (ISatellite satellite)
@@ -77,7 +76,7 @@ namespace Common.Scripts.MissionSystem
             {
                 satellite.SatelliteState = SatelliteState.Dispose;
                 _satelliteSpawner.Dispose(satellite.GetGameObject());
-                _movableSatellites.Remove(satellite);
+                _movableSatellites.Dequeue();
             }
         }
         
@@ -90,6 +89,16 @@ namespace Common.Scripts.MissionSystem
                     satellite.Move(SatelliteStateOnPosition);
                 }
             }
+        }
+
+        public void DequeueSatellite()
+        {
+            _movableSatellites.Dequeue();
+        }
+
+        public bool SatellitesExist()
+        {
+            return _movableSatellites.Count > 0;
         }
     }
     public enum SatelliteState

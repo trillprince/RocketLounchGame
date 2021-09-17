@@ -12,17 +12,17 @@ namespace Common.Scripts.MissionSystem
         private GameObject _prefab;
 
 
-        public LeftSatelliteSpawner(GameObject prefab, Transform rocketTransform, Rigidbody rocketRigidbody,
+        public LeftSatelliteSpawner(GameObject prefab, RocketMovementController rocketMovementController,
             ObjectPoolStorage objectPoolStorage)
         {
-            _rocketTransform = rocketTransform;
+            _rocketTransform = rocketMovementController.transform;
             _prefab = prefab;
             _objectPool = objectPoolStorage.GetPool(_prefab);
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
                     Screen.height,
-                    UnityEngine.Camera.main.transform.position.z - rocketRigidbody.position.z));
+                    UnityEngine.Camera.main.transform.position.z - rocketMovementController.Rigidbody.position.z));
         }
 
         public GameObject Spawn()

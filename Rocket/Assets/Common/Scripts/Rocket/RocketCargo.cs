@@ -3,26 +3,35 @@ using System.Collections.Generic;
 using Common.Scripts.Cargo;
 using Common.Scripts.MissionSystem;
 using UnityEngine;
+using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Common.Scripts.Rocket
 {
     public class RocketCargo : MonoBehaviour
     {
-        private GameObject _currentCargo;
+        [SerializeField] private GameObject _cargoPrefab;
+        private ObjectPool _objectPool;
+        private ISatellite _currentSatellite;
+        private CargoController _currentCargoController;
 
-        void SetCargo(GameObject cargo)
+        [Inject]
+        private void Constructor(ObjectPoolStorage objectPoolStorage)
         {
-            _currentCargo = cargo;
+            _objectPool = objectPoolStorage.GetPool(_cargoPrefab);
+        }
+        
+        public void DropCargo (ISatellite satellite)
+        {
+            var cargo = _objectPool.Pop();
+            _currentCargoController = cargo.GetComponent<CargoController>();
+            _currentCargoController.Constructor(satellite);
         }
 
-        void DropCargo()
+        public void UpdateSatellite(ISatellite currentSatellite)
         {
-            if (_currentCargo != null)
-            {
-                var cargo = Instantiate(_currentCargo, transform.position, Quaternion.identity);
-                cargo.GetComponent<CargoScaler>().InitScale(transform.localScale);
-            }
+            _currentSatellite = currentSatellite;
+            _currentCargoController.UpdateCargoTargetSatellite(_currentSatellite);
         }
     }
 }

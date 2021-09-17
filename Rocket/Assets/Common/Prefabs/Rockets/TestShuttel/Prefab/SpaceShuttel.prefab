@@ -14588,6 +14588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fc9f89ba84f3514e830f1672228a843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cargoPrefab: {fileID: 9194714471267269330, guid: f6c77d8cfa575ce48b68ea7a2dad605f, type: 3}
 --- !u!54 &3739997604464884810
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14628,7 +14629,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05a821023c554b5abc799293504addc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rocketSpeedStats: {fileID: 11400000, guid: 6460fc6ef47e14844bc917ad9448df99, type: 2}
 --- !u!1 &7440320675955919920
 GameObject:
   m_ObjectHideFlags: 0
