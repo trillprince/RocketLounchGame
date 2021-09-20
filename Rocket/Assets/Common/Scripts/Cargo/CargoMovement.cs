@@ -22,7 +22,7 @@ namespace Common.Scripts.Cargo
    
         void CargoMove()
         {
-            _transform.Translate(_satellite.GetTransform().position/_smoothness * Time.deltaTime);
+            _transform.Translate(_satellite.GetTransform().position * Time.deltaTime, Space.World);
         }
 
         void CargoRotate()

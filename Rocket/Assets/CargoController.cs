@@ -13,16 +13,11 @@ public class CargoController : MonoBehaviour
     public void Constructor(ISatellite satellite)
     {
         _satellite = satellite;
-        _cargoMovement = new CargoMovement(transform, satellite);
+        _cargoMovement = new CargoMovement(transform,_satellite );
     }
 
     private void FixedUpdate()
     {
         _cargoMovement.Update();
-    }
-
-    public void UpdateCargoTargetSatellite(ISatellite currentSatellite)
-    {
-        _satellite = currentSatellite;
     }
 }

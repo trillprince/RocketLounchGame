@@ -12,7 +12,6 @@ namespace Common.Scripts.Rocket
     {
         [SerializeField] private GameObject _cargoPrefab;
         private ObjectPool _objectPool;
-        private ISatellite _currentSatellite;
         private CargoController _currentCargoController;
 
         [Inject]
@@ -26,12 +25,6 @@ namespace Common.Scripts.Rocket
             var cargo = _objectPool.Pop();
             _currentCargoController = cargo.GetComponent<CargoController>();
             _currentCargoController.Constructor(satellite);
-        }
-
-        public void UpdateSatellite(ISatellite currentSatellite)
-        {
-            _currentSatellite = currentSatellite;
-            _currentCargoController.UpdateCargoTargetSatellite(currentSatellite);
         }
     }
 }

@@ -7,52 +7,39 @@ using Random = UnityEngine.Random;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class SatelliteController
+    public class LeftSatelliteController
     {
-        private readonly ISatelliteSpawner _satelliteSpawner;
-        private readonly ISatelliteSpawner _satelliteSpawner2;
+        private readonly ISatelliteSpawner _leftSatelliteSpawner;
         private readonly RocketMovementController _rocketMovementController;
-        private readonly Action <ISatellite> _scopedSatelliteChange;
         private bool _satellitesExist = false;
-        private Queue<ISatellite> _movableSatellites = new Queue<ISatellite>(10);
-        public ISatellite ScopedSatellite { get; private set; }
+        private Queue<ISatellite> _leftMovableSatellites = new Queue<ISatellite>(10);
+        public ISatellite leftScopedSatellite { get; private set; }
 
 
-        public SatelliteController(
-            ISatelliteSpawner satelliteSpawner,ISatelliteSpawner satelliteSpawner2,
-            RocketMovementController rocketMovementController, Action <ISatellite> scopedSatelliteChange)
+        public LeftSatelliteController(
+            ISatelliteSpawner leftSatelliteSpawner, 
+            RocketMovementController rocketMovementController)
         {
-            _satelliteSpawner = satelliteSpawner;
-            _satelliteSpawner2 = satelliteSpawner2;
+            _leftSatelliteSpawner = leftSatelliteSpawner;
             _rocketMovementController = rocketMovementController;
-            _scopedSatelliteChange = scopedSatelliteChange;
         }
 
-        private ISatellite CreateSatellite()
+        private void CreateSatellite()
         {
-            var range = Random.Range(-2, 2);
             GameObject gameObject;
-            if (range < 0)
-            {
-                gameObject = _satelliteSpawner.Spawn();
-            }
-            else
-            {
-                gameObject = _satelliteSpawner2.Spawn();
-            }
+            gameObject = _leftSatelliteSpawner.Spawn();
             ISatellite satellite = gameObject.GetComponent<ISatellite>();
             satellite.Constructor(_rocketMovementController);
-            return satellite;
+            leftScopedSatellite = satellite;
+            _leftMovableSatellites.Enqueue(leftScopedSatellite);
         }
 
-        public ISatellite Spawn()
+        public void Spawn()
         {
-            ScopedSatellite = CreateSatellite();
-            _movableSatellites.Enqueue(ScopedSatellite);
-            return ScopedSatellite;
+            CreateSatellite();
         }
 
-        private void SatelliteStateOnPosition (ISatellite satellite)
+        private void SatelliteStateOnPosition(ISatellite satellite)
         {
             var satellitePos = satellite.GetTransform().position;
             var screenBounds =
@@ -80,18 +67,18 @@ namespace Common.Scripts.MissionSystem
             else if (satellitePos.y < screenBounds.y - satellite.GetMeshCollider().bounds.size.y)
             {
                 satellite.SatelliteState = SatelliteState.Dispose;
-                _satelliteSpawner.Dispose(satellite.GetGameObject());
-                _movableSatellites.Dequeue();
-                ScopedSatellite = _movableSatellites.Peek();
-                _scopedSatelliteChange?.Invoke(ScopedSatellite);
+
+                _leftSatelliteSpawner.Dispose(satellite.GetGameObject());
+                _leftMovableSatellites.Dequeue();
+                leftScopedSatellite = _leftMovableSatellites.Peek();
             }
         }
-        
+
         public void Execute()
         {
-            if (_movableSatellites.Count > 0)
+            if (_leftMovableSatellites.Count > 0)
             {
-                foreach (var satellite in _movableSatellites.ToArray())
+                foreach (var satellite in _leftMovableSatellites.ToArray())
                 {
                     satellite.Move(SatelliteStateOnPosition);
                 }
@@ -100,14 +87,15 @@ namespace Common.Scripts.MissionSystem
 
         public void DisposeScopedSatellite()
         {
-            _satelliteSpawner.Dispose( _movableSatellites.Dequeue().GetGameObject());
+            _leftSatelliteSpawner.Dispose(_leftMovableSatellites.Dequeue().GetGameObject());
         }
 
         public bool SatellitesExist()
         {
-            return _movableSatellites.Count > 0;
+            return _leftMovableSatellites.Count > 0;
         }
     }
+
     public enum SatelliteState
     {
         UpperRed,

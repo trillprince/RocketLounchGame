@@ -250,6 +250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 201935085}
   - component: {fileID: 201935086}
+  - component: {fileID: 201935087}
   m_Layer: 0
   m_Name: GameLoopControllers
   m_TagString: Untagged
@@ -284,8 +285,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b76ff20b772acd4c8f35446adcf4ff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cargo: {fileID: 9194714471267269330, guid: f6c77d8cfa575ce48b68ea7a2dad605f, type: 3}
   _prefabOfSatellite: {fileID: 4631217595465702339, guid: 01c02790710a91942aea6a53c7cb70e2, type: 3}
+--- !u!114 &201935087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201935084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95839a88e5bf42d79821546bb80be6ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &237620515 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 709561824711534911, guid: 3dad0209cc08dec4d9e7f73e2a0e1bbd, type: 3}
