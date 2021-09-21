@@ -20,4 +20,9 @@ public class CargoController : MonoBehaviour
     {
         _cargoMovement.Execute();
     }
+
+    private void ChangeSatelliteState()
+    {
+        _satellite.SetFinalDeliveryStatus();
+    }
 }

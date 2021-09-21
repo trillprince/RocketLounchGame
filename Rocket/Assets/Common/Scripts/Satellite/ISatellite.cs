@@ -1,18 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common.Scripts.Cargo;
 using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using UnityEngine;
 
-public interface ISatellite
+public interface ISatellite: IUpdatable
 {
-    public void Move();
-    public void StateCheck();
-
+    
     public GameObject GetGameObject();
 
     public Transform GetTransform();
-    
 
-    void Constructor(RocketMovementController rocketMovementController, Action onDispose);
+    public void Constructor(RocketMovementController rocketMovementController, Action onDispose);
+
+    public void SetFinalDeliveryStatus();
+}
+
+public enum DeliveryStatus
+{
+    UpperRed,
+    Yellow,
+    Green,
+    LowerRed,
 }

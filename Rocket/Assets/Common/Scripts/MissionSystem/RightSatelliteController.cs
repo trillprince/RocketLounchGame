@@ -57,8 +57,7 @@ namespace Common.Scripts.MissionSystem
             {
                 foreach (var satellite in _rightMovableSatellites.ToArray())
                 {
-                    satellite.Move();
-                    satellite.StateCheck();
+                    satellite.Execute();
                 }
             }
         }

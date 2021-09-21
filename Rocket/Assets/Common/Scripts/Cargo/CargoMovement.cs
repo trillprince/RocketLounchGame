@@ -1,3 +1,4 @@
+using System;
 using Common.Scripts.Planet;
 using Common.Scripts.Rocket;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace Common.Scripts.Cargo
         private readonly ObjectPool _objectPool;
         private readonly GameObject _thisGameObject;
         private Transform _transform;
-        private float _lerpDuration = 2;
+        private float _lerpDuration = 1;
         private float _timeElapsed;
 
         public CargoMovement(Transform transform, ISatellite satellite,ObjectPool objectPool,GameObject thisGameObject)
@@ -32,7 +33,7 @@ namespace Common.Scripts.Cargo
             {
                 var x = Mathf.Lerp(_transform.position.x, _satellite.GetTransform().position.x, _timeElapsed/_lerpDuration);
                 var y = Mathf.Lerp(_transform.position.y, _satellite.GetTransform().position.y, _timeElapsed/_lerpDuration);
-                var z=Mathf.Lerp(_transform.position.z, _satellite.GetTransform().position.z, _timeElapsed/_lerpDuration);
+                var z= Mathf.Lerp(_transform.position.z, _satellite.GetTransform().position.z, _timeElapsed/_lerpDuration);
                 _transform.position = new Vector3(x, y, z);
             }
             else
