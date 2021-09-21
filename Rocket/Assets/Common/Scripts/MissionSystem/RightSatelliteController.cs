@@ -41,14 +41,13 @@ namespace Common.Scripts.MissionSystem
             CreateSatellite();
         }
 
-        public void DisposeLastSatellite()
+        private void DisposeLastSatellite()
         {
             GameObject gameObject = _rightMovableSatellites.Dequeue().GetGameObject();
             if (_rightMovableSatellites.Count > 1)
             {
                 rightScopedSatellite = _rightMovableSatellites.Peek();
             }
-
             _rightSatelliteSpawner.Dispose(gameObject);
         }
 

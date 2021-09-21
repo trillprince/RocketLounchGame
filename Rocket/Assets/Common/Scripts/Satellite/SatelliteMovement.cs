@@ -48,23 +48,29 @@ namespace Common.Scripts.Satellite
 
         public void StateCheck()
         {
-            if (_satellitePos.y < -_screenBounds.y && _satellitePos.y >= -_screenBounds.y * 0.5f)
+            var screenBounds =
+                UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
+                    Screen.width,
+                    Screen.height,
+                    UnityEngine.Camera.main.transform.position.z - transform.position.z));
+
+            if (transform.position.y < -screenBounds.y && transform.position.y >= -screenBounds.y * 0.5f)
             {
                 
             }
-            else if (_satellitePos.y < -_screenBounds.y * 0.5f && _satellitePos.y >= 0)
+            else if (transform.position.y < -screenBounds.y * 0.5f && transform.position.y >= 0)
             {
                 
             }
-            else if (_satellitePos.y < 0 && _satellitePos.y >= _screenBounds.y * 0.5f)
+            else if (transform.position.y < 0 && transform.position.y >= screenBounds.y * 0.5f)
             {
                 
             }
-            else if (_satellitePos.y < _screenBounds.y * 0.5f && _satellitePos.y >= _screenBounds.y)
+            else if (transform.position.y < screenBounds.y * 0.5f && transform.position.y >= screenBounds.y)
             {
                 
             }
-            else if (_satellitePos.y < _screenBounds.y - _meshCollider.bounds.size.y)
+            else if (transform.position.y < screenBounds.y - _meshCollider.bounds.size.y)
             {
                 _onDispose?.Invoke();
             }

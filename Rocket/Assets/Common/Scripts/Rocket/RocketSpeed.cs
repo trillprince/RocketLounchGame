@@ -20,7 +20,7 @@ namespace Common.Scripts.Rocket
 
         private void Start()
         {
-            _currentSpeed = 60;
+            _currentSpeed = 200;
         }
 
         void Update()

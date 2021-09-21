@@ -32,14 +32,12 @@ namespace Common.Scripts.MissionSystem
             {
                 _inputListener.OnTouchEnd();
                 _rocketCargo.DropCargo(_leftSatelliteController.leftScopedSatellite);
-                _leftSatelliteController.DisposeLastSatellite();
                 Debug.Log("left input");
             }
             else if(_inputListener.InputRightSide && _rightSatelliteController.SatellitesExist())
             {
                 _inputListener.OnTouchEnd();
                 _rocketCargo.DropCargo(_rightSatelliteController.rightScopedSatellite);
-                _rightSatelliteController.DisposeLastSatellite();
                 Debug.Log("right input");
             }
         }
