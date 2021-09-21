@@ -11,12 +11,14 @@ namespace Common.Scripts.Satellite
         private MeshCollider _meshCollider;
         private readonly Transform _transform;
         private readonly Action _onDispose;
+        private readonly Action<Color> _colorOnState;
 
-        public SatelliteDelivery(MeshCollider meshCollider,Transform transform, Action onDispose)
+        public SatelliteDelivery(MeshCollider meshCollider,Transform transform, Action onDispose,Action <Color> colorOnState)
         {
             _meshCollider = meshCollider;
             _transform = transform;
             _onDispose = onDispose;
+            _colorOnState = colorOnState;
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
@@ -28,19 +30,19 @@ namespace Common.Scripts.Satellite
         {
             if (_transform.position.y < -_screenBounds.y && _transform.position.y >= -_screenBounds.y * 0.5f)
             {
-                
+                _colorOnState?.Invoke(Color.red);
             }
             else if (_transform.position.y < -_screenBounds.y * 0.5f && _transform.position.y >= 0)
             {
-                
+                _colorOnState?.Invoke(Color.yellow);
             }
             else if (_transform.position.y < 0 && _transform.position.y >= _screenBounds.y * 0.5f)
             {
-                
+                _colorOnState?.Invoke(Color.green);
             }
             else if (_transform.position.y < _screenBounds.y * 0.5f && _transform.position.y >= _screenBounds.y)
             {
-                
+                _colorOnState?.Invoke(Color.red);
             }
             else if (_transform.position.y < _screenBounds.y - _meshCollider.bounds.size.y)
             {

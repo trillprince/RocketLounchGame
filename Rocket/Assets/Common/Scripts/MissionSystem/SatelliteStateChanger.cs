@@ -35,7 +35,6 @@ namespace Common.Scripts.MissionSystem
             {
                 _inputListener.OnTouchEnd();
                 _rocketCargo.DropCargo(_leftSatelliteController.leftScopedSatellite);
-                /*_leftSatelliteController.DisposeLastSatellite();*/
                 _satelliteCount.AddSatellite();
                 Debug.Log("left input");
             }
@@ -43,7 +42,6 @@ namespace Common.Scripts.MissionSystem
             {
                 _inputListener.OnTouchEnd();
                 _rocketCargo.DropCargo(_rightSatelliteController.rightScopedSatellite);
-                /*_rightSatelliteController.DisposeLastSatellite();*/
                 _satelliteCount.AddSatellite();
                 Debug.Log("right input");
             }

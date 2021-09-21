@@ -30,11 +30,16 @@ namespace Common.Scripts.MissionSystem
             gameObject = _leftSatelliteSpawner.Spawn();
             ISatellite satellite = gameObject.GetComponent<ISatellite>();
             satellite.Constructor(_rocketMovementController,DisposeLastSatellite);
-            if (_leftMovableSatellites.Count < 2)
+            if (!SatellitesExist())
             {
-                leftScopedSatellite = satellite;
+                ChangeScopedSatellite(satellite);
             }
-            _leftMovableSatellites.Enqueue(leftScopedSatellite);
+            _leftMovableSatellites.Enqueue(satellite);
+        }
+
+        private void ChangeScopedSatellite(ISatellite satellite)
+        {
+            leftScopedSatellite = satellite;
         }
 
         public void Spawn()
@@ -46,9 +51,9 @@ namespace Common.Scripts.MissionSystem
         public void DisposeLastSatellite()
         {
             GameObject gameObject = _leftMovableSatellites.Dequeue().GetGameObject();
-            if (_leftMovableSatellites.Count > 1)
+            if (_leftMovableSatellites.Count > 0)
             {
-                leftScopedSatellite = _leftMovableSatellites.Peek();
+                ChangeScopedSatellite(_leftMovableSatellites.Peek());
             }
             _leftSatelliteSpawner.Dispose(gameObject);
         }

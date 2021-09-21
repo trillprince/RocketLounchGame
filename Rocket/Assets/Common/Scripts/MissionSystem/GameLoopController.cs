@@ -10,7 +10,7 @@ namespace Common.Scripts.MissionSystem
     public class GameLoopController : MonoBehaviour
     {
         private float _waitTimeBeforeStart = 4;
-        private float _waitTimeBeforeSpawn = 2;
+        private float _waitTimeBeforeSpawn = 1;
         [SerializeField] private GameObject _prefabOfSatellite;
         private RocketMovementController _rocketMovementController;
         private LeftSatelliteController _leftSatelliteController;

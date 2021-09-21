@@ -15,7 +15,7 @@ namespace Common.Scripts.Cargo
         private readonly ObjectPool _objectPool;
         private readonly GameObject _thisGameObject;
         private Transform _transform;
-        private float _lerpDuration = 1;
+        private float _lerpDuration = 0.5f;
         private float _timeElapsed;
 
         public CargoMovement(Transform transform, ISatellite satellite,ObjectPool objectPool,GameObject thisGameObject)

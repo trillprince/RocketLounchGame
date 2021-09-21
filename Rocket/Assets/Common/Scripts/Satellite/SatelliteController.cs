@@ -9,6 +9,7 @@ namespace Common.Scripts.Satellite
     {
         private SatelliteDelivery _satelliteDelivery;
         private SatelliteMove _satelliteMove;
+        private SatelliteColor _satelliteColor;
         
         public GameObject GetGameObject()
         {
@@ -21,8 +22,9 @@ namespace Common.Scripts.Satellite
 
         public void Constructor(RocketMovementController rocketMovementController, Action  onDispose)
         {
-            _satelliteDelivery = new SatelliteDelivery(GetComponent<MeshCollider>(), transform, onDispose);
             _satelliteMove = new SatelliteMove(rocketMovementController, transform);
+            _satelliteColor = new SatelliteColor(GetComponent<MeshRenderer>());
+            _satelliteDelivery = new SatelliteDelivery(GetComponent<MeshCollider>(), transform, onDispose,_satelliteColor.SetColor);
         }
 
         public void SetFinalDeliveryStatus()
