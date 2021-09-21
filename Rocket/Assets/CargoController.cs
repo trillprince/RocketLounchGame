@@ -10,14 +10,14 @@ public class CargoController : MonoBehaviour
     private CargoMovement _cargoMovement;
     private CargoScaler _cargoScaler;
 
-    public void Constructor(ISatellite satellite)
+    public void Constructor(ISatellite satellite,ObjectPool objectPool)
     {
         _satellite = satellite;
-        _cargoMovement = new CargoMovement(transform,_satellite );
+        _cargoMovement = new CargoMovement(transform,_satellite,objectPool,gameObject);
     }
 
     private void FixedUpdate()
     {
-        _cargoMovement.Update();
+        _cargoMovement.Execute();
     }
 }

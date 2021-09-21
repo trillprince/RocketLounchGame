@@ -13,6 +13,7 @@ namespace Common.Scripts.Rocket
         [SerializeField] private GameObject _cargoPrefab;
         private ObjectPool _objectPool;
         private CargoController _currentCargoController;
+        private GameObject _currentCargo;
 
         [Inject]
         private void Constructor(ObjectPoolStorage objectPoolStorage)
@@ -22,9 +23,17 @@ namespace Common.Scripts.Rocket
         
         public void DropCargo (ISatellite satellite)
         {
-            var cargo = _objectPool.Pop();
+            var cargo = _objectPool.Pop(transform.position);
             _currentCargoController = cargo.GetComponent<CargoController>();
-            _currentCargoController.Constructor(satellite);
+            _currentCargoController.Constructor(satellite,_objectPool);
+        }
+
+        private void DisposeCargo()
+        {
+            if (_currentCargo != null)
+            {
+                _objectPool.Push(_currentCargo);
+            }
         }
     }
 }

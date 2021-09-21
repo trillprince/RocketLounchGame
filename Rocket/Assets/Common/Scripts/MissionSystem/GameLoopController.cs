@@ -19,7 +19,8 @@ namespace Common.Scripts.MissionSystem
         private RocketCargo _rocketCargo;
         private InputListener _inputListener;
         private SatelliteStateChanger _satelliteStateChanger;
-        
+        private SatelliteCount _satelliteCount;
+
 
         private void Awake()
         {
@@ -33,7 +34,7 @@ namespace Common.Scripts.MissionSystem
                 _rocketMovementController);
             
             _satelliteStateChanger = new SatelliteStateChanger(_inputListener, 
-                _leftSatelliteController,_rightSatelliteController, _rocketCargo);
+                _leftSatelliteController,_rightSatelliteController, _rocketCargo,_satelliteCount);
         }
 
         private void OnEnable()
@@ -50,16 +51,17 @@ namespace Common.Scripts.MissionSystem
         {
             _leftSatelliteController.Execute();
             _rightSatelliteController.Execute();
-            _satelliteStateChanger.Update();
+            _satelliteStateChanger.Execute();
         }
 
         [Inject]
         private void Constructor(RocketMovementController rocketMovementController, ObjectPoolStorage objectPoolStorage,
-            RocketCargo rocketCargo)
+            RocketCargo rocketCargo,SatelliteCount satelliteCount)
         {
             _rocketMovementController = rocketMovementController;
             _objectPoolStorage = objectPoolStorage;
             _rocketCargo = rocketCargo;
+            _satelliteCount = satelliteCount;
         }
 
         private IEnumerator WaitBeforeGameStart(float waitTime)

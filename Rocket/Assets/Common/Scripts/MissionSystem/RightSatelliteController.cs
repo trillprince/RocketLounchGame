@@ -41,7 +41,7 @@ namespace Common.Scripts.MissionSystem
             CreateSatellite();
         }
 
-        private void DisposeLastSatellite()
+        public void DisposeLastSatellite()
         {
             GameObject gameObject = _rightMovableSatellites.Dequeue().GetGameObject();
             if (_rightMovableSatellites.Count > 1)

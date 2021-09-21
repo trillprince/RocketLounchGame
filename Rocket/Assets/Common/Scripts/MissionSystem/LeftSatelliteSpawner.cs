@@ -27,7 +27,7 @@ namespace Common.Scripts.MissionSystem
 
         public GameObject Spawn()
         {
-            GameObject satellite = _objectPool.Pop();
+            GameObject satellite = _objectPool.Pop(_objectPool.Root.position);
             satellite.transform.position = GetRandomSpawnPosition(satellite.GetComponent<MeshCollider>());
             return satellite;
         }

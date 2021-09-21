@@ -11,18 +11,35 @@ namespace Common.Scripts.Cargo
         private float _rotateSpeed = 50f;
         private int _zRot;
         private ISatellite _satellite;
+        private readonly ObjectPool _objectPool;
+        private readonly GameObject _thisGameObject;
         private Transform _transform;
+        private float _lerpDuration = 2;
+        private float _timeElapsed;
 
-        public CargoMovement(Transform transform, ISatellite satellite)
+        public CargoMovement(Transform transform, ISatellite satellite,ObjectPool objectPool,GameObject thisGameObject)
         {
             _transform = transform;
             _satellite = satellite;
+            _objectPool = objectPool;
+            _thisGameObject = thisGameObject;
             SetRandomRot();
         }
    
         void CargoMove()
         {
-            _transform.Translate(_satellite.GetTransform().position * Time.deltaTime, Space.World);
+            if (_timeElapsed < _lerpDuration)
+            {
+                var x = Mathf.Lerp(_transform.position.x, _satellite.GetTransform().position.x, _timeElapsed/_lerpDuration);
+                var y = Mathf.Lerp(_transform.position.y, _satellite.GetTransform().position.y, _timeElapsed/_lerpDuration);
+                var z=Mathf.Lerp(_transform.position.z, _satellite.GetTransform().position.z, _timeElapsed/_lerpDuration);
+                _transform.position = new Vector3(x, y, z);
+            }
+            else
+            {
+                _objectPool.Push(_thisGameObject);
+            }
+            _timeElapsed += Time.deltaTime;
         }
 
         void CargoRotate()
@@ -39,7 +56,7 @@ namespace Common.Scripts.Cargo
             _zRot = Random.value < 0.5f ? -1 : 1;
         }
 
-        public void Update()
+        public void Execute()
         {
             CargoMove();
             CargoRotate();

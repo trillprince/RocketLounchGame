@@ -35,7 +35,7 @@ namespace Common.Scripts.Cargo
             _transform.localScale = new Vector3(xScale, yScale, zScale);
         }
 
-        public void Update()
+        public void Execute()
         {
             ScaleDown();
         }
