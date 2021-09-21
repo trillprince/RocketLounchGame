@@ -15,7 +15,7 @@ namespace Common.Scripts.MissionSystem
 
 
         public RightSatelliteController(
-            ISatelliteSpawner rightSatelliteSpawner, 
+            ISatelliteSpawner rightSatelliteSpawner,
             RocketMovementController rocketMovementController)
         {
             _rightSatelliteSpawner = rightSatelliteSpawner;
@@ -27,8 +27,12 @@ namespace Common.Scripts.MissionSystem
             GameObject gameObject;
             gameObject = _rightSatelliteSpawner.Spawn();
             ISatellite satellite = gameObject.GetComponent<ISatellite>();
-            satellite.Constructor(_rocketMovementController);
-            rightScopedSatellite = satellite;
+            satellite.Constructor(_rocketMovementController, DisposeLastSatellite);
+            if (_rightMovableSatellites.Count < 2)
+            {
+                rightScopedSatellite = satellite;
+            }
+
             _rightMovableSatellites.Enqueue(rightScopedSatellite);
         }
 
@@ -37,39 +41,15 @@ namespace Common.Scripts.MissionSystem
             CreateSatellite();
         }
 
-        private void SatelliteStateOnPosition(ISatellite satellite)
+        public void DisposeLastSatellite()
         {
-            var satellitePos = satellite.GetTransform().position;
-            var screenBounds =
-                UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
-                    Screen.width,
-                    Screen.height,
-                    UnityEngine.Camera.main.transform.position.z - satellitePos.z));
-
-            if (satellitePos.y < -screenBounds.y && satellitePos.y >= -screenBounds.y * 0.5f)
+            GameObject gameObject = _rightMovableSatellites.Dequeue().GetGameObject();
+            if (_rightMovableSatellites.Count > 1)
             {
-                satellite.SatelliteState = SatelliteState.UpperRed;
-            }
-            else if (satellitePos.y < -screenBounds.y * 0.5f && satellitePos.y >= 0)
-            {
-                satellite.SatelliteState = SatelliteState.Yellow;
-            }
-            else if (satellitePos.y < 0 && satellitePos.y >= screenBounds.y * 0.5f)
-            {
-                satellite.SatelliteState = SatelliteState.Green;
-            }
-            else if (satellitePos.y < screenBounds.y * 0.5f && satellitePos.y >= screenBounds.y)
-            {
-                satellite.SatelliteState = SatelliteState.LoweRed;
-            }
-            else if (satellitePos.y < screenBounds.y - satellite.GetMeshCollider().bounds.size.y)
-            {
-                satellite.SatelliteState = SatelliteState.Dispose;
-
-                _rightSatelliteSpawner.Dispose(satellite.GetGameObject());
-                _rightMovableSatellites.Dequeue();
                 rightScopedSatellite = _rightMovableSatellites.Peek();
             }
+
+            _rightSatelliteSpawner.Dispose(gameObject);
         }
 
         public void Execute()
@@ -78,14 +58,10 @@ namespace Common.Scripts.MissionSystem
             {
                 foreach (var satellite in _rightMovableSatellites.ToArray())
                 {
-                    satellite.Move(SatelliteStateOnPosition);
+                    satellite.Move();
+                    satellite.StateCheck();
                 }
             }
-        }
-
-        public void DisposeScopedSatellite()
-        {
-            _rightSatelliteSpawner.Dispose(_rightMovableSatellites.Dequeue().GetGameObject());
         }
 
         public bool SatellitesExist()

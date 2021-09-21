@@ -6,12 +6,13 @@ using UnityEngine;
 
 public interface ISatellite
 {
-    public void Move(Action<ISatellite> action);
-    public Transform GetTransform();
-    public MeshCollider GetMeshCollider();
+    public void Move();
+    public void StateCheck();
 
     public GameObject GetGameObject();
-    public SatelliteState SatelliteState { get; set; }
 
-    void Constructor(RocketMovementController rocketMovementController);
+    public Transform GetTransform();
+    
+
+    void Constructor(RocketMovementController rocketMovementController, Action onDispose);
 }
