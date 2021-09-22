@@ -5,8 +5,10 @@ namespace Common.Scripts.MissionSystem
 {
     public class InputListener : MonoBehaviour
     {
+        private bool _inputActive = true;
         public bool InputLeftSide { get; private set; }
         public bool InputRightSide { get; private set; }
+        
 
         private void OnEnable()
         {
@@ -28,6 +30,10 @@ namespace Common.Scripts.MissionSystem
 
         private void OnTouchStart(Vector2 touchPos)
         {
+            if (!_inputActive)
+            {
+                return;
+            }
             if (touchPos.x < Screen.width / 2)
             {
                 InputLeftSide = true;
@@ -36,6 +42,11 @@ namespace Common.Scripts.MissionSystem
             {
                 InputRightSide = true;
             }
+        }
+
+        public void DisableInput()
+        {
+            _inputActive = false;
         }
     }
 }

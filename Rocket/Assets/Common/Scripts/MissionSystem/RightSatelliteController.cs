@@ -10,6 +10,7 @@ namespace Common.Scripts.MissionSystem
         private readonly ISatelliteSpawner _rightSatelliteSpawner;
         private readonly RocketMovementController _rocketMovementController;
         private GameStateController _gameStateController;
+        private readonly GameLoopController _gameLoopController;
         private Queue<ISatellite> _rightMovableSatellites = new Queue<ISatellite>(10);
         public ISatellite RightScopedSatellite { get; private set; }
 
@@ -17,11 +18,13 @@ namespace Common.Scripts.MissionSystem
         public RightSatelliteController(
             ISatelliteSpawner rightSatelliteSpawner,
             RocketMovementController rocketMovementController,
-            GameStateController gameStateController)
+            GameStateController gameStateController,
+            GameLoopController gameLoopController)
         {
             _rightSatelliteSpawner = rightSatelliteSpawner;
             _rocketMovementController = rocketMovementController;
             _gameStateController = gameStateController;
+            _gameLoopController = gameLoopController;
         }
 
         private void CreateSatellite()
@@ -29,7 +32,7 @@ namespace Common.Scripts.MissionSystem
             GameObject gameObject;
             gameObject = _rightSatelliteSpawner.Spawn();
             ISatellite satellite = gameObject.GetComponent<ISatellite>();
-            satellite.Constructor(_rocketMovementController,_gameStateController,this);
+            satellite.Constructor(_rocketMovementController,_gameStateController,this,_gameLoopController);
             if (!SatellitesExist())
             {
                 ChangeScopedSatellite(satellite);
@@ -50,6 +53,14 @@ namespace Common.Scripts.MissionSystem
                 ChangeScopedSatellite(_rightMovableSatellites.Peek());
             }
             _rightSatelliteSpawner.Dispose(gameObject);
+        }
+
+        public void DisposeAll()
+        {
+            for (int i = 0; i < _rightMovableSatellites.Count; i++)
+            {
+                _rightSatelliteSpawner.Dispose(_rightMovableSatellites.Dequeue().GetGameObject());
+            }
         }
 
         public void Execute()

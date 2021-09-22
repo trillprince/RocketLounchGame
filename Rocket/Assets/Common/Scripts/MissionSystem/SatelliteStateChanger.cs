@@ -47,5 +47,10 @@ namespace Common.Scripts.MissionSystem
 
             }
         }
+
+        public void DisableInput()
+        {
+            _inputListener.DisableInput();
+        }
     }
 }

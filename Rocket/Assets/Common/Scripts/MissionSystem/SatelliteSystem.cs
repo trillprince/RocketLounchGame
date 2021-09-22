@@ -2,12 +2,13 @@
 
 namespace Common.Scripts.MissionSystem
 {
-    public class SatelliteSystem: ISatelliteSystem
+    public class SatelliteSystem : ISatelliteSystem
     {
         private readonly ISatelliteController _leftSatelliteController;
         private readonly ISatelliteController _rightSatelliteController;
         private readonly InputListener _inputListener;
         private readonly SatelliteStateChanger _satelliteStateChanger;
+        private bool _satelliteSystemActive = true;
 
         public SatelliteSystem
         (
@@ -38,9 +39,21 @@ namespace Common.Scripts.MissionSystem
 
         public void Execute()
         {
-            _leftSatelliteController.Execute();
-            _rightSatelliteController.Execute();
-            _satelliteStateChanger.Execute();
+            if (_satelliteSystemActive)
+            {
+                _leftSatelliteController.Execute();
+                _rightSatelliteController.Execute();
+                _satelliteStateChanger.Execute();
+            }
+        }
+
+        public void OnSystemDisable()
+        {
+            _satelliteSystemActive = false;
+            
+            _leftSatelliteController.DisposeAll();
+            _rightSatelliteController.DisposeAll();
+            _satelliteStateChanger.DisableInput();
         }
     }
 }

@@ -12,7 +12,8 @@ namespace Common.Scripts.Rocket
     public class GameStateController : MonoBehaviour
     {
         private float _timeBeforeStateSwitch = 3f;
-        private GameState _currentGameState;
+        public GameState CurrentGameState { get; private set; }
+
         public delegate void StateSwitch(GameState state);
 
         public static event StateSwitch OnStateSwitch;
@@ -44,10 +45,11 @@ namespace Common.Scripts.Rocket
             SetGameState(GameState.CargoDrop);
         }
 
-        public void SetStateToLanding()
+        public void SetStateToLanding(Action action = null)
         {
             _loadingCurtain.Show((() =>
             {
+                action?.Invoke();
                 StartCoroutine(WaitTillStateSwitch(GameState.Landing,(() =>
                 {
                     _loadingCurtain.Hide();
@@ -58,7 +60,7 @@ namespace Common.Scripts.Rocket
         
         void SetGameState(GameState state,Action action = null)
         {
-            _currentGameState = state;
+            CurrentGameState = state;
             OnStateSwitch?.Invoke(state);
             action?.Invoke();
         }

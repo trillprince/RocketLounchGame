@@ -42,7 +42,6 @@ namespace Common.Scripts.Camera
                     _screenBounds.y * -1 - _boundOfMesh.size.y);
                 _rb.position = viewPos;
                 _rb.AddForce(-_rb.velocity.normalized * _impusleForce,ForceMode.Impulse);
-                Debug.Log(-_rb.velocity * _impusleForce);
             }
             afterBoundCheckAction.Invoke();
         }

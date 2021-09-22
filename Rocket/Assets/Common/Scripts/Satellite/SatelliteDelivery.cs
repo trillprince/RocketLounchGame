@@ -15,18 +15,19 @@ namespace Common.Scripts.Satellite
         private readonly SatelliteColor _satelliteColor;
         private readonly Action _onLoose;
         private readonly ISatelliteController _satelliteController;
+        private readonly GameLoopController _gameLoopController;
 
         public SatelliteDelivery(MeshCollider meshCollider,
             Transform transform,
             SatelliteColor satelliteColor,
-            Action onLoose,
-            ISatelliteController satelliteController)
+            ISatelliteController satelliteController,
+            GameLoopController gameLoopController)
         {
             _meshCollider = meshCollider;
             _transform = transform;
             _satelliteColor = satelliteColor;
-            _onLoose = onLoose;
             _satelliteController = satelliteController;
+            _gameLoopController = gameLoopController;
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
@@ -71,10 +72,11 @@ namespace Common.Scripts.Satellite
             }
             else if (_transform.position.y < _screenBounds.y - _meshCollider.bounds.size.y)
             {
-                /*if (!CargoDelivered)
+                if (!CargoDelivered)
                 {
-                    _onLoose?.Invoke();
-                }*/
+                    _gameLoopController.DisableSatelliteDrop();
+                    return;
+                }
                 _satelliteController.DisposeLastSatellite();
             }
         }

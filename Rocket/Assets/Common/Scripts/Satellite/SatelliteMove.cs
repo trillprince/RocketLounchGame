@@ -7,7 +7,7 @@ namespace Common.Scripts.Satellite
     {
         private readonly RocketMovementController _rocketMovementController;
         private Transform _transform;
-        private float _moveSmoothness = 10f;
+        private float _moveSmoothness = 12f;
 
         public SatelliteMove(RocketMovementController rocketMovementController, Transform transform)
         {

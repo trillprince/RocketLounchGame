@@ -13,7 +13,7 @@ public interface ISatellite: IUpdatable
     public Transform GetTransform();
 
     public void Constructor(RocketMovementController rocketMovementController,
-        GameStateController gameStateController,ISatelliteController satelliteController);
+        GameStateController gameStateController,ISatelliteController satelliteController,GameLoopController gameLoopController);
 
     public void SetFinalDeliveryStatus();
     bool HasCargo();

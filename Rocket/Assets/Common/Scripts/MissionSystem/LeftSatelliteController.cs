@@ -13,17 +13,20 @@ namespace Common.Scripts.MissionSystem
         private readonly RocketMovementController _rocketMovementController;
         private GameStateController _gameStateController;
         private Queue<ISatellite> _leftMovableSatellites = new Queue<ISatellite>(10);
+        private GameLoopController _gameLoopController;
         public ISatellite LeftScopedSatellite { get; private set; }
 
 
         public LeftSatelliteController(
             ISatelliteSpawner leftSatelliteSpawner, 
             RocketMovementController rocketMovementController,
-            GameStateController gameStateController)
+            GameStateController gameStateController,
+            GameLoopController gameLoopController)
         {
             _leftSatelliteSpawner = leftSatelliteSpawner;
             _rocketMovementController = rocketMovementController;
             _gameStateController = gameStateController;
+            _gameLoopController = gameLoopController;
         }
 
         private void CreateSatellite()
@@ -31,7 +34,7 @@ namespace Common.Scripts.MissionSystem
             GameObject gameObject;
             gameObject = _leftSatelliteSpawner.Spawn();
             ISatellite satellite = gameObject.GetComponent<ISatellite>();
-            satellite.Constructor(_rocketMovementController,_gameStateController,this);
+            satellite.Constructor(_rocketMovementController,_gameStateController,this,_gameLoopController);
             if (!SatellitesExist())
             {
                 ChangeScopedSatellite(satellite);
@@ -60,6 +63,14 @@ namespace Common.Scripts.MissionSystem
                 ChangeScopedSatellite(_leftMovableSatellites.Peek());
             }
             _leftSatelliteSpawner.Dispose(gameObject);
+        }
+
+        public void DisposeAll()
+        {
+            for (int i = 0; i < _leftMovableSatellites.Count; i++)
+            {
+                _leftSatelliteSpawner.Dispose(_leftMovableSatellites.Dequeue().GetGameObject());
+            }
         }
 
         public void Execute()

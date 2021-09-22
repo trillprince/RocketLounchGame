@@ -22,15 +22,16 @@ namespace Common.Scripts.Satellite
 
         public void Constructor(RocketMovementController rocketMovementController,
             GameStateController gameStateController, 
-            ISatelliteController satelliteController)
+            ISatelliteController satelliteController,
+            GameLoopController gameLoopController)
         {
             _satelliteMove = new SatelliteMove(rocketMovementController, transform);
             _satelliteColor = new SatelliteColor(GetComponent<MeshRenderer>());
             _satelliteDelivery = new SatelliteDelivery(GetComponent<MeshCollider>(), 
                 transform,
                 _satelliteColor,
-                gameStateController.SetStateToLanding,
-                satelliteController
+                satelliteController,
+                gameLoopController
             );
         }
 
