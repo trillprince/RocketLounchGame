@@ -11,7 +11,6 @@ namespace Common.Scripts.MissionSystem
     {
         private readonly ISatelliteSpawner _leftSatelliteSpawner;
         private readonly RocketMovementController _rocketMovementController;
-        private bool _satellitesExist = false;
         private Queue<ISatellite> _leftMovableSatellites = new Queue<ISatellite>(10);
         public ISatellite leftScopedSatellite { get; private set; }
 
@@ -39,15 +38,17 @@ namespace Common.Scripts.MissionSystem
 
         private void ChangeScopedSatellite(ISatellite satellite)
         {
-            leftScopedSatellite = satellite;
+            if (satellite != null)
+            {
+                leftScopedSatellite = satellite;
+            }
         }
 
         public void Spawn()
         {
             CreateSatellite();
         }
-
-
+        
         public void DisposeLastSatellite()
         {
             GameObject gameObject = _leftMovableSatellites.Dequeue().GetGameObject();
@@ -73,6 +74,7 @@ namespace Common.Scripts.MissionSystem
         {
             return _leftMovableSatellites.Count > 0;
         }
+        
     }
 
 }

@@ -20,11 +20,14 @@ namespace Common.Scripts.MissionSystem
         private InputListener _inputListener;
         private SatelliteStateChanger _satelliteStateChanger;
         private SatelliteCount _satelliteCount;
+        private SatelliteSystem _satelliteSystem;
 
 
         private void Awake()
         {
             _inputListener = GetComponent<InputListener>();
+            _satelliteSystem = new SatelliteSystem();
+            
             _leftSatelliteController = new LeftSatelliteController(
                 new LeftSatelliteSpawner(_prefabOfSatellite, _rocketMovementController, _objectPoolStorage),
                 _rocketMovementController);
@@ -86,5 +89,10 @@ namespace Common.Scripts.MissionSystem
                 StartCoroutine(WaitBeforeGameStart(_waitTimeBeforeStart));
             }
         }
+    }
+
+    public class SatelliteSystem
+    {
+        
     }
 }

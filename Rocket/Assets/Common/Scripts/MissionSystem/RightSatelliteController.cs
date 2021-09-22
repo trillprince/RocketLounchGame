@@ -63,12 +63,16 @@ namespace Common.Scripts.MissionSystem
 
         private void ChangeScopedSatellite(ISatellite satellite)
         {
-            rightScopedSatellite = satellite;
+            if (satellite != null)
+            {
+                rightScopedSatellite = satellite;
+            }
         }
 
         public bool SatellitesExist()
         {
             return _rightMovableSatellites.Count > 0;
         }
+
     }
 }
