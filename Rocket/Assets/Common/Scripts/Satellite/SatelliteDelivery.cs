@@ -63,10 +63,10 @@ namespace Common.Scripts.Satellite
             }
             else if (_transform.position.y < _screenBounds.y * 0.5f &&
                      _transform.position.y >= _screenBounds.y &&
-                     !_satelliteColor.IsCurrentColor(Color.red) 
+                     !_satelliteColor.IsCurrentColor(Color.black) 
             )
             {
-                _satelliteColor.SetColor(Color.red);
+                _satelliteColor.SetColor(Color.black);
                 _currentDeliveryStatus = DeliveryStatus.LowerRed;
                 _satelliteController.ScopeToNextSatellite();
             }

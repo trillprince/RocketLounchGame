@@ -1,22 +1,29 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonManager : MonoBehaviour,IButtonController
+namespace Common.Scripts.UI
 {
-    private IControlledButton[] _controlledButtons;
-
-    private void OnEnable()
+    public class ButtonManager : MonoBehaviour,IButtonController
     {
-        _controlledButtons = GetComponentsInChildren<IControlledButton>();
-    }
+        private IControlledButton[] _controlledButtons;
+        private IControlledText[] _controlledText;
 
-    public void ButtonsActive(bool isActive)
-    {
-        foreach (IControlledButton button in _controlledButtons)
+        private void OnEnable()
         {
-            button.SetInteractStatus(isActive);
+            _controlledButtons = GetComponentsInChildren<IControlledButton>();
+            _controlledText = GetComponentsInChildren<IControlledText>();
+        }
+
+        public void ButtonsActive(bool isActive)
+        {
+            foreach (IControlledButton button in _controlledButtons)
+            {
+                button.SetInteractStatus(isActive);
+            }
+
+            foreach (IControlledText text in _controlledText)
+            {
+                text.IsActive(isActive);
+            }
         }
     }
 }

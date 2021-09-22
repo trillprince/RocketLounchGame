@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class SatelliteCount: MonoBehaviour
+    public class SatelliteCount: MonoBehaviour,IControlledText
     {
         private TextMeshProUGUI _textMesh;
         private int _satelliteCount = 0;
@@ -23,6 +23,11 @@ namespace Common.Scripts.MissionSystem
         private void UpdateView()
         {
             _textMesh.text = _satelliteCount.ToString();
+        }
+
+        public void IsActive(bool isActive)
+        {
+            _textMesh.enabled = isActive;
         }
     }
 }
