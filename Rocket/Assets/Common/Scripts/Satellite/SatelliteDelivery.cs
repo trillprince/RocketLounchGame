@@ -15,13 +15,15 @@ namespace Common.Scripts.Satellite
         private readonly SatelliteColor _satelliteColor;
         private readonly Action _onLoose;
         private readonly Action _onCargoDelivery;
+        private Action _onScopeCargoChange;
 
         public SatelliteDelivery(MeshCollider meshCollider,
             Transform transform, 
             Action onDispose,
             SatelliteColor satelliteColor,
             Action onLoose,
-            Action onCargoDelivery)
+            Action onCargoDelivery,
+            Action onScopeCargoChange)
         {
             _meshCollider = meshCollider;
             _transform = transform;
@@ -29,6 +31,7 @@ namespace Common.Scripts.Satellite
             _satelliteColor = satelliteColor;
             _onLoose = onLoose;
             _onCargoDelivery = onCargoDelivery;
+            _onScopeCargoChange = onScopeCargoChange;
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
@@ -67,15 +70,16 @@ namespace Common.Scripts.Satellite
                      !_satelliteColor.IsCurrentColor(Color.red) 
             )
             {
+                _satelliteColor.SetColor(Color.red);
+                _currentDeliveryStatus = DeliveryStatus.LowerRed;
+                _onScopeCargoChange?.Invoke();
+            }
+            else if (_transform.position.y < _screenBounds.y - _meshCollider.bounds.size.y)
+            {
                 /*if (!CargoDelivered)
                 {
                     _onLoose?.Invoke();
                 }*/
-                _satelliteColor.SetColor(Color.red);
-                _currentDeliveryStatus = DeliveryStatus.LowerRed;
-            }
-            else if (_transform.position.y < _screenBounds.y - _meshCollider.bounds.size.y)
-            {
                 _onDispose?.Invoke();
             }
         }

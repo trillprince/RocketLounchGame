@@ -13,7 +13,7 @@ namespace Common.Scripts.MissionSystem
         private readonly RocketMovementController _rocketMovementController;
         private GameStateController _gameStateController;
         private Queue<ISatellite> _leftMovableSatellites = new Queue<ISatellite>(10);
-        public ISatellite leftScopedSatellite { get; private set; }
+        public ISatellite LeftScopedSatellite { get; private set; }
 
 
         public LeftSatelliteController(
@@ -31,7 +31,7 @@ namespace Common.Scripts.MissionSystem
             GameObject gameObject;
             gameObject = _leftSatelliteSpawner.Spawn();
             ISatellite satellite = gameObject.GetComponent<ISatellite>();
-            satellite.Constructor(_rocketMovementController,_gameStateController,DisposeLastSatellite,ScopeToNextSatellite);
+            satellite.Constructor(_rocketMovementController,_gameStateController,DisposeLastSatellite,ScopeToNextSatellite,ScopeToNextSatellite);
             if (!SatellitesExist())
             {
                 ChangeScopedSatellite(satellite);
@@ -43,7 +43,7 @@ namespace Common.Scripts.MissionSystem
         {
             if (satellite != null)
             {
-                leftScopedSatellite = satellite;
+                LeftScopedSatellite = satellite;
             }
         }
 
@@ -83,7 +83,7 @@ namespace Common.Scripts.MissionSystem
             ISatellite satellite = array[array.Length - 1];
             if ( satellite != null)
             {
-                leftScopedSatellite = satellite;
+                LeftScopedSatellite = satellite;
             }
             else
             {

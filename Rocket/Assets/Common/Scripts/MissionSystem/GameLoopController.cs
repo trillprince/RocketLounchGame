@@ -17,7 +17,7 @@ namespace Common.Scripts.MissionSystem
 
         [Inject]
         private void Constructor(RocketMovementController rocketMovementController, ObjectPoolStorage objectPoolStorage,
-            RocketCargo rocketCargo,SatelliteCount satelliteCount,GameStateController gameStateController)
+            RocketCargo rocketCargo,GameStateController gameStateController)
         {
             var inputListener = GetComponent<InputListener>();
             
@@ -31,7 +31,7 @@ namespace Common.Scripts.MissionSystem
 
             _satelliteSystem = new SatelliteSystem(leftSatelliteController, rightSatelliteController, inputListener,
                 new SatelliteStateChanger(inputListener, 
-                    leftSatelliteController,rightSatelliteController, rocketCargo,satelliteCount));
+                    leftSatelliteController,rightSatelliteController, rocketCargo));
         }
 
         private void OnEnable()

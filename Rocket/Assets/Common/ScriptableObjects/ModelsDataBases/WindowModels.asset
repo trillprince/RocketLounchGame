@@ -15,3 +15,4 @@ MonoBehaviour:
   _windowModels:
   - {fileID: 11400000, guid: 14e687e1e73bbfc4f9b2bb02886271a3, type: 2}
   - {fileID: 11400000, guid: a00c4bc3f6f65f64a830449140eb7042, type: 2}
+  _modelsInted: 0

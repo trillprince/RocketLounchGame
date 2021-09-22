@@ -16,17 +16,13 @@ namespace Common.Scripts.Rocket
         {
             _objectPool = objectPoolStorage.GetPool(_cargoPrefab);
         }
-        
-        public void DropCargo (ISatellite satellite)
-        {
-            if (!satellite.HasCargo())
-            {
-                satellite.SetFinalDeliveryStatus();
-                var cargo = _objectPool.Pop(transform.position);
-                _currentCargoController = cargo.GetComponent<CargoController>();
-                _currentCargoController.Constructor(satellite,_objectPool);
-            }
-        }
 
+        public void DropCargo(ISatellite satellite)
+        {
+            satellite.SetFinalDeliveryStatus();
+            var cargo = _objectPool.Pop(transform.position);
+            _currentCargoController = cargo.GetComponent<CargoController>();
+            _currentCargoController.Constructor(satellite, _objectPool);
+        }
     }
 }
