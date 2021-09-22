@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using Common.Scripts.Cargo;
 using Common.Scripts.MissionSystem;
 using UnityEngine;
 using Zenject;
-using Random = UnityEngine.Random;
 
 namespace Common.Scripts.Rocket
 {
@@ -23,17 +19,14 @@ namespace Common.Scripts.Rocket
         
         public void DropCargo (ISatellite satellite)
         {
-            var cargo = _objectPool.Pop(transform.position);
-            _currentCargoController = cargo.GetComponent<CargoController>();
-            _currentCargoController.Constructor(satellite,_objectPool);
-        }
-
-        private void DisposeCargo()
-        {
-            if (_currentCargo != null)
+            if (!satellite.HasCargo())
             {
-                _objectPool.Push(_currentCargo);
+                satellite.SetFinalDeliveryStatus();
+                var cargo = _objectPool.Pop(transform.position);
+                _currentCargoController = cargo.GetComponent<CargoController>();
+                _currentCargoController.Constructor(satellite,_objectPool);
             }
         }
+
     }
 }

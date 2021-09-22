@@ -44,7 +44,7 @@ namespace Common.Scripts.Rocket
             SetGameState(GameState.CargoDrop);
         }
 
-        void SetStateOnOutOfCargo()
+        public void SetStateToLanding()
         {
             _loadingCurtain.Show((() =>
             {

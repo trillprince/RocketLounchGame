@@ -9,16 +9,19 @@ namespace Common.Scripts.MissionSystem
     {
         private readonly ISatelliteSpawner _rightSatelliteSpawner;
         private readonly RocketMovementController _rocketMovementController;
+        private GameStateController _gameStateController;
         private Queue<ISatellite> _rightMovableSatellites = new Queue<ISatellite>(10);
         public ISatellite rightScopedSatellite { get; private set; }
 
 
         public RightSatelliteController(
             ISatelliteSpawner rightSatelliteSpawner,
-            RocketMovementController rocketMovementController)
+            RocketMovementController rocketMovementController,
+            GameStateController gameStateController)
         {
             _rightSatelliteSpawner = rightSatelliteSpawner;
             _rocketMovementController = rocketMovementController;
+            _gameStateController = gameStateController;
         }
 
         private void CreateSatellite()
@@ -26,7 +29,7 @@ namespace Common.Scripts.MissionSystem
             GameObject gameObject;
             gameObject = _rightSatelliteSpawner.Spawn();
             ISatellite satellite = gameObject.GetComponent<ISatellite>();
-            satellite.Constructor(_rocketMovementController, DisposeLastSatellite);
+            satellite.Constructor(_rocketMovementController,_gameStateController, DisposeLastSatellite,ScopeToNextSatellite);
             if (!SatellitesExist())
             {
                 ChangeScopedSatellite(satellite);
@@ -71,6 +74,20 @@ namespace Common.Scripts.MissionSystem
         public bool SatellitesExist()
         {
             return _rightMovableSatellites.Count > 0;
+        }
+
+        private void ScopeToNextSatellite()
+        {
+            var array = _rightMovableSatellites.ToArray();
+            ISatellite satellite = array[array.Length - 1];
+            if ( satellite != null)
+            {
+                rightScopedSatellite = satellite;
+            }
+            else
+            {
+                ScopeToNextSatellite();
+            }
         }
 
     }

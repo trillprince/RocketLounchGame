@@ -7,18 +7,28 @@ namespace Common.Scripts.Satellite
     {
         private DeliveryStatus _finalDeliveryStatus;
         private DeliveryStatus _currentDeliveryStatus;
+        public bool CargoDelivered { get; private set; } = false;
         private Vector3 _screenBounds;
         private MeshCollider _meshCollider;
         private readonly Transform _transform;
         private readonly Action _onDispose;
-        private readonly Action<Color> _colorOnState;
+        private readonly SatelliteColor _satelliteColor;
+        private readonly Action _onLoose;
+        private readonly Action _onCargoDelivery;
 
-        public SatelliteDelivery(MeshCollider meshCollider,Transform transform, Action onDispose,Action <Color> colorOnState)
+        public SatelliteDelivery(MeshCollider meshCollider,
+            Transform transform, 
+            Action onDispose,
+            SatelliteColor satelliteColor,
+            Action onLoose,
+            Action onCargoDelivery)
         {
             _meshCollider = meshCollider;
             _transform = transform;
             _onDispose = onDispose;
-            _colorOnState = colorOnState;
+            _satelliteColor = satelliteColor;
+            _onLoose = onLoose;
+            _onCargoDelivery = onCargoDelivery;
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
@@ -28,35 +38,52 @@ namespace Common.Scripts.Satellite
 
         public void StateCheck()
         {
-            if (_transform.position.y < -_screenBounds.y && _transform.position.y >= -_screenBounds.y * 0.5f)
+            if (_transform.position.y < -_screenBounds.y && 
+                _transform.position.y >= -_screenBounds.y * 0.5f &&
+                !_satelliteColor.IsCurrentColor(Color.red)
+                )
             {
-                _colorOnState?.Invoke(Color.red);
+                _satelliteColor.SetColor(Color.red);
+                _currentDeliveryStatus = DeliveryStatus.UpperRed;
             }
-            else if (_transform.position.y < -_screenBounds.y * 0.5f && _transform.position.y >= 0)
+            else if (_transform.position.y < -_screenBounds.y * 0.5f &&
+                     _transform.position.y >= 0 &&
+                     !_satelliteColor.IsCurrentColor(Color.yellow)
+                     )
             {
-                _colorOnState?.Invoke(Color.yellow);
+                _satelliteColor.SetColor(Color.yellow);
+                _currentDeliveryStatus = DeliveryStatus.Yellow;
             }
-            else if (_transform.position.y < 0 && _transform.position.y >= _screenBounds.y * 0.5f)
+            else if (_transform.position.y < 0 &&
+                     _transform.position.y >= _screenBounds.y * 0.5f &&
+                     !_satelliteColor.IsCurrentColor(Color.green)
+            )
             {
-                _colorOnState?.Invoke(Color.green);
+                _satelliteColor.SetColor(Color.green);
+                _currentDeliveryStatus = DeliveryStatus.Green;
             }
-            else if (_transform.position.y < _screenBounds.y * 0.5f && _transform.position.y >= _screenBounds.y)
+            else if (_transform.position.y < _screenBounds.y * 0.5f &&
+                     _transform.position.y >= _screenBounds.y &&
+                     !_satelliteColor.IsCurrentColor(Color.red) 
+            )
             {
-                _colorOnState?.Invoke(Color.red);
+                /*if (!CargoDelivered)
+                {
+                    _onLoose?.Invoke();
+                }*/
+                _satelliteColor.SetColor(Color.red);
+                _currentDeliveryStatus = DeliveryStatus.LowerRed;
             }
             else if (_transform.position.y < _screenBounds.y - _meshCollider.bounds.size.y)
             {
                 _onDispose?.Invoke();
             }
         }
-        
-        public void SetCurrentDeliveryStatus(DeliveryStatus deliveryStatus)
-        {
-            _currentDeliveryStatus = deliveryStatus;
-        }
 
         public void SetFinalDeliveryStatus()
         {
+            CargoDelivered = true;
+            _onCargoDelivery?.Invoke();
             _finalDeliveryStatus = _currentDeliveryStatus;
         }
     }

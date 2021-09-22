@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Reflection.Emit;
 using Common.Scripts.Cargo;
@@ -16,17 +17,17 @@ namespace Common.Scripts.MissionSystem
 
         [Inject]
         private void Constructor(RocketMovementController rocketMovementController, ObjectPoolStorage objectPoolStorage,
-            RocketCargo rocketCargo,SatelliteCount satelliteCount)
+            RocketCargo rocketCargo,SatelliteCount satelliteCount,GameStateController gameStateController)
         {
             var inputListener = GetComponent<InputListener>();
             
             var leftSatelliteController = new LeftSatelliteController(
                 new LeftSatelliteSpawner(_prefabOfSatellite, rocketMovementController, objectPoolStorage),
-                rocketMovementController);
+                rocketMovementController,gameStateController);
             
             var rightSatelliteController = new RightSatelliteController(
                 new RightSatelliteSpawner(_prefabOfSatellite, rocketMovementController, objectPoolStorage),
-                rocketMovementController);
+                rocketMovementController,gameStateController);
 
             _satelliteSystem = new SatelliteSystem(leftSatelliteController, rightSatelliteController, inputListener,
                 new SatelliteStateChanger(inputListener, 

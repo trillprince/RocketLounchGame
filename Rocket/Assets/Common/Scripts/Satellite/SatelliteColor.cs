@@ -21,5 +21,10 @@ namespace Common.Scripts.Satellite
             _currentColor = color;
             _meshRenderer.material.color = color;
         }
+
+        public bool IsCurrentColor(Color color)
+        {
+           return _currentColor == color;
+        }
     }
 }

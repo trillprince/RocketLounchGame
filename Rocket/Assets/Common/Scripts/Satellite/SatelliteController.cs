@@ -20,16 +20,27 @@ namespace Common.Scripts.Satellite
             return transform;
         }
 
-        public void Constructor(RocketMovementController rocketMovementController, Action  onDispose)
+        public void Constructor(RocketMovementController rocketMovementController,GameStateController gameStateController, Action  onDispose,Action onDelivery)
         {
             _satelliteMove = new SatelliteMove(rocketMovementController, transform);
             _satelliteColor = new SatelliteColor(GetComponent<MeshRenderer>());
-            _satelliteDelivery = new SatelliteDelivery(GetComponent<MeshCollider>(), transform, onDispose,_satelliteColor.SetColor);
+            _satelliteDelivery = new SatelliteDelivery(GetComponent<MeshCollider>(), 
+                transform, 
+                onDispose,
+                _satelliteColor,
+                onDelivery,
+                gameStateController.SetStateToLanding
+            );
         }
 
         public void SetFinalDeliveryStatus()
         {
             _satelliteDelivery.SetFinalDeliveryStatus();
+        }
+
+        public bool HasCargo()
+        {
+            return _satelliteDelivery.CargoDelivered;
         }
 
         public void Execute()
