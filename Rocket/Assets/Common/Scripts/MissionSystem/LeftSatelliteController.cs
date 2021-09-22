@@ -31,7 +31,7 @@ namespace Common.Scripts.MissionSystem
             GameObject gameObject;
             gameObject = _leftSatelliteSpawner.Spawn();
             ISatellite satellite = gameObject.GetComponent<ISatellite>();
-            satellite.Constructor(_rocketMovementController,_gameStateController,DisposeLastSatellite,ScopeToNextSatellite,ScopeToNextSatellite);
+            satellite.Constructor(_rocketMovementController,_gameStateController,this);
             if (!SatellitesExist())
             {
                 ChangeScopedSatellite(satellite);
@@ -77,7 +77,7 @@ namespace Common.Scripts.MissionSystem
         {
             return _leftMovableSatellites.Count > 0;
         }
-        private void ScopeToNextSatellite()
+        public void ScopeToNextSatellite()
         {
             var array = _leftMovableSatellites.ToArray();
             ISatellite satellite = array[array.Length - 1];

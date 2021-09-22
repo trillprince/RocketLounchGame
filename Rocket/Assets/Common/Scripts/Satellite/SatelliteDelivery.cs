@@ -1,4 +1,5 @@
 ﻿using System;
+using Common.Scripts.MissionSystem;
 using UnityEngine;
 
 namespace Common.Scripts.Satellite
@@ -11,27 +12,21 @@ namespace Common.Scripts.Satellite
         private Vector3 _screenBounds;
         private MeshCollider _meshCollider;
         private readonly Transform _transform;
-        private readonly Action _onDispose;
         private readonly SatelliteColor _satelliteColor;
         private readonly Action _onLoose;
-        private readonly Action _onCargoDelivery;
-        private Action _onScopeCargoChange;
+        private readonly ISatelliteController _satelliteController;
 
         public SatelliteDelivery(MeshCollider meshCollider,
-            Transform transform, 
-            Action onDispose,
+            Transform transform,
             SatelliteColor satelliteColor,
             Action onLoose,
-            Action onCargoDelivery,
-            Action onScopeCargoChange)
+            ISatelliteController satelliteController)
         {
             _meshCollider = meshCollider;
             _transform = transform;
-            _onDispose = onDispose;
             _satelliteColor = satelliteColor;
             _onLoose = onLoose;
-            _onCargoDelivery = onCargoDelivery;
-            _onScopeCargoChange = onScopeCargoChange;
+            _satelliteController = satelliteController;
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
@@ -72,7 +67,7 @@ namespace Common.Scripts.Satellite
             {
                 _satelliteColor.SetColor(Color.red);
                 _currentDeliveryStatus = DeliveryStatus.LowerRed;
-                _onScopeCargoChange?.Invoke();
+                _satelliteController.ScopeToNextSatellite();
             }
             else if (_transform.position.y < _screenBounds.y - _meshCollider.bounds.size.y)
             {
@@ -80,14 +75,14 @@ namespace Common.Scripts.Satellite
                 {
                     _onLoose?.Invoke();
                 }*/
-                _onDispose?.Invoke();
+                _satelliteController.DisposeLastSatellite();
             }
         }
 
         public void SetFinalDeliveryStatus()
         {
             CargoDelivered = true;
-            _onCargoDelivery?.Invoke();
+            _satelliteController.ScopeToNextSatellite();
             _finalDeliveryStatus = _currentDeliveryStatus;
         }
     }

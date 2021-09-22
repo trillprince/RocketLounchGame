@@ -5,6 +5,9 @@
         public void Spawn();
 
         public void Execute();
+        public void DisposeLastSatellite();
+
+        public void ScopeToNextSatellite();
 
     }
 }
