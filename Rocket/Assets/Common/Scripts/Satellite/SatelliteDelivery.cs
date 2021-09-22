@@ -67,7 +67,7 @@ namespace Common.Scripts.Satellite
             )
             {
                 _satelliteColor.SetColor(Color.black);
-                _currentDeliveryStatus = DeliveryStatus.LowerRed;
+                _currentDeliveryStatus = DeliveryStatus.Black;
                 _satelliteController.ScopeToNextSatellite();
             }
             else if (_transform.position.y < _screenBounds.y - _meshCollider.bounds.size.y)
@@ -83,7 +83,9 @@ namespace Common.Scripts.Satellite
 
         public void SetFinalDeliveryStatus()
         {
+            Debug.Log("set final");
             CargoDelivered = true;
+            _satelliteColor.SetFinalColor();
             _satelliteController.ScopeToNextSatellite();
             _finalDeliveryStatus = _currentDeliveryStatus;
         }

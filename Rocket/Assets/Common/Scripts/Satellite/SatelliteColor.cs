@@ -6,6 +6,7 @@ namespace Common.Scripts.Satellite
     {
         private MeshRenderer _meshRenderer;
         private Color _currentColor;
+        private bool _finalColorIsSet = false;
 
         public SatelliteColor(MeshRenderer meshCollider)
         {
@@ -14,12 +15,17 @@ namespace Common.Scripts.Satellite
 
         public void SetColor(Color color)
         {
-            if (color == _currentColor)
+            if (color == _currentColor || _finalColorIsSet)
             {
                 return;
             }
             _currentColor = color;
             _meshRenderer.material.color = color;
+        }
+
+        public void SetFinalColor()
+        {
+            _finalColorIsSet = true;
         }
 
         public bool IsCurrentColor(Color color)
