@@ -12,32 +12,25 @@ namespace Common.Scripts.MissionSystem
         private float _waitTimeBeforeStart = 4;
         private float _waitTimeBeforeSpawn = 1;
         [SerializeField] private GameObject _prefabOfSatellite;
-        private RocketMovementController _rocketMovementController;
-        private LeftSatelliteController _leftSatelliteController;
-        private RightSatelliteController _rightSatelliteController;
-        private ObjectPoolStorage _objectPoolStorage;
-        private RocketCargo _rocketCargo;
-        private InputListener _inputListener;
-        private SatelliteStateChanger _satelliteStateChanger;
-        private SatelliteCount _satelliteCount;
         private SatelliteSystem _satelliteSystem;
 
-
-        private void Awake()
+        [Inject]
+        private void Constructor(RocketMovementController rocketMovementController, ObjectPoolStorage objectPoolStorage,
+            RocketCargo rocketCargo,SatelliteCount satelliteCount)
         {
-            _inputListener = GetComponent<InputListener>();
-            _satelliteSystem = new SatelliteSystem();
+            var inputListener = GetComponent<InputListener>();
             
-            _leftSatelliteController = new LeftSatelliteController(
-                new LeftSatelliteSpawner(_prefabOfSatellite, _rocketMovementController, _objectPoolStorage),
-                _rocketMovementController);
+            var leftSatelliteController = new LeftSatelliteController(
+                new LeftSatelliteSpawner(_prefabOfSatellite, rocketMovementController, objectPoolStorage),
+                rocketMovementController);
             
-            _rightSatelliteController = new RightSatelliteController(
-                new RightSatelliteSpawner(_prefabOfSatellite, _rocketMovementController, _objectPoolStorage),
-                _rocketMovementController);
-            
-            _satelliteStateChanger = new SatelliteStateChanger(_inputListener, 
-                _leftSatelliteController,_rightSatelliteController, _rocketCargo,_satelliteCount);
+            var rightSatelliteController = new RightSatelliteController(
+                new RightSatelliteSpawner(_prefabOfSatellite, rocketMovementController, objectPoolStorage),
+                rocketMovementController);
+
+            _satelliteSystem = new SatelliteSystem(leftSatelliteController, rightSatelliteController, inputListener,
+                new SatelliteStateChanger(inputListener, 
+                    leftSatelliteController,rightSatelliteController, rocketCargo,satelliteCount));
         }
 
         private void OnEnable()
@@ -52,33 +45,13 @@ namespace Common.Scripts.MissionSystem
 
         private void Update()
         {
-            _leftSatelliteController.Execute();
-            _rightSatelliteController.Execute();
-            _satelliteStateChanger.Execute();
+            _satelliteSystem.Execute();
         }
-
-        [Inject]
-        private void Constructor(RocketMovementController rocketMovementController, ObjectPoolStorage objectPoolStorage,
-            RocketCargo rocketCargo,SatelliteCount satelliteCount)
-        {
-            _rocketMovementController = rocketMovementController;
-            _objectPoolStorage = objectPoolStorage;
-            _rocketCargo = rocketCargo;
-            _satelliteCount = satelliteCount;
-        }
-
+        
         private IEnumerator WaitBeforeGameStart(float waitTime)
         {
             yield return new WaitForSeconds(waitTime);
-            var range = Random.Range(-2, 2);
-            if (range < 0)
-            {
-                _leftSatelliteController.Spawn();
-            }
-            else
-            {
-                _rightSatelliteController.Spawn();
-            }
+            _satelliteSystem.SpawnRandomSideSatellite();
             StartCoroutine(WaitBeforeGameStart(_waitTimeBeforeSpawn));
         }
 
@@ -89,10 +62,5 @@ namespace Common.Scripts.MissionSystem
                 StartCoroutine(WaitBeforeGameStart(_waitTimeBeforeStart));
             }
         }
-    }
-
-    public class SatelliteSystem
-    {
-        
     }
 }

@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class LeftSatelliteController
+    public class LeftSatelliteController: ISatelliteController
     {
         private readonly ISatelliteSpawner _leftSatelliteSpawner;
         private readonly RocketMovementController _rocketMovementController;
