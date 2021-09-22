@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-public interface IWindowModel
+namespace Common.Scripts.UI
 {
-    public GameObject GetWindowObject();
-    public string GetKey();
+    public interface IWindowModel
+    {
+        public GameObject GetWindowObject();
+        public string GetKey();
+    }
 }

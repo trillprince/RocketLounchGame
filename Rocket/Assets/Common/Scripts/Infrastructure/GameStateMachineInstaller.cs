@@ -1,21 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
-using Common.Scripts.Infrastructure;
 using Common.Scripts.UI;
 using UnityEngine;
 using Zenject;
 
-public class GameStateMachineInstaller : MonoInstaller
+namespace Common.Scripts.Infrastructure
 {
-    public override void InstallBindings()
+    public class GameStateMachineInstaller : MonoInstaller
     {
-        BindGameStateMachine();
-    }
+        [SerializeField] private LoadingCurtain _loadingCurtain;
+        [SerializeField] private GameObject _coroutineRunner;
 
-    private void BindGameStateMachine()
-    {
-        var stateMachine = FindObjectOfType<GameBootstrapper>().StateMachine;
-        Container.Bind<GameStateMachine>().FromInstance(stateMachine);
-        Container.Bind<LoadingCurtain>().FromInstance(stateMachine.Curtain);
+        public override void InstallBindings()
+        {
+            BindGameStateMachine();
+        }
+
+        private void BindGameStateMachine()
+        {
+            var gameBootstrapper = FindObjectOfType<GameBootstrapper>();
+            GameStateMachine stateMachine;
+            if (gameBootstrapper == null)
+            {
+                stateMachine = new GameStateMachine(new SceneLoader(_coroutineRunner.GetComponent<ICoroutineRunner>()),_loadingCurtain);
+                Container.Bind<GameStateMachine>().FromInstance(stateMachine);
+                Container.Bind<LoadingCurtain>().FromInstance(stateMachine.Curtain);
+                return;
+            }
+            Container.Bind<GameStateMachine>().FromInstance(gameBootstrapper.StateMachine);
+            Container.Bind<LoadingCurtain>().FromInstance(gameBootstrapper.StateMachine.Curtain);
+        }
     }
 }

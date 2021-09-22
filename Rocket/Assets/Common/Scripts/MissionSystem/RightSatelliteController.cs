@@ -9,7 +9,6 @@ namespace Common.Scripts.MissionSystem
     {
         private readonly ISatelliteSpawner _rightSatelliteSpawner;
         private readonly RocketMovementController _rocketMovementController;
-        private bool _satellitesExist = false;
         private Queue<ISatellite> _rightMovableSatellites = new Queue<ISatellite>(10);
         public ISatellite rightScopedSatellite { get; private set; }
 

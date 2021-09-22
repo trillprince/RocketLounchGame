@@ -8,7 +8,6 @@ namespace Common.Scripts.Cargo
 {
     public class CargoMovement : IUpdatable
     {
-        private int _smoothness = 7;
         private float _rotateSpeed = 50f;
         private int _zRot;
         private ISatellite _satellite;

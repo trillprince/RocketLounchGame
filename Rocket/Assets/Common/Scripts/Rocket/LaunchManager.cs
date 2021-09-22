@@ -10,8 +10,7 @@ namespace Common.Scripts.Rocket
         public delegate void Station();
 
         public static event Station OnRocketLaunch;
-
-        public static event Station Launching;
+        
         
         private float _timeTillLounch = 2f;
         private Button _button;

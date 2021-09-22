@@ -1160,6 +1160,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cae8771538d6274ea80a85af8c46937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _loadingCurtain: {fileID: 1219146012, guid: e43f117a444eda14080758a2ae2f89c7, type: 3}
+  _coroutineRunner: {fileID: 3878268021133879950, guid: e62d0469b0ecd2f4b9f900e6070a8a7d, type: 3}
 --- !u!114 &1007176468
 MonoBehaviour:
   m_ObjectHideFlags: 0

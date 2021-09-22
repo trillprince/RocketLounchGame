@@ -1,5 +1,6 @@
 ﻿using System;
 using Common.Scripts.Rocket;
+using Common.Scripts.UI;
 using UnityEngine;
 
 public class PauseOfGameUI: IUICreator<IPauseWindow>
