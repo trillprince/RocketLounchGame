@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class MiddleSpaceObjectController: ISpaceObjectController
+    public class MiddleSpaceObjectController: IAsteroidController
     {
         private readonly ISpaceObjectSpawner _middleSpaceObjectSpawner;
         private readonly RocketMovementController _rocketMovementController;
@@ -42,7 +42,7 @@ namespace Common.Scripts.MissionSystem
             CreateSpaceObject();
         }
 
-        public void DisposeLastSatellite()
+        public void DisposeLastAsteroid()
         {
             GameObject gameObject = _middleMovableSpaceObjects.Dequeue().GetGameObject();
             if (_middleMovableSpaceObjects.Count > 0)

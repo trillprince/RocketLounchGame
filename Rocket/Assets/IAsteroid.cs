@@ -4,5 +4,5 @@ using Common.Scripts.Rocket;
 public interface IAsteroid: ISpaceObject
 {
     public void Constructor(RocketMovementController rocketMovementController, GameStateController gameStateController,
-        ISpaceObjectController spaceObjectController, GameLoopController gameLoopController);
+        IAsteroidController spaceObjectController, GameLoopController gameLoopController);
 }

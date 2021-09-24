@@ -44,7 +44,6 @@ namespace Common.Scripts.MissionSystem
                 _inputListener.OnTouchEnd();
                 _rocketCargo.DropCargo(_rightSpaceObjectController.RightScopedSpaceObject);
                 Debug.Log("input 2");
-
             }
         }
 

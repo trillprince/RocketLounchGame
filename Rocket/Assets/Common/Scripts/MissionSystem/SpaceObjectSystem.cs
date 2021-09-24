@@ -24,10 +24,14 @@ namespace Common.Scripts.MissionSystem
         public void SpawnRandomSideSatellite()
         {
             var range = Random.Range(0, _spaceObjectControllers.Length + 1);
+            var randomObjectIndex = Random.Range(0, range);
             
             for (int i = 0; i < range; i++)
             {
-                _spaceObjectControllers[i].Spawn();
+                if (!(i == randomObjectIndex && range > 2 ))
+                {
+                    _spaceObjectControllers[i].Spawn();
+                }
             }
         }
 

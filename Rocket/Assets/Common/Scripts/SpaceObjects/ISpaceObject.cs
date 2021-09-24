@@ -14,7 +14,7 @@ public interface ISpaceObject: IUpdatable
 
 }
 
-public enum DeliveryStatus
+public enum StateOnScreen
 {
     UpperRed,
     Yellow,

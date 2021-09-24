@@ -6,8 +6,8 @@ namespace Common.Scripts.Satellite
 {
     public class SatelliteDelivery
     {
-        private DeliveryStatus _finalDeliveryStatus;
-        private DeliveryStatus _currentDeliveryStatus;
+        private StateOnScreen _finalStateOnScreen;
+        private StateOnScreen _currentStateOnScreen;
         public bool CargoDelivered { get; private set; } = false;
         private Vector3 _screenBounds;
         private MeshCollider _meshCollider;
@@ -43,7 +43,7 @@ namespace Common.Scripts.Satellite
                 )
             {
                 _satelliteColor.SetColor(Color.red);
-                _currentDeliveryStatus = DeliveryStatus.UpperRed;
+                _currentStateOnScreen = StateOnScreen.UpperRed;
             }
             else if (_transform.position.y < -_screenBounds.y * 0.5f &&
                      _transform.position.y >= 0 &&
@@ -51,7 +51,7 @@ namespace Common.Scripts.Satellite
                      )
             {
                 _satelliteColor.SetColor(Color.yellow);
-                _currentDeliveryStatus = DeliveryStatus.Yellow;
+                _currentStateOnScreen = StateOnScreen.Yellow;
             }
             else if (_transform.position.y < 0 &&
                      _transform.position.y >= _screenBounds.y * 0.5f &&
@@ -59,7 +59,7 @@ namespace Common.Scripts.Satellite
             )
             {
                 _satelliteColor.SetColor(Color.green);
-                _currentDeliveryStatus = DeliveryStatus.Green;
+                _currentStateOnScreen = StateOnScreen.Green;
             }
             else if (_transform.position.y < _screenBounds.y * 0.5f &&
                      _transform.position.y >= _screenBounds.y &&
@@ -67,7 +67,7 @@ namespace Common.Scripts.Satellite
             )
             {
                 _satelliteColor.SetColor(Color.red);
-                _currentDeliveryStatus = DeliveryStatus.LowerRed;
+                _currentStateOnScreen = StateOnScreen.LowerRed;
                 _satelliteController.ScopeToNextSatellite();
             }
             else if (_transform.position.y < _screenBounds.y - _meshCollider.bounds.size.y)
@@ -87,7 +87,7 @@ namespace Common.Scripts.Satellite
             CargoDelivered = true;
             _satelliteColor.SetFinalColor();
             _satelliteController.ScopeToNextSatellite();
-            _finalDeliveryStatus = _currentDeliveryStatus;
+            _finalStateOnScreen = _currentStateOnScreen;
         }
     }
 }
