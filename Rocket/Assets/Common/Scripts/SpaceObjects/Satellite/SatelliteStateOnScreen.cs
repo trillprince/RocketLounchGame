@@ -14,19 +14,19 @@ namespace Common.Scripts.Satellite
         private readonly Transform _transform;
         private readonly SatelliteColor _satelliteColor;
         private readonly Action _onLoose;
-        private readonly ISatelliteController _satelliteController;
+        private readonly ISpaceObjectController _spaceObjectController;
         private readonly GameLoopController _gameLoopController;
 
         public SatelliteDelivery(MeshCollider meshCollider,
             Transform transform,
             SatelliteColor satelliteColor,
-            ISatelliteController satelliteController,
+            ISpaceObjectController spaceObjectController,
             GameLoopController gameLoopController)
         {
             _meshCollider = meshCollider;
             _transform = transform;
             _satelliteColor = satelliteColor;
-            _satelliteController = satelliteController;
+            _spaceObjectController = spaceObjectController;
             _gameLoopController = gameLoopController;
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
@@ -39,7 +39,7 @@ namespace Common.Scripts.Satellite
         {
             if (_transform.position.y < -_screenBounds.y && 
                 _transform.position.y >= -_screenBounds.y * 0.5f &&
-                !_satelliteColor.IsCurrentColor(Color.red)
+                _currentStateOnScreen != StateOnScreen.UpperRed
                 )
             {
                 _satelliteColor.SetColor(Color.red);
@@ -47,7 +47,7 @@ namespace Common.Scripts.Satellite
             }
             else if (_transform.position.y < -_screenBounds.y * 0.5f &&
                      _transform.position.y >= 0 &&
-                     !_satelliteColor.IsCurrentColor(Color.yellow)
+                     _currentStateOnScreen != StateOnScreen.Yellow
                      )
             {
                 _satelliteColor.SetColor(Color.yellow);
@@ -55,7 +55,7 @@ namespace Common.Scripts.Satellite
             }
             else if (_transform.position.y < 0 &&
                      _transform.position.y >= _screenBounds.y * 0.5f &&
-                     !_satelliteColor.IsCurrentColor(Color.green)
+                     _currentStateOnScreen != StateOnScreen.Green
             )
             {
                 _satelliteColor.SetColor(Color.green);
@@ -63,12 +63,12 @@ namespace Common.Scripts.Satellite
             }
             else if (_transform.position.y < _screenBounds.y * 0.5f &&
                      _transform.position.y >= _screenBounds.y &&
-                     !_satelliteColor.IsCurrentColor(Color.black) 
+                     _currentStateOnScreen != StateOnScreen.LowerRed
             )
             {
                 _satelliteColor.SetColor(Color.red);
                 _currentStateOnScreen = StateOnScreen.LowerRed;
-                _satelliteController.ScopeToNextSatellite();
+                _spaceObjectController.ScopeToNextObject();
             }
             else if (_transform.position.y < _screenBounds.y - _meshCollider.bounds.size.y)
             {
@@ -77,7 +77,7 @@ namespace Common.Scripts.Satellite
                     _gameLoopController.DisableSatelliteDrop();
                     return;
                 }*/
-                _satelliteController.DisposeLastSatellite();
+                _spaceObjectController.DisposeLastObject();
             }
         }
 
@@ -86,7 +86,7 @@ namespace Common.Scripts.Satellite
             Debug.Log("set final");
             CargoDelivered = true;
             _satelliteColor.SetFinalColor();
-            _satelliteController.ScopeToNextSatellite();
+            _spaceObjectController.ScopeToNextObject();
             _finalStateOnScreen = _currentStateOnScreen;
         }
     }
