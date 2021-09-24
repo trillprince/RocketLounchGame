@@ -12,9 +12,4 @@ public class AsteroidStateOnScreen : StateOnScreenPosition
     {
         
     }
-
-    public override void StateCheck()
-    {
-        base.StateCheck();
-    }
 }

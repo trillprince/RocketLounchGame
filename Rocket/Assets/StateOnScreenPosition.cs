@@ -11,25 +11,17 @@ public class StateOnScreenPosition
     protected readonly MeshCollider MeshCollider;
     protected readonly ISpaceObjectController SpaceObjectController;
     protected readonly GameLoopController GameLoopController;
-    protected readonly Dictionary<StateOnScreen, Action> _actionsOnStates;
-    private bool _hasDictOfActions;
 
     protected StateOnScreenPosition(MeshCollider meshCollider,
         Transform transform,
         ISpaceObjectController spaceObjectController,
-        GameLoopController gameLoopController,
-        Dictionary<StateOnScreen, Action> actionsOnStates = null)
+        GameLoopController gameLoopController)
     {
         MeshCollider = meshCollider;
         Transform = transform;
         SpaceObjectController = spaceObjectController;
         GameLoopController = gameLoopController;
-        _actionsOnStates = actionsOnStates;
-        if (actionsOnStates != null)
-        {
-            _hasDictOfActions = true;
-        }
-        
+ 
         if (UnityEngine.Camera.main is { })
             ScreenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
@@ -38,7 +30,26 @@ public class StateOnScreenPosition
                     UnityEngine.Camera.main.transform.position.z - Transform.position.z));
     }
 
-    public virtual void StateCheck()
+    protected virtual void OnStateChange(StateOnScreen state)
+    {
+        switch (state)
+        {
+            case StateOnScreen.UpperRed:
+                break;
+            case StateOnScreen.Yellow:
+                break;
+            case StateOnScreen.Green:
+                break;
+            case StateOnScreen.LowerRed:
+                SpaceObjectController.ScopeToNextObject();
+                break;
+            case StateOnScreen.DisposeZone:
+                SpaceObjectController.DisposeLastObject();
+                break;
+        }
+    }
+    
+    public void StateCheck()
     {
         if (Transform.position.y < -ScreenBounds.y && 
             Transform.position.y >= -ScreenBounds.y * 0.5f &&
@@ -46,10 +57,7 @@ public class StateOnScreenPosition
         )
         {
             CurrentStateOnScreen = StateOnScreen.UpperRed;
-            if (_hasDictOfActions && _actionsOnStates.ContainsKey(CurrentStateOnScreen))
-            {
-                _actionsOnStates[CurrentStateOnScreen]?.Invoke();
-            }
+            OnStateChange(CurrentStateOnScreen);
         }
         else if (Transform.position.y < -ScreenBounds.y * 0.5f &&
                  Transform.position.y >= 0 &&
@@ -57,10 +65,7 @@ public class StateOnScreenPosition
         )
         {
             CurrentStateOnScreen = StateOnScreen.Yellow;
-            if (_hasDictOfActions && _actionsOnStates.ContainsKey(CurrentStateOnScreen))
-            {
-                _actionsOnStates[CurrentStateOnScreen]?.Invoke();
-            }
+            OnStateChange(CurrentStateOnScreen);
         }
         else if (Transform.position.y < 0 &&
                  Transform.position.y >= ScreenBounds.y * 0.5f &&
@@ -68,10 +73,7 @@ public class StateOnScreenPosition
         )
         {
             CurrentStateOnScreen = StateOnScreen.Green;
-            if (_hasDictOfActions && _actionsOnStates.ContainsKey(CurrentStateOnScreen))
-            {
-                _actionsOnStates[CurrentStateOnScreen]?.Invoke();
-            }
+            OnStateChange(CurrentStateOnScreen);
         }
         else if (Transform.position.y < ScreenBounds.y * 0.5f &&
                  Transform.position.y >= ScreenBounds.y &&
@@ -79,20 +81,14 @@ public class StateOnScreenPosition
         )
         {
             CurrentStateOnScreen = StateOnScreen.LowerRed;
-            if (_hasDictOfActions && _actionsOnStates.ContainsKey(CurrentStateOnScreen))
-            {
-                _actionsOnStates[CurrentStateOnScreen]?.Invoke();
-            }
-            SpaceObjectController.ScopeToNextObject();
+            OnStateChange(CurrentStateOnScreen);
+            
         }
         else if (Transform.position.y < ScreenBounds.y - MeshCollider.bounds.size.y &&
-                 CurrentStateOnScreen != StateOnScreen.Dispose)
+                 CurrentStateOnScreen != StateOnScreen.DisposeZone)
         {
-            if (_hasDictOfActions && _actionsOnStates.ContainsKey(CurrentStateOnScreen))
-            {
-                _actionsOnStates[CurrentStateOnScreen]?.Invoke();
-            }
-            SpaceObjectController.DisposeLastObject();
+            CurrentStateOnScreen = StateOnScreen.DisposeZone;
+            OnStateChange(CurrentStateOnScreen);
         }
         
         

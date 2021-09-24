@@ -36,29 +36,8 @@ namespace Common.Scripts.SpaceObjects
                 transform,
                 _satelliteColor,
                 satelliteController,
-                gameLoopController,new Dictionary<StateOnScreen, Action>()
-                {
-                    [StateOnScreen.UpperRed] = (() =>
-                    {
-                        _satelliteColor.SetColor(Color.red);
-                    }),
-                    [StateOnScreen.Yellow] = (() =>
-                    {
-                        _satelliteColor.SetColor(Color.yellow);
-                    }),
-                    [StateOnScreen.Green] = (() =>
-                    {
-                        _satelliteColor.SetColor(Color.green);
-                    }),
-                    [StateOnScreen.LowerRed] = (() =>
-                    {
-                        _satelliteColor.SetColor(Color.red);
-                    }),
-                    [StateOnScreen.Dispose] = () =>
-                    {
-                        _satelliteDelivery.SetFinalDeliveryStatus();
-                    }
-                }
+                gameLoopController,
+                _satelliteDelivery
             );
         }
 

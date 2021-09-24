@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common.Scripts.MissionSystem;
+using Common.Scripts.SpaceObjects;
 using UnityEngine;
 
 namespace Common.Scripts.Satellite
@@ -11,19 +12,40 @@ namespace Common.Scripts.Satellite
         private StateOnScreen _currentStateOnScreen;
         public bool CargoDelivered { get; private set; } = false;
         private readonly SatelliteColor _satelliteColor;
+        private SatelliteDelivery _satelliteDelivery;
 
         public SatelliteStateOnScreen(MeshCollider meshCollider,
             Transform transform,
             SatelliteColor satelliteColor,
             ISpaceObjectController spaceObjectController,
-            GameLoopController gameLoopController,Dictionary<StateOnScreen,Action> actionsOnStates = null): base(meshCollider,transform,spaceObjectController,gameLoopController,actionsOnStates)
+            GameLoopController gameLoopController,SatelliteDelivery satelliteDelivery): base(meshCollider,transform,spaceObjectController,gameLoopController)
         {
             _satelliteColor = satelliteColor;
+            _satelliteDelivery = satelliteDelivery;
         }
 
-        public override void StateCheck()
+        protected override void OnStateChange(StateOnScreen state)
         {
-            base.StateCheck();
+            switch (state)
+            {
+                case StateOnScreen.UpperRed:
+                    _satelliteColor.SetColor(Color.red);
+                    break;
+                case StateOnScreen.Yellow:
+                    _satelliteColor.SetColor(Color.yellow);
+                    break;
+                case StateOnScreen.Green:
+                    _satelliteColor.SetColor(Color.green);
+                    break;
+                case StateOnScreen.LowerRed:
+                    _satelliteColor.SetColor(Color.red);
+                    SpaceObjectController.ScopeToNextObject();
+                    break;
+                case StateOnScreen.DisposeZone:
+                    _satelliteDelivery.DisableSatelliteDrop();
+                    SpaceObjectController.DisposeLastObject();
+                    break;
+            }
         }
     }
 }

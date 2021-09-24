@@ -20,5 +20,5 @@ public enum StateOnScreen
     Yellow,
     Green,
     LowerRed,
-    Dispose
+    DisposeZone
 }
