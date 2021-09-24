@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class RightSpaceObjectController: ISatelliteController
+    public class RightSpaceObjectController: ISpaceObjectController
     {
         private readonly ISpaceObjectSpawner _rightSpaceObjectSpawner;
         private readonly RocketMovementController _rocketMovementController;
@@ -45,7 +45,7 @@ namespace Common.Scripts.MissionSystem
             CreateSatellite();
         }
 
-        public void DisposeLastSatellite()
+        public void DisposeLastObject()
         {
             GameObject gameObject = _rightMovableSatellites.Dequeue().GetGameObject();
             if (_rightMovableSatellites.Count > 0)
@@ -87,7 +87,7 @@ namespace Common.Scripts.MissionSystem
             return _rightMovableSatellites.Count > 0;
         }
 
-        public void ScopeToNextSatellite()
+        public void ScopeToNextObject()
         {
             var array = _rightMovableSatellites.ToArray();
             ISatellite spaceObject = array[array.Length - 1];
@@ -97,7 +97,7 @@ namespace Common.Scripts.MissionSystem
             }
             else
             {
-                ScopeToNextSatellite();
+                ScopeToNextObject();
             }
         }
 

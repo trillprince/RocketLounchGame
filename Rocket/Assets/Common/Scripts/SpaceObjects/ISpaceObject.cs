@@ -19,5 +19,6 @@ public enum StateOnScreen
     UpperRed,
     Yellow,
     Green,
-    LowerRed
+    LowerRed,
+    Dispose
 }

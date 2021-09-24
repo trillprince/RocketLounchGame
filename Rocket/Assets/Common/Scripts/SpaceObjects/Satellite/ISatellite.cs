@@ -6,5 +6,5 @@ public interface ISatellite: ISpaceObject
     public void SetFinalDeliveryStatus();
     public bool HasCargo();    
     public void Constructor(RocketMovementController rocketMovementController,
-        GameStateController gameStateController,ISatelliteController satelliteController,GameLoopController gameLoopController);
+        GameStateController gameStateController,ISpaceObjectController satelliteController,GameLoopController gameLoopController);
 }

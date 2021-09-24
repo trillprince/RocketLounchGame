@@ -1,4 +1,6 @@
-﻿using Common.Scripts.MissionSystem;
+﻿using System;
+using System.Collections.Generic;
+using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using Common.Scripts.Satellite;
 using UnityEngine;
@@ -7,10 +9,11 @@ namespace Common.Scripts.SpaceObjects
 {
     public class Satellite : MonoBehaviour,ISatellite
     {
-        private SatelliteDelivery _satelliteDelivery;
+        private SatelliteStateOnScreen _satelliteStateOnScreen;
         private SatelliteMove _satelliteMove;
         private SatelliteColor _satelliteColor;
-        
+        private SatelliteDelivery _satelliteDelivery;
+
         public GameObject GetGameObject()
         {
             return gameObject;
@@ -22,16 +25,40 @@ namespace Common.Scripts.SpaceObjects
         
         public void Constructor(RocketMovementController rocketMovementController,
             GameStateController gameStateController, 
-            ISatelliteController satelliteController,
+            ISpaceObjectController satelliteController,
             GameLoopController gameLoopController)
         {
+            
             _satelliteMove = new SatelliteMove(rocketMovementController, transform);
             _satelliteColor = new SatelliteColor(GetComponent<MeshRenderer>());
-            _satelliteDelivery = new SatelliteDelivery(GetComponent<MeshCollider>(), 
+            _satelliteDelivery = new SatelliteDelivery(_satelliteColor,satelliteController,gameLoopController);
+            _satelliteStateOnScreen = new SatelliteStateOnScreen(GetComponent<MeshCollider>(), 
                 transform,
                 _satelliteColor,
                 satelliteController,
-                gameLoopController
+                gameLoopController,new Dictionary<StateOnScreen, Action>()
+                {
+                    [StateOnScreen.UpperRed] = (() =>
+                    {
+                        _satelliteColor.SetColor(Color.red);
+                    }),
+                    [StateOnScreen.Yellow] = (() =>
+                    {
+                        _satelliteColor.SetColor(Color.yellow);
+                    }),
+                    [StateOnScreen.Green] = (() =>
+                    {
+                        _satelliteColor.SetColor(Color.green);
+                    }),
+                    [StateOnScreen.LowerRed] = (() =>
+                    {
+                        _satelliteColor.SetColor(Color.red);
+                    }),
+                    [StateOnScreen.Dispose] = () =>
+                    {
+                        _satelliteDelivery.SetFinalDeliveryStatus();
+                    }
+                }
             );
         }
 
@@ -48,7 +75,8 @@ namespace Common.Scripts.SpaceObjects
         public void Execute()
         {
             _satelliteMove.Move();
-            _satelliteDelivery.StateCheck();
+            _satelliteStateOnScreen.StateCheck();
         }
+        
     }
 }

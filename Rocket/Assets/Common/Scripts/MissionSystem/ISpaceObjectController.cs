@@ -7,5 +7,9 @@
         public void Execute();
 
         public void DisposeAll();
+        
+        public void DisposeLastObject();
+
+        public void ScopeToNextObject();
     }
 }

@@ -42,7 +42,7 @@ namespace Common.Scripts.MissionSystem
             CreateSpaceObject();
         }
 
-        public void DisposeLastAsteroid()
+        public void DisposeLastObject()
         {
             GameObject gameObject = _middleMovableSpaceObjects.Dequeue().GetGameObject();
             if (_middleMovableSpaceObjects.Count > 0)
@@ -84,7 +84,7 @@ namespace Common.Scripts.MissionSystem
             return _middleMovableSpaceObjects.Count > 0;
         }
 
-        public void ScopeToNextAsteroid()
+        public void ScopeToNextObject()
         {
             var array = _middleMovableSpaceObjects.ToArray();
             ISpaceObject spaceObject = array[array.Length - 1];
@@ -94,7 +94,7 @@ namespace Common.Scripts.MissionSystem
             }
             else
             {
-                ScopeToNextAsteroid();
+                ScopeToNextObject();
             }
         }
 

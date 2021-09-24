@@ -9,22 +9,22 @@ public class Asteroid : MonoBehaviour,IAsteroid
 {
     private RocketMovementController _rocketMovementController;
     private GameStateController _gameStateController;
-    private IAsteroidController _asteroidController;
+    private ISpaceObjectController _spaceObjectController;
     private GameLoopController _gameLoopController;
     private IMoveComponent _asteroidMove;
     private AsteroidStateOnScreen _asteroidState;
 
 
     public void Constructor(RocketMovementController rocketMovementController, GameStateController gameStateController,
-        IAsteroidController asteroidController, GameLoopController gameLoopController)
+        ISpaceObjectController spaceObjectController, GameLoopController gameLoopController)
     {
         _rocketMovementController = rocketMovementController;
         _gameStateController = gameStateController;
-        _asteroidController = asteroidController;
+        _spaceObjectController = spaceObjectController;
         _gameLoopController = gameLoopController;
 
         _asteroidMove = new AsteroidMove(rocketMovementController,transform);
-        _asteroidState = new AsteroidStateOnScreen(GetComponent<MeshCollider>(), transform, asteroidController,
+        _asteroidState = new AsteroidStateOnScreen(GetComponent<MeshCollider>(), transform, _spaceObjectController,
             gameLoopController);
     }
     

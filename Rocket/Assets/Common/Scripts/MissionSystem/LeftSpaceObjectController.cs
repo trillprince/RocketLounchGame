@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class LeftSpaceObjectController: ISatelliteController
+    public class LeftSpaceObjectController: ISpaceObjectController
     {
         private readonly ISpaceObjectSpawner _leftSpaceObjectSpawner;
         private readonly RocketMovementController _rocketMovementController;
@@ -55,7 +55,7 @@ namespace Common.Scripts.MissionSystem
             CreateSatellite();
         }
         
-        public void DisposeLastSatellite()
+        public void DisposeLastObject()
         {
             GameObject gameObject = _leftMovableSatellites.Dequeue().GetGameObject();
             if (_leftMovableSatellites.Count > 0)
@@ -88,7 +88,7 @@ namespace Common.Scripts.MissionSystem
         {
             return _leftMovableSatellites.Count > 0;
         }
-        public void ScopeToNextSatellite()
+        public void ScopeToNextObject()
         {
             var array = _leftMovableSatellites.ToArray();
             ISatellite spaceObject = array[array.Length - 1];
@@ -98,7 +98,7 @@ namespace Common.Scripts.MissionSystem
             }
             else
             {
-                ScopeToNextSatellite();
+                ScopeToNextObject();
             }
         }
         
