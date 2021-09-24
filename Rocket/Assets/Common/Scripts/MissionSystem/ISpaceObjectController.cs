@@ -1,6 +1,6 @@
 ﻿namespace Common.Scripts.MissionSystem
 {
-    public interface ISatelliteController
+    public interface ISpaceObjectController
     {
         public void Spawn();
 

@@ -1,3 +1,4 @@
+using System;
 using Common.Scripts.MissionSystem;
 using UnityEngine;
 using Zenject;
@@ -11,6 +12,7 @@ namespace Common.Scripts.Rocket
         private CargoController _currentCargoController;
         private GameObject _currentCargo;
         private SatelliteCount _satelliteCount;
+        public event Action OnCargoDrop;
 
         [Inject]
         private void Constructor(ObjectPoolStorage objectPoolStorage,SatelliteCount satelliteCount)
@@ -21,6 +23,7 @@ namespace Common.Scripts.Rocket
 
         public void DropCargo(ISatellite satellite)
         {
+            OnCargoDrop?.Invoke();
             _satelliteCount.AddSatellite();
             satellite.SetFinalDeliveryStatus();
             var cargo = _objectPool.Pop(transform.position);

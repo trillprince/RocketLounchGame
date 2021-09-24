@@ -1,16 +1,18 @@
-﻿using Common.Scripts.Rocket;
+﻿using Common.Scripts.Camera;
+using Common.Scripts.Rocket;
 using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class RightSatelliteSpawner : ISatelliteSpawner
+    public class LeftSpaceObjectSpawner : ISpaceObjectSpawner
     {
         private ObjectPool _objectPool;
         private Vector2 _screenBounds;
         private Transform _rocketTransform;
         private GameObject _prefab;
-        
-        public RightSatelliteSpawner(GameObject prefab, RocketMovementController rocketMovementController,
+
+
+        public LeftSpaceObjectSpawner(GameObject prefab, RocketMovementController rocketMovementController,
             ObjectPoolStorage objectPoolStorage)
         {
             _rocketTransform = rocketMovementController.transform;
@@ -26,7 +28,7 @@ namespace Common.Scripts.MissionSystem
         public GameObject Spawn()
         {
             GameObject satellite = _objectPool.Pop(_objectPool.Root.position);
-            satellite.transform.position = GetSpawnPosition(satellite.GetComponent<MeshCollider>());
+            satellite.transform.position = GetRandomSpawnPosition(satellite.GetComponent<MeshCollider>());
             return satellite;
         }
 
@@ -35,12 +37,13 @@ namespace Common.Scripts.MissionSystem
             _objectPool.Push(gameObject);
         }
 
-        private Vector3 GetSpawnPosition(MeshCollider meshCollider)
+        private Vector3 GetRandomSpawnPosition(MeshCollider meshCollider)
         {
             return new Vector3(
-                (- _screenBounds.x + _rocketTransform.position.x) / 2,
-                -_screenBounds.y + meshCollider.bounds.size.y / 2,
-                _rocketTransform.position.z);
+                    (_screenBounds.x - _rocketTransform.position.x) / 2,
+                    -_screenBounds.y + meshCollider.bounds.size.y / 2,
+                    _rocketTransform.position.z);
+               
         }
     }
 }

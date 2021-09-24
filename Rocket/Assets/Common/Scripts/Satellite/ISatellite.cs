@@ -13,7 +13,7 @@ public interface ISatellite: IUpdatable
     public Transform GetTransform();
 
     public void Constructor(RocketMovementController rocketMovementController,
-        GameStateController gameStateController,ISatelliteController satelliteController,GameLoopController gameLoopController);
+        GameStateController gameStateController,ISpaceObjectController spaceObjectController,GameLoopController gameLoopController);
 
     public void SetFinalDeliveryStatus();
     bool HasCargo();
@@ -24,5 +24,5 @@ public enum DeliveryStatus
     UpperRed,
     Yellow,
     Green,
-    Black
+    LowerRed
 }

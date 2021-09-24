@@ -8,18 +8,18 @@ namespace Common.Scripts.MissionSystem
     public class SatelliteStateChanger: IUpdatable
     {
         private readonly InputListener _inputListener;
-        private readonly LeftSatelliteController _leftSatelliteController;
-        private readonly RightSatelliteController _rightSatelliteController;
+        private readonly LeftSpaceObjectController _leftSpaceObjectController;
+        private readonly RightSpaceObjectController _rightSpaceObjectController;
         private readonly RocketCargo _rocketCargo;
 
         public SatelliteStateChanger(InputListener inputListener, 
-            LeftSatelliteController leftSatelliteController
-            ,RightSatelliteController rightSatelliteController, 
+            LeftSpaceObjectController leftSpaceObjectController
+            ,RightSpaceObjectController rightSpaceObjectController, 
             RocketCargo rocketCargo)
         {
             _inputListener = inputListener;
-            _leftSatelliteController = leftSatelliteController;
-            _rightSatelliteController = rightSatelliteController;
+            _leftSpaceObjectController = leftSpaceObjectController;
+            _rightSpaceObjectController = rightSpaceObjectController;
             _rocketCargo = rocketCargo;
         }
         public void Execute()
@@ -30,19 +30,19 @@ namespace Common.Scripts.MissionSystem
         private void CargoDeliveryOnInput()
         {
             if (_inputListener.InputLeftSide &&
-                _leftSatelliteController.SatellitesExist() &&
-                !_leftSatelliteController.LeftScopedSatellite.HasCargo())
+                _leftSpaceObjectController.SatellitesExist() &&
+                !_leftSpaceObjectController.LeftScopedSatellite.HasCargo())
             {
                 _inputListener.OnTouchEnd();
-                _rocketCargo.DropCargo(_leftSatelliteController.LeftScopedSatellite);
+                _rocketCargo.DropCargo(_leftSpaceObjectController.LeftScopedSatellite);
                 Debug.Log("input 1");
             }
             else if(_inputListener.InputRightSide &&
-                    _rightSatelliteController.SatellitesExist() &&
-                    !_rightSatelliteController.RightScopedSatellite.HasCargo())
+                    _rightSpaceObjectController.SatellitesExist() &&
+                    !_rightSpaceObjectController.RightScopedSatellite.HasCargo())
             {
                 _inputListener.OnTouchEnd();
-                _rocketCargo.DropCargo(_rightSatelliteController.RightScopedSatellite);
+                _rocketCargo.DropCargo(_rightSpaceObjectController.RightScopedSatellite);
                 Debug.Log("input 2");
 
             }

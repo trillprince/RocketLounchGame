@@ -9,75 +9,41 @@ namespace Common.Scripts.Rocket
 {
     public class RocketAutoMovement : IRocketMoveComponent
     {
-        private float _scaleSmoothness = 5f;
-        private float _rotateSmoothness = 5f;
-        private float _minScale;
-        private float _maxScale;
-        private readonly float _scaleDownValue = 0.4f;
-        private readonly float _scaleUpValue = 0.4f;
-        private readonly float _minXRot = -20;
-        private readonly float _maxXRot = 20;
-        private readonly float _minYRot = -90;
-        private readonly float _maxYRot = 90;
-        private Vector3 _currentTargetRot = new Vector3(0, -90, 0);
-        private Vector3 _currentTargetScale = new Vector3(1, 1, 1);
-        private float _timeTillLounch = 10f;
-        private Quaternion _landingRot;
-        private Vector3 _landingPos;
-        private Vector3 _landingScale;
-        private Transform _transform;
-        private MovementState _nextMovementState;
-
-        private void SetMinMaxScale(Transform transform)
-        {
-            _minScale = transform.localScale.x - _scaleDownValue;
-            _maxScale = transform.localScale.x + _scaleUpValue;
-        }
+        private readonly Transform _transform;
+        private float _timeTillValueReset = 5;
+        private float _curremtTime;
+        private Quaternion _targetRotation;
+        private float _rotateDuration = 10;
+        private float _rotateTimeElapsed;
 
         public RocketAutoMovement(Transform transform)
         {
             _transform = transform;
-            SetMinMaxScale(_transform);
         }
 
-        private void ScaleDown()
+        public void Move(Action<MovementState> changeState = null)
         {
-            _transform.localScale =
-                Vector3.Lerp(_transform.localScale, _currentTargetScale, Time.deltaTime / _scaleSmoothness);
+            if (_curremtTime < _timeTillValueReset)
+            {
+                _curremtTime += Time.deltaTime;
+                return;
+            }
+            Rotate();
+            Scale();
         }
 
-        private void Rotation()
+        private void Scale()
         {
-            _transform.rotation = Quaternion.Lerp(
-                _transform.rotation,
-                Quaternion.Euler(_currentTargetRot.x, _currentTargetRot.y, _transform.eulerAngles.z),
-                Time.deltaTime / _rotateSmoothness);
         }
 
-        void ResetTargetRot()
+        private void Rotate()
         {
-            _currentTargetRot = new Vector3(0, Random.Range(_minYRot, _maxYRot), 0);
-        }
-
-        void ResetTargetScale()
-        {
-            var scale = Random.Range(_minScale, _maxScale);
-            _currentTargetScale = new Vector3(scale, scale, scale);
-        }
-
-        public void Move(Action<MovementState> changeState)
-        {
-            ScaleDown();
-            Rotation();
+            _transform.Rotate(_transform.rotation.x,Vector3.right.y * Time.deltaTime,_transform.rotation.z);
         }
 
         public void Enable()
         {
-            /*CargoDropController.CargoDropping += () =>
-            {
-                ResetTargetRot();
-                ResetTargetScale();
-            };*/
+            
         }
     }
 }

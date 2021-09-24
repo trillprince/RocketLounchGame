@@ -2,7 +2,7 @@
 
 namespace Common.Scripts.MissionSystem
 {
-    public interface ISatelliteSystem: IUpdatable
+    public interface ISpaceObjectSystem: IUpdatable
     {
         public void SpawnRandomSideSatellite();
     }

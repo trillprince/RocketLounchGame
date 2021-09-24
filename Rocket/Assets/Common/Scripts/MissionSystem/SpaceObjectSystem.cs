@@ -2,24 +2,25 @@
 
 namespace Common.Scripts.MissionSystem
 {
-    public class SatelliteSystem : ISatelliteSystem
+    public class SpaceObjectSystem : ISpaceObjectSystem
     {
-        private readonly ISatelliteController _leftSatelliteController;
-        private readonly ISatelliteController _rightSatelliteController;
+        private readonly ISpaceObjectController _leftSpaceObjectController;
+        private readonly ISpaceObjectController _rightSpaceObjectController;
         private readonly InputListener _inputListener;
         private readonly SatelliteStateChanger _satelliteStateChanger;
         private bool _satelliteSystemActive = true;
+        private ISpaceObjectController[] _spaceObjectControllers;
 
-        public SatelliteSystem
+        public SpaceObjectSystem
         (
-            ISatelliteController leftSatelliteController,
-            ISatelliteController rightSatelliteController,
+            ISpaceObjectController leftSpaceObjectController,
+            ISpaceObjectController rightSpaceObjectController,
             InputListener inputListener,
             SatelliteStateChanger satelliteStateChanger
         )
         {
-            _leftSatelliteController = leftSatelliteController;
-            _rightSatelliteController = rightSatelliteController;
+            _leftSpaceObjectController = leftSpaceObjectController;
+            _rightSpaceObjectController = rightSpaceObjectController;
             _inputListener = inputListener;
             _satelliteStateChanger = satelliteStateChanger;
         }
@@ -29,11 +30,11 @@ namespace Common.Scripts.MissionSystem
             var range = Random.Range(-2, 2);
             if (range < 0)
             {
-                _leftSatelliteController.Spawn();
+                _leftSpaceObjectController.Spawn();
             }
             else
             {
-                _rightSatelliteController.Spawn();
+                _rightSpaceObjectController.Spawn();
             }
         }
 
@@ -41,8 +42,8 @@ namespace Common.Scripts.MissionSystem
         {
             if (_satelliteSystemActive)
             {
-                _leftSatelliteController.Execute();
-                _rightSatelliteController.Execute();
+                _leftSpaceObjectController.Execute();
+                _rightSpaceObjectController.Execute();
                 _satelliteStateChanger.Execute();
             }
         }
@@ -51,8 +52,8 @@ namespace Common.Scripts.MissionSystem
         {
             _satelliteSystemActive = false;
             
-            _leftSatelliteController.DisposeAll();
-            _rightSatelliteController.DisposeAll();
+            _leftSpaceObjectController.DisposeAll();
+            _rightSpaceObjectController.DisposeAll();
             _satelliteStateChanger.DisableInput();
         }
     }

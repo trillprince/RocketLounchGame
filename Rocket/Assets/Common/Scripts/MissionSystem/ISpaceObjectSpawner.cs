@@ -2,7 +2,7 @@
 
 namespace Common.Scripts.MissionSystem
 {
-    public interface ISatelliteSpawner
+    public interface ISpaceObjectSpawner
     {
         GameObject Spawn();
         void Dispose(GameObject gameObject);

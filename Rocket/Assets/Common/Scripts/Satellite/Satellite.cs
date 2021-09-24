@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Common.Scripts.Satellite
 {
-    public class SatelliteController : MonoBehaviour,ISatellite
+    public class Satellite : MonoBehaviour,ISatellite
     {
         private SatelliteDelivery _satelliteDelivery;
         private SatelliteMove _satelliteMove;
@@ -22,7 +22,7 @@ namespace Common.Scripts.Satellite
 
         public void Constructor(RocketMovementController rocketMovementController,
             GameStateController gameStateController, 
-            ISatelliteController satelliteController,
+            ISpaceObjectController spaceObjectController,
             GameLoopController gameLoopController)
         {
             _satelliteMove = new SatelliteMove(rocketMovementController, transform);
@@ -30,7 +30,7 @@ namespace Common.Scripts.Satellite
             _satelliteDelivery = new SatelliteDelivery(GetComponent<MeshCollider>(), 
                 transform,
                 _satelliteColor,
-                satelliteController,
+                spaceObjectController,
                 gameLoopController
             );
         }

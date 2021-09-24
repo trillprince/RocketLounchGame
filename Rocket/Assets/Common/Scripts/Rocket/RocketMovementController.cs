@@ -122,6 +122,7 @@ namespace Common.Scripts.Rocket
             InputManager.OnTouchStart -= touchHold;
             InputManager.OnTouchEnd -= touchHoldEnd;
         }
+
     }
 
     public enum MovementState
