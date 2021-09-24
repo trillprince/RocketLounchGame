@@ -28,13 +28,13 @@ namespace Common.Scripts.MissionSystem
         {
             GameObject gameObject;
             gameObject = _middleSpaceObjectSpawner.Spawn();
-            ISpaceObject spaceObject = gameObject.GetComponent<ISpaceObject>();
-            spaceObject.Constructor(_rocketMovementController,_gameStateController,this,_gameLoopController);
-            if (!SatellitesExist())
+            IAsteroid asteroid = gameObject.GetComponent<IAsteroid>();
+            asteroid.Constructor(_rocketMovementController,_gameStateController,this,_gameLoopController);
+            if (!AsteroidsExist())
             {
-                ChangeScopedSatellite(spaceObject);
+                ChangeScopedAsteroid(asteroid);
             }
-            _middleMovableSpaceObjects.Enqueue(spaceObject);
+            _middleMovableSpaceObjects.Enqueue(asteroid);
         }
 
         public void Spawn()
@@ -47,7 +47,7 @@ namespace Common.Scripts.MissionSystem
             GameObject gameObject = _middleMovableSpaceObjects.Dequeue().GetGameObject();
             if (_middleMovableSpaceObjects.Count > 0)
             {
-                ChangeScopedSatellite(_middleMovableSpaceObjects.Peek());
+                ChangeScopedAsteroid(_middleMovableSpaceObjects.Peek());
             }
             _middleSpaceObjectSpawner.Dispose(gameObject);
         }
@@ -71,7 +71,7 @@ namespace Common.Scripts.MissionSystem
             }
         }
 
-        private void ChangeScopedSatellite(ISpaceObject spaceObject)
+        private void ChangeScopedAsteroid(ISpaceObject spaceObject)
         {
             if (spaceObject != null)
             {
@@ -79,12 +79,12 @@ namespace Common.Scripts.MissionSystem
             }
         }
 
-        public bool SatellitesExist()
+        public bool AsteroidsExist()
         {
             return _middleMovableSpaceObjects.Count > 0;
         }
 
-        public void ScopeToNextSatellite()
+        public void ScopeToNextAsteroid()
         {
             var array = _middleMovableSpaceObjects.ToArray();
             ISpaceObject spaceObject = array[array.Length - 1];
@@ -94,7 +94,7 @@ namespace Common.Scripts.MissionSystem
             }
             else
             {
-                ScopeToNextSatellite();
+                ScopeToNextAsteroid();
             }
         }
 

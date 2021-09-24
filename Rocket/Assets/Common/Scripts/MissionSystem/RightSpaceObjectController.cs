@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class RightSpaceObjectController: ISpaceObjectController
+    public class RightSpaceObjectController: ISatelliteController
     {
         private readonly ISpaceObjectSpawner _rightSpaceObjectSpawner;
         private readonly RocketMovementController _rocketMovementController;

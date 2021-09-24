@@ -10,9 +10,7 @@ public interface ISpaceObject: IUpdatable
     public GameObject GetGameObject();
 
     public Transform GetTransform();
-
-    public void Constructor(RocketMovementController rocketMovementController,
-        GameStateController gameStateController,ISpaceObjectController spaceObjectController,GameLoopController gameLoopController);
+    
 
 }
 

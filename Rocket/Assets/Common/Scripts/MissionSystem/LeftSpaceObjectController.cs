@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class LeftSpaceObjectController: ISpaceObjectController
+    public class LeftSpaceObjectController: ISatelliteController
     {
         private readonly ISpaceObjectSpawner _leftSpaceObjectSpawner;
         private readonly RocketMovementController _rocketMovementController;

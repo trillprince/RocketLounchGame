@@ -12,6 +12,7 @@ namespace Common.Scripts.MissionSystem
         private float _waitTimeBeforeStart = 4;
         private float _waitTimeBeforeSpawn = 1;
         [SerializeField] private GameObject _prefabOfSatellite;
+        [SerializeField] private GameObject _asteroid;
         private SpaceObjectSystem _spaceObjectSystem;
         private GameStateController _gameStateController;
         
@@ -31,7 +32,7 @@ namespace Common.Scripts.MissionSystem
                 new RightSpaceObjectSpawner(_prefabOfSatellite, rocketMovementController, objectPoolStorage),
                 rocketMovementController,gameStateController,this);
 
-            var middleSpaceObjectController = new MiddleSpaceObjectController(new MiddleSpaceObjectSpawner(_prefabOfSatellite, rocketMovementController, objectPoolStorage),
+            var middleSpaceObjectController = new MiddleSpaceObjectController(new MiddleSpaceObjectSpawner(_asteroid, rocketMovementController, objectPoolStorage),
                 rocketMovementController,gameStateController,this);
 
             _spaceObjectSystem = new SpaceObjectSystem(inputListener,

@@ -14,19 +14,19 @@ namespace Common.Scripts.Satellite
         private readonly Transform _transform;
         private readonly SatelliteColor _satelliteColor;
         private readonly Action _onLoose;
-        private readonly ISpaceObjectController _spaceObjectController;
+        private readonly ISatelliteController _satelliteController;
         private readonly GameLoopController _gameLoopController;
 
         public SatelliteDelivery(MeshCollider meshCollider,
             Transform transform,
             SatelliteColor satelliteColor,
-            ISpaceObjectController spaceObjectController,
+            ISatelliteController satelliteController,
             GameLoopController gameLoopController)
         {
             _meshCollider = meshCollider;
             _transform = transform;
             _satelliteColor = satelliteColor;
-            _spaceObjectController = spaceObjectController;
+            _satelliteController = satelliteController;
             _gameLoopController = gameLoopController;
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
@@ -68,7 +68,7 @@ namespace Common.Scripts.Satellite
             {
                 _satelliteColor.SetColor(Color.red);
                 _currentDeliveryStatus = DeliveryStatus.LowerRed;
-                _spaceObjectController.ScopeToNextSatellite();
+                _satelliteController.ScopeToNextSatellite();
             }
             else if (_transform.position.y < _screenBounds.y - _meshCollider.bounds.size.y)
             {
@@ -77,7 +77,7 @@ namespace Common.Scripts.Satellite
                     _gameLoopController.DisableSatelliteDrop();
                     return;
                 }*/
-                _spaceObjectController.DisposeLastSatellite();
+                _satelliteController.DisposeLastSatellite();
             }
         }
 
@@ -86,7 +86,7 @@ namespace Common.Scripts.Satellite
             Debug.Log("set final");
             CargoDelivered = true;
             _satelliteColor.SetFinalColor();
-            _spaceObjectController.ScopeToNextSatellite();
+            _satelliteController.ScopeToNextSatellite();
             _finalDeliveryStatus = _currentDeliveryStatus;
         }
     }

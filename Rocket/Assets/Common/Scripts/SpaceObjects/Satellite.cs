@@ -1,9 +1,9 @@
-﻿using System;
-using Common.Scripts.MissionSystem;
+﻿using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
+using Common.Scripts.Satellite;
 using UnityEngine;
 
-namespace Common.Scripts.Satellite
+namespace Common.Scripts.SpaceObjects
 {
     public class Satellite : MonoBehaviour,ISatellite
     {
@@ -19,10 +19,10 @@ namespace Common.Scripts.Satellite
         {
             return transform;
         }
-
+        
         public void Constructor(RocketMovementController rocketMovementController,
             GameStateController gameStateController, 
-            ISpaceObjectController spaceObjectController,
+            ISatelliteController satelliteController,
             GameLoopController gameLoopController)
         {
             _satelliteMove = new SatelliteMove(rocketMovementController, transform);
@@ -30,7 +30,7 @@ namespace Common.Scripts.Satellite
             _satelliteDelivery = new SatelliteDelivery(GetComponent<MeshCollider>(), 
                 transform,
                 _satelliteColor,
-                spaceObjectController,
+                satelliteController,
                 gameLoopController
             );
         }
