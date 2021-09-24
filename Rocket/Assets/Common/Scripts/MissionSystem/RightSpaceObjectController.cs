@@ -12,7 +12,7 @@ namespace Common.Scripts.MissionSystem
         private GameStateController _gameStateController;
         private readonly GameLoopController _gameLoopController;
         private Queue<ISatellite> _rightMovableSatellites = new Queue<ISatellite>(10);
-        public ISatellite RightScopedSatellite { get; private set; }
+        public ISatellite RightScopedSpaceObject { get; private set; }
 
 
         public RightSpaceObjectController(
@@ -31,13 +31,13 @@ namespace Common.Scripts.MissionSystem
         {
             GameObject gameObject;
             gameObject = _rightSpaceObjectSpawner.Spawn();
-            ISatellite satellite = gameObject.GetComponent<ISatellite>();
-            satellite.Constructor(_rocketMovementController,_gameStateController,this,_gameLoopController);
+            ISatellite spaceObject = gameObject.GetComponent<ISatellite>();
+            spaceObject.Constructor(_rocketMovementController,_gameStateController,this,_gameLoopController);
             if (!SatellitesExist())
             {
-                ChangeScopedSatellite(satellite);
+                ChangeScopedSatellite(spaceObject);
             }
-            _rightMovableSatellites.Enqueue(satellite);
+            _rightMovableSatellites.Enqueue(spaceObject);
         }
 
         public void Spawn()
@@ -74,11 +74,11 @@ namespace Common.Scripts.MissionSystem
             }
         }
 
-        private void ChangeScopedSatellite(ISatellite satellite)
+        private void ChangeScopedSatellite(ISatellite spaceObject)
         {
-            if (satellite != null)
+            if (spaceObject != null)
             {
-                RightScopedSatellite = satellite;
+                RightScopedSpaceObject = spaceObject;
             }
         }
 
@@ -90,10 +90,10 @@ namespace Common.Scripts.MissionSystem
         public void ScopeToNextSatellite()
         {
             var array = _rightMovableSatellites.ToArray();
-            ISatellite satellite = array[array.Length - 1];
-            if ( satellite != null)
+            ISatellite spaceObject = array[array.Length - 1];
+            if ( spaceObject != null)
             {
-                RightScopedSatellite = satellite;
+                RightScopedSpaceObject = spaceObject;
             }
             else
             {

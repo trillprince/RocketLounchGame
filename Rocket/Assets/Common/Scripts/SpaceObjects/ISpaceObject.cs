@@ -5,9 +5,8 @@ using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using UnityEngine;
 
-public interface ISatellite: IUpdatable
+public interface ISpaceObject: IUpdatable
 {
-    
     public GameObject GetGameObject();
 
     public Transform GetTransform();
@@ -15,8 +14,6 @@ public interface ISatellite: IUpdatable
     public void Constructor(RocketMovementController rocketMovementController,
         GameStateController gameStateController,ISpaceObjectController spaceObjectController,GameLoopController gameLoopController);
 
-    public void SetFinalDeliveryStatus();
-    bool HasCargo();
 }
 
 public enum DeliveryStatus

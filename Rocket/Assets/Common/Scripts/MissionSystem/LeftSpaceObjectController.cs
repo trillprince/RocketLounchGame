@@ -14,7 +14,7 @@ namespace Common.Scripts.MissionSystem
         private GameStateController _gameStateController;
         private Queue<ISatellite> _leftMovableSatellites = new Queue<ISatellite>(10);
         private GameLoopController _gameLoopController;
-        public ISatellite LeftScopedSatellite { get; private set; }
+        public ISatellite LeftScopedSpaceObject { get; private set; }
 
 
         public LeftSpaceObjectController(
@@ -33,20 +33,20 @@ namespace Common.Scripts.MissionSystem
         {
             GameObject gameObject;
             gameObject = _leftSpaceObjectSpawner.Spawn();
-            ISatellite satellite = gameObject.GetComponent<ISatellite>();
-            satellite.Constructor(_rocketMovementController,_gameStateController,this,_gameLoopController);
+            ISatellite spaceObject = gameObject.GetComponent<ISatellite>();
+            spaceObject.Constructor(_rocketMovementController,_gameStateController,this,_gameLoopController);
             if (!SatellitesExist())
             {
-                ChangeScopedSatellite(satellite);
+                ChangeScopedSatellite(spaceObject);
             }
-            _leftMovableSatellites.Enqueue(satellite);
+            _leftMovableSatellites.Enqueue(spaceObject);
         }
 
-        private void ChangeScopedSatellite(ISatellite satellite)
+        private void ChangeScopedSatellite(ISatellite spaceObject)
         {
-            if (satellite != null)
+            if (spaceObject != null)
             {
-                LeftScopedSatellite = satellite;
+                LeftScopedSpaceObject = spaceObject;
             }
         }
 
@@ -91,10 +91,10 @@ namespace Common.Scripts.MissionSystem
         public void ScopeToNextSatellite()
         {
             var array = _leftMovableSatellites.ToArray();
-            ISatellite satellite = array[array.Length - 1];
-            if ( satellite != null)
+            ISatellite spaceObject = array[array.Length - 1];
+            if ( spaceObject != null)
             {
-                LeftScopedSatellite = satellite;
+                LeftScopedSpaceObject = spaceObject;
             }
             else
             {

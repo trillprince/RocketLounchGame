@@ -31,18 +31,18 @@ namespace Common.Scripts.MissionSystem
         {
             if (_inputListener.InputLeftSide &&
                 _leftSpaceObjectController.SatellitesExist() &&
-                !_leftSpaceObjectController.LeftScopedSatellite.HasCargo())
+                !_leftSpaceObjectController.LeftScopedSpaceObject.HasCargo())
             {
                 _inputListener.OnTouchEnd();
-                _rocketCargo.DropCargo(_leftSpaceObjectController.LeftScopedSatellite);
+                _rocketCargo.DropCargo(_leftSpaceObjectController.LeftScopedSpaceObject);
                 Debug.Log("input 1");
             }
             else if(_inputListener.InputRightSide &&
                     _rightSpaceObjectController.SatellitesExist() &&
-                    !_rightSpaceObjectController.RightScopedSatellite.HasCargo())
+                    !_rightSpaceObjectController.RightScopedSpaceObject.HasCargo())
             {
                 _inputListener.OnTouchEnd();
-                _rocketCargo.DropCargo(_rightSpaceObjectController.RightScopedSatellite);
+                _rocketCargo.DropCargo(_rightSpaceObjectController.RightScopedSpaceObject);
                 Debug.Log("input 2");
 
             }

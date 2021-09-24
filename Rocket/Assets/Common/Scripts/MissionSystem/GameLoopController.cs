@@ -34,9 +34,10 @@ namespace Common.Scripts.MissionSystem
             var middleSpaceObjectController = new MiddleSpaceObjectController(new MiddleSpaceObjectSpawner(_prefabOfSatellite, rocketMovementController, objectPoolStorage),
                 rocketMovementController,gameStateController,this);
 
-            _spaceObjectSystem = new SpaceObjectSystem(leftSatelliteController, rightSatelliteController, inputListener,
+            _spaceObjectSystem = new SpaceObjectSystem(inputListener,
                 new SatelliteStateChanger(inputListener, 
-                    leftSatelliteController,rightSatelliteController, rocketCargo));
+                    leftSatelliteController,rightSatelliteController, rocketCargo),
+                leftSatelliteController,rightSatelliteController,middleSpaceObjectController);
         }
 
         private void OnEnable()

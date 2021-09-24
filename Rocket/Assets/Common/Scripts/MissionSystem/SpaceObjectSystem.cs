@@ -4,8 +4,6 @@ namespace Common.Scripts.MissionSystem
 {
     public class SpaceObjectSystem : ISpaceObjectSystem
     {
-        private readonly ISpaceObjectController _leftSpaceObjectController;
-        private readonly ISpaceObjectController _rightSpaceObjectController;
         private readonly InputListener _inputListener;
         private readonly SatelliteStateChanger _satelliteStateChanger;
         private bool _satelliteSystemActive = true;
@@ -13,28 +11,23 @@ namespace Common.Scripts.MissionSystem
 
         public SpaceObjectSystem
         (
-            ISpaceObjectController leftSpaceObjectController,
-            ISpaceObjectController rightSpaceObjectController,
             InputListener inputListener,
-            SatelliteStateChanger satelliteStateChanger
+            SatelliteStateChanger satelliteStateChanger,
+            params ISpaceObjectController [] spaceObjectControllers
         )
         {
-            _leftSpaceObjectController = leftSpaceObjectController;
-            _rightSpaceObjectController = rightSpaceObjectController;
             _inputListener = inputListener;
             _satelliteStateChanger = satelliteStateChanger;
+            _spaceObjectControllers = spaceObjectControllers;
         }
 
         public void SpawnRandomSideSatellite()
         {
-            var range = Random.Range(-2, 2);
-            if (range < 0)
+            var range = Random.Range(0, _spaceObjectControllers.Length + 1);
+            
+            for (int i = 0; i < range; i++)
             {
-                _leftSpaceObjectController.Spawn();
-            }
-            else
-            {
-                _rightSpaceObjectController.Spawn();
+                _spaceObjectControllers[i].Spawn();
             }
         }
 
@@ -42,9 +35,10 @@ namespace Common.Scripts.MissionSystem
         {
             if (_satelliteSystemActive)
             {
-                _leftSpaceObjectController.Execute();
-                _rightSpaceObjectController.Execute();
-                _satelliteStateChanger.Execute();
+                foreach (var spaceObjectController in _spaceObjectControllers)
+                {
+                    spaceObjectController.Execute();
+                }
             }
         }
 
@@ -52,9 +46,10 @@ namespace Common.Scripts.MissionSystem
         {
             _satelliteSystemActive = false;
             
-            _leftSpaceObjectController.DisposeAll();
-            _rightSpaceObjectController.DisposeAll();
-            _satelliteStateChanger.DisableInput();
+            foreach (var spaceObjectController in _spaceObjectControllers)
+            {
+                spaceObjectController.DisposeAll();
+            }
         }
     }
 }

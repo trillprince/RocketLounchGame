@@ -1,28 +1,27 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Common.Scripts.Cargo;
 using UnityEngine;
 
-public class CargoController : MonoBehaviour
+namespace Common.Scripts.Cargo
 {
-    private ISatellite _satellite;
-    private CargoMovement _cargoMovement;
-    private CargoScaler _cargoScaler;
-
-    public void Constructor(ISatellite satellite,ObjectPool objectPool)
+    public class CargoController : MonoBehaviour
     {
-        _satellite = satellite;
-        _cargoMovement = new CargoMovement(transform,_satellite,objectPool,gameObject);
-    }
+        private ISatellite _spaceObject;
+        private CargoMovement _cargoMovement;
+        private CargoScaler _cargoScaler;
 
-    private void FixedUpdate()
-    {
-        _cargoMovement.Execute();
-    }
+        public void Constructor(ISatellite spaceObject,ObjectPool objectPool)
+        {
+            _spaceObject = spaceObject;
+            _cargoMovement = new CargoMovement(transform,_spaceObject,objectPool,gameObject);
+        }
 
-    private void ChangeSatelliteState()
-    {
-        _satellite.SetFinalDeliveryStatus();
+        private void FixedUpdate()
+        {
+            _cargoMovement.Execute();
+        }
+
+        private void ChangeSatelliteState()
+        {
+            _spaceObject.SetFinalDeliveryStatus();
+        }
     }
 }

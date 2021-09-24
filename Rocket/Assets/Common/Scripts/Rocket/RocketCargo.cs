@@ -1,4 +1,5 @@
 using System;
+using Common.Scripts.Cargo;
 using Common.Scripts.MissionSystem;
 using UnityEngine;
 using Zenject;
@@ -21,14 +22,14 @@ namespace Common.Scripts.Rocket
             _objectPool = objectPoolStorage.GetPool(_cargoPrefab);
         }
 
-        public void DropCargo(ISatellite satellite)
+        public void DropCargo(ISatellite spaceObject)
         {
             OnCargoDrop?.Invoke();
             _satelliteCount.AddSatellite();
-            satellite.SetFinalDeliveryStatus();
+            spaceObject.SetFinalDeliveryStatus();
             var cargo = _objectPool.Pop(transform.position);
             _currentCargoController = cargo.GetComponent<CargoController>();
-            _currentCargoController.Constructor(satellite, _objectPool);
+            _currentCargoController.Constructor(spaceObject, _objectPool);
         }
     }
 }
