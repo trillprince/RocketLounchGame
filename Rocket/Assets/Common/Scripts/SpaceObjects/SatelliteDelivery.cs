@@ -19,7 +19,7 @@ namespace Common.Scripts.SpaceObjects
             _spaceObjectController = spaceObjectController;
             _gameLoopController = gameLoopController;
         }
-        public void DisableSatelliteDrop()
+        public void CheckForDeliveryExistance()
         {
             if (!CargoDelivered)
             {

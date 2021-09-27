@@ -42,8 +42,8 @@ namespace Common.Scripts.Satellite
                     SpaceObjectController.ScopeToNextObject();
                     break;
                 case StateOnScreen.DisposeZone:
-                    _satelliteDelivery.DisableSatelliteDrop();
                     SpaceObjectController.DisposeLastObject();
+                    _satelliteDelivery.CheckForDeliveryExistance();
                     break;
             }
         }

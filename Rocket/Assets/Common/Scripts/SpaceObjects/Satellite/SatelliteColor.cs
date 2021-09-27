@@ -15,7 +15,7 @@ namespace Common.Scripts.Satellite
 
         public void SetColor(Color color)
         {
-            if (color == _currentColor || _finalColorIsSet)
+            if (_finalColorIsSet)
             {
                 return;
             }

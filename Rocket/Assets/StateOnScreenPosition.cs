@@ -21,8 +21,7 @@ public class StateOnScreenPosition
         Transform = transform;
         SpaceObjectController = spaceObjectController;
         GameLoopController = gameLoopController;
- 
-        if (UnityEngine.Camera.main is { })
+        
             ScreenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
@@ -53,39 +52,33 @@ public class StateOnScreenPosition
     {
         if (Transform.position.y < -ScreenBounds.y && 
             Transform.position.y >= -ScreenBounds.y * 0.5f &&
-            CurrentStateOnScreen != StateOnScreen.UpperRed
-        )
+            CurrentStateOnScreen != StateOnScreen.LowerRed)
         {
             CurrentStateOnScreen = StateOnScreen.UpperRed;
             OnStateChange(CurrentStateOnScreen);
         }
         else if (Transform.position.y < -ScreenBounds.y * 0.5f &&
                  Transform.position.y >= 0 &&
-                 CurrentStateOnScreen != StateOnScreen.Yellow
-        )
+                 CurrentStateOnScreen != StateOnScreen.Yellow)
         {
             CurrentStateOnScreen = StateOnScreen.Yellow;
             OnStateChange(CurrentStateOnScreen);
         }
         else if (Transform.position.y < 0 &&
                  Transform.position.y >= ScreenBounds.y * 0.5f &&
-                 CurrentStateOnScreen != StateOnScreen.Green
-        )
+                 CurrentStateOnScreen != StateOnScreen.Green)
         {
             CurrentStateOnScreen = StateOnScreen.Green;
             OnStateChange(CurrentStateOnScreen);
         }
         else if (Transform.position.y < ScreenBounds.y * 0.5f &&
                  Transform.position.y >= ScreenBounds.y &&
-                 CurrentStateOnScreen != StateOnScreen.LowerRed
-        )
+                 CurrentStateOnScreen != StateOnScreen.LowerRed)
         {
             CurrentStateOnScreen = StateOnScreen.LowerRed;
             OnStateChange(CurrentStateOnScreen);
-            
         }
-        else if (Transform.position.y < ScreenBounds.y - MeshCollider.bounds.size.y &&
-                 CurrentStateOnScreen != StateOnScreen.DisposeZone)
+        else if (Transform.position.y < ScreenBounds.y - MeshCollider.bounds.size.y && CurrentStateOnScreen != StateOnScreen.DisposeZone )
         {
             CurrentStateOnScreen = StateOnScreen.DisposeZone;
             OnStateChange(CurrentStateOnScreen);

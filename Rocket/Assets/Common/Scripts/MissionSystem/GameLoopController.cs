@@ -79,7 +79,7 @@ namespace Common.Scripts.MissionSystem
         {
             _gameStateController.SetStateToLanding((() =>
             {
-                _spaceObjectSystem.OnSystemDisable();
+                _spaceObjectSystem.Disable();
             }));
         }
     }

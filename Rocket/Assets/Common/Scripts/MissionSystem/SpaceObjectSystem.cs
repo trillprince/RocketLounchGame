@@ -46,7 +46,7 @@ namespace Common.Scripts.MissionSystem
             }
         }
 
-        public void OnSystemDisable()
+        public void Disable()
         {
             _satelliteSystemActive = false;
             
