@@ -72,6 +72,7 @@ namespace Common.Scripts.MissionSystem
             if (gameState == GameState.CargoDrop)
             {
                 StartCoroutine(WaitBeforeGameStart(_waitTimeBeforeStart));
+                _spaceObjectSystem.Enable();
             }
         }
 

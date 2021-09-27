@@ -13,6 +13,8 @@ namespace Common.Scripts.MissionSystem
         private readonly GameLoopController _gameLoopController;
         private Queue<ISatellite> _rightMovableSatellites = new Queue<ISatellite>(10);
         public ISatellite RightScopedSpaceObject { get; private set; }
+        private bool IsEnabled { get; set; }
+
 
 
         public RightSpaceObjectController(
@@ -42,7 +44,15 @@ namespace Common.Scripts.MissionSystem
 
         public void Spawn()
         {
-            CreateSatellite();
+            if (IsEnabled)
+            {
+                CreateSatellite();
+            }
+        }
+
+        public void Enable()
+        {
+            IsEnabled = true;
         }
 
         public void DisposeLastObject()
@@ -55,13 +65,16 @@ namespace Common.Scripts.MissionSystem
             _rightSpaceObjectSpawner.Dispose(gameObject);
         }
 
-        public void DisposeAll()
+        public void Disable()
         {
+            IsEnabled = false;
+            
             for (int i = 0; i < _rightMovableSatellites.Count; i++)
             {
                 _rightSpaceObjectSpawner.Dispose(_rightMovableSatellites.Dequeue().GetGameObject());
             }
         }
+
 
         public void Execute()
         {

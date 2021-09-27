@@ -11,6 +11,7 @@ namespace Common.Scripts.MissionSystem
         private readonly LeftSpaceObjectController _leftSpaceObjectController;
         private readonly RightSpaceObjectController _rightSpaceObjectController;
         private readonly RocketCargo _rocketCargo;
+        private bool _isEnabled;
 
         public SatelliteStateChanger(InputListener inputListener, 
             LeftSpaceObjectController leftSpaceObjectController
@@ -24,7 +25,10 @@ namespace Common.Scripts.MissionSystem
         }
         public void Execute()
         {
-            CargoDeliveryOnInput();
+            if (_isEnabled)
+            {
+                CargoDeliveryOnInput();
+            }
         }
 
         private void CargoDeliveryOnInput()
@@ -50,6 +54,16 @@ namespace Common.Scripts.MissionSystem
         public void DisableInput()
         {
             _inputListener.DisableInput();
+        }
+
+        public void Enable()
+        {
+            _isEnabled = true;
+        }
+
+        public void Disable()
+        {
+            _isEnabled = false;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Common.Scripts.MissionSystem
     {
         private readonly InputListener _inputListener;
         private readonly SatelliteStateChanger _satelliteStateChanger;
-        private bool _satelliteSystemActive = true;
+        private bool _satelliteSystemActive;
         private ISpaceObjectController[] _spaceObjectControllers;
 
         public SpaceObjectSystem
@@ -43,17 +43,28 @@ namespace Common.Scripts.MissionSystem
                 {
                     spaceObjectController.Execute();
                 }
+                _satelliteStateChanger.Execute();
             }
         }
 
         public void Disable()
         {
             _satelliteSystemActive = false;
-            
             foreach (var spaceObjectController in _spaceObjectControllers)
             {
-                spaceObjectController.DisposeAll();
+                spaceObjectController.Disable();
             }
+            _satelliteStateChanger.Disable();
+        }
+
+        public void Enable()
+        {
+            _satelliteSystemActive = true;
+            foreach (var spaceObjectController in _spaceObjectControllers)
+            {
+                spaceObjectController.Enable();
+            }
+            _satelliteStateChanger.Enable();
         }
     }
 }

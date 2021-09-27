@@ -15,8 +15,8 @@ namespace Common.Scripts.MissionSystem
         private Queue<ISatellite> _leftMovableSatellites = new Queue<ISatellite>(10);
         private GameLoopController _gameLoopController;
         public ISatellite LeftScopedSpaceObject { get; private set; }
-
-
+        private bool IsEnabled { get; set; }
+        
         public LeftSpaceObjectController(
             ISpaceObjectSpawner leftSpaceObjectSpawner, 
             RocketMovementController rocketMovementController,
@@ -52,9 +52,17 @@ namespace Common.Scripts.MissionSystem
 
         public void Spawn()
         {
-            CreateSatellite();
+            if (IsEnabled)
+            {
+                CreateSatellite();
+            }
         }
-        
+
+        public void Enable()
+        {
+            IsEnabled = true;
+        }
+
         public void DisposeLastObject()
         {
             GameObject gameObject = _leftMovableSatellites.Dequeue().GetGameObject();
@@ -65,13 +73,15 @@ namespace Common.Scripts.MissionSystem
             _leftSpaceObjectSpawner.Dispose(gameObject);
         }
 
-        public void DisposeAll()
+        public void Disable()
         {
+            IsEnabled = false;
             for (int i = 0; i < _leftMovableSatellites.Count; i++)
             {
                 _leftSpaceObjectSpawner.Dispose(_leftMovableSatellites.Dequeue().GetGameObject());
             }
         }
+
 
         public void Execute()
         {

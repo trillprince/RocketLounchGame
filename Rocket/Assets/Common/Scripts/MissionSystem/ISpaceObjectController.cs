@@ -6,7 +6,9 @@
 
         public void Execute();
 
-        public void DisposeAll();
+        public void Disable();
+
+        public void Enable();
         
         public void DisposeLastObject();
 
