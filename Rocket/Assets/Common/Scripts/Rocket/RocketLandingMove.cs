@@ -15,13 +15,13 @@ namespace Common.Scripts.Rocket
         private readonly Transform _transform;
         private BoundariesCheck _boundariesCheck;
         private readonly Action<LandingStatus> _changeMovementResult;
-        private readonly Action<Action<Vector2>, Action> _onInputSubscribe;
-        private readonly Action<Action<Vector2>, Action> _onInputUnsubscribe;
+        private readonly Action<Action<Vector2>, Action <Vector2>> _onInputSubscribe;
+        private readonly Action<Action<Vector2>, Action <Vector2>> _onInputUnsubscribe;
 
         public RocketLandingRocketMove(Transform transform, Rigidbody rigidbody,
             Action<LandingStatus> changeMovementResult,
-            Action<Action<Vector2>, Action> onInputSubscribe,
-            Action<Action<Vector2>, Action> onInputUnsubscribe)
+            Action<Action<Vector2>, Action <Vector2>> onInputSubscribe,
+            Action<Action<Vector2>, Action <Vector2>> onInputUnsubscribe)
         {
             _rb = rigidbody;
             _transform = transform;
@@ -35,7 +35,7 @@ namespace Common.Scripts.Rocket
             _onInputUnsubscribe?.Invoke(OnTouchHold, OnTouchHoldEnd);
         }
 
-        private void OnTouchHoldEnd()
+        private void OnTouchHoldEnd(Vector2 touchEndPos)
         {
             _touchHold = false;
         }

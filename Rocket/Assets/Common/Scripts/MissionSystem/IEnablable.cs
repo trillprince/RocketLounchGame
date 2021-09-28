@@ -1,9 +1,9 @@
 ﻿namespace Common.Scripts.MissionSystem
 {
-    public interface IEnabable
+    public interface IEnablable
     {
-        public void Disable();
-
         public void Enable();
+        public void Disable();
+        
     }
 }

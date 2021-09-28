@@ -1,29 +1,38 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Common.Scripts.Input
 {
-    public class InputManager : MonoBehaviour,IControllable
+    public class InputManager : MonoBehaviour
     {
         private TouchControls _touchControls;
+        private UnityEngine.Camera _camera;
+        private SwipeDetection _swipeDetection;
 
         public static event Action<Vector2> OnTouchStart;
-        public static event Action OnTouchEnd;
-        
-        
+        public static event Action <Vector2> OnTouchEnd;
+
+        public event Action<Vector2, float> OnTouchStartEvent;
+        public event Action<Vector2, float> OnTouchEndEvent;
+
 
         private void Awake()
         {
+            _swipeDetection = new SwipeDetection(this);
             _touchControls = new TouchControls();
-            _touchControls.Touch.TouchHold.started += context => 
-            {
-                OnTouchStart?.Invoke(GetPositionOfTouch());
-            };
-                
-            _touchControls.Touch.TouchHold.canceled += context =>
-            { 
-                OnTouchEnd?.Invoke();
-            };
+            _touchControls.Touch.TouchHold.started += TouchStarted;
+
+            _touchControls.Touch.TouchHold.canceled += TouchEnded;
+        }
+
+        private void TouchStarted(InputAction.CallbackContext context)
+        {
+            OnTouchStartEvent?.Invoke(Utils.ScreenToWorld(_camera,GetPositionOfTouch()),(float)context.startTime);
+        }
+        private void TouchEnded(InputAction.CallbackContext context)
+        {
+            OnTouchEndEvent?.Invoke(Utils.ScreenToWorld(_camera,GetPositionOfTouch()),(float)context.time);
         }
 
    
@@ -42,14 +51,11 @@ namespace Common.Scripts.Input
             return _touchControls.Touch.TouchPosition.ReadValue<Vector2>();
         }
 
-        public void Enable()
+        public Vector2 PrimaryPosition()
         {
-            
+            return Utils.ScreenToWorld(_camera, GetPositionOfTouch());
         }
+        
 
-        public void Disable()
-        {
-            
-        }
     }
 }

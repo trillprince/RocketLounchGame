@@ -1,6 +1,6 @@
 ﻿namespace Common.Scripts.MissionSystem
 {
-    public interface ISpaceObjectController: IEnabable
+    public interface ISpaceObjectController: IEnablable
     {
         public void Spawn();
 

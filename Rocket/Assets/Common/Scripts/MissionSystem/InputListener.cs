@@ -22,7 +22,7 @@ namespace Common.Scripts.MissionSystem
             InputManager.OnTouchEnd -= OnTouchEnd;
         }
 
-        public void OnTouchEnd()
+        public void OnTouchEnd(Vector2 touchEndPos)
         {
             InputLeftSide = false;
             InputRightSide = false;

@@ -36,22 +36,22 @@ namespace Common.Scripts.MissionSystem
 
         private void RocketActionOnInput()
         {
-            if (_inputListener.InputLeftSide &&
-                _leftSpaceObjectController.ObjectExist() &&
-                !_leftSpaceObjectController.LeftScopedSpaceObject.HasCargo())
-            {
-                _inputListener.OnTouchEnd();
-                _rocketCargo.DropCargo(_leftSpaceObjectController.LeftScopedSpaceObject);
-                Debug.Log("input 1");
-            }
-            else if(_inputListener.InputRightSide &&
-                    _rightSpaceObjectController.ObjectExist() &&
-                    !_rightSpaceObjectController.RightScopedSpaceObject.HasCargo())
-            {
-                _inputListener.OnTouchEnd();
-                _rocketCargo.DropCargo(_rightSpaceObjectController.RightScopedSpaceObject);
-                Debug.Log("input 2");
-            }
+            // if (_inputListener.InputLeftSide &&
+            //     _leftSpaceObjectController.ObjectExist() &&
+            //     !_leftSpaceObjectController.LeftScopedSpaceObject.HasCargo())
+            // {
+            //     _inputListener.OnTouchEnd();
+            //     _rocketCargo.DropCargo(_leftSpaceObjectController.LeftScopedSpaceObject);
+            //     Debug.Log("input 1");
+            // }
+            // else if(_inputListener.InputRightSide &&
+            //         _rightSpaceObjectController.ObjectExist() &&
+            //         !_rightSpaceObjectController.RightScopedSpaceObject.HasCargo())
+            // {
+            //     _inputListener.OnTouchEnd();
+            //     _rocketCargo.DropCargo(_rightSpaceObjectController.RightScopedSpaceObject);
+            //     Debug.Log("input 2");
+            // }
         }
 
         public void DisableInput()

@@ -111,13 +111,13 @@ namespace Common.Scripts.Rocket
             OnMovementStateSwitch -= action;
         }
 
-        private void OnInputSubscribe(Action<Vector2> touchHold, Action touchHoldEnd)
+        private void OnInputSubscribe(Action <Vector2> touchHold, Action <Vector2>  touchHoldEnd)
         {
             InputManager.OnTouchStart += touchHold;
             InputManager.OnTouchEnd += touchHoldEnd;
         }
-
-        private void OnInputUnsubscribe(Action<Vector2> touchHold, Action touchHoldEnd)
+        
+        private void OnInputUnsubscribe(Action <Vector2> touchHold, Action <Vector2> touchHoldEnd)
         {
             InputManager.OnTouchStart -= touchHold;
             InputManager.OnTouchEnd -= touchHoldEnd;
