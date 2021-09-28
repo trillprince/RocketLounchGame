@@ -10,31 +10,34 @@ namespace Common.Scripts.MissionSystem
         private readonly InputListener _inputListener;
         private readonly LeftSpaceObjectController _leftSpaceObjectController;
         private readonly RightSpaceObjectController _rightSpaceObjectController;
+        private readonly MiddleSpaceObjectController _middleSpaceObjectController;
         private readonly RocketCargo _rocketCargo;
         private bool _isEnabled;
 
         public SatelliteStateChanger(InputListener inputListener, 
             LeftSpaceObjectController leftSpaceObjectController
-            ,RightSpaceObjectController rightSpaceObjectController, 
+            ,RightSpaceObjectController rightSpaceObjectController,
+            MiddleSpaceObjectController middleSpaceObjectController,
             RocketCargo rocketCargo)
         {
             _inputListener = inputListener;
             _leftSpaceObjectController = leftSpaceObjectController;
             _rightSpaceObjectController = rightSpaceObjectController;
+            _middleSpaceObjectController = middleSpaceObjectController;
             _rocketCargo = rocketCargo;
         }
         public void Execute()
         {
             if (_isEnabled)
             {
-                CargoDeliveryOnInput();
+                RocketActionOnInput();
             }
         }
 
-        private void CargoDeliveryOnInput()
+        private void RocketActionOnInput()
         {
             if (_inputListener.InputLeftSide &&
-                _leftSpaceObjectController.SatellitesExist() &&
+                _leftSpaceObjectController.ObjectExist() &&
                 !_leftSpaceObjectController.LeftScopedSpaceObject.HasCargo())
             {
                 _inputListener.OnTouchEnd();
@@ -42,7 +45,7 @@ namespace Common.Scripts.MissionSystem
                 Debug.Log("input 1");
             }
             else if(_inputListener.InputRightSide &&
-                    _rightSpaceObjectController.SatellitesExist() &&
+                    _rightSpaceObjectController.ObjectExist() &&
                     !_rightSpaceObjectController.RightScopedSpaceObject.HasCargo())
             {
                 _inputListener.OnTouchEnd();

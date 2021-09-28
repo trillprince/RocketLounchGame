@@ -35,7 +35,7 @@ namespace Common.Scripts.MissionSystem
             gameObject = _leftSpaceObjectSpawner.Spawn();
             ISatellite spaceObject = gameObject.GetComponent<ISatellite>();
             spaceObject.Constructor(_rocketMovementController,_gameStateController,this,_gameLoopController);
-            if (!SatellitesExist())
+            if (!ObjectExist())
             {
                 ChangeScopedSatellite(spaceObject);
             }
@@ -94,7 +94,7 @@ namespace Common.Scripts.MissionSystem
             }
         }
 
-        public bool SatellitesExist()
+        public bool ObjectExist()
         {
             return _leftMovableSatellites.Count > 0;
         }

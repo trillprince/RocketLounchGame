@@ -1,16 +1,14 @@
 ﻿namespace Common.Scripts.MissionSystem
 {
-    public interface ISpaceObjectController
+    public interface ISpaceObjectController: IEnabable
     {
         public void Spawn();
 
         public void Execute();
 
-        public void Disable();
-
-        public void Enable();
-        
         public void DisposeLastObject();
+
+        public bool ObjectExist();
 
         public void ScopeToNextObject();
     }

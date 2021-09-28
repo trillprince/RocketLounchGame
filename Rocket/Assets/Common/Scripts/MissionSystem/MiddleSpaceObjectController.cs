@@ -11,7 +11,7 @@ namespace Common.Scripts.MissionSystem
         private GameStateController _gameStateController;
         private readonly GameLoopController _gameLoopController;
         private Queue<ISpaceObject> _middleMovableSpaceObjects = new Queue<ISpaceObject>(10);
-        public ISpaceObject RightScopedSpaceObject { get; private set; }
+        public ISpaceObject MiddleScopedSpaceObject { get; private set; }
         private bool IsEnabled { get; set; }
         
         public MiddleSpaceObjectController(
@@ -61,6 +61,11 @@ namespace Common.Scripts.MissionSystem
             _middleSpaceObjectSpawner.Dispose(gameObject);
         }
 
+        public bool ObjectExist()
+        {
+            return _middleMovableSpaceObjects.Count > 0;
+        }
+
         public void Disable()
         {
             IsEnabled = false;
@@ -86,7 +91,7 @@ namespace Common.Scripts.MissionSystem
         {
             if (spaceObject != null)
             {
-                RightScopedSpaceObject = spaceObject;
+                MiddleScopedSpaceObject = spaceObject;
             }
         }
 
@@ -101,7 +106,7 @@ namespace Common.Scripts.MissionSystem
             ISpaceObject spaceObject = array[array.Length - 1];
             if ( spaceObject != null)
             {
-                RightScopedSpaceObject = spaceObject;
+                MiddleScopedSpaceObject = spaceObject;
             }
             else
             {

@@ -13,13 +13,7 @@ namespace Common.Scripts.Rocket
         
         
         private float _timeTillLounch = 2f;
-        private Button _button;
-
-        private void Awake()
-        {
-            _button = GetComponentInChildren<Button>();
-        }
-
+        [SerializeField] private Button _button;
 
         public void Launch()
         {

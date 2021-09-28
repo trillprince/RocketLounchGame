@@ -37,7 +37,7 @@ namespace Common.Scripts.MissionSystem
 
             _spaceObjectSystem = new SpaceObjectSystem(inputListener,
                 new SatelliteStateChanger(inputListener, 
-                    leftSatelliteController,rightSatelliteController, rocketCargo),
+                    leftSatelliteController,rightSatelliteController,middleSpaceObjectController, rocketCargo),
                 leftSatelliteController,rightSatelliteController,middleSpaceObjectController);
         }
 
