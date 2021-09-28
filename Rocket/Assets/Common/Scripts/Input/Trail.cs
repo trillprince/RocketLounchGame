@@ -18,16 +18,15 @@ namespace Common.Scripts.Input
 
         public void Enable(Vector3 touchOnWorldPoints)
         {
-            _touchStart = true;
             _trailGameObject.SetActive(true);
             _trailGameObject.transform.position = touchOnWorldPoints;
-            _trailPos = touchOnWorldPoints;
+            _touchStart = true;
         }
 
         public void Disable()
         {
-            _touchStart = false;
             _trailGameObject.SetActive(false);
+            _touchStart = false;
         }
 
 
@@ -35,7 +34,7 @@ namespace Common.Scripts.Input
         {
             if (_touchStart)
             {
-                _trailGameObject.transform.position = _trailPos;
+                _trailGameObject.transform.position = _inputManager.PrimaryPosition();
             }
         }
     }

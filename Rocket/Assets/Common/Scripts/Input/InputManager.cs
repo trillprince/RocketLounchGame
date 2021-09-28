@@ -59,5 +59,11 @@ namespace Common.Scripts.Input
             return _touchControls.Touch.TouchPosition.ReadValue<Vector2>();
         }
 
+        public Vector3 PrimaryPosition()
+        {
+            return Utils.ScreenToWorld(_camera, GetPositionOfTouch());
+        }
+        
+
     }
 }

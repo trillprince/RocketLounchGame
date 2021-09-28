@@ -6,8 +6,8 @@ namespace Common.Scripts.Input
     {
         public static Vector3 ScreenToWorld(UnityEngine.Camera camera, Vector3 position)
         {
-            position.z = camera.nearClipPlane;
-            return camera.ScreenToViewportPoint(position);
+            position.z = camera.nearClipPlane + 2f;
+            return camera.ScreenToWorldPoint(position);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Common.Scripts.Input
         private readonly Trail _trail;
         private Vector2 _startTouchPos;
         private float _startTime;
-        private float _minDistance = 0.2f;
+        private float _minDistance = 0.3f;
         private float _maxTime = 1f;
         private float _directionThreshhold = 0.9f;
         private UnityEngine.Camera _camera;
