@@ -51,7 +51,7 @@ public class @TouchControls : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""441d827c-fc9d-4f74-8750-b54c3baec8ef"",
                     ""path"": ""<Touchscreen>/primaryTouch/press"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""TouchHold"",

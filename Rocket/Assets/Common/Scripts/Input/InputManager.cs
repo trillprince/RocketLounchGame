@@ -19,11 +19,17 @@ namespace Common.Scripts.Input
 
         private void Awake()
         {
+            _camera = UnityEngine.Camera.main;
             _swipeDetection = new SwipeDetection(this);
             _touchControls = new TouchControls();
             _touchControls.Touch.TouchHold.started += TouchStarted;
 
             _touchControls.Touch.TouchHold.canceled += TouchEnded;
+        }
+
+        private void Start()
+        {
+            _swipeDetection.Enable();
         }
 
         private void TouchStarted(InputAction.CallbackContext context)
@@ -44,6 +50,7 @@ namespace Common.Scripts.Input
         private void OnDisable()
         {
             _touchControls.Disable();
+            _swipeDetection.Disable();
         }
         
         Vector2 GetPositionOfTouch()
