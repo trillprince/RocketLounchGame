@@ -9,6 +9,7 @@ namespace Common.Scripts.Input
         private TouchControls _touchControls;
         private UnityEngine.Camera _camera;
         private SwipeDetection _swipeDetection;
+        [SerializeField] private GameObject _trailGameObject;
 
         public static event Action<Vector2> OnTouchStart;
         public static event Action <Vector2> OnTouchEnd;
@@ -20,7 +21,7 @@ namespace Common.Scripts.Input
         private void Awake()
         {
             _camera = UnityEngine.Camera.main;
-            _swipeDetection = new SwipeDetection(this);
+            _swipeDetection = new SwipeDetection(this,_trailGameObject);
             _touchControls = new TouchControls();
             _touchControls.Touch.TouchHold.started += TouchStarted;
 
@@ -34,11 +35,11 @@ namespace Common.Scripts.Input
 
         private void TouchStarted(InputAction.CallbackContext context)
         {
-            OnTouchStartEvent?.Invoke(Utils.ScreenToWorld(_camera,GetPositionOfTouch()),(float)context.startTime);
+            OnTouchStartEvent?.Invoke(GetPositionOfTouch(),(float)context.startTime);
         }
         private void TouchEnded(InputAction.CallbackContext context)
         {
-            OnTouchEndEvent?.Invoke(Utils.ScreenToWorld(_camera,GetPositionOfTouch()),(float)context.time);
+            OnTouchEndEvent?.Invoke(GetPositionOfTouch(),(float)context.time);
         }
 
    
@@ -57,12 +58,6 @@ namespace Common.Scripts.Input
         {
             return _touchControls.Touch.TouchPosition.ReadValue<Vector2>();
         }
-
-        public Vector2 PrimaryPosition()
-        {
-            return Utils.ScreenToWorld(_camera, GetPositionOfTouch());
-        }
-        
 
     }
 }

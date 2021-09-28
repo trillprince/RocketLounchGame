@@ -7,15 +7,19 @@ namespace Common.Scripts.Input
     public class SwipeDetection: IEnablable
     {
         private readonly InputManager _inputManager;
+        private readonly Trail _trail;
         private Vector2 _startTouchPos;
         private float _startTime;
         private float _minDistance = 0.2f;
         private float _maxTime = 1f;
         private float _directionThreshhold = 0.9f;
+        private UnityEngine.Camera _camera;
 
-        public SwipeDetection(InputManager inputManager)
+        public SwipeDetection(InputManager inputManager,GameObject trail)
         {
             _inputManager = inputManager;
+            _trail = new Trail(inputManager,trail);
+            _camera = UnityEngine.Camera.main;
         }
         
         public void Enable()
@@ -35,11 +39,14 @@ namespace Common.Scripts.Input
         {
             _startTouchPos = touchPos;
             _startTime = touchStartTime;
+            _trail.Enable(Utils.ScreenToWorld(_camera,touchPos));
         }
 
         private void SwipeEnd(Vector2 endTouchPos, float endTouchTime)
         {
             DetectSwipe(endTouchPos,endTouchTime);
+            _trail.Disable();
+
         }
 
         private void DetectSwipe(Vector2 endTouchPos, float endTouchTime)
