@@ -11,6 +11,7 @@ namespace Common.Scripts.Input
         private float _startTime;
         private float _minDistance = 0.2f;
         private float _maxTime = 1f;
+        private float _directionThreshhold = 0.9f;
 
         public SwipeDetection(InputManager inputManager)
         {
@@ -47,7 +48,36 @@ namespace Common.Scripts.Input
                 (endTouchTime - _startTime) <= _maxTime)
             {
                 Debug.DrawLine(_startTouchPos,endTouchPos, Color.red,5f);
+                SwipeDirection(endTouchPos);
             }
+        }
+
+        private void SwipeDirection(Vector2 endTouchPos)
+        {
+            Vector3 direction = (endTouchPos - _startTouchPos).normalized;
+            Vector2 direction2D = new Vector2(direction.x, direction.y);
+
+            if (Vector2.Dot(Vector2.up, direction) > _directionThreshhold)
+            {
+                Debug.Log("swipe up");
+            }
+            else if (Vector2.Dot(Vector2.down, direction) > _directionThreshhold)
+            {
+                Debug.Log("swipe down");
+                
+            }
+            else if (Vector2.Dot(Vector2.left, direction) > _directionThreshhold)
+            {
+                Debug.Log("swipe left");
+                
+            }
+            else if (Vector2.Dot(Vector2.right, direction) > _directionThreshhold)
+            {
+                Debug.Log("swipe right");
+                
+            }
+            
+            
         }
     }
 }
