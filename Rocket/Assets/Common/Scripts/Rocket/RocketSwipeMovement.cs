@@ -16,10 +16,9 @@ namespace Common.Scripts.Rocket
         private int _currentPositionIndex = 0;
         private readonly Vector3 _leftPosition;
         private readonly Vector3 _rightPosition;
-        private readonly Vector3 _middlePosition;
         private readonly MeshCollider _meshCollider;
         private bool _swipeActive;
-        private Vector3 _positionToMove;
+        private readonly Vector3 _middlePosition;
 
         public RocketSwipeMovement(Transform transform, SwipeDetection swipeDetection, Vector3 screenBoundaries)
         {
@@ -27,15 +26,14 @@ namespace Common.Scripts.Rocket
             _meshCollider = _transform.GetComponentInChildren<MeshCollider>();
             _swipeDetection = swipeDetection;
             _screenBoundaries = screenBoundaries;
-            _positionToMove = _middlePosition;
 
             _leftPosition = new Vector3(
-                (screenBoundaries.x - _transform.position.x) / 2,
+                (screenBoundaries.x - _transform.position.x) / 2 + _meshCollider.bounds.size.x,
                 _transform.position.y,
                 _transform.position.z);
 
             _rightPosition = new Vector3(
-                (-_screenBoundaries.x + _transform.position.x) / 2,
+                (-_screenBoundaries.x + _transform.position.x) / 2 - _meshCollider.bounds.size.x,
                 _transform.position.y,
                 _transform.position.z);
 
@@ -68,14 +66,12 @@ namespace Common.Scripts.Rocket
             if (_currentPositionIndex == -1)
             {
                 _currentPositionIndex++;
-                _positionToMove = _middlePosition;
-                LerpTo(_positionToMove);
+                LerpTo(_middlePosition);
             }
             else if (_currentPositionIndex == 0)
             {
                 _currentPositionIndex++;
-                _positionToMove = _rightPosition;
-                LerpTo(_positionToMove);
+                LerpTo(_rightPosition);
             }
         }
 
@@ -86,14 +82,12 @@ namespace Common.Scripts.Rocket
             if (_currentPositionIndex == 1)
             {
                 _currentPositionIndex--;
-                _positionToMove = _middlePosition;
-                LerpTo(_positionToMove);
+                LerpTo(_middlePosition);
             }
             else if (_currentPositionIndex == 0)
             {
                 _currentPositionIndex--;
-                _positionToMove = _leftPosition;
-                LerpTo(_positionToMove);
+                LerpTo(_leftPosition);
             }
         }
 
