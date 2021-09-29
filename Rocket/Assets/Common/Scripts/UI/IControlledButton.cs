@@ -2,3 +2,4 @@
 {
     public void SetInteractStatus(bool isActive);
 }
+

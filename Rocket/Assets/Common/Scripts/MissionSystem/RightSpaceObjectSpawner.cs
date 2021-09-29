@@ -38,7 +38,7 @@ namespace Common.Scripts.MissionSystem
         private Vector3 GetSpawnPosition(MeshCollider meshCollider)
         {
             return new Vector3(
-                (- _screenBounds.x + _rocketPosition.x) / 2,
+                (- _screenBounds.x + _rocketPosition.x) / 2 + meshCollider.bounds.size.x,
                 -_screenBounds.y + meshCollider.bounds.size.y / 2,
                 _rocketPosition.z);
         }

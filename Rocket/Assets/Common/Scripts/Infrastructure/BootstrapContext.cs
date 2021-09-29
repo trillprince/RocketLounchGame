@@ -2,6 +2,7 @@ using System;
 using Common.Scripts.UI;
 using UnityEngine;
 using Zenject;
+using Object = System.Object;
 
 namespace Common.Scripts.Infrastructure
 {
@@ -9,6 +10,8 @@ namespace Common.Scripts.Infrastructure
     {
         [SerializeField] private GameObject _coroutineRunner;
         [SerializeField] private LoadingCurtain _loadingCurtain;
+        private ITempFactory _factory;
+        
 
         public override void InstallBindings()
         {
@@ -17,6 +20,7 @@ namespace Common.Scripts.Infrastructure
 
         private void BindGameStateMachine()
         {
+            _factory = new BootStrapFactory(new BootstrapProvider());
             CoroutineRunner co = Container.InstantiatePrefabForComponent<CoroutineRunner>(_coroutineRunner);
             SceneLoader sceneLoader = new SceneLoader(co);
             Container.Bind<SceneLoader>().FromInstance(sceneLoader);

@@ -7,6 +7,7 @@ namespace Common.Scripts.MissionSystem
         private readonly InputListener _inputListener;
         private readonly SatelliteStateChanger _satelliteStateChanger;
         private bool _satelliteSystemActive;
+
         private ISpaceObjectController[] _spaceObjectControllers;
 
         public SpaceObjectSystem
@@ -21,17 +22,13 @@ namespace Common.Scripts.MissionSystem
             _spaceObjectControllers = spaceObjectControllers;
         }
 
-        public void SpawnRandomSideSatellite()
+        public void SpawnSpaceObjects()
         {
-            var range = Random.Range(0, _spaceObjectControllers.Length + 1);
-            var randomObjectIndex = Random.Range(0, range);
-            
-            for (int i = 0; i < range; i++)
+            var randomIndex = Random.Range(0, _spaceObjectControllers.Length);
+            for (int i = 0; i < _spaceObjectControllers.Length; i++)
             {
-                if (!(i == randomObjectIndex && range > 2 ))
-                {
-                    _spaceObjectControllers[i].Spawn();
-                }
+                if(i == randomIndex)continue;
+                _spaceObjectControllers[i].Spawn();
             }
         }
 
