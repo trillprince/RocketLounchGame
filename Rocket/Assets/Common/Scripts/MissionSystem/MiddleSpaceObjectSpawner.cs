@@ -7,7 +7,7 @@ namespace Common.Scripts.MissionSystem
     internal class MiddleSpaceObjectSpawner : ISpaceObjectSpawner
     {
         private readonly GameObject _prefab;
-        private readonly Transform _rocketTransform;
+        private readonly Vector3 _rocketPosition;
         private readonly ObjectPool _objectPool;
         private readonly Vector3 _screenBounds;
 
@@ -15,7 +15,7 @@ namespace Common.Scripts.MissionSystem
             ObjectPoolStorage objectPoolStorage)
         {
             _prefab = prefab;
-            _rocketTransform = rocketMovementController.GetTransform();
+            _rocketPosition = rocketMovementController.transform.position;
             _objectPool = objectPoolStorage.GetPool(_prefab);
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
@@ -38,9 +38,9 @@ namespace Common.Scripts.MissionSystem
         private Vector3 GetSpawnPosition(MeshCollider meshCollider)
         {
             return new Vector3(
-                (_rocketTransform.position.x) / 2,
+                (_rocketPosition.x) / 2,
                 -_screenBounds.y + meshCollider.bounds.size.y / 2,
-                _rocketTransform.position.z);
+                _rocketPosition.z);
         }
     }
 }

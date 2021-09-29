@@ -8,14 +8,14 @@ namespace Common.Scripts.MissionSystem
     {
         private ObjectPool _objectPool;
         private Vector2 _screenBounds;
-        private Transform _rocketTransform;
+        private Vector3 _rocketPosition;
         private GameObject _prefab;
 
 
         public LeftSpaceObjectSpawner(GameObject prefab, RocketMovementController rocketMovementController,
             ObjectPoolStorage objectPoolStorage)
         {
-            _rocketTransform = rocketMovementController.transform;
+            _rocketPosition = rocketMovementController.transform.position;
             _prefab = prefab;
             _objectPool = objectPoolStorage.GetPool(_prefab);
             _screenBounds =
@@ -40,9 +40,9 @@ namespace Common.Scripts.MissionSystem
         private Vector3 GetRandomSpawnPosition(MeshCollider meshCollider)
         {
             return new Vector3(
-                    (_screenBounds.x - _rocketTransform.position.x) / 2,
+                    (_screenBounds.x - _rocketPosition.x) / 2,
                     -_screenBounds.y + meshCollider.bounds.size.y / 2,
-                    _rocketTransform.position.z);
+                    _rocketPosition.z);
                
         }
     }
