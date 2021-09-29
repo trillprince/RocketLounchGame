@@ -17,17 +17,20 @@ namespace Common.Scripts.Rocket
         private readonly Action<LandingStatus> _changeMovementResult;
         private readonly Action<Action<Vector2>, Action <Vector2>> _onInputSubscribe;
         private readonly Action<Action<Vector2>, Action <Vector2>> _onInputUnsubscribe;
+        private Vector3 _screenBounds;
 
         public RocketLandingRocketMove(Transform transform, Rigidbody rigidbody,
             Action<LandingStatus> changeMovementResult,
             Action<Action<Vector2>, Action <Vector2>> onInputSubscribe,
-            Action<Action<Vector2>, Action <Vector2>> onInputUnsubscribe)
+            Action<Action<Vector2>, Action <Vector2>> onInputUnsubscribe,
+            Vector3 screenBounds)
         {
             _rb = rigidbody;
             _transform = transform;
             _changeMovementResult = changeMovementResult;
             _onInputSubscribe = onInputSubscribe;
             _onInputUnsubscribe = onInputUnsubscribe;
+            _screenBounds = screenBounds;
         }
 
         ~RocketLandingRocketMove()
@@ -99,7 +102,12 @@ namespace Common.Scripts.Rocket
         {
             _rb.isKinematic = false;
             _onInputSubscribe?.Invoke(OnTouchHold, OnTouchHoldEnd);
-            _boundariesCheck = new BoundariesCheck(_rb, _rb.GetComponentInChildren<MeshCollider>(), UnityEngine.Camera.main);
+            _boundariesCheck = new BoundariesCheck(_rb, _rb.GetComponentInChildren<MeshCollider>(),_screenBounds);
+        }
+
+        public void Disable()
+        {
+            
         }
     }
 }

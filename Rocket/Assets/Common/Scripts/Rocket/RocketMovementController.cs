@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Common.Scripts.Input;
 using UnityEngine;
+using Zenject;
 
 namespace Common.Scripts.Rocket
 {
@@ -11,9 +12,22 @@ namespace Common.Scripts.Rocket
         private IRocketMoveComponent _movementComponent;
         private Dictionary<Type, IRocketMoveComponent> _movementComponents;
         private IMovementTransition _movementTransition;
+        private SwipeDetection _swipeDetection;
+        private Vector3 _screenBounds;
         public Rigidbody Rigidbody { get; private set; }
         private event Action<Transform, MovementState> OnMovementStateSwitch;
-        public static event Action<LandingStatus> OnLanding; 
+        public static event Action<LandingStatus> OnLanding;
+
+        [Inject]
+        public void Constructor(SwipeDetection swipeDetection)
+        {
+            _swipeDetection = swipeDetection;
+            _screenBounds =
+                UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
+                    Screen.width,
+                    Screen.height,
+                    UnityEngine.Camera.main.transform.position.z - Rigidbody.position.z));
+        }
 
         private void OnEnable()
         {
@@ -52,10 +66,10 @@ namespace Common.Scripts.Rocket
 
             _movementComponents = new Dictionary<Type, IRocketMoveComponent>
             {
-                [typeof(RocketAutoMovement)] = new RocketAutoMovement(transform),
+                [typeof(RocketSwipeMovement)] = new RocketSwipeMovement(transform,_swipeDetection,_screenBounds),
                 [typeof(RocketLandingRocketMove)] = new RocketLandingRocketMove(transform,
                     Rigidbody,
-                    OnGetLandingStatus, OnInputSubscribe, OnInputUnsubscribe)
+                    OnGetLandingStatus, OnInputSubscribe, OnInputUnsubscribe,_screenBounds)
             };
         }
 
@@ -69,7 +83,7 @@ namespace Common.Scripts.Rocket
             switch (movementResult)
             {
                 case MovementState.AutoMovement:
-                    _movementComponent = _movementComponents[typeof(RocketAutoMovement)];
+                    _movementComponent = _movementComponents[typeof(RocketSwipeMovement)];
                     _movementComponent.Enable();
                     break;
                 case MovementState.PhysicMovement:

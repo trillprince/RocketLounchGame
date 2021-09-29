@@ -1,4 +1,5 @@
-﻿using System.Net.NetworkInformation;
+﻿using System;
+using System.Net.NetworkInformation;
 using Common.Scripts.MissionSystem;
 using UnityEngine;
 
@@ -10,10 +11,17 @@ namespace Common.Scripts.Input
         private readonly Trail _trail;
         private Vector2 _startTouchPos;
         private float _startTime;
-        private float _minDistance = 0.3f;
+        private float _minDistance = 0.2f;
         private float _maxTime = 1f;
         private float _directionThreshhold = 0.9f;
         private UnityEngine.Camera _camera;
+        public event Action OnSwipeLeft;
+        public event Action OnSwipeRight;
+        public event Action OnSwipeUp;
+        public event Action OnSwipeDown;
+
+
+
 
         public SwipeDetection(InputManager inputManager,GameObject trail)
         {
@@ -54,7 +62,6 @@ namespace Common.Scripts.Input
             if (Vector3.Distance(_startTouchPos, endTouchPos) >= _minDistance &&
                 (endTouchTime - _startTime) <= _maxTime)
             {
-                Debug.DrawLine(_startTouchPos,endTouchPos, Color.red,5f);
                 SwipeDirection(endTouchPos);
             }
         }
@@ -66,22 +73,19 @@ namespace Common.Scripts.Input
 
             if (Vector2.Dot(Vector2.up, direction) > _directionThreshhold)
             {
-                Debug.Log("swipe up");
+                OnSwipeUp?.Invoke();
             }
             else if (Vector2.Dot(Vector2.down, direction) > _directionThreshhold)
             {
-                Debug.Log("swipe down");
-                
+                OnSwipeDown?.Invoke();
             }
             else if (Vector2.Dot(Vector2.left, direction) > _directionThreshhold)
             {
-                Debug.Log("swipe left");
-                
+                OnSwipeLeft?.Invoke();
             }
             else if (Vector2.Dot(Vector2.right, direction) > _directionThreshhold)
             {
-                Debug.Log("swipe right");
-                
+                OnSwipeRight?.Invoke();
             }
             
             

@@ -19,8 +19,8 @@ namespace Common.Scripts.Input
         public void Enable(Vector3 touchOnWorldPoints)
         {
             _trailGameObject.SetActive(true);
-            _trailGameObject.transform.position = touchOnWorldPoints;
             _touchStart = true;
+            _trailGameObject.transform.position = touchOnWorldPoints;
         }
 
         public void Disable()

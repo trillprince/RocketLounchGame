@@ -14,15 +14,11 @@ namespace Common.Scripts.Camera
 
         public delegate void Boundaries();
 
-        public BoundariesCheck(Rigidbody rigidbody, MeshCollider meshCollider, UnityEngine.Camera camera)
+        public BoundariesCheck(Rigidbody rigidbody, MeshCollider meshCollider,Vector3 screenBounds)
         {
             _rb = rigidbody;
+            _screenBounds = screenBounds;
             _boundOfMesh = meshCollider.bounds;
-            _screenBounds =
-                camera.ScreenToWorldPoint(new Vector3(
-                    Screen.width,
-                    Screen.height,
-                    UnityEngine.Camera.main.transform.position.z - _rb.position.z));
         }
 
         public void OnScreenBoundaries(Boundaries afterBoundCheckAction)
