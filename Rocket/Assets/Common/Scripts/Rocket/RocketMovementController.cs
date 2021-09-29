@@ -22,6 +22,7 @@ namespace Common.Scripts.Rocket
         public void Constructor(SwipeDetection swipeDetection)
         {
             _swipeDetection = swipeDetection;
+            Rigidbody = GetComponent<Rigidbody>();
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
@@ -39,10 +40,6 @@ namespace Common.Scripts.Rocket
             GameStateController.OnStateSwitch -= OnOnStateSwitch;
         }
 
-        private void Awake()
-        {
-            Rigidbody = GetComponent<Rigidbody>();
-        }
 
         public Vector3 GetRocketDirection()
         {
@@ -73,7 +70,7 @@ namespace Common.Scripts.Rocket
             };
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             _movementComponent?.Move(ChangeMovementComponent);
         }
@@ -82,7 +79,7 @@ namespace Common.Scripts.Rocket
         {
             switch (movementResult)
             {
-                case MovementState.AutoMovement:
+                case MovementState.SwipeMovement:
                     _movementComponent = _movementComponents[typeof(RocketSwipeMovement)];
                     _movementComponent.Enable();
                     break;
@@ -107,7 +104,7 @@ namespace Common.Scripts.Rocket
         {
             if (state == GameState.CargoDrop)
             {
-                ChangeMovementComponent(MovementState.AutoMovement);
+                ChangeMovementComponent(MovementState.SwipeMovement);
             }
             else if (state == GameState.Landing)
             {
@@ -142,7 +139,7 @@ namespace Common.Scripts.Rocket
     public enum MovementState
     {
         NoMovement,
-        AutoMovement,
+        SwipeMovement,
         PhysicMovement
     }
 

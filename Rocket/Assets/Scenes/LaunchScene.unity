@@ -1027,7 +1027,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b179c03c64ea2b844902798a89c8b856, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trailGameObject: {fileID: 186396154}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1220,6 +1219,7 @@ GameObject:
   - component: {fileID: 1007176467}
   - component: {fileID: 1007176468}
   - component: {fileID: 1007176469}
+  - component: {fileID: 1007176470}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -1258,6 +1258,7 @@ MonoBehaviour:
   - {fileID: 1007176467}
   - {fileID: 1007176468}
   - {fileID: 1007176469}
+  - {fileID: 1007176470}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -1327,6 +1328,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92cf2bcc354ff9543ba4c933196c1839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1007176470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007176463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2de8c43328c0d4d4fa5d90df7b87918c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trailGameObject: {fileID: 186396154}
 --- !u!1 &1085722701
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,27 +18,30 @@ namespace Common.Scripts.Rocket
         private readonly Vector3 _rightPosition;
         private readonly Vector3 _middlePosition;
         private readonly MeshCollider _meshCollider;
+        private bool _swipeActive;
+        private Vector3 _positionToMove;
 
-        public RocketSwipeMovement(Transform transform,SwipeDetection swipeDetection, Vector3 screenBoundaries)
+        public RocketSwipeMovement(Transform transform, SwipeDetection swipeDetection, Vector3 screenBoundaries)
         {
             _transform = transform;
-            _meshCollider = _transform.GetComponent<MeshCollider>();
+            _meshCollider = _transform.GetComponentInChildren<MeshCollider>();
             _swipeDetection = swipeDetection;
             _screenBoundaries = screenBoundaries;
-            
+            _positionToMove = _middlePosition;
+
             _leftPosition = new Vector3(
                 (screenBoundaries.x - _transform.position.x) / 2,
-                -screenBoundaries.y + _meshCollider.bounds.size.y / 2,
+                _transform.position.y,
                 _transform.position.z);
-            
+
             _rightPosition = new Vector3(
-                (- _screenBoundaries.x + _transform.position.x) / 2,
-                -_screenBoundaries.y + _meshCollider.bounds.size.y / 2,
+                (-_screenBoundaries.x + _transform.position.x) / 2,
+                _transform.position.y,
                 _transform.position.z);
-            
+
             _middlePosition = new Vector3(
-                (_transform.position.x) / 2,
-                -_screenBoundaries.y + _meshCollider.bounds.size.y / 2,
+                (_transform.position.x),
+                _transform.position.y,
                 _transform.position.z);
         }
 
@@ -49,33 +52,61 @@ namespace Common.Scripts.Rocket
 
         public void Enable()
         {
-            _swipeDetection.OnSwipeLeft += MoveOnLeftSwipe;
-            _swipeDetection.OnSwipeRight += MoveOnRightSwipe;
+            _swipeDetection.OnSwipeLeft += ChangeIndexOnLeftSwipe;
+            _swipeDetection.OnSwipeRight += ChangeIndexOnRightSwipe;
+            _swipeDetection.OnSwipeEnd += ChangeSwipeStatus;
         }
 
-        private void MoveOnRightSwipe()
+        private void ChangeSwipeStatus()
         {
-            if (_currentPositionIndex < 0)
-            {
-                _currentPositionIndex++;
-            }
-            else if (_currentPositionIndex == 0 )
-            {
-                _currentPositionIndex++;
-            }
-
+            _swipeActive = false;
         }
-        
-        
 
-        private void MoveOnLeftSwipe()
+        private void ChangeIndexOnRightSwipe()
         {
-            
+            _swipeActive = true;
+            if (_currentPositionIndex == -1)
+            {
+                _currentPositionIndex++;
+                _positionToMove = _middlePosition;
+                LerpTo(_positionToMove);
+            }
+            else if (_currentPositionIndex == 0)
+            {
+                _currentPositionIndex++;
+                _positionToMove = _rightPosition;
+                LerpTo(_positionToMove);
+            }
+        }
+
+        private void ChangeIndexOnLeftSwipe()
+        {
+            _swipeActive = true;
+            Debug.Log("right left");
+            if (_currentPositionIndex == 1)
+            {
+                _currentPositionIndex--;
+                _positionToMove = _middlePosition;
+                LerpTo(_positionToMove);
+            }
+            else if (_currentPositionIndex == 0)
+            {
+                _currentPositionIndex--;
+                _positionToMove = _leftPosition;
+                LerpTo(_positionToMove);
+            }
+        }
+
+        private void LerpTo(Vector3 moveTo)
+        {
+            _transform.position = Vector3.Lerp(_transform.position, moveTo, 1);
         }
 
         public void Disable()
         {
-            
+            _swipeDetection.OnSwipeLeft -= ChangeIndexOnLeftSwipe;
+            _swipeDetection.OnSwipeRight -= ChangeIndexOnRightSwipe;
+            _swipeDetection.OnSwipeEnd -= ChangeSwipeStatus;
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Common.Scripts.Satellite
                     break;
                 case StateOnScreen.DisposeZone:
                     SpaceObjectController.DisposeLastObject();
-                    _satelliteDelivery.CheckForDeliveryExistance();
+                    // _satelliteDelivery.CheckForDeliveryExistance();
                     break;
             }
         }

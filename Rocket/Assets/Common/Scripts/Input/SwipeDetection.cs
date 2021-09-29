@@ -20,6 +20,8 @@ namespace Common.Scripts.Input
         public event Action OnSwipeUp;
         public event Action OnSwipeDown;
 
+        public event Action OnSwipeEnd; 
+
 
 
 
@@ -53,6 +55,7 @@ namespace Common.Scripts.Input
         private void SwipeEnd(Vector2 endTouchPos, float endTouchTime)
         {
             DetectSwipe(endTouchPos,endTouchTime);
+            OnSwipeEnd?.Invoke();
             _trail.Disable();
 
         }

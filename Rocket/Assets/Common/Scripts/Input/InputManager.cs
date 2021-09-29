@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 namespace Common.Scripts.Input
 {
@@ -9,8 +10,6 @@ namespace Common.Scripts.Input
         private TouchControls _touchControls;
         private UnityEngine.Camera _camera;
         private SwipeDetection _swipeDetection;
-        [SerializeField] private GameObject _trailGameObject;
-
         public static event Action<Vector2> OnTouchStart;
         public static event Action <Vector2> OnTouchEnd;
 
@@ -18,10 +17,15 @@ namespace Common.Scripts.Input
         public event Action<Vector2, float> OnTouchEndEvent;
 
 
+        [Inject]
+        public void Constructor(SwipeDetection swipeDetection)
+        {
+            _swipeDetection = swipeDetection;
+        }
+
         private void Awake()
         {
             _camera = UnityEngine.Camera.main;
-            _swipeDetection = new SwipeDetection(this,_trailGameObject);
             _touchControls = new TouchControls();
             _touchControls.Touch.TouchHold.started += TouchStarted;
 

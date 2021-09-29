@@ -1,4 +1,6 @@
-﻿namespace Common.Scripts.MissionSystem
+﻿using System;
+
+namespace Common.Scripts.MissionSystem
 {
     public interface IEnablable
     {
