@@ -8,9 +8,7 @@ namespace Common.Scripts.Infrastructure
 {
     public class BootstrapContext : MonoInstaller
     {
-        [SerializeField] private GameObject _coroutineRunner;
-        [SerializeField] private LoadingCurtain _loadingCurtain;
-        private ITempFactory _factory;
+        private BootStrapFactory _factory;
         
 
         public override void InstallBindings()
@@ -21,11 +19,10 @@ namespace Common.Scripts.Infrastructure
         private void BindGameStateMachine()
         {
             _factory = new BootStrapFactory(new BootstrapProvider());
-            CoroutineRunner co = Container.InstantiatePrefabForComponent<CoroutineRunner>(_coroutineRunner);
-            SceneLoader sceneLoader = new SceneLoader(co);
-            Container.Bind<SceneLoader>().FromInstance(sceneLoader);
-            GameStateMachine gameBootstrapper = new GameStateMachine(sceneLoader, _loadingCurtain);
-            Container.Bind<GameStateMachine>().FromInstance(gameBootstrapper);
+            
+            var stateMachine = _factory.CreateStateMachine();
+            Container.Bind<GameStateMachine>().FromInstance(stateMachine);
+            Container.Bind<SceneLoader>().FromInstance(stateMachine.Loader);
         }
     }
 }

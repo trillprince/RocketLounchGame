@@ -6,9 +6,7 @@ namespace Common.Scripts.Infrastructure
     public class BootStrapFactory: ITempFactory
     {
         private readonly IAssetProvider _assetProvider;
-        private readonly string CoroutineRunnerPath = "Prefabs/Bootstrap/CoroutineRunner";
-        private readonly string CurtainPath = "Prefabs/UI/LoadingCurtain";
-
+        
         public BootStrapFactory(IAssetProvider assetProvider)
         {
             _assetProvider = assetProvider;
@@ -16,13 +14,9 @@ namespace Common.Scripts.Infrastructure
 
         public GameStateMachine CreateStateMachine()
         {
-            return new GameStateMachine(new SceneLoader(InstantiateForComponent<CoroutineRunner>(CoroutineRunnerPath)),InstantiateForComponent<LoadingCurtain>(CurtainPath));
+            return new GameStateMachine(new SceneLoader(_assetProvider.InstantiateForComponent<CoroutineRunner>(AssetPath.CoroutineRunner)),
+                _assetProvider.InstantiateForComponent<LoadingCurtain>(AssetPath.LoadingCurtain));
         }
-        
-        private T InstantiateForComponent <T> (string path)
-        {
-            var prefab = Resources.Load<GameObject>(path);
-            return Object.Instantiate(prefab).GetComponent<T>();
-        }
+
     }
 }

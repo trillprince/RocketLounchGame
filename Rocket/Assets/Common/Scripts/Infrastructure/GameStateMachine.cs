@@ -8,12 +8,12 @@ namespace Common.Scripts.Infrastructure
     {
         private readonly Dictionary<Type, IExitableState> _states;
         private IExitableState _activeState;
-        private SceneLoader _loader;
+        public SceneLoader Loader { get; }
         public LoadingCurtain Curtain { get; }
 
         public GameStateMachine(SceneLoader sceneLoader,LoadingCurtain loadingCurtain)
         {
-            _loader = sceneLoader;
+            Loader = sceneLoader;
             Curtain = loadingCurtain;
             _states = new Dictionary<Type, IExitableState>
             {
