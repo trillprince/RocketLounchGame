@@ -29,13 +29,13 @@ namespace Common.Scripts.MissionSystem
         {
             GameObject gameObject;
             gameObject = _middleSpaceObjectSpawner.Spawn();
-            IAsteroid asteroid = gameObject.GetComponent<IAsteroid>();
-            asteroid.Constructor(_rocketMovementController,_gameStateController,this,_gameLoopController);
+            ISatellite satellite = gameObject.GetComponent<ISatellite>();
+            satellite.Constructor(_rocketMovementController,_gameStateController,this,_gameLoopController);
             if (!AsteroidsExist())
             {
-                ChangeScopedAsteroid(asteroid);
+                ChangeScopedObject(satellite);
             }
-            _middleMovableSpaceObjects.Enqueue(asteroid);
+            _middleMovableSpaceObjects.Enqueue(satellite);
         }
 
         public void Spawn()
@@ -56,7 +56,7 @@ namespace Common.Scripts.MissionSystem
             GameObject gameObject = _middleMovableSpaceObjects.Dequeue().GetGameObject();
             if (_middleMovableSpaceObjects.Count > 0)
             {
-                ChangeScopedAsteroid(_middleMovableSpaceObjects.Peek());
+                ChangeScopedObject(_middleMovableSpaceObjects.Peek());
             }
             _middleSpaceObjectSpawner.Dispose(gameObject);
         }
@@ -87,7 +87,7 @@ namespace Common.Scripts.MissionSystem
             }
         }
 
-        private void ChangeScopedAsteroid(ISpaceObject spaceObject)
+        private void ChangeScopedObject(ISpaceObject spaceObject)
         {
             if (spaceObject != null)
             {

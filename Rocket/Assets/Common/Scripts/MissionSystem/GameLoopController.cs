@@ -14,7 +14,6 @@ namespace Common.Scripts.MissionSystem
         private int _spawnsTillCheckPoint = 10;
         private int _currentSpawnCount;
         [SerializeField] private GameObject _prefabOfSatellite;
-        [SerializeField] private GameObject _asteroid;
         private SpaceObjectSystem _spaceObjectSystem;
         private GameStateController _gameStateController;
 
@@ -35,7 +34,7 @@ namespace Common.Scripts.MissionSystem
                 rocketMovementController, gameStateController, this);
 
             var middleSpaceObjectController = new MiddleSpaceObjectController(
-                new MiddleSpaceObjectSpawner(_asteroid, rocketMovementController, objectPoolStorage),
+                new MiddleSpaceObjectSpawner(_prefabOfSatellite, rocketMovementController, objectPoolStorage),
                 rocketMovementController, gameStateController, this);
 
             _spaceObjectSystem = new SpaceObjectSystem(inputListener,
