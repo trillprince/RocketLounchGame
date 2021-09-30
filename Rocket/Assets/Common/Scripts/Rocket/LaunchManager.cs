@@ -20,7 +20,7 @@ namespace Common.Scripts.Rocket
             _button.onClick.AddListener(Launch);
         }
 
-        public void Launch()
+        private void Launch()
         {
             StartCoroutine(WaitTillLaunch());
             SetInteractStatus(false);

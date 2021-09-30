@@ -6,11 +6,10 @@ using Zenject;
 
 public class InputInstaller : MonoInstaller
 {
-    [SerializeField] private GameObject _trailGameObject;
 
     public override void InstallBindings()
     {
-        var swipeDetection = new SwipeDetection(FindObjectOfType<InputManager>(), _trailGameObject); 
+        var swipeDetection = new SwipeDetection(FindObjectOfType<InputManager>()); 
         Container.Bind<SwipeDetection>()
             .FromInstance(swipeDetection);
 
