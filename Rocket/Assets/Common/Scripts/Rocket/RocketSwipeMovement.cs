@@ -62,6 +62,7 @@ namespace Common.Scripts.Rocket
 
         private void ChangeIndexOnRightSwipe()
         {
+            
             _swipeActive = true;
             if (_currentPositionIndex == -1)
             {
@@ -78,7 +79,6 @@ namespace Common.Scripts.Rocket
         private void ChangeIndexOnLeftSwipe()
         {
             _swipeActive = true;
-            Debug.Log("right left");
             if (_currentPositionIndex == 1)
             {
                 _currentPositionIndex--;

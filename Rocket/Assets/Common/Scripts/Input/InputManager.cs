@@ -28,7 +28,6 @@ namespace Common.Scripts.Input
             _camera = UnityEngine.Camera.main;
             _touchControls = new TouchControls();
             _touchControls.Touch.TouchHold.started += TouchStarted;
-
             _touchControls.Touch.TouchHold.canceled += TouchEnded;
         }
 
@@ -39,10 +38,12 @@ namespace Common.Scripts.Input
 
         private void TouchStarted(InputAction.CallbackContext context)
         {
+            Debug.Log("on touch start started");
             OnTouchStartEvent?.Invoke(GetPositionOfTouch(),(float)context.startTime);
         }
         private void TouchEnded(InputAction.CallbackContext context)
         {
+            Debug.Log("on touch end event");
             OnTouchEndEvent?.Invoke(GetPositionOfTouch(),(float)context.time);
         }
 
