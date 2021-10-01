@@ -52,55 +52,46 @@ namespace Common.Scripts.Rocket
         {
             _swipeDetection.OnSwipeLeft += ChangeIndexOnLeftSwipe;
             _swipeDetection.OnSwipeRight += ChangeIndexOnRightSwipe;
-            _swipeDetection.OnSwipeEnd += ChangeSwipeStatus;
-        }
-
-        private void ChangeSwipeStatus()
-        {
-            _swipeActive = false;
         }
 
         private void ChangeIndexOnRightSwipe()
         {
             
-            _swipeActive = true;
             if (_currentPositionIndex == -1)
             {
                 _currentPositionIndex++;
-                LerpTo(_middlePosition);
+                Move(_middlePosition);
             }
             else if (_currentPositionIndex == 0)
             {
                 _currentPositionIndex++;
-                LerpTo(_rightPosition);
+                Move(_rightPosition);
             }
         }
 
         private void ChangeIndexOnLeftSwipe()
         {
-            _swipeActive = true;
             if (_currentPositionIndex == 1)
             {
                 _currentPositionIndex--;
-                LerpTo(_middlePosition);
+                Move(_middlePosition);
             }
             else if (_currentPositionIndex == 0)
             {
                 _currentPositionIndex--;
-                LerpTo(_leftPosition);
+                Move(_leftPosition);
             }
         }
 
-        private void LerpTo(Vector3 moveTo)
+        private void Move(Vector3 to)
         {
-            _transform.position = Vector3.Lerp(_transform.position, moveTo, 1);
+            _transform.position = to;
         }
 
         public void Disable()
         {
             _swipeDetection.OnSwipeLeft -= ChangeIndexOnLeftSwipe;
             _swipeDetection.OnSwipeRight -= ChangeIndexOnRightSwipe;
-            _swipeDetection.OnSwipeEnd -= ChangeSwipeStatus;
         }
     }
 }

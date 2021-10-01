@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Common.Scripts.MissionSystem;
+using UnityEngine;
+using Zenject;
 
 namespace Common.Scripts.Rocket
 {
@@ -6,6 +8,13 @@ namespace Common.Scripts.Rocket
     {
         private static float _currentSpeed;
         private static Vector3 _rocketDirection;
+        private MilesCount _milesCount;
+
+        [Inject]
+        public void Constructor(MilesCount milesCount)
+        {
+            _milesCount = milesCount;
+        }
 
         public static float CurrentSpeed
         {
@@ -20,7 +29,7 @@ namespace Common.Scripts.Rocket
 
         private void Start()
         {
-            _currentSpeed = 200;
+            _currentSpeed = 150;
         }
 
         void Update()

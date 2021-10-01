@@ -2,7 +2,7 @@
 {
     public interface ISpaceObjectController: IEnablable
     {
-        public void Spawn();
+        public void Spawn(ISpawnPosition spawnPosition);
 
         public void Execute();
 

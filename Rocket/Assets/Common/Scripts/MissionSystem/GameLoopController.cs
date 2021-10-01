@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection.Emit;
 using Common.Scripts.Cargo;
+using Common.Scripts.Infrastructure;
 using Common.Scripts.Rocket;
 using UnityEngine;
 using Zenject;
@@ -9,10 +11,6 @@ namespace Common.Scripts.MissionSystem
 {
     public class GameLoopController : MonoBehaviour
     {
-        private float _waitTimeBeforeStart = 4;
-        private float _waitTimeBeforeSpawn = 0.8f;
-        private int _spawnsTillCheckPoint = 10;
-        private int _currentSpawnCount;
         [SerializeField] private GameObject _prefabOfSatellite;
         private SpaceObjectSystem _spaceObjectSystem;
         private GameStateController _gameStateController;
@@ -20,24 +18,26 @@ namespace Common.Scripts.MissionSystem
 
         [Inject]
         private void Constructor(RocketMovementController rocketMovementController, ObjectPoolStorage objectPoolStorage,
-            RocketCargo rocketCargo, GameStateController gameStateController)
+            RocketCargo rocketCargo, GameStateController gameStateController,ICoroutineRunner coroutineRunner)
         {
             _gameStateController = gameStateController;
             var inputListener = GetComponent<InputListener>();
+            SpaceObjectSpawner spaceObjectSpawner =
+                new SpaceObjectSpawner(_prefabOfSatellite, rocketMovementController, objectPoolStorage);
 
             var leftSatelliteController = new LeftSpaceObjectController(
-                new LeftSpaceObjectSpawner(_prefabOfSatellite, rocketMovementController, objectPoolStorage),
-                rocketMovementController, gameStateController, this);
+                spaceObjectSpawner,
+                rocketMovementController, gameStateController, this,new Queue<ISpaceObject>(10));
 
             var rightSatelliteController = new RightSpaceObjectController(
-                new RightSpaceObjectSpawner(_prefabOfSatellite, rocketMovementController, objectPoolStorage),
-                rocketMovementController, gameStateController, this);
+                spaceObjectSpawner,
+                rocketMovementController, gameStateController, this,new Queue<ISpaceObject>(10));
 
             var middleSpaceObjectController = new MiddleSpaceObjectController(
-                new MiddleSpaceObjectSpawner(_prefabOfSatellite, rocketMovementController, objectPoolStorage),
-                rocketMovementController, gameStateController, this);
+                spaceObjectSpawner,
+                rocketMovementController, gameStateController, this,new Queue<ISpaceObject>(10));
 
-            _spaceObjectSystem = new SpaceObjectSystem(inputListener,
+            _spaceObjectSystem = new SpaceObjectSystem(rocketMovementController,coroutineRunner,gameStateController,inputListener,
                 new SatelliteStateChanger(inputListener,
                     leftSatelliteController, rightSatelliteController, middleSpaceObjectController, rocketCargo),
                 leftSatelliteController, rightSatelliteController, middleSpaceObjectController);
@@ -58,29 +58,12 @@ namespace Common.Scripts.MissionSystem
             _spaceObjectSystem.Execute();
         }
 
-        private IEnumerator WaitBeforeGameStart(float waitTime)
-        {
-            yield return new WaitForSeconds(waitTime);
-            if (_gameStateController.CurrentGameState != GameState.CargoDrop)
-            {
-                yield break;
-            }
-            _spaceObjectSystem.SpawnSpaceObjects();
-            StartCoroutine(WaitBeforeGameStart(_waitTimeBeforeSpawn));
-        }
-
         private void GameStateListener(GameState gameState)
         {
             if (gameState == GameState.CargoDrop)
             {
-                StartCoroutine(WaitBeforeGameStart(_waitTimeBeforeStart));
                 _spaceObjectSystem.Enable();
             }
-        }
-
-        private void IncreaseSpawnCount()
-        {
-            _spawnsTillCheckPoint += _spawnsTillCheckPoint * 2;
         }
 
         public void DisableSatelliteDrop()

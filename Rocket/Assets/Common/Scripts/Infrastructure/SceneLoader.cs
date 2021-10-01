@@ -7,11 +7,11 @@ namespace Common.Scripts.Infrastructure
 {
     public class SceneLoader
     {
-        private readonly ICoroutineRunner _coroutineRunner;
+        public ICoroutineRunner Runner { get; }
 
-        public SceneLoader(ICoroutineRunner coroutineRunner) => _coroutineRunner = coroutineRunner;
+        public SceneLoader(ICoroutineRunner coroutineRunner) => Runner = coroutineRunner;
 
-        public void Load(string name, Action onLoaded = null) => _coroutineRunner.StartCoroutine(LoadScene(name, onLoaded));
+        public void Load(string name, Action onLoaded = null) => Runner.StartCoroutine(LoadScene(name, onLoaded));
 
         public IEnumerator LoadScene(string nextScene, Action onLoaded = null)
         {

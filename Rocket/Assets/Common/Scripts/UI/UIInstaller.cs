@@ -13,6 +13,6 @@ public class UIInstaller : MonoInstaller
 
     private void BindText()
     {
-        Container.Bind<SatelliteCount>().FromInstance(FindObjectOfType<SatelliteCount>());
+        Container.Bind<MilesCount>().FromInstance(FindObjectOfType<MilesCount>());
     }
 }

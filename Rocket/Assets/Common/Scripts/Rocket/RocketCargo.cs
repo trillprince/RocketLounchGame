@@ -12,20 +12,17 @@ namespace Common.Scripts.Rocket
         private ObjectPool _objectPool;
         private CargoController _currentCargoController;
         private GameObject _currentCargo;
-        private SatelliteCount _satelliteCount;
         public event Action OnCargoDrop;
 
         [Inject]
-        private void Constructor(ObjectPoolStorage objectPoolStorage,SatelliteCount satelliteCount)
+        private void Constructor(ObjectPoolStorage objectPoolStorage)
         {
-            _satelliteCount = satelliteCount;
             _objectPool = objectPoolStorage.GetPool(_cargoPrefab);
         }
 
         public void DropCargo(ISatellite spaceObject)
         {
             OnCargoDrop?.Invoke();
-            _satelliteCount.AddSatellite();
             spaceObject.SetFinalDeliveryStatus();
             var cargo = _objectPool.Pop(transform.position);
             _currentCargoController = cargo.GetComponent<CargoController>();

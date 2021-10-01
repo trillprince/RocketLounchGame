@@ -11,7 +11,7 @@ namespace Common.Scripts.Input
         private Vector2 _startTouchPos;
         private float _startTime;
         private float _minDistance = 0.2f;
-        private float _maxTime = 1f;
+        private float _maxTime = 2f;
         private float _directionThreshhold = 0.9f;
         private UnityEngine.Camera _camera;
         public event Action OnSwipeLeft;
@@ -80,10 +80,12 @@ namespace Common.Scripts.Input
             else if (Vector2.Dot(Vector2.left, direction) > _directionThreshhold)
             {
                 OnSwipeLeft?.Invoke();
+                Debug.Log("swipe left");
             }
             else if (Vector2.Dot(Vector2.right, direction) > _directionThreshhold)
             {
                 OnSwipeRight?.Invoke();
+                Debug.Log("swipe right");
             }
             
             

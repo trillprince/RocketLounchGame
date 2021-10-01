@@ -5,114 +5,18 @@ using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class RightSpaceObjectController: ISpaceObjectController
+    public class RightSpaceObjectController: SpaceObjectController
     {
-        private readonly ISpaceObjectSpawner _rightSpaceObjectSpawner;
-        private readonly RocketMovementController _rocketMovementController;
-        private GameStateController _gameStateController;
-        private readonly GameLoopController _gameLoopController;
-        private Queue<ISatellite> _rightMovableSatellites = new Queue<ISatellite>(10);
-        public ISatellite RightScopedSpaceObject { get; private set; }
-        private bool IsEnabled { get; set; }
-
-
 
         public RightSpaceObjectController(
-            ISpaceObjectSpawner rightSpaceObjectSpawner,
+            SpaceObjectSpawner spaceObjectSpawner,
             RocketMovementController rocketMovementController,
             GameStateController gameStateController,
-            GameLoopController gameLoopController)
+            GameLoopController gameLoopController,
+            Queue<ISpaceObject> spaceObjects): base(spaceObjectSpawner,rocketMovementController,gameStateController,gameLoopController,spaceObjects)
         {
-            _rightSpaceObjectSpawner = rightSpaceObjectSpawner;
-            _rocketMovementController = rocketMovementController;
-            _gameStateController = gameStateController;
-            _gameLoopController = gameLoopController;
+
         }
-
-        private void CreateSatellite()
-        {
-            GameObject gameObject;
-            gameObject = _rightSpaceObjectSpawner.Spawn();
-            ISatellite spaceObject = gameObject.GetComponent<ISatellite>();
-            spaceObject.Constructor(_rocketMovementController,_gameStateController,this,_gameLoopController);
-            if (!ObjectExist())
-            {
-                ChangeScopedSatellite(spaceObject);
-            }
-            _rightMovableSatellites.Enqueue(spaceObject);
-        }
-
-        public void Spawn()
-        {
-            if (IsEnabled)
-            {
-                CreateSatellite();
-            }
-        }
-
-        public void Enable()
-        {
-            IsEnabled = true;
-        }
-
-        public void DisposeLastObject()
-        {
-            GameObject gameObject = _rightMovableSatellites.Dequeue().GetGameObject();
-            if (_rightMovableSatellites.Count > 0)
-            {
-                ChangeScopedSatellite(_rightMovableSatellites.Peek());
-            }
-            _rightSpaceObjectSpawner.Dispose(gameObject);
-        }
-
-        public void Disable()
-        {
-            IsEnabled = false;
-            
-            for (int i = 0; i < _rightMovableSatellites.Count; i++)
-            {
-                _rightSpaceObjectSpawner.Dispose(_rightMovableSatellites.Dequeue().GetGameObject());
-            }
-        }
-
-
-        public void Execute()
-        {
-            if (_rightMovableSatellites.Count > 0)
-            {
-                foreach (var satellite in _rightMovableSatellites.ToArray())
-                {
-                    satellite.Execute();
-                }
-            }
-        }
-
-        private void ChangeScopedSatellite(ISatellite spaceObject)
-        {
-            if (spaceObject != null)
-            {
-                RightScopedSpaceObject = spaceObject;
-            }
-        }
-
-        public bool ObjectExist()
-        {
-            return _rightMovableSatellites.Count > 0;
-        }
-
-        public void ScopeToNextObject()
-        {
-            var array = _rightMovableSatellites.ToArray();
-            ISatellite spaceObject = array[array.Length - 1];
-            if ( spaceObject != null)
-            {
-                RightScopedSpaceObject = spaceObject;
-            }
-            else
-            {
-                ScopeToNextObject();
-            }
-        }
-
+        
     }
 }
