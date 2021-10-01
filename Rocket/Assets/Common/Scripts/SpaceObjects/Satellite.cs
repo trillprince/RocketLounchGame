@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Common.Scripts.SpaceObjects
 {
-    public class Satellite : MonoBehaviour,ISatellite
+    public class Satellite : MonoBehaviour, ISpaceObject
     {
         private SatelliteStateOnScreen _satelliteStateOnScreen;
         private SatelliteMove _satelliteMove;

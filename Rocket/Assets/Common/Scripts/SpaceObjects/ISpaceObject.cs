@@ -7,6 +7,9 @@ using UnityEngine;
 
 public interface ISpaceObject: IUpdatable
 {
+    public void Constructor(RocketMovementController rocketMovementController,
+        GameStateController gameStateController,ISpaceObjectController satelliteController,GameLoopController gameLoopController);
+    
     public GameObject GetGameObject();
 
     public Transform GetTransform();

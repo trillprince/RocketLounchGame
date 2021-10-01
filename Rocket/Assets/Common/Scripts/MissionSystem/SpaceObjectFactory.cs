@@ -1,29 +1,28 @@
-﻿using Common.Scripts.Rocket;
+﻿using Common.Scripts.Infrastructure;
+using Common.Scripts.Rocket;
 using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
 {
     public class SpaceObjectFactory: ISpaceObjectFactory
     {
-        private readonly ObjectPool _objectPool;
-        private Vector2 _screenBounds;
-        private Vector3 _rocketPosition;
-        private GameObject _prefab;
+        protected readonly ObjectPool _objectPool;
+        protected Vector2 _screenBounds;
+        protected Vector3 _rocketPosition;
 
-        public  SpaceObjectFactory(GameObject prefab, RocketMovementController rocketMovementController,
-            ObjectPoolStorage objectPoolStorage)
+        public  SpaceObjectFactory(RocketMovementController rocketMovementController,
+            ObjectPoolStorage objectPoolStorage,GameObject prefab)
         {
+            _objectPool = objectPoolStorage.GetPool(prefab);
             _rocketPosition = rocketMovementController.transform.position;
-            _prefab = prefab;
-            _objectPool = objectPoolStorage.GetPool(_prefab);
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
                     Screen.height,
                     UnityEngine.Camera.main.transform.position.z - rocketMovementController.Rigidbody.position.z));
         }
-
-        public GameObject Spawn(ISpawnPosition spawnPosition)
+               
+        public GameObject Spawn (ISpawnPosition spawnPosition)
         {
             GameObject satellite = _objectPool.Pop(_objectPool.Root.position);
             satellite.transform.position = spawnPosition.GetSpawnPosition(satellite.GetComponent<MeshCollider>());

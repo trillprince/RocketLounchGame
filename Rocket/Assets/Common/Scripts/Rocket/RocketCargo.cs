@@ -20,10 +20,9 @@ namespace Common.Scripts.Rocket
             _objectPool = objectPoolStorage.GetPool(_cargoPrefab);
         }
 
-        public void DropCargo(ISatellite spaceObject)
+        public void DropCargo(ISpaceObject spaceObject)
         {
             OnCargoDrop?.Invoke();
-            spaceObject.SetFinalDeliveryStatus();
             var cargo = _objectPool.Pop(transform.position);
             _currentCargoController = cargo.GetComponent<CargoController>();
             _currentCargoController.Constructor(spaceObject, _objectPool);

@@ -1,4 +1,6 @@
-﻿namespace Common.Scripts.MissionSystem
+﻿using UnityEngine;
+
+namespace Common.Scripts.MissionSystem
 {
     public interface ISpaceObjectController: IEnablable
     {

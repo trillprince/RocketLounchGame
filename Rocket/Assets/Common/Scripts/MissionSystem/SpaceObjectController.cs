@@ -33,7 +33,7 @@ namespace Common.Scripts.MissionSystem
         {
             GameObject gameObject;
             gameObject = _spaceObjectFactory.Spawn(spawnPosition);
-            ISatellite satellite = gameObject.GetComponent<ISatellite>();
+            ISpaceObject satellite = gameObject.GetComponent<ISpaceObject>();
             satellite.Constructor(_rocketMovementController,_gameStateController,this,_gameLoopController);
             if (!SpaceObjectExist())
             {

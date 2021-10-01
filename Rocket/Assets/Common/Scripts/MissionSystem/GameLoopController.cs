@@ -14,6 +14,7 @@ namespace Common.Scripts.MissionSystem
         [SerializeField] private GameObject _prefabOfSatellite;
         private SpaceObjectSystem _spaceObjectSystem;
         private GameStateController _gameStateController;
+        [SerializeField] private GameObject _prefabCollectable;
 
 
         [Inject]
@@ -24,7 +25,7 @@ namespace Common.Scripts.MissionSystem
             var inputListener = GetComponent<InputListener>();
 
             var objectController = new SpaceObjectController(
-                new SpaceObjectFactory(_prefabOfSatellite, rocketMovementController, objectPoolStorage),
+                new SpaceObjectFactory(rocketMovementController, objectPoolStorage,_prefabOfSatellite),
                 rocketMovementController, gameStateController, this,new Queue<ISpaceObject>(20));
 
             _spaceObjectSystem = new SpaceObjectSystem(rocketMovementController,coroutineRunner,gameStateController,inputListener,
