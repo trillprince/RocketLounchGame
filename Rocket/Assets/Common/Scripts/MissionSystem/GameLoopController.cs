@@ -22,25 +22,13 @@ namespace Common.Scripts.MissionSystem
         {
             _gameStateController = gameStateController;
             var inputListener = GetComponent<InputListener>();
-            SpaceObjectSpawner spaceObjectSpawner =
-                new SpaceObjectSpawner(_prefabOfSatellite, rocketMovementController, objectPoolStorage);
 
-            var leftSatelliteController = new LeftSpaceObjectController(
-                spaceObjectSpawner,
-                rocketMovementController, gameStateController, this,new Queue<ISpaceObject>(10));
-
-            var rightSatelliteController = new RightSpaceObjectController(
-                spaceObjectSpawner,
-                rocketMovementController, gameStateController, this,new Queue<ISpaceObject>(10));
-
-            var middleSpaceObjectController = new MiddleSpaceObjectController(
-                spaceObjectSpawner,
-                rocketMovementController, gameStateController, this,new Queue<ISpaceObject>(10));
+            var objectController = new SpaceObjectController(
+                new SpaceObjectFactory(_prefabOfSatellite, rocketMovementController, objectPoolStorage),
+                rocketMovementController, gameStateController, this,new Queue<ISpaceObject>(20));
 
             _spaceObjectSystem = new SpaceObjectSystem(rocketMovementController,coroutineRunner,gameStateController,inputListener,
-                new SatelliteStateChanger(inputListener,
-                    leftSatelliteController, rightSatelliteController, middleSpaceObjectController, rocketCargo),
-                leftSatelliteController, rightSatelliteController, middleSpaceObjectController);
+                objectController);
         }
 
         private void OnEnable()

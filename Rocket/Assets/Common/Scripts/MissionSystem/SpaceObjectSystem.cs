@@ -10,10 +10,9 @@ namespace Common.Scripts.MissionSystem
         private readonly ICoroutineRunner _coroutineRunner;
         private readonly GameStateController _gameStateController;
         private readonly InputListener _inputListener;
-        private readonly SatelliteStateChanger _satelliteStateChanger;
         private bool _satelliteSystemActive;
 
-        private ISpaceObjectController[] _spaceObjectControllers;
+        private ISpaceObjectController _spaceObjectController;
         private ISpawnPosition[] _spawnPositions;
         private float _waitTimeBeforeStart = 4;
         private float _waitTimeBeforeSpawn = 1;
@@ -24,15 +23,13 @@ namespace Common.Scripts.MissionSystem
             ICoroutineRunner coroutineRunner,
             GameStateController gameStateController,
             InputListener inputListener,
-            SatelliteStateChanger satelliteStateChanger,
-            params ISpaceObjectController [] spaceObjectControllers
+            ISpaceObjectController  spaceObjectController
         )
         {
             _coroutineRunner = coroutineRunner;
             _gameStateController = gameStateController;
             _inputListener = inputListener;
-            _satelliteStateChanger = satelliteStateChanger;
-            _spaceObjectControllers = spaceObjectControllers;
+            _spaceObjectController = spaceObjectController;
             _spawnPositions = new ISpawnPosition[]
             {
                 new LeftSpawnPosition(rocketMovementController),
@@ -54,14 +51,14 @@ namespace Common.Scripts.MissionSystem
 
         public void SpawnSpaceObjects()
         {
-            var randomIndex = Random.Range(0, _spaceObjectControllers.Length);
-            for (int i = 0; i < _spaceObjectControllers.Length; i++)
+            var randomIndex = Random.Range(0, _spawnPositions.Length);
+            for (int i = 0; i < _spawnPositions.Length; i++)
             {
                 if (i == randomIndex)
                 {
                     continue;
                 }
-                _spaceObjectControllers[i].Spawn(_spawnPositions[i]);
+                _spaceObjectController.Spawn(_spawnPositions[i]);
             }
         }
 
@@ -69,32 +66,20 @@ namespace Common.Scripts.MissionSystem
         {
             if (_satelliteSystemActive)
             {
-                foreach (var spaceObjectController in _spaceObjectControllers)
-                {
-                    spaceObjectController.Execute();
-                }
-                _satelliteStateChanger.Execute();
+                _spaceObjectController.Execute();
             }
         }
 
         public void Disable()
         {
             _satelliteSystemActive = false;
-            foreach (var spaceObjectController in _spaceObjectControllers)
-            {
-                spaceObjectController.Disable();
-            }
-            _satelliteStateChanger.Disable();
+            _spaceObjectController.Disable();
         }
 
         public void Enable()
         {
             _satelliteSystemActive = true;
-            foreach (var spaceObjectController in _spaceObjectControllers)
-            {
-                spaceObjectController.Enable();
-            }
-            _satelliteStateChanger.Enable();
+            _spaceObjectController.Enable();
             _coroutineRunner.StartCoroutine(WaitBeforeSpawn(_waitTimeBeforeSpawn));
         }
     }

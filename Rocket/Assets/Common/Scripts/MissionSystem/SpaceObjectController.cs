@@ -6,7 +6,7 @@ namespace Common.Scripts.MissionSystem
 {
     public class SpaceObjectController: ISpaceObjectController
     {
-        private readonly ISpaceObjectSpawner _spaceObjectSpawner;
+        private readonly ISpaceObjectFactory _spaceObjectFactory;
         private readonly RocketMovementController _rocketMovementController;
         private readonly GameStateController _gameStateController;
         private readonly GameLoopController _gameLoopController;
@@ -15,14 +15,14 @@ namespace Common.Scripts.MissionSystem
         private ISpaceObject ScopedSpaceObject { get; set; }
         private bool IsEnabled { get; set; }
 
-        protected SpaceObjectController(
-            ISpaceObjectSpawner spaceObjectSpawner,
+        public SpaceObjectController(
+            ISpaceObjectFactory spaceObjectFactory,
             RocketMovementController rocketMovementController,
             GameStateController gameStateController,
             GameLoopController gameLoopController,
             Queue<ISpaceObject> spaceObjects)
         {
-            _spaceObjectSpawner = spaceObjectSpawner;
+            _spaceObjectFactory = spaceObjectFactory;
             _rocketMovementController = rocketMovementController;
             _gameStateController = gameStateController;
             _gameLoopController = gameLoopController;
@@ -32,7 +32,7 @@ namespace Common.Scripts.MissionSystem
        private void CreateSpaceObject(ISpawnPosition spawnPosition)
         {
             GameObject gameObject;
-            gameObject = _spaceObjectSpawner.Spawn(spawnPosition);
+            gameObject = _spaceObjectFactory.Spawn(spawnPosition);
             ISatellite satellite = gameObject.GetComponent<ISatellite>();
             satellite.Constructor(_rocketMovementController,_gameStateController,this,_gameLoopController);
             if (!SpaceObjectExist())
@@ -62,7 +62,7 @@ namespace Common.Scripts.MissionSystem
             {
                 ChangeScopedObject(_movableSpaceObjects.Peek());
             }
-            _spaceObjectSpawner.Dispose(gameObject);
+            _spaceObjectFactory.Dispose(gameObject);
         }
 
         public bool ObjectExist()
@@ -75,7 +75,7 @@ namespace Common.Scripts.MissionSystem
             IsEnabled = false;
             for (int i = 0; i < _movableSpaceObjects.Count; i++)
             {
-                _spaceObjectSpawner.Dispose(_movableSpaceObjects.Dequeue().GetGameObject());
+                _spaceObjectFactory.Dispose(_movableSpaceObjects.Dequeue().GetGameObject());
             }
         }
 

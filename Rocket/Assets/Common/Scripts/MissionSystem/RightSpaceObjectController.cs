@@ -9,11 +9,11 @@ namespace Common.Scripts.MissionSystem
     {
 
         public RightSpaceObjectController(
-            SpaceObjectSpawner spaceObjectSpawner,
+            SpaceObjectFactory spaceObjectFactory,
             RocketMovementController rocketMovementController,
             GameStateController gameStateController,
             GameLoopController gameLoopController,
-            Queue<ISpaceObject> spaceObjects): base(spaceObjectSpawner,rocketMovementController,gameStateController,gameLoopController,spaceObjects)
+            Queue<ISpaceObject> spaceObjects): base(spaceObjectFactory,rocketMovementController,gameStateController,gameLoopController,spaceObjects)
         {
 
         }

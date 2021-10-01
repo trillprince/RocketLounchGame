@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class SpaceObjectSpawner: ISpaceObjectSpawner
+    public class SpaceObjectFactory: ISpaceObjectFactory
     {
-        private ObjectPool _objectPool;
-        protected Vector2 _screenBounds;
-        protected Vector3 _rocketPosition;
+        private readonly ObjectPool _objectPool;
+        private Vector2 _screenBounds;
+        private Vector3 _rocketPosition;
         private GameObject _prefab;
 
-        public  SpaceObjectSpawner(GameObject prefab, RocketMovementController rocketMovementController,
+        public  SpaceObjectFactory(GameObject prefab, RocketMovementController rocketMovementController,
             ObjectPoolStorage objectPoolStorage)
         {
             _rocketPosition = rocketMovementController.transform.position;
