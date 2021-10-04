@@ -11,7 +11,6 @@ namespace Common.Scripts.SpaceObjects
     {
         private SatelliteStateOnScreen _satelliteStateOnScreen;
         private SatelliteMove _satelliteMove;
-        private SatelliteColor _satelliteColor;
         private SatelliteDelivery _satelliteDelivery;
 
         public GameObject GetGameObject()
@@ -30,11 +29,9 @@ namespace Common.Scripts.SpaceObjects
         {
             
             _satelliteMove = new SatelliteMove(rocketMovementController, transform);
-            _satelliteColor = new SatelliteColor(GetComponent<MeshRenderer>());
-            _satelliteDelivery = new SatelliteDelivery(_satelliteColor,satelliteController,gameLoopController);
+            _satelliteDelivery = new SatelliteDelivery(satelliteController,gameLoopController);
             _satelliteStateOnScreen = new SatelliteStateOnScreen(GetComponent<MeshCollider>(), 
                 transform,
-                _satelliteColor,
                 satelliteController,
                 gameLoopController,
                 _satelliteDelivery

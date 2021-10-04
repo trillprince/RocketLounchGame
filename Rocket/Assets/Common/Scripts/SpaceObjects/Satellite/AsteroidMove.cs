@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Common.Scripts.Satellite
 {
-    public class SatelliteMove: IMoveComponent
+    public class AsteroidMove: IMoveComponent
     {
         private readonly RocketMovementController _rocketMovementController;
         private Transform _transform;
         private float _moveSmoothness = 12f;
 
-        public SatelliteMove(RocketMovementController rocketMovementController, Transform transform)
+        public AsteroidMove(RocketMovementController rocketMovementController, Transform transform)
         {
             _rocketMovementController = rocketMovementController;
             _transform = transform;
