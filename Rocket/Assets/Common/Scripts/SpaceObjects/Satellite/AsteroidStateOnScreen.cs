@@ -6,14 +6,14 @@ using UnityEngine;
 
 namespace Common.Scripts.Satellite
 {
-    public class SatelliteStateOnScreen: StateOnScreenPosition
+    public class AsteroidStateOnScreen: StateOnScreenPosition
     {
         private StateOnScreen _finalStateOnScreen;
         private StateOnScreen _currentStateOnScreen;
         public bool CargoDelivered { get; private set; } = false;
         private AsteroidDelivery _asteroidDelivery;
 
-        public SatelliteStateOnScreen(MeshCollider meshCollider,
+        public AsteroidStateOnScreen(MeshCollider meshCollider,
             Transform transform,
             ISpaceObjectController spaceObjectController,
             GameLoopController gameLoopController,AsteroidDelivery asteroidDelivery): base(meshCollider,transform,spaceObjectController,gameLoopController)

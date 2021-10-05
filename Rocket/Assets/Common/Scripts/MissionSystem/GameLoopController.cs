@@ -28,8 +28,11 @@ namespace Common.Scripts.MissionSystem
                 new SpaceObjectFactory(rocketMovementController, objectPoolStorage,_prefabOfSatellite),
                 rocketMovementController, gameStateController, this,new Queue<ISpaceObject>(20));
 
-            _spaceObjectSystem = new SpaceObjectSystem(rocketMovementController,coroutineRunner,gameStateController,inputListener,
-                objectController);
+            _spaceObjectSystem = new SpaceObjectSystem(coroutineRunner,gameStateController,inputListener,
+                objectController,new SpawnPositionController(rocketMovementController,
+                    new LeftSpawnPosition(rocketMovementController),
+                    new RightSpawnPosition(rocketMovementController),
+                    new MiddleSpawnPosition(rocketMovementController)));
         }
 
         private void OnEnable()

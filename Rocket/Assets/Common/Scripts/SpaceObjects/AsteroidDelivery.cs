@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Common.Scripts.SpaceObjects
 {
-    public class SatelliteDelivery
+    public class AsteroidDelivery
     {
         private readonly ISpaceObjectController _spaceObjectController;
         private StateOnScreen _finalStateOnScreen;
@@ -12,7 +12,7 @@ namespace Common.Scripts.SpaceObjects
         private GameLoopController _gameLoopController;
         public bool CargoDelivered { get; private set; } = false;
 
-        public SatelliteDelivery(ISpaceObjectController spaceObjectController,GameLoopController gameLoopController)
+        public AsteroidDelivery(ISpaceObjectController spaceObjectController,GameLoopController gameLoopController)
         {
             _spaceObjectController = spaceObjectController;
             _gameLoopController = gameLoopController;

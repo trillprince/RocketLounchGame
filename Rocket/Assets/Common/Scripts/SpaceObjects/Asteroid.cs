@@ -7,11 +7,11 @@ using UnityEngine;
 
 namespace Common.Scripts.SpaceObjects
 {
-    public class Satellite : MonoBehaviour, ISpaceObject
+    public class Asteroid : MonoBehaviour, ISpaceObject
     {
-        private SatelliteStateOnScreen _satelliteStateOnScreen;
-        private SatelliteMove _satelliteMove;
-        private SatelliteDelivery _satelliteDelivery;
+        private AsteroidStateOnScreen _asteroidStateOnScreen;
+        private AsteroidMove _asteroidMove;
+        private AsteroidDelivery _asteroidDelivery;
 
         public GameObject GetGameObject()
         {
@@ -28,30 +28,20 @@ namespace Common.Scripts.SpaceObjects
             GameLoopController gameLoopController)
         {
             
-            _satelliteMove = new SatelliteMove(rocketMovementController, transform);
-            _satelliteDelivery = new SatelliteDelivery(satelliteController,gameLoopController);
-            _satelliteStateOnScreen = new SatelliteStateOnScreen(GetComponent<MeshCollider>(), 
+            _asteroidMove = new AsteroidMove(rocketMovementController, transform);
+            _asteroidDelivery = new AsteroidDelivery(satelliteController,gameLoopController);
+            _asteroidStateOnScreen = new AsteroidStateOnScreen(GetComponent<MeshCollider>(), 
                 transform,
                 satelliteController,
                 gameLoopController,
-                _satelliteDelivery
+                _asteroidDelivery
             );
-        }
-
-        public void SetFinalDeliveryStatus()
-        {
-            _satelliteDelivery.SetFinalDeliveryStatus();
-        }
-
-        public bool HasCargo()
-        {
-            return _satelliteDelivery.CargoDelivered;
         }
 
         public void Execute()
         {
-            _satelliteMove.Move();
-            _satelliteStateOnScreen.StateCheck();
+            _asteroidMove.Move();
+            _asteroidStateOnScreen.StateCheck();
         }
         
     }

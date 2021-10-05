@@ -1,66 +1,52 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Common.Scripts.Cargo;
 using Common.Scripts.Infrastructure;
 using Common.Scripts.Rocket;
 using UnityEngine;
+using Random = System.Random;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class SpaceObjectSystem : ISpaceObjectSystem
+    public class SpaceObjectSystem : IUpdatable
     {
         private readonly ICoroutineRunner _coroutineRunner;
+        private SpawnPositionController _spawnPositionController;
         private readonly GameStateController _gameStateController;
         private readonly InputListener _inputListener;
         private bool _satelliteSystemActive;
-
         private ISpaceObjectController _spaceObjectController;
-        private ISpawnPosition[] _spawnPositions;
-        private float _waitTimeBeforeStart = 4;
-        private float _waitTimeBeforeSpawn = 1;
+        private int _spawnsBeforeCheckPoint = 10;
 
         public SpaceObjectSystem
         (
-            RocketMovementController rocketMovementController,
             ICoroutineRunner coroutineRunner,
             GameStateController gameStateController,
             InputListener inputListener,
-            ISpaceObjectController  spaceObjectController
+            ISpaceObjectController spaceObjectController,
+            SpawnPositionController spawnPositionController
         )
         {
             _coroutineRunner = coroutineRunner;
             _gameStateController = gameStateController;
             _inputListener = inputListener;
             _spaceObjectController = spaceObjectController;
-            _spawnPositions = new ISpawnPosition[]
-            {
-                new LeftSpawnPosition(rocketMovementController),
-                new RightSpawnPosition(rocketMovementController),
-                new MiddleSpawnPosition(rocketMovementController)
-            };
-        }
-        
-        private IEnumerator WaitBeforeSpawn(float waitTime)
-        {
-            yield return new WaitForSeconds(waitTime);
-            if (_gameStateController.CurrentGameState != GameState.CargoDrop)
-            {
-                yield break;
-            }
-            SpawnSpaceObjects();
-            _coroutineRunner.StartCoroutine(WaitBeforeSpawn(_waitTimeBeforeSpawn));
+            _spawnPositionController = spawnPositionController;
+            
         }
 
-        public void SpawnSpaceObjects()
+        private void StartSpawning()
         {
-            var randomIndex = Random.Range(0, _spawnPositions.Length);
-            for (int i = 0; i < _spawnPositions.Length; i++)
+            Random rnd = new Random();
+            ISpawnPosition[] MyRandomArray = _spawnPositionController.SpawnPositions.OrderBy(x => rnd.Next()).ToArray();
+
+            for (int j = 0; j < _spawnPositionController.SpawnPositions.Length; j++)
             {
-                if (i == randomIndex)
-                {
-                    continue;
-                }
-                _spaceObjectController.Spawn(_spawnPositions[i]);
+                _spaceObjectController.Spawn(MyRandomArray[j]);
             }
         }
+
 
         public void Execute()
         {
@@ -80,7 +66,7 @@ namespace Common.Scripts.MissionSystem
         {
             _satelliteSystemActive = true;
             _spaceObjectController.Enable();
-            _coroutineRunner.StartCoroutine(WaitBeforeSpawn(_waitTimeBeforeSpawn));
+            StartSpawning();
         }
     }
 }

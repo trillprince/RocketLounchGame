@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
 {
-    internal class MiddleSpawnPosition : SpawnPosition,ISpawnPosition
+    public class MiddleSpawnPosition : SpawnPosition,ISpawnPosition
     {
 
         public MiddleSpawnPosition(RocketMovementController rocketMovementController): base(rocketMovementController)
