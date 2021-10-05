@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class SpaceObjectFactory: ISpaceObjectFactory
+    public class SpaceObjectPoolWorker: IPoolWorker
     {
-        protected readonly ObjectPool _objectPool;
-        protected Vector2 _screenBounds;
-        protected Vector3 _rocketPosition;
+        private readonly ObjectPool _objectPool;
+        private Vector2 _screenBounds;
+        private Vector3 _rocketPosition;
 
-        public  SpaceObjectFactory(RocketMovementController rocketMovementController,
+        public  SpaceObjectPoolWorker(RocketMovementController rocketMovementController,
             ObjectPoolStorage objectPoolStorage,GameObject prefab)
         {
             _objectPool = objectPoolStorage.GetPool(prefab);
@@ -22,11 +22,11 @@ namespace Common.Scripts.MissionSystem
                     UnityEngine.Camera.main.transform.position.z - rocketMovementController.Rigidbody.position.z));
         }
                
-        public GameObject Spawn (ISpawnPosition spawnPosition)
+        public GameObject PopFromPool (ISpawnPosition spawnPosition)
         {
-            GameObject satellite = _objectPool.Pop(_objectPool.Root.position);
-            satellite.transform.position = spawnPosition.GetSpawnPosition(satellite.GetComponent<MeshCollider>());
-            return satellite;
+            GameObject pooledObject = _objectPool.Pop(_objectPool.Root.position);
+            pooledObject.transform.position = spawnPosition.GetSpawnPosition();
+            return pooledObject;
         }
 
         public void Dispose(GameObject gameObject)

@@ -15,8 +15,7 @@ namespace Common.Scripts.Satellite
 
         public AsteroidStateOnScreen(MeshCollider meshCollider,
             Transform transform,
-            ISpaceObjectController spaceObjectController,
-            GameLoopController gameLoopController,AsteroidDelivery asteroidDelivery): base(meshCollider,transform,spaceObjectController,gameLoopController)
+            ISpaceObjectController spaceObjectController,AsteroidDelivery asteroidDelivery): base(meshCollider,transform,spaceObjectController)
         {
             _asteroidDelivery = asteroidDelivery;
         }
@@ -32,7 +31,6 @@ namespace Common.Scripts.Satellite
                 case StateOnScreen.Green:
                     break;
                 case StateOnScreen.LowerRed:
-                    SpaceObjectController.ScopeToNextObject();
                     break;
                 case StateOnScreen.DisposeZone:
                     SpaceObjectController.DisposeLastObject();

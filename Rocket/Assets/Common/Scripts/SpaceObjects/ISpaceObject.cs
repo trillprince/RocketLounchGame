@@ -5,23 +5,28 @@ using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using UnityEngine;
 
-public interface ISpaceObject: IUpdatable
+namespace Common.Scripts.SpaceObjects
 {
-    public void Constructor(RocketMovementController rocketMovementController,
-        GameStateController gameStateController,ISpaceObjectController satelliteController,GameLoopController gameLoopController);
+    public interface ISpaceObject: IUpdatable
+    {
+        public void Constructor(RocketMovementController rocketMovementController,ISpaceObjectController spaceObjectController,
+            GameLoopController gameLoopController, ISpawnPosition spawnPosition);
+
+        public Vector3 GetSpawnPosition();
     
-    public GameObject GetGameObject();
+        public GameObject GetGameObject();
 
-    public Transform GetTransform();
+        public Transform GetTransform();
     
 
-}
+    }
 
-public enum StateOnScreen
-{
-    UpperRed,
-    Yellow,
-    Green,
-    LowerRed,
-    DisposeZone
+    public enum StateOnScreen
+    {
+        UpperRed,
+        Yellow,
+        Green,
+        LowerRed,
+        DisposeZone
+    }
 }

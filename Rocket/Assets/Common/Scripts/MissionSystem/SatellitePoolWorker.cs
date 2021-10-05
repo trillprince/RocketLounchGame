@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class SatelliteFactory: SpaceObjectFactory
+    public class SatellitePoolWorker: SpaceObjectPoolWorker
     {
-        public SatelliteFactory(RocketMovementController rocketMovementController, 
+        public SatellitePoolWorker(RocketMovementController rocketMovementController, 
             ObjectPoolStorage objectPoolStorage,GameObject prefab) : base(rocketMovementController, objectPoolStorage,prefab)
         {
             

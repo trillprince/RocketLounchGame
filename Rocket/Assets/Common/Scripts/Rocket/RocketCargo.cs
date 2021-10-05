@@ -1,6 +1,7 @@
 using System;
 using Common.Scripts.Cargo;
 using Common.Scripts.MissionSystem;
+using Common.Scripts.SpaceObjects;
 using UnityEngine;
 using Zenject;
 

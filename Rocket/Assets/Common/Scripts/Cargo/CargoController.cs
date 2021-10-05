@@ -1,3 +1,4 @@
+using Common.Scripts.SpaceObjects;
 using UnityEngine;
 
 namespace Common.Scripts.Cargo

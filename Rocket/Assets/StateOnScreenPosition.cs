@@ -1,32 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common.Scripts.MissionSystem;
+using Common.Scripts.SpaceObjects;
 using UnityEngine;
 
 public class StateOnScreenPosition
 {
-    protected readonly Transform Transform;
-    protected readonly Vector3 ScreenBounds;
-    protected StateOnScreen CurrentStateOnScreen;
-    protected readonly MeshCollider MeshCollider;
+    private readonly Transform _transform;
+    private readonly Vector3 _screenBounds;
+    private StateOnScreen _currentStateOnScreen;
+    private readonly MeshCollider _meshCollider;
     protected readonly ISpaceObjectController SpaceObjectController;
-    protected readonly GameLoopController GameLoopController;
 
     protected StateOnScreenPosition(MeshCollider meshCollider,
         Transform transform,
-        ISpaceObjectController spaceObjectController,
-        GameLoopController gameLoopController)
+        ISpaceObjectController spaceObjectController)
     {
-        MeshCollider = meshCollider;
-        Transform = transform;
+        _meshCollider = meshCollider;
+        _transform = transform;
         SpaceObjectController = spaceObjectController;
-        GameLoopController = gameLoopController;
         
-            ScreenBounds =
+            _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
                     Screen.height,
-                    UnityEngine.Camera.main.transform.position.z - Transform.position.z));
+                    UnityEngine.Camera.main.transform.position.z - _transform.position.z));
     }
 
     protected virtual void OnStateChange(StateOnScreen state)
@@ -40,7 +38,6 @@ public class StateOnScreenPosition
             case StateOnScreen.Green:
                 break;
             case StateOnScreen.LowerRed:
-                SpaceObjectController.ScopeToNextObject();
                 break;
             case StateOnScreen.DisposeZone:
                 SpaceObjectController.DisposeLastObject();
@@ -50,38 +47,38 @@ public class StateOnScreenPosition
     
     public void StateCheck()
     {
-        if (Transform.position.y < -ScreenBounds.y && 
-            Transform.position.y >= -ScreenBounds.y * 0.5f &&
-            CurrentStateOnScreen != StateOnScreen.LowerRed)
+        if (_transform.position.y < -_screenBounds.y && 
+            _transform.position.y >= -_screenBounds.y * 0.5f &&
+            _currentStateOnScreen != StateOnScreen.LowerRed)
         {
-            CurrentStateOnScreen = StateOnScreen.UpperRed;
-            OnStateChange(CurrentStateOnScreen);
+            _currentStateOnScreen = StateOnScreen.UpperRed;
+            OnStateChange(_currentStateOnScreen);
         }
-        else if (Transform.position.y < -ScreenBounds.y * 0.5f &&
-                 Transform.position.y >= 0 &&
-                 CurrentStateOnScreen != StateOnScreen.Yellow)
+        else if (_transform.position.y < -_screenBounds.y * 0.5f &&
+                 _transform.position.y >= 0 &&
+                 _currentStateOnScreen != StateOnScreen.Yellow)
         {
-            CurrentStateOnScreen = StateOnScreen.Yellow;
-            OnStateChange(CurrentStateOnScreen);
+            _currentStateOnScreen = StateOnScreen.Yellow;
+            OnStateChange(_currentStateOnScreen);
         }
-        else if (Transform.position.y < 0 &&
-                 Transform.position.y >= ScreenBounds.y * 0.5f &&
-                 CurrentStateOnScreen != StateOnScreen.Green)
+        else if (_transform.position.y < 0 &&
+                 _transform.position.y >= _screenBounds.y * 0.5f &&
+                 _currentStateOnScreen != StateOnScreen.Green)
         {
-            CurrentStateOnScreen = StateOnScreen.Green;
-            OnStateChange(CurrentStateOnScreen);
+            _currentStateOnScreen = StateOnScreen.Green;
+            OnStateChange(_currentStateOnScreen);
         }
-        else if (Transform.position.y < ScreenBounds.y * 0.5f &&
-                 Transform.position.y >= ScreenBounds.y &&
-                 CurrentStateOnScreen != StateOnScreen.LowerRed)
+        else if (_transform.position.y < _screenBounds.y * 0.5f &&
+                 _transform.position.y >= _screenBounds.y &&
+                 _currentStateOnScreen != StateOnScreen.LowerRed)
         {
-            CurrentStateOnScreen = StateOnScreen.LowerRed;
-            OnStateChange(CurrentStateOnScreen);
+            _currentStateOnScreen = StateOnScreen.LowerRed;
+            OnStateChange(_currentStateOnScreen);
         }
-        else if (Transform.position.y < ScreenBounds.y - MeshCollider.bounds.size.y && CurrentStateOnScreen != StateOnScreen.DisposeZone )
+        else if (_transform.position.y < _screenBounds.y - _meshCollider.bounds.size.y && _currentStateOnScreen != StateOnScreen.DisposeZone )
         {
-            CurrentStateOnScreen = StateOnScreen.DisposeZone;
-            OnStateChange(CurrentStateOnScreen);
+            _currentStateOnScreen = StateOnScreen.DisposeZone;
+            OnStateChange(_currentStateOnScreen);
         }
         
         

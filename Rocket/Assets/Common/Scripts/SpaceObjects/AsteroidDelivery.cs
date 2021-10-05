@@ -7,8 +7,6 @@ namespace Common.Scripts.SpaceObjects
     public class AsteroidDelivery
     {
         private readonly ISpaceObjectController _spaceObjectController;
-        private StateOnScreen _finalStateOnScreen;
-        private StateOnScreen _currentStateOnScreen;
         private GameLoopController _gameLoopController;
         public bool CargoDelivered { get; private set; } = false;
 
@@ -16,21 +14,6 @@ namespace Common.Scripts.SpaceObjects
         {
             _spaceObjectController = spaceObjectController;
             _gameLoopController = gameLoopController;
-        }
-        public void CheckForDeliveryExistance()
-        {
-            if (!CargoDelivered)
-            {
-                _gameLoopController.DisableSatelliteDrop();
-            }
-        }
-        
-        public void SetFinalDeliveryStatus()
-        {
-            Debug.Log("set final");
-            CargoDelivered = true;
-            _spaceObjectController.ScopeToNextObject();
-            _finalStateOnScreen = _currentStateOnScreen;
         }
     }
 }

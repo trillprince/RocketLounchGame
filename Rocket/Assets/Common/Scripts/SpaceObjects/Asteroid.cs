@@ -12,6 +12,12 @@ namespace Common.Scripts.SpaceObjects
         private AsteroidStateOnScreen _asteroidStateOnScreen;
         private AsteroidMove _asteroidMove;
         private AsteroidDelivery _asteroidDelivery;
+        private ISpawnPosition _spawnPosition;
+
+        public Vector3 GetSpawnPosition()
+        {
+            return _spawnPosition.GetSpawnPosition();
+        }
 
         public GameObject GetGameObject()
         {
@@ -23,17 +29,16 @@ namespace Common.Scripts.SpaceObjects
         }
         
         public void Constructor(RocketMovementController rocketMovementController,
-            GameStateController gameStateController, 
-            ISpaceObjectController satelliteController,
-            GameLoopController gameLoopController)
+            ISpaceObjectController spaceObjectController,
+            GameLoopController gameLoopController, ISpawnPosition spawnPosition)
         {
             
             _asteroidMove = new AsteroidMove(rocketMovementController, transform);
-            _asteroidDelivery = new AsteroidDelivery(satelliteController,gameLoopController);
+            _spawnPosition = spawnPosition;
+            _asteroidDelivery = new AsteroidDelivery(spaceObjectController,gameLoopController);
             _asteroidStateOnScreen = new AsteroidStateOnScreen(GetComponent<MeshCollider>(), 
                 transform,
-                satelliteController,
-                gameLoopController,
+                spaceObjectController,
                 _asteroidDelivery
             );
         }

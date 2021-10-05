@@ -4,6 +4,6 @@ namespace Common.Scripts.MissionSystem
 {
     public interface ISpawnPosition
     {
-        public Vector3 GetSpawnPosition(MeshCollider meshCollider);
+        public Vector3 GetSpawnPosition();
     }
 }

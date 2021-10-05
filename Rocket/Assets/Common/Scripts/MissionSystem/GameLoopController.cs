@@ -4,6 +4,7 @@ using System.Reflection.Emit;
 using Common.Scripts.Cargo;
 using Common.Scripts.Infrastructure;
 using Common.Scripts.Rocket;
+using Common.Scripts.SpaceObjects;
 using UnityEngine;
 using Zenject;
 
@@ -12,27 +13,22 @@ namespace Common.Scripts.MissionSystem
     public class GameLoopController : MonoBehaviour
     {
         [SerializeField] private GameObject _prefabOfSatellite;
-        private SpaceObjectSystem _spaceObjectSystem;
-        private GameStateController _gameStateController;
-        [SerializeField] private GameObject _prefabCollectable;
+        private SpaceObjectSpawnController _spaceObjectSpawnController;
 
 
         [Inject]
-        private void Constructor(RocketMovementController rocketMovementController, ObjectPoolStorage objectPoolStorage,
-            RocketCargo rocketCargo, GameStateController gameStateController,ICoroutineRunner coroutineRunner)
+        private void Constructor(RocketMovementController rocketMovementController, 
+            ObjectPoolStorage objectPoolStorage, 
+            GameStateController gameStateController,
+            ICoroutineRunner coroutineRunner)
         {
-            _gameStateController = gameStateController;
-            var inputListener = GetComponent<InputListener>();
+            var objectController = new SpaceObjectLifeCycle(
+                new SpaceObjectPoolWorker(rocketMovementController, objectPoolStorage,_prefabOfSatellite),
+                rocketMovementController,this);
 
-            var objectController = new SpaceObjectController(
-                new SpaceObjectFactory(rocketMovementController, objectPoolStorage,_prefabOfSatellite),
-                rocketMovementController, gameStateController, this,new Queue<ISpaceObject>(20));
-
-            _spaceObjectSystem = new SpaceObjectSystem(coroutineRunner,gameStateController,inputListener,
-                objectController,new SpawnPositionController(rocketMovementController,
-                    new LeftSpawnPosition(rocketMovementController),
-                    new RightSpawnPosition(rocketMovementController),
-                    new MiddleSpawnPosition(rocketMovementController)));
+            _spaceObjectSpawnController = new SpaceObjectSpawnController(coroutineRunner,objectController,
+                rocketMovementController,
+                _prefabOfSatellite.GetComponent<MeshCollider>());
         }
 
         private void OnEnable()
@@ -47,20 +43,16 @@ namespace Common.Scripts.MissionSystem
 
         private void Update()
         {
-            _spaceObjectSystem.Execute();
+            _spaceObjectSpawnController.Execute();
         }
 
         private void GameStateListener(GameState gameState)
         {
             if (gameState == GameState.CargoDrop)
             {
-                _spaceObjectSystem.Enable();
+                _spaceObjectSpawnController.Enable();
             }
         }
 
-        public void DisableSatelliteDrop()
-        {
-            _gameStateController.SetStateToLanding((() => { _spaceObjectSystem.Disable(); }));
-        }
     }
 }

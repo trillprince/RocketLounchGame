@@ -1,6 +1,7 @@
 using System;
 using Common.Scripts.Planet;
 using Common.Scripts.Rocket;
+using Common.Scripts.SpaceObjects;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

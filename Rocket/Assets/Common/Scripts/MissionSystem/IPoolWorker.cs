@@ -2,9 +2,9 @@
 
 namespace Common.Scripts.MissionSystem
 {
-    public interface ISpaceObjectFactory
+    public interface IPoolWorker
     {
-        GameObject Spawn(ISpawnPosition spawnPosition);
+        GameObject PopFromPool(ISpawnPosition spawnPosition);
         void Dispose(GameObject gameObject);
     }
 }
