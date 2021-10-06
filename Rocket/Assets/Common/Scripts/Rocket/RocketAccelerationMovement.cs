@@ -15,6 +15,7 @@ namespace Common.Scripts.Rocket
         private readonly InputManager _inputManager;
         private readonly MeshCollider _meshCollider;
         private Vector3 _screenBounds;
+        private float _xVelocity;
         
 
         public RocketAccelerationMovement(RocketMovementController rocketMovementController, Transform transform,
@@ -30,9 +31,12 @@ namespace Common.Scripts.Rocket
 
         private void OnAcceleration(Vector3 accelerationValue)
         {
-            _transform.position = new Vector3((_screenBounds.x + _meshCollider.bounds.size.x * 2) /2 * - (float) Math.Round(accelerationValue.x * 1000f) / 1000f, 
+            float smoothedX = Mathf.SmoothDamp(_transform.position.x,
+                (_screenBounds.x + _meshCollider.bounds.size.x * 2) / 2 * -accelerationValue.x, ref _xVelocity, 0.2f);
+            
+            _transform.position = new Vector3(smoothedX, 
                 _transform.position.y, _transform.position.z);
-            Debug.Log($"Acceleration {accelerationValue} , {(float) Math.Round(accelerationValue.x * 1000f) / 1000f}");
+
         }
 
         public void Move(Action<MovementState> changeState = null)
