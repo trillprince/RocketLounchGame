@@ -2,46 +2,27 @@
     "name": "TouchControls",
     "maps": [
         {
-            "name": "Touch",
-            "id": "4f61309a-57ef-48a7-ad48-b89634a04181",
+            "name": "Accelerometer",
+            "id": "e9e187f9-dcd4-46c0-bae9-1c9b9e25fe3d",
             "actions": [
                 {
-                    "name": "TouchHold",
-                    "type": "Button",
-                    "id": "f50902cc-a56b-4750-a8df-db2dd61b01f5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Hold(duration=0.2,pressPoint=0.5)"
-                },
-                {
-                    "name": "TouchPosition",
-                    "type": "PassThrough",
-                    "id": "80e2ddb2-309b-4f06-a1be-7e29c5a7b97b",
+                    "name": "Acceleration",
+                    "type": "Value",
+                    "id": "768a57cf-e03c-40a1-be1d-7bc377d19200",
                     "expectedControlType": "Vector3",
                     "processors": "",
-                    "interactions": "Hold"
+                    "interactions": ""
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "c122e26c-3587-4b49-a209-6eed4c03d9d9",
-                    "path": "<Touchscreen>/primaryTouch/position",
+                    "id": "41aac31a-b5ea-42d3-a7ed-b5ae2c407e8a",
+                    "path": "<Accelerometer>/acceleration",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TouchPosition",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "441d827c-fc9d-4f74-8750-b54c3baec8ef",
-                    "path": "<Touchscreen>/primaryTouch/press",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TouchHold",
+                    "action": "Acceleration",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -11,18 +11,18 @@ namespace Common.Scripts.MissionSystem
             LeftSpawnPosition leftSpawnPosition,
             RightSpawnPosition rightSpawnPosition,
             MiddleSpawnPosition middleSpawnPosition,
-            MeshCollider meshCollider)
+            SphereCollider collider)
         {
             SpawnPositions = new ISpawnPosition[]
             {
                 leftSpawnPosition,
                 new LeftMidSpawnPosition(rocketMovementController,
                     leftSpawnPosition,
-                    middleSpawnPosition,meshCollider),
+                    middleSpawnPosition,collider),
                 rightSpawnPosition,
                 new RightMidSpawnPosition(rocketMovementController,
                     rightSpawnPosition, 
-                    middleSpawnPosition,meshCollider),
+                    middleSpawnPosition,collider),
                 middleSpawnPosition
             };
         }

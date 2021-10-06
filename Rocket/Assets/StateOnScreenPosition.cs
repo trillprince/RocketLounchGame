@@ -9,14 +9,12 @@ public class StateOnScreenPosition
     private readonly Transform _transform;
     private readonly Vector3 _screenBounds;
     private StateOnScreen _currentStateOnScreen;
-    private readonly MeshCollider _meshCollider;
     protected readonly ISpaceObjectController SpaceObjectController;
 
-    protected StateOnScreenPosition(MeshCollider meshCollider,
+    protected StateOnScreenPosition(
         Transform transform,
         ISpaceObjectController spaceObjectController)
     {
-        _meshCollider = meshCollider;
         _transform = transform;
         SpaceObjectController = spaceObjectController;
         
@@ -75,7 +73,7 @@ public class StateOnScreenPosition
             _currentStateOnScreen = StateOnScreen.LowerRed;
             OnStateChange(_currentStateOnScreen);
         }
-        else if (_transform.position.y < _screenBounds.y - _meshCollider.bounds.size.y && _currentStateOnScreen != StateOnScreen.DisposeZone )
+        else if (_transform.position.y < _screenBounds.y && _currentStateOnScreen != StateOnScreen.DisposeZone )
         {
             _currentStateOnScreen = StateOnScreen.DisposeZone;
             OnStateChange(_currentStateOnScreen);

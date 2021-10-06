@@ -4,9 +4,10 @@ using Zenject;
 
 namespace Common.Scripts.Infrastructure
 {
-    public class LocationInstaller: MonoInstaller
+    public class LocationInstaller : MonoInstaller
     {
         [SerializeField] private GameObject _rocketPrefab;
+
         public override void InstallBindings()
         {
             BindRocket();
@@ -15,11 +16,10 @@ namespace Common.Scripts.Infrastructure
         private void BindRocket()
         {
             Container
-                .Bind(typeof(RocketCargo),typeof(RocketMovementController))
+                .Bind(typeof(RocketCargo), typeof(RocketMovementController))
                 .FromComponentInNewPrefab(_rocketPrefab)
                 .AsSingle()
                 .NonLazy();
         }
-
     }
 }

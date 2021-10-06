@@ -5,20 +5,19 @@ namespace Common.Scripts.MissionSystem
 {
     public class SpawnPosition
     {
-        protected readonly MeshCollider _meshCollider;
+        protected readonly SphereCollider _asteroidCollider;
         protected readonly Vector3 _screenBounds;
         protected readonly Vector3 _rocketPosition;
 
-        public SpawnPosition(RocketMovementController rocketMovementController, MeshCollider meshCollider)
+        protected SpawnPosition(RocketMovementController rocketMovementController, SphereCollider asteroidCollider)
         {
-            _meshCollider = meshCollider;
-            _screenBounds = _screenBounds =
-                UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
+            _asteroidCollider = asteroidCollider;
+            _screenBounds = UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
                     Screen.height,
-                    UnityEngine.Camera.main.transform.position.z - rocketMovementController.Rigidbody.position.z));;
+                    UnityEngine.Camera.main.transform.position.z - rocketMovementController.Rigidbody.position.z));
+            ;
             _rocketPosition = rocketMovementController.transform.position;
         }
-
     }
 }

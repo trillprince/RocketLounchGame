@@ -6,12 +6,14 @@ using Zenject;
 
 public class InputInstaller : MonoInstaller
 {
-
     public override void InstallBindings()
     {
-        var swipeDetection = new SwipeDetection(FindObjectOfType<InputManager>()); 
-        Container.Bind<SwipeDetection>()
-            .FromInstance(swipeDetection);
+        InstallActionMap();
+    }
 
+    private void InstallActionMap()
+    {
+        Container.Bind<TouchControls>().FromInstance(new TouchControls());
+        Container.Bind<InputManager>().FromInstance(FindObjectOfType<InputManager>());
     }
 }

@@ -10,24 +10,34 @@ namespace Common.Scripts.Rocket
     public class RocketMovementController : MonoBehaviour
     {
         private IRocketMoveComponent _movementComponent;
+        [Range(-1.0f,1.0f)] public float accelerationTest = 0;
         private Dictionary<Type, IRocketMoveComponent> _movementComponents;
         private IMovementTransition _movementTransition;
-        private SwipeDetection _swipeDetection;
         private Vector3 _screenBounds;
         public Rigidbody Rigidbody { get; private set; }
         private event Action<Transform, MovementState> OnMovementStateSwitch;
         public static event Action<LandingStatus> OnLanding;
 
         [Inject]
-        public void Constructor(SwipeDetection swipeDetection)
+        public void Constructor(InputManager inputManager)
         {
-            _swipeDetection = swipeDetection;
             Rigidbody = GetComponent<Rigidbody>();
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
                     Screen.height,
                     UnityEngine.Camera.main.transform.position.z - Rigidbody.position.z));
+            
+            _movementTransition = new TransitionToLanding(transform, MovementState.PhysicMovement,
+                OnMovementStateChangeSubscribe, OnMovementStateChangeUnsubscribe);
+
+            _movementComponents = new Dictionary<Type, IRocketMoveComponent>
+            {
+                [typeof(RocketAccelerationMovement)] = new RocketAccelerationMovement(this,transform,inputManager,_screenBounds),
+                [typeof(RocketLandingRocketMove)] = new RocketLandingRocketMove(transform,
+                    Rigidbody,
+                    OnGetLandingStatus, _screenBounds)
+            };
         }
 
         private void OnEnable()
@@ -56,20 +66,6 @@ namespace Common.Scripts.Rocket
             return transform;
         }
         
-        private void Start()
-        {
-            _movementTransition = new TransitionToLanding(transform, MovementState.PhysicMovement,
-                OnMovementStateChangeSubscribe, OnMovementStateChangeUnsubscribe);
-
-            _movementComponents = new Dictionary<Type, IRocketMoveComponent>
-            {
-                [typeof(RocketSwipeMovement)] = new RocketSwipeMovement(transform,_swipeDetection,_screenBounds),
-                [typeof(RocketLandingRocketMove)] = new RocketLandingRocketMove(transform,
-                    Rigidbody,
-                    OnGetLandingStatus, OnInputSubscribe, OnInputUnsubscribe,_screenBounds)
-            };
-        }
-
         private void Update()
         {
             _movementComponent?.Move(ChangeMovementComponent);
@@ -80,7 +76,7 @@ namespace Common.Scripts.Rocket
             switch (movementResult)
             {
                 case MovementState.SwipeMovement:
-                    _movementComponent = _movementComponents[typeof(RocketSwipeMovement)];
+                    _movementComponent = _movementComponents[typeof(RocketAccelerationMovement)];
                     _movementComponent.Enable();
                     break;
                 case MovementState.PhysicMovement:
@@ -122,17 +118,6 @@ namespace Common.Scripts.Rocket
             OnMovementStateSwitch -= action;
         }
 
-        private void OnInputSubscribe(Action <Vector2> touchHold, Action <Vector2>  touchHoldEnd)
-        {
-            InputManager.OnTouchStart += touchHold;
-            InputManager.OnTouchEnd += touchHoldEnd;
-        }
-        
-        private void OnInputUnsubscribe(Action <Vector2> touchHold, Action <Vector2> touchHoldEnd)
-        {
-            InputManager.OnTouchStart -= touchHold;
-            InputManager.OnTouchEnd -= touchHoldEnd;
-        }
 
     }
 

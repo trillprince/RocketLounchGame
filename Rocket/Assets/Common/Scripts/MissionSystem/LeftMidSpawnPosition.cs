@@ -10,7 +10,7 @@ namespace Common.Scripts.MissionSystem
 
         public LeftMidSpawnPosition(RocketMovementController rocketMovementController, 
             LeftSpawnPosition leftSpawnPosition, 
-            MiddleSpawnPosition middleSpawnPosition,MeshCollider meshCollider) : base(rocketMovementController,meshCollider)
+            MiddleSpawnPosition middleSpawnPosition,SphereCollider asteroidCollider) : base(rocketMovementController,asteroidCollider)
         {
             _leftSpawnPosition = leftSpawnPosition;
             _middleSpawnPosition = middleSpawnPosition;
@@ -20,7 +20,7 @@ namespace Common.Scripts.MissionSystem
         {
             return new Vector3(
                 (_leftSpawnPosition.GetSpawnPosition().x - _middleSpawnPosition.GetSpawnPosition().x) / 2,
-                -_screenBounds.y + _meshCollider.bounds.size.y / 2,
+                -_screenBounds.y,
                 _rocketPosition.z);
         }
     }

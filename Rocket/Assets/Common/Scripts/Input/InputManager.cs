@@ -9,64 +9,33 @@ namespace Common.Scripts.Input
     {
         private TouchControls _touchControls;
         private UnityEngine.Camera _camera;
-        private SwipeDetection _swipeDetection;
-        public static event Action<Vector2> OnTouchStart;
-        public static event Action <Vector2> OnTouchEnd;
-
-        public event Action<Vector2, float> OnTouchStartEvent;
-        public event Action<Vector2, float> OnTouchEndEvent;
-
+        public event Action<Vector3> OnAcceleration;
 
         [Inject]
-        public void Constructor(SwipeDetection swipeDetection)
+        public void Constructor(TouchControls touchControls)
         {
-            _swipeDetection = swipeDetection;
+            _touchControls = touchControls;
+            _touchControls.Enable();
+            InputSystem.EnableDevice(Accelerometer.current);
+            _touchControls.Accelerometer.Acceleration.performed += OnAccelerationPerformed;
         }
+
+        private void OnAccelerationPerformed(InputAction.CallbackContext context)
+        {
+            OnAcceleration?.Invoke(context.ReadValue<Vector3>());
+        }
+
 
         private void Awake()
         {
             _camera = UnityEngine.Camera.main;
-            _touchControls = new TouchControls();
-            _touchControls.Touch.TouchHold.started += TouchStarted;
-            _touchControls.Touch.TouchHold.canceled += TouchEnded;
         }
-
-        private void Start()
-        {
-            _swipeDetection.Enable();
-        }
-
-        private void TouchStarted(InputAction.CallbackContext context)
-        {
-            OnTouchStartEvent?.Invoke(GetPositionOfTouch(),(float)context.startTime);
-        }
-        private void TouchEnded(InputAction.CallbackContext context)
-        {
-            OnTouchEndEvent?.Invoke(GetPositionOfTouch(),(float)context.time);
-        }
-
-   
-        private void OnEnable()
-        {
-            _touchControls.Enable();
-        }
-
+        
         private void OnDisable()
         {
             _touchControls.Disable();
-            _swipeDetection.Disable();
+            
         }
-        
-        Vector2 GetPositionOfTouch()
-        {
-            return _touchControls.Touch.TouchPosition.ReadValue<Vector2>();
-        }
-
-        public Vector3 PrimaryPosition()
-        {
-            return Utils.ScreenToWorld(_camera, GetPositionOfTouch());
-        }
-        
 
     }
 }

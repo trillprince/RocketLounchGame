@@ -12,7 +12,6 @@ namespace Common.Scripts.MissionSystem
 {
     public class GameLoopController : MonoBehaviour
     {
-        [SerializeField] private GameObject _prefabOfSatellite;
         private SpaceObjectSpawnController _spaceObjectSpawnController;
 
 
@@ -22,13 +21,14 @@ namespace Common.Scripts.MissionSystem
             GameStateController gameStateController,
             ICoroutineRunner coroutineRunner)
         {
+            var asteroid = new AssetProvider().LoadAsteroid();
             var objectController = new SpaceObjectLifeCycle(
-                new SpaceObjectPoolWorker(rocketMovementController, objectPoolStorage,_prefabOfSatellite),
+                new SpaceObjectPoolWorker(rocketMovementController, objectPoolStorage,asteroid),
                 rocketMovementController,this);
 
             _spaceObjectSpawnController = new SpaceObjectSpawnController(coroutineRunner,objectController,
                 rocketMovementController,
-                _prefabOfSatellite.GetComponent<MeshCollider>());
+                asteroid.GetComponent<SphereCollider>());
         }
 
         private void OnEnable()

@@ -5,6 +5,7 @@ using Common.Scripts.Cargo;
 using Common.Scripts.Infrastructure;
 using Common.Scripts.Rocket;
 using UnityEngine;
+using Random = System.Random;
 
 namespace Common.Scripts.MissionSystem
 {
@@ -15,32 +16,34 @@ namespace Common.Scripts.MissionSystem
         private readonly ICoroutineRunner _coroutineRunner;
         private ISpaceObjectController _spaceObjectController;
         private readonly MeshCollider _rocketMeshCollider;
-        private int _spawnsBeforeCheckPoint = 10;
+        private int _spawnsBeforeCheckPoint = 20;
 
         public SpaceObjectSpawnController
         (
             ICoroutineRunner coroutineRunner,
             ISpaceObjectController spaceObjectController,
             RocketMovementController rocketMovementController,
-            MeshCollider asteroidMeshCollider)
+            SphereCollider asteroidCollider)
         {
             _coroutineRunner = coroutineRunner;
             _spaceObjectController = spaceObjectController;
             _rocketMeshCollider = rocketMovementController.GetComponentInChildren<MeshCollider>();
             _spawnPositionController = new SpawnPositionController(rocketMovementController,
-                new LeftSpawnPosition(rocketMovementController, asteroidMeshCollider),
-                new RightSpawnPosition(rocketMovementController, asteroidMeshCollider),
-                new MiddleSpawnPosition(rocketMovementController, asteroidMeshCollider), asteroidMeshCollider);
+                new LeftSpawnPosition(rocketMovementController,asteroidCollider),
+                new RightSpawnPosition(rocketMovementController,asteroidCollider),
+                new MiddleSpawnPosition(rocketMovementController,asteroidCollider), asteroidCollider);
         }
 
         private IEnumerator StartSpawning()
         {
+            Random random = new Random();
             for (int i = 0; i < _spawnsBeforeCheckPoint; i++)
             {
-                for (int j = 0; j < _spawnPositionController.SpawnPositions.Length; j++)
+                ISpawnPosition[] myRandomArray = _spawnPositionController.SpawnPositions.OrderBy(x => random.Next()).ToArray();
+                for (int j = 0; j < myRandomArray.Length; j++)
                 {
-                    var spaceObject = _spaceObjectController.Spawn(_spawnPositionController.SpawnPositions[Random.Range(0,_spawnPositionController.SpawnPositions.Length)]);
-                    while ((spaceObject.GetSpawnPosition().y - spaceObject.GetTransform().position.y) < _rocketMeshCollider.bounds.size.y * 1.5)
+                    var spaceObject = _spaceObjectController.Spawn(myRandomArray[j]);
+                    while ((spaceObject.GetSpawnPosition().y - spaceObject.GetTransform().position.y) < _rocketMeshCollider.bounds.size.y)  
                     {
                         yield return null;
                     }
