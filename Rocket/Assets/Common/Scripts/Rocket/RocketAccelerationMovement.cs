@@ -19,6 +19,10 @@ namespace Common.Scripts.Rocket
         private float _maxAcceleration = 0.3f;
         private float _currentAcceleration;
 
+        private float _yRotValue = 10;
+        private float _defaultYRotValue;
+        private Quaternion _targetRot;
+
 
         public RocketAccelerationMovement(RocketMovementController rocketMovementController, Transform transform,
             InputManager inputManager, Vector3 screenBounds)
@@ -28,19 +32,26 @@ namespace Common.Scripts.Rocket
             _inputManager = inputManager;
             _screenBounds = screenBounds;
             _meshCollider = _transform.GetComponentInChildren<MeshCollider>();
+            _defaultYRotValue = transform.rotation.x;
         }
         
 
         private void OnAcceleration(Vector3 accelerationValue)
         {
-            float smoothedX = Mathf.SmoothDamp(_transform.position.x,
-                (_screenBounds.x + _meshCollider.bounds.size.x * 2) / 2 * GetProcessedAcceleration(accelerationValue) / _maxAcceleration,
-                ref _xVelocity, 0.2f);
+            Move(accelerationValue);
+            
+            Rotate(accelerationValue);
+        }
 
-            _transform.position = new Vector3(smoothedX,
-                _transform.position.y, _transform.position.z);
-            
-            
+        private void Rotate(Vector3 accelerationValue)
+        {
+            _targetRot.x = _transform.rotation.x;
+            _targetRot.y = (_transform.rotation.y + _yRotValue) / (_screenBounds.x + _meshCollider.bounds.size.x * 2) /
+                2 *  accelerationValue.x;
+            _targetRot.z = _transform.rotation.z;
+            _targetRot.w = _transform.rotation.w;
+
+            _transform.rotation = _targetRot;
         }
 
 
@@ -49,9 +60,19 @@ namespace Common.Scripts.Rocket
             return Mathf.Sign(-accelerationValue.x) * Mathf.Min(Mathf.Abs(-accelerationValue.x), _maxAcceleration);
         }
 
-        public void Move(Action<MovementState> changeState = null)
+
+        private void Move(Vector3 accelerationValue)
         {
+            var processedAcceleration = GetProcessedAcceleration(accelerationValue);
+                
+            float smoothedX = Mathf.SmoothDamp(_transform.position.x,
+                (_screenBounds.x + _meshCollider.bounds.size.x * 2) / 2 * processedAcceleration / _maxAcceleration,
+                ref _xVelocity, 0.2f);
+
+            _transform.position = new Vector3(smoothedX,
+                _transform.position.y, _transform.position.z);
         }
+
 
         public void Enable()
         {

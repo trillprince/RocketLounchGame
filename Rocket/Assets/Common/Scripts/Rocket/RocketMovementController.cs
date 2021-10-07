@@ -67,10 +67,6 @@ namespace Common.Scripts.Rocket
             return transform;
         }
         
-        private void Update()
-        {
-            _movementComponent?.Move(ChangeMovementComponent);
-        }
 
         private void ChangeMovementComponent(MovementState movementResult)
         {
