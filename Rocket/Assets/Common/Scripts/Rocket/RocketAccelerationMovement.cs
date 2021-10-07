@@ -16,7 +16,7 @@ namespace Common.Scripts.Rocket
         private readonly MeshCollider _meshCollider;
         private Vector3 _screenBounds;
         private float _xVelocity;
-        private float _maxAcceleration = 0.25f;
+        private float _maxAcceleration = 0.3f;
         private float _currentAcceleration;
 
 
@@ -34,50 +34,33 @@ namespace Common.Scripts.Rocket
         private void OnAcceleration(Vector3 accelerationValue)
         {
             float smoothedX = Mathf.SmoothDamp(_transform.position.x,
-                (_screenBounds.x + _meshCollider.bounds.size.x * 2) / 2 * -accelerationValue.x, ref _xVelocity, 0.2f);
-            
-            _transform.position = new Vector3(smoothedX, 
-                _transform.position.y, _transform.position.z);
+                (_screenBounds.x + _meshCollider.bounds.size.x * 2) / 2 * GetProcessedAcceleration(accelerationValue) / _maxAcceleration,
+                ref _xVelocity, 0.2f);
 
+            _transform.position = new Vector3(smoothedX,
+                _transform.position.y, _transform.position.z);
+            
+            
         }
 
-        private void OnAcceleration2(Vector3 accelerationValue)
-        {
-            if (- accelerationValue.x >= _maxAcceleration)
-            {
-                _currentAcceleration = _maxAcceleration;
-            }
-            else if (- accelerationValue.x <= - _maxAcceleration)
-            {
-                _currentAcceleration = -_maxAcceleration;
-            }
-            else
-            {
-                _currentAcceleration = - accelerationValue.x;
-            }
-            
-            float smoothedX = Mathf.SmoothDamp(_transform.position.x,
-                (_screenBounds.x + _meshCollider.bounds.size.x * 2)/ 2 * _currentAcceleration / _maxAcceleration, ref _xVelocity, 0.2f);
-            
-            _transform.position = new Vector3(smoothedX, 
-                _transform.position.y, _transform.position.z);
 
+        private float GetProcessedAcceleration(Vector3 accelerationValue)
+        {
+            return Mathf.Sign(-accelerationValue.x) * Mathf.Min(Mathf.Abs(-accelerationValue.x), _maxAcceleration);
         }
 
         public void Move(Action<MovementState> changeState = null)
         {
-            
         }
 
         public void Enable()
         {
-            _inputManager.OnAcceleration += OnAcceleration2;
+            _inputManager.OnAcceleration += OnAcceleration;
         }
 
         public void Disable()
         {
-            _inputManager.OnAcceleration -= OnAcceleration2;
+            _inputManager.OnAcceleration -= OnAcceleration;
         }
-
     }
 }
