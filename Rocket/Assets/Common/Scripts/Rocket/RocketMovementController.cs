@@ -10,10 +10,11 @@ namespace Common.Scripts.Rocket
     public class RocketMovementController : MonoBehaviour
     {
         private IRocketMoveComponent _movementComponent;
-        [Range(-1.0f,1.0f)] public float accelerationTest = 0;
+        [Range(-1,1f)] public float accelerationTest = 0;
         private Dictionary<Type, IRocketMoveComponent> _movementComponents;
         private IMovementTransition _movementTransition;
         private Vector3 _screenBounds;
+        [Range(0,1)] public float _increasedAccelerationStep;
         public Rigidbody Rigidbody { get; private set; }
         private event Action<Transform, MovementState> OnMovementStateSwitch;
         public static event Action<LandingStatus> OnLanding;

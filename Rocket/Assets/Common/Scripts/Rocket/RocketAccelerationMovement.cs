@@ -16,8 +16,8 @@ namespace Common.Scripts.Rocket
         private readonly MeshCollider _meshCollider;
         private Vector3 _screenBounds;
         private float _xVelocity;
-        private float _increasedAccelerationStep = 0.8f;
-        private float _currentAccelerationStep = 0;
+        private float _maxAcceleration = 0.25f;
+        private float _currentAcceleration;
 
 
         public RocketAccelerationMovement(RocketMovementController rocketMovementController, Transform transform,
@@ -40,24 +40,24 @@ namespace Common.Scripts.Rocket
                 _transform.position.y, _transform.position.z);
 
         }
-        
+
         private void OnAcceleration2(Vector3 accelerationValue)
         {
-            if (-accelerationValue.x <= 1 -_increasedAccelerationStep && -accelerationValue.x > 0)
+            if (- accelerationValue.x >= _maxAcceleration)
             {
-                Mathf.Lerp(_currentAccelerationStep, _increasedAccelerationStep, 0.4f * Time.deltaTime);
+                _currentAcceleration = _maxAcceleration;
             }
-            else if (-accelerationValue.x >= -1 + _increasedAccelerationStep && -accelerationValue.x < 0)
+            else if (- accelerationValue.x <= - _maxAcceleration)
             {
-                Mathf.Lerp(_currentAccelerationStep, - _increasedAccelerationStep, 0.4f * Time.deltaTime);
+                _currentAcceleration = -_maxAcceleration;
             }
             else
             {
-                Mathf.Lerp(_currentAccelerationStep, 0, 0.2f * Time.deltaTime);
+                _currentAcceleration = - accelerationValue.x;
             }
             
             float smoothedX = Mathf.SmoothDamp(_transform.position.x,
-                (_screenBounds.x + _meshCollider.bounds.size.x * 2)/ 2 * - accelerationValue.x  + _currentAccelerationStep, ref _xVelocity, 0.1f);
+                (_screenBounds.x + _meshCollider.bounds.size.x * 2)/ 2 * _currentAcceleration / _maxAcceleration, ref _xVelocity, 0.2f);
             
             _transform.position = new Vector3(smoothedX, 
                 _transform.position.y, _transform.position.z);
