@@ -6,6 +6,7 @@ using Zenject;
 
 public class InputInstaller : MonoInstaller
 {
+    private InputFactory _inputFactory;
     public override void InstallBindings()
     {
         InstallActionMap();
@@ -13,7 +14,13 @@ public class InputInstaller : MonoInstaller
 
     private void InstallActionMap()
     {
-        Container.Bind<TouchControls>().FromInstance(new TouchControls());
+        BuildInputOnPlatform();
         Container.Bind<InputManager>().FromInstance(FindObjectOfType<InputManager>());
+    }
+
+    private void BuildInputOnPlatform()
+    {
+        _inputFactory = new InputFactory();
+        Container.Bind<IInputPlatform>().FromInstance(_inputFactory.BuildPlatform(Application.platform));
     }
 }

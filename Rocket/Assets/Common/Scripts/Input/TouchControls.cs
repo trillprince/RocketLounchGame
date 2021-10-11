@@ -40,6 +40,44 @@ public class @TouchControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Arrows"",
+            ""id"": ""2fb57194-3f90-4016-93af-5c00ce992a62"",
+            ""actions"": [
+                {
+                    ""name"": ""ArrowPress"",
+                    ""type"": ""Button"",
+                    ""id"": ""79ec4452-2d05-4d23-b9a9-6dd75e97f4e3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""b1875548-9ab4-4199-9eda-46f31e98f267"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ArrowPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1970adbe-9d95-4eab-a0e7-61ee3337e96c"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ArrowPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -47,6 +85,9 @@ public class @TouchControls : IInputActionCollection, IDisposable
         // Accelerometer
         m_Accelerometer = asset.FindActionMap("Accelerometer", throwIfNotFound: true);
         m_Accelerometer_Acceleration = m_Accelerometer.FindAction("Acceleration", throwIfNotFound: true);
+        // Arrows
+        m_Arrows = asset.FindActionMap("Arrows", throwIfNotFound: true);
+        m_Arrows_ArrowPress = m_Arrows.FindAction("ArrowPress", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -125,8 +166,45 @@ public class @TouchControls : IInputActionCollection, IDisposable
         }
     }
     public AccelerometerActions @Accelerometer => new AccelerometerActions(this);
+
+    // Arrows
+    private readonly InputActionMap m_Arrows;
+    private IArrowsActions m_ArrowsActionsCallbackInterface;
+    private readonly InputAction m_Arrows_ArrowPress;
+    public struct ArrowsActions
+    {
+        private @TouchControls m_Wrapper;
+        public ArrowsActions(@TouchControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ArrowPress => m_Wrapper.m_Arrows_ArrowPress;
+        public InputActionMap Get() { return m_Wrapper.m_Arrows; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ArrowsActions set) { return set.Get(); }
+        public void SetCallbacks(IArrowsActions instance)
+        {
+            if (m_Wrapper.m_ArrowsActionsCallbackInterface != null)
+            {
+                @ArrowPress.started -= m_Wrapper.m_ArrowsActionsCallbackInterface.OnArrowPress;
+                @ArrowPress.performed -= m_Wrapper.m_ArrowsActionsCallbackInterface.OnArrowPress;
+                @ArrowPress.canceled -= m_Wrapper.m_ArrowsActionsCallbackInterface.OnArrowPress;
+            }
+            m_Wrapper.m_ArrowsActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @ArrowPress.started += instance.OnArrowPress;
+                @ArrowPress.performed += instance.OnArrowPress;
+                @ArrowPress.canceled += instance.OnArrowPress;
+            }
+        }
+    }
+    public ArrowsActions @Arrows => new ArrowsActions(this);
     public interface IAccelerometerActions
     {
         void OnAcceleration(InputAction.CallbackContext context);
+    }
+    public interface IArrowsActions
+    {
+        void OnArrowPress(InputAction.CallbackContext context);
     }
 }

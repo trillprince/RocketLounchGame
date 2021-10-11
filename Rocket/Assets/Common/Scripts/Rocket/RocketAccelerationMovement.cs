@@ -36,7 +36,7 @@ namespace Common.Scripts.Rocket
         }
         
 
-        private void OnAcceleration(Vector3 accelerationValue)
+        private void OnInput(Vector3 accelerationValue)
         {
             Move(accelerationValue);
             
@@ -76,12 +76,12 @@ namespace Common.Scripts.Rocket
 
         public void Enable()
         {
-            _inputManager.OnAcceleration += OnAcceleration;
+            _inputManager.OnInput += OnInput;
         }
 
         public void Disable()
         {
-            _inputManager.OnAcceleration -= OnAcceleration;
+            _inputManager.OnInput -= OnInput;
         }
     }
 }

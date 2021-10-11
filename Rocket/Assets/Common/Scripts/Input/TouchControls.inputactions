@@ -27,6 +27,44 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Arrows",
+            "id": "2fb57194-3f90-4016-93af-5c00ce992a62",
+            "actions": [
+                {
+                    "name": "ArrowPress",
+                    "type": "Button",
+                    "id": "79ec4452-2d05-4d23-b9a9-6dd75e97f4e3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b1875548-9ab4-4199-9eda-46f31e98f267",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ArrowPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1970adbe-9d95-4eab-a0e7-61ee3337e96c",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ArrowPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

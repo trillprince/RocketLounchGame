@@ -1,4 +1,5 @@
 using System;
+using Common.Scripts.Rocket;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
@@ -7,22 +8,22 @@ namespace Common.Scripts.Input
 {
     public class InputManager : MonoBehaviour
     {
-        private TouchControls _touchControls;
         private UnityEngine.Camera _camera;
-        public event Action<Vector3> OnAcceleration;
+        private IInputPlatform _inputPlatform;
+        public event Action<Vector3> OnInput;
+
 
         [Inject]
-        public void Constructor(TouchControls touchControls)
+        public void Constructor(IInputPlatform inputPlatform)
         {
-            _touchControls = touchControls;
-            _touchControls.Enable();
-            // InputSystem.EnableDevice(Accelerometer.current);
-            // _touchControls.Accelerometer.Acceleration.performed += OnAccelerationPerformed;
+            _inputPlatform = inputPlatform;
+            _inputPlatform.Enable();
+            _inputPlatform.SubscribeToInput(OnAccelerationPerformed);
         }
 
         private void OnAccelerationPerformed(InputAction.CallbackContext context)
         {
-            OnAcceleration?.Invoke(context.ReadValue<Vector3>());
+            OnInput?.Invoke(context.ReadValue<Vector3>());
         }
 
 
@@ -33,7 +34,8 @@ namespace Common.Scripts.Input
 
         private void OnDisable()
         {
-            _touchControls.Disable();
+            _inputPlatform.Disable();
+            _inputPlatform.UnsubscribeFromInput(OnAccelerationPerformed);
         }
     }
 }
