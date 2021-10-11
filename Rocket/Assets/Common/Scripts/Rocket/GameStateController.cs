@@ -45,20 +45,8 @@ namespace Common.Scripts.Rocket
             SetGameState(GameState.CargoDrop);
         }
 
-        public void SetStateToLanding(Action action = null)
-        {
-            _loadingCurtain.Show((() =>
-            {
-                action?.Invoke();
-                StartCoroutine(WaitTillStateSwitch(GameState.Landing,(() =>
-                {
-                    _loadingCurtain.Hide();
-                })));
-            }));
-        }
         
-        
-        void SetGameState(GameState state,Action action = null)
+        public void SetGameState(GameState state,Action action = null)
         {
             CurrentGameState = state;
             OnStateSwitch?.Invoke(state);
@@ -77,7 +65,6 @@ namespace Common.Scripts.Rocket
     {
         WaitForLaunch,
         CargoDrop,
-        Landing,
         EndOfGame
     }
 }

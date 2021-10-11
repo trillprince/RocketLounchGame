@@ -99,10 +99,6 @@ namespace Common.Scripts.Rocket
             {
                 ChangeMovementComponent(MovementState.SwipeMovement);
             }
-            else if (state == GameState.Landing)
-            {
-                ChangeMovementComponent(MovementState.PhysicMovement);
-            }
         }
 
         private void OnMovementStateChangeSubscribe(Action<Transform, MovementState> action)

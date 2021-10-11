@@ -20,6 +20,7 @@ namespace Common.Scripts.Infrastructure
                 .FromComponentInNewPrefab(_rocketPrefab)
                 .AsSingle()
                 .NonLazy();
+            
         }
     }
 }

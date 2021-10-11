@@ -16,8 +16,8 @@ namespace Common.Scripts.Input
         {
             _touchControls = touchControls;
             _touchControls.Enable();
-            InputSystem.EnableDevice(Accelerometer.current);
-            _touchControls.Accelerometer.Acceleration.performed += OnAccelerationPerformed;
+            // InputSystem.EnableDevice(Accelerometer.current);
+            // _touchControls.Accelerometer.Acceleration.performed += OnAccelerationPerformed;
         }
 
         private void OnAccelerationPerformed(InputAction.CallbackContext context)
@@ -30,12 +30,10 @@ namespace Common.Scripts.Input
         {
             _camera = UnityEngine.Camera.main;
         }
-        
+
         private void OnDisable()
         {
             _touchControls.Disable();
-            
         }
-
     }
 }

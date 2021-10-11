@@ -32,10 +32,7 @@ namespace Common.Scripts.Planet
 
         public void OnGameStateSwitch(GameState gameState)
         {
-            if (gameState == GameState.Landing)
-            {
-                SetLandingPosition();
-            }
+
         }
     }
 }
