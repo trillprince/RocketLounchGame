@@ -17,13 +17,17 @@ namespace Common.Scripts.Input
         public void Constructor(IInputPlatform inputPlatform)
         {
             _inputPlatform = inputPlatform;
-            _inputPlatform.Enable();
-            _inputPlatform.SubscribeToInput(OnAccelerationPerformed);
         }
 
         private void OnAccelerationPerformed(InputAction.CallbackContext context)
         {
             OnInput?.Invoke(context.ReadValue<Vector3>());
+        }
+
+        private void OnEnable()
+        {
+            _inputPlatform.Enable();
+            _inputPlatform.SubscribeToInput(OnAccelerationPerformed);
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Common.Scripts.Input
@@ -25,13 +26,11 @@ namespace Common.Scripts.Input
         public void Enable()
         {
             _touchControls.Enable();
-            InputSystem.EnableDevice(Accelerometer.current);
         }
 
         public void Disable()
         {
             _touchControls.Disable();
-            InputSystem.DisableDevice(Accelerometer.current);
         }
     }
 }
