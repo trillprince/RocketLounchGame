@@ -15,7 +15,7 @@ public class @TouchControls : IInputActionCollection, IDisposable
     ""name"": ""TouchControls"",
     ""maps"": [
         {
-            ""name"": ""Accelerometer"",
+            ""name"": ""AndroidInput"",
             ""id"": ""e9e187f9-dcd4-46c0-bae9-1c9b9e25fe3d"",
             ""actions"": [
                 {
@@ -42,7 +42,7 @@ public class @TouchControls : IInputActionCollection, IDisposable
             ]
         },
         {
-            ""name"": ""Arrows"",
+            ""name"": ""EditorInput"",
             ""id"": ""2fb57194-3f90-4016-93af-5c00ce992a62"",
             ""actions"": [
                 {
@@ -56,38 +56,49 @@ public class @TouchControls : IInputActionCollection, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": """",
-                    ""id"": ""b1875548-9ab4-4199-9eda-46f31e98f267"",
+                    ""name"": ""1D Axis"",
+                    ""id"": ""f2eda2b6-a843-4642-96db-76cab75af85f"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ArrowPress"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Negative"",
+                    ""id"": ""5e6d6eb6-4faf-4d88-95c4-599fff3af476"",
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ArrowPress"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""1970adbe-9d95-4eab-a0e7-61ee3337e96c"",
+                    ""name"": ""Positive"",
+                    ""id"": ""8d38df50-1f1c-40d4-8045-7dabd07af712"",
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ArrowPress"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
                 }
             ]
         }
     ],
     ""controlSchemes"": []
 }");
-        // Accelerometer
-        m_Accelerometer = asset.FindActionMap("Accelerometer", throwIfNotFound: true);
-        m_Accelerometer_Acceleration = m_Accelerometer.FindAction("Acceleration", throwIfNotFound: true);
-        // Arrows
-        m_Arrows = asset.FindActionMap("Arrows", throwIfNotFound: true);
-        m_Arrows_ArrowPress = m_Arrows.FindAction("ArrowPress", throwIfNotFound: true);
+        // AndroidInput
+        m_AndroidInput = asset.FindActionMap("AndroidInput", throwIfNotFound: true);
+        m_AndroidInput_Acceleration = m_AndroidInput.FindAction("Acceleration", throwIfNotFound: true);
+        // EditorInput
+        m_EditorInput = asset.FindActionMap("EditorInput", throwIfNotFound: true);
+        m_EditorInput_ArrowPress = m_EditorInput.FindAction("ArrowPress", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -134,29 +145,29 @@ public class @TouchControls : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // Accelerometer
-    private readonly InputActionMap m_Accelerometer;
-    private IAccelerometerActions m_AccelerometerActionsCallbackInterface;
-    private readonly InputAction m_Accelerometer_Acceleration;
-    public struct AccelerometerActions
+    // AndroidInput
+    private readonly InputActionMap m_AndroidInput;
+    private IAndroidInputActions m_AndroidInputActionsCallbackInterface;
+    private readonly InputAction m_AndroidInput_Acceleration;
+    public struct AndroidInputActions
     {
         private @TouchControls m_Wrapper;
-        public AccelerometerActions(@TouchControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Acceleration => m_Wrapper.m_Accelerometer_Acceleration;
-        public InputActionMap Get() { return m_Wrapper.m_Accelerometer; }
+        public AndroidInputActions(@TouchControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Acceleration => m_Wrapper.m_AndroidInput_Acceleration;
+        public InputActionMap Get() { return m_Wrapper.m_AndroidInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(AccelerometerActions set) { return set.Get(); }
-        public void SetCallbacks(IAccelerometerActions instance)
+        public static implicit operator InputActionMap(AndroidInputActions set) { return set.Get(); }
+        public void SetCallbacks(IAndroidInputActions instance)
         {
-            if (m_Wrapper.m_AccelerometerActionsCallbackInterface != null)
+            if (m_Wrapper.m_AndroidInputActionsCallbackInterface != null)
             {
-                @Acceleration.started -= m_Wrapper.m_AccelerometerActionsCallbackInterface.OnAcceleration;
-                @Acceleration.performed -= m_Wrapper.m_AccelerometerActionsCallbackInterface.OnAcceleration;
-                @Acceleration.canceled -= m_Wrapper.m_AccelerometerActionsCallbackInterface.OnAcceleration;
+                @Acceleration.started -= m_Wrapper.m_AndroidInputActionsCallbackInterface.OnAcceleration;
+                @Acceleration.performed -= m_Wrapper.m_AndroidInputActionsCallbackInterface.OnAcceleration;
+                @Acceleration.canceled -= m_Wrapper.m_AndroidInputActionsCallbackInterface.OnAcceleration;
             }
-            m_Wrapper.m_AccelerometerActionsCallbackInterface = instance;
+            m_Wrapper.m_AndroidInputActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Acceleration.started += instance.OnAcceleration;
@@ -165,31 +176,31 @@ public class @TouchControls : IInputActionCollection, IDisposable
             }
         }
     }
-    public AccelerometerActions @Accelerometer => new AccelerometerActions(this);
+    public AndroidInputActions @AndroidInput => new AndroidInputActions(this);
 
-    // Arrows
-    private readonly InputActionMap m_Arrows;
-    private IArrowsActions m_ArrowsActionsCallbackInterface;
-    private readonly InputAction m_Arrows_ArrowPress;
-    public struct ArrowsActions
+    // EditorInput
+    private readonly InputActionMap m_EditorInput;
+    private IEditorInputActions m_EditorInputActionsCallbackInterface;
+    private readonly InputAction m_EditorInput_ArrowPress;
+    public struct EditorInputActions
     {
         private @TouchControls m_Wrapper;
-        public ArrowsActions(@TouchControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @ArrowPress => m_Wrapper.m_Arrows_ArrowPress;
-        public InputActionMap Get() { return m_Wrapper.m_Arrows; }
+        public EditorInputActions(@TouchControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ArrowPress => m_Wrapper.m_EditorInput_ArrowPress;
+        public InputActionMap Get() { return m_Wrapper.m_EditorInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(ArrowsActions set) { return set.Get(); }
-        public void SetCallbacks(IArrowsActions instance)
+        public static implicit operator InputActionMap(EditorInputActions set) { return set.Get(); }
+        public void SetCallbacks(IEditorInputActions instance)
         {
-            if (m_Wrapper.m_ArrowsActionsCallbackInterface != null)
+            if (m_Wrapper.m_EditorInputActionsCallbackInterface != null)
             {
-                @ArrowPress.started -= m_Wrapper.m_ArrowsActionsCallbackInterface.OnArrowPress;
-                @ArrowPress.performed -= m_Wrapper.m_ArrowsActionsCallbackInterface.OnArrowPress;
-                @ArrowPress.canceled -= m_Wrapper.m_ArrowsActionsCallbackInterface.OnArrowPress;
+                @ArrowPress.started -= m_Wrapper.m_EditorInputActionsCallbackInterface.OnArrowPress;
+                @ArrowPress.performed -= m_Wrapper.m_EditorInputActionsCallbackInterface.OnArrowPress;
+                @ArrowPress.canceled -= m_Wrapper.m_EditorInputActionsCallbackInterface.OnArrowPress;
             }
-            m_Wrapper.m_ArrowsActionsCallbackInterface = instance;
+            m_Wrapper.m_EditorInputActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @ArrowPress.started += instance.OnArrowPress;
@@ -198,12 +209,12 @@ public class @TouchControls : IInputActionCollection, IDisposable
             }
         }
     }
-    public ArrowsActions @Arrows => new ArrowsActions(this);
-    public interface IAccelerometerActions
+    public EditorInputActions @EditorInput => new EditorInputActions(this);
+    public interface IAndroidInputActions
     {
         void OnAcceleration(InputAction.CallbackContext context);
     }
-    public interface IArrowsActions
+    public interface IEditorInputActions
     {
         void OnArrowPress(InputAction.CallbackContext context);
     }

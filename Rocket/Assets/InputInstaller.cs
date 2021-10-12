@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Common.Scripts.Infrastructure;
 using Common.Scripts.Input;
 using UnityEngine;
 using Zenject;
@@ -20,7 +21,8 @@ public class InputInstaller : MonoInstaller
 
     private void BuildInputOnPlatform()
     {
-        _inputFactory = new InputFactory();
+        var coroutineRunner = FindObjectOfType<GameBootstrapper>().StateMachine.Loader.Runner;
+        _inputFactory = new InputFactory(coroutineRunner);
         Container.Bind<IInputPlatform>().FromInstance(_inputFactory.BuildPlatform(Application.platform));
     }
 }

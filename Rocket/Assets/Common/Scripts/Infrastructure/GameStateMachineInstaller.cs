@@ -8,6 +8,7 @@ namespace Common.Scripts.Infrastructure
 {
     public class GameStateMachineInstaller : MonoInstaller
     {
+        private GameBootstrapper _gameBootstrapper;
 
 
         public override void InstallBindings()
@@ -18,13 +19,14 @@ namespace Common.Scripts.Infrastructure
         private void BindGameStateMachine()
         {
             var gameStateController = FindObjectOfType<GameStateController>();
-            var gameBootstrapper = FindObjectOfType<GameBootstrapper>();
+            _gameBootstrapper = FindObjectOfType<GameBootstrapper>();
             
             Container.Bind<GameStateController>().FromInstance(gameStateController);
-            Container.Bind<ICoroutineRunner>().FromInstance(gameBootstrapper.StateMachine.Loader.Runner);
-            Container.Bind<GameStateMachine>().FromInstance(gameBootstrapper.StateMachine);
-            Container.Bind<LoadingCurtain>().FromInstance(gameBootstrapper.StateMachine.Curtain);
+            Container.Bind<ICoroutineRunner>().FromInstance(_gameBootstrapper.StateMachine.Loader.Runner);
+            Container.Bind<GameStateMachine>().FromInstance(_gameBootstrapper.StateMachine);
+            Container.Bind<LoadingCurtain>().FromInstance(_gameBootstrapper.StateMachine.Curtain);
 
         }
+
     }
 }

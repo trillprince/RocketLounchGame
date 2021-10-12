@@ -1,11 +1,16 @@
-﻿using Common.Scripts.Input;
+﻿using Common.Scripts.Infrastructure;
+using Common.Scripts.Input;
 using UnityEngine;
+using AndroidInput = Common.Scripts.Input.AndroidInput;
 
 public class InputFactory
 {
     private TouchControls _touchControls;
-    public InputFactory()
+    private ICoroutineRunner _coroutineRunner;
+
+    public InputFactory(ICoroutineRunner coroutineRunner)
     {
+        _coroutineRunner = coroutineRunner;
         _touchControls = new TouchControls();
     }
 
@@ -14,9 +19,9 @@ public class InputFactory
         switch (runtimePlatform)
         {
             case RuntimePlatform.Android:
-                return new AccelerometerInput(_touchControls);
+                return new AndroidInput(_touchControls);
             case RuntimePlatform.WindowsEditor:
-                return new EditorInput(_touchControls);
+                return new EditorInput(_touchControls,_coroutineRunner);
         }
         return default;
     }

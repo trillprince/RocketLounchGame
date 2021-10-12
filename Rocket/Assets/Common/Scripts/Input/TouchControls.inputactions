@@ -2,7 +2,7 @@
     "name": "TouchControls",
     "maps": [
         {
-            "name": "Accelerometer",
+            "name": "AndroidInput",
             "id": "e9e187f9-dcd4-46c0-bae9-1c9b9e25fe3d",
             "actions": [
                 {
@@ -29,7 +29,7 @@
             ]
         },
         {
-            "name": "Arrows",
+            "name": "EditorInput",
             "id": "2fb57194-3f90-4016-93af-5c00ce992a62",
             "actions": [
                 {
@@ -43,26 +43,37 @@
             ],
             "bindings": [
                 {
-                    "name": "",
-                    "id": "b1875548-9ab4-4199-9eda-46f31e98f267",
+                    "name": "1D Axis",
+                    "id": "f2eda2b6-a843-4642-96db-76cab75af85f",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ArrowPress",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Negative",
+                    "id": "5e6d6eb6-4faf-4d88-95c4-599fff3af476",
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "ArrowPress",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "1970adbe-9d95-4eab-a0e7-61ee3337e96c",
+                    "name": "Positive",
+                    "id": "8d38df50-1f1c-40d4-8045-7dabd07af712",
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "ArrowPress",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
                 }
             ]
         }

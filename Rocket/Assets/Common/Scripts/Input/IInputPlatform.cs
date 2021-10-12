@@ -1,6 +1,11 @@
-﻿namespace Common.Scripts.Input
+﻿using System;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+namespace Common.Scripts.Input
 {
-    public interface IInputPlatform : IControllable,IInputEventProvider
+    public interface IInputPlatform : IControllableInput
     {
+        public event Action <Vector3> OnInput;
     }
 }
