@@ -33,7 +33,8 @@ public class EditorInput : IInputPlatform
 
     private void OnInputPerformed(InputAction.CallbackContext context)
     {
-        _coroutineRunner.StartCoroutine(SimulateAcceleration(context));
+        if(_coroutine != null) return;
+        _coroutine = _coroutineRunner.StartCoroutine(SimulateAcceleration(context));
     }
 
     private IEnumerator SimulateAcceleration(InputAction.CallbackContext context)
@@ -41,10 +42,11 @@ public class EditorInput : IInputPlatform
         var direction = context.ReadValue<float>();
         while (context.started && !context.canceled)
         {
-            Vector3 inputDir = new Vector3(direction/2,0 , 0);
+            Vector3 inputDir = new Vector3(direction,0 , 0);
             OnInput?.Invoke(inputDir);
             yield return new WaitForSeconds(_updateTime);
         }
+        _coroutine = null;
     }
 
 }
