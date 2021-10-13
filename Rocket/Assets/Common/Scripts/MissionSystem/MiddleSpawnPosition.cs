@@ -7,7 +7,7 @@ namespace Common.Scripts.MissionSystem
     public class MiddleSpawnPosition : SpawnPosition,ISpawnPosition
     {
 
-        public MiddleSpawnPosition(RocketMovementController rocketMovementController, SphereCollider asteroidCollider): base(rocketMovementController,asteroidCollider)
+        public MiddleSpawnPosition(RocketMovement rocketMovement, Collider asteroidCollider): base(rocketMovement,asteroidCollider)
         {
 
         }

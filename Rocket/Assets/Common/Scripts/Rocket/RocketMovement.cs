@@ -7,22 +7,23 @@ using Zenject;
 
 namespace Common.Scripts.Rocket
 {
-    public class RocketMovementController : MonoBehaviour
+    public class RocketMovement: IGameStateSubscriber
     {
+        private readonly Transform _transform;
+        private readonly MeshCollider _meshCollider;
         private IRocketMoveComponent _movementComponent;
-        [Range(-1,1f)] public float accelerationTest = 0;
         private Dictionary<Type, IRocketMoveComponent> _movementComponents;
         private IMovementTransition _movementTransition;
         private Vector3 _screenBounds;
-        [Range(0,1)] public float _increasedAccelerationStep;
         public Rigidbody Rigidbody { get; private set; }
         private event Action<Transform, MovementState> OnMovementStateSwitch;
         public static event Action<LandingStatus> OnLanding;
 
-        [Inject]
-        public void Constructor(InputManager inputManager)
+        public RocketMovement(InputManager inputManager,Rigidbody rigidbody,Transform transform, MeshCollider meshCollider)
         {
-            Rigidbody = GetComponent<Rigidbody>();
+            _transform = transform;
+            _meshCollider = meshCollider;
+            Rigidbody = rigidbody;
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
@@ -41,16 +42,10 @@ namespace Common.Scripts.Rocket
             };
         }
 
-        private void OnEnable()
+        public MeshCollider GetMeshCollider()
         {
-            GameStateController.OnStateSwitch += OnOnStateSwitch;
+            return _meshCollider;
         }
-
-        private void OnDisable()
-        {
-            GameStateController.OnStateSwitch -= OnOnStateSwitch;
-        }
-
 
         public Vector3 GetRocketDirection()
         {
@@ -64,7 +59,7 @@ namespace Common.Scripts.Rocket
 
         public Transform GetTransform()
         {
-            return transform;
+            return _transform;
         }
         
 
@@ -84,7 +79,7 @@ namespace Common.Scripts.Rocket
                     _movementComponent = null;
                     break;
             }
-            OnMovementStateSwitch?.Invoke(transform, movementResult);
+            OnMovementStateSwitch?.Invoke(_transform, movementResult);
         }
 
         private void OnGetLandingStatus(LandingStatus landingStatus)
@@ -93,7 +88,7 @@ namespace Common.Scripts.Rocket
         }
 
 
-        private void OnOnStateSwitch(GameState state)
+        public void OnGameStateChange(GameState state)
         {
             if (state == GameState.CargoDrop)
             {
@@ -110,7 +105,6 @@ namespace Common.Scripts.Rocket
         {
             OnMovementStateSwitch -= action;
         }
-
 
     }
 

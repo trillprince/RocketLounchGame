@@ -7,7 +7,17 @@ namespace Common.Scripts.MissionSystem
     {
         public GameObject LoadAsteroid()
         {
-            return Resources.Load<GameObject>(AssetPath.Asteroid);
+            return Load(AssetPath.Asteroid);
+        }
+
+        public GameObject LoadCargo()
+        {
+            return Load(AssetPath.Cargo);
+        }
+
+        private GameObject Load(string path)
+        {
+            return Resources.Load<GameObject>(path);
         }
 
     }

@@ -1,54 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using Common.Scripts.MissionSystem;
+﻿using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using Common.Scripts.Satellite;
-using Common.Scripts.SpaceObjects.Satellite;
 using UnityEngine;
+using Zenject;
 
-namespace Common.Scripts.SpaceObjects
+namespace Common.Scripts.SpaceObjects.Asteroid
 {
-    public class Asteroid : MonoBehaviour, ISpaceObject
+    public class Asteroid : SpaceObject
     {
         private AsteroidStateOnScreen _asteroidStateOnScreen;
         private AsteroidMove _asteroidMove;
         private AsteroidDelivery _asteroidDelivery;
         private ISpawnPosition _spawnPosition;
-
-        public Vector3 GetSpawnPosition()
-        {
-            return _spawnPosition.GetSpawnPosition();
-        }
-
-        public GameObject GetGameObject()
-        {
-            return gameObject;
-        }
-        public Transform GetTransform()
-        {
-            return transform;
-        }
+        private AsteroidInteraction _asteroidInteraction;
         
-        public void Constructor(RocketMovementController rocketMovementController,
+        
+        public override void Constructor(RocketController rocketController,
             ISpaceObjectController spaceObjectController,
-            GameLoopController gameLoopController, ISpawnPosition spawnPosition)
+            GameLoopController gameLoopController, GameStateController gameStateController,
+            ISpawnPosition spawnPosition)
         {
+            base.Constructor(rocketController, spaceObjectController, gameLoopController, gameStateController, spawnPosition);
             
-            _asteroidMove = new AsteroidMove(rocketMovementController, transform);
+            _asteroidMove = new AsteroidMove(rocketController.Movement, transform);
             _spawnPosition = spawnPosition;
             _asteroidDelivery = new AsteroidDelivery(spaceObjectController,gameLoopController);
+            _asteroidInteraction = new AsteroidInteraction(gameStateController,rocketController.Health);
             _asteroidStateOnScreen = new AsteroidStateOnScreen( 
                 transform,
                 spaceObjectController,
                 _asteroidDelivery
             );
         }
-
-        public void Execute()
+        
+        public override void Execute()
         {
             _asteroidMove.Move();
             _asteroidStateOnScreen.StateCheck();
         }
-        
+
+        public override void Interact()
+        {
+            _asteroidInteraction.Interact();
+        }
     }
 }

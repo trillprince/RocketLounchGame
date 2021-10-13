@@ -8,9 +8,9 @@ namespace Common.Scripts.MissionSystem
         private readonly LeftSpawnPosition _leftSpawnPosition;
         private readonly MiddleSpawnPosition _middleSpawnPosition;
 
-        public LeftMidSpawnPosition(RocketMovementController rocketMovementController, 
+        public LeftMidSpawnPosition(RocketMovement rocketMovement, 
             LeftSpawnPosition leftSpawnPosition, 
-            MiddleSpawnPosition middleSpawnPosition,SphereCollider asteroidCollider) : base(rocketMovementController,asteroidCollider)
+            MiddleSpawnPosition middleSpawnPosition,Collider asteroidCollider) : base(rocketMovement,asteroidCollider)
         {
             _leftSpawnPosition = leftSpawnPosition;
             _middleSpawnPosition = middleSpawnPosition;

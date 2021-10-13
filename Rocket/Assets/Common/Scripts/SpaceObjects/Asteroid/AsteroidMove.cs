@@ -1,24 +1,13 @@
 ﻿using Common.Scripts.Rocket;
-using Common.Scripts.Satellite;
 using UnityEngine;
 
-namespace Common.Scripts.SpaceObjects.Satellite
+namespace Common.Scripts.SpaceObjects.Asteroid
 {
-    public class AsteroidMove: IMoveComponent
-    {
-        private readonly RocketMovementController _rocketMovementController;
-        private Transform _transform;
-        private float _moveSmoothness = 11f;
+    public class AsteroidMove: MoveComponent    {
 
-        public AsteroidMove(RocketMovementController rocketMovementController, Transform transform)
+        public AsteroidMove(RocketMovement rocketMovement, Transform transform):base(rocketMovement,transform)
         {
-            _rocketMovementController = rocketMovementController;
-            _transform = transform;
         }
 
-        public void Move()
-        {
-            _transform.Translate((-_rocketMovementController.GetRocketDirection()*_rocketMovementController.GetRocketSpeed())/_moveSmoothness * Time.deltaTime);
-        }
     }
 }

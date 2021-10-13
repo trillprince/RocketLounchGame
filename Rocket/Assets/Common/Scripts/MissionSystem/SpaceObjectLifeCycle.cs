@@ -8,7 +8,8 @@ namespace Common.Scripts.MissionSystem
     public class SpaceObjectLifeCycle: ISpaceObjectController
     {
         private readonly IPoolWorker _spaceObjectPoolWorker;
-        private readonly RocketMovementController _rocketMovementController;
+        private readonly RocketController _rocketController;
+        private readonly GameStateController _gameStateController;
         private readonly GameLoopController _gameLoopController;
         
         private Queue<ISpaceObject> _movableSpaceObjects;
@@ -16,11 +17,13 @@ namespace Common.Scripts.MissionSystem
 
         public SpaceObjectLifeCycle(
             IPoolWorker spaceObjectPoolWorker,
-            RocketMovementController rocketMovementController,
+            RocketController rocketController,
+            GameStateController gameStateController,
             GameLoopController gameLoopController)
         {
             _spaceObjectPoolWorker = spaceObjectPoolWorker;
-            _rocketMovementController = rocketMovementController;
+            _rocketController = rocketController;
+            _gameStateController = gameStateController;
             _gameLoopController = gameLoopController;
             _movableSpaceObjects = new Queue<ISpaceObject>(20);
         }
@@ -30,7 +33,7 @@ namespace Common.Scripts.MissionSystem
             if (IsEnabled)
             {
                 ISpaceObject spaceObject = _spaceObjectPoolWorker.PopFromPool(spawnPosition).GetComponent<ISpaceObject>();
-                spaceObject.Constructor(_rocketMovementController,this,_gameLoopController,spawnPosition);
+                spaceObject.Constructor(_rocketController,this,_gameLoopController,_gameStateController,spawnPosition);
                 _movableSpaceObjects.Enqueue(spaceObject);
                 return spaceObject;
             }

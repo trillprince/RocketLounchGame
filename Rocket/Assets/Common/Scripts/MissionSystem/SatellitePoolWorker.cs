@@ -5,8 +5,7 @@ namespace Common.Scripts.MissionSystem
 {
     public class SatellitePoolWorker: SpaceObjectPoolWorker
     {
-        public SatellitePoolWorker(RocketMovementController rocketMovementController, 
-            ObjectPoolStorage objectPoolStorage,GameObject prefab) : base(rocketMovementController, objectPoolStorage,prefab)
+        public SatellitePoolWorker(ObjectPoolStorage objectPoolStorage,AssetProvider assetProvider) : base(objectPoolStorage,assetProvider)
         {
             
         }

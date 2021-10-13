@@ -23,16 +23,16 @@ namespace Common.Scripts.MissionSystem
         (
             ICoroutineRunner coroutineRunner,
             ISpaceObjectController spaceObjectController,
-            RocketMovementController rocketMovementController,
-            SphereCollider asteroidCollider)
+            RocketMovement rocketMovement,
+            Collider asteroidCollider)
         {
             _coroutineRunner = coroutineRunner;
             _spaceObjectController = spaceObjectController;
-            _rocketMeshCollider = rocketMovementController.GetComponentInChildren<MeshCollider>();
-            _spawnPositionController = new SpawnPositionController(rocketMovementController,
-                new LeftSpawnPosition(rocketMovementController, asteroidCollider),
-                new RightSpawnPosition(rocketMovementController, asteroidCollider),
-                new MiddleSpawnPosition(rocketMovementController, asteroidCollider), asteroidCollider);
+            _rocketMeshCollider = rocketMovement.GetMeshCollider();
+            _spawnPositionController = new SpawnPositionController(rocketMovement,
+                new LeftSpawnPosition(rocketMovement, asteroidCollider),
+                new RightSpawnPosition(rocketMovement, asteroidCollider),
+                new MiddleSpawnPosition(rocketMovement, asteroidCollider), asteroidCollider);
         }
 
         private IEnumerator StartSpawning()

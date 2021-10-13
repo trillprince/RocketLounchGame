@@ -16,19 +16,19 @@ namespace Common.Scripts.MissionSystem
 
 
         [Inject]
-        private void Constructor(RocketMovementController rocketMovementController, 
+        private void Constructor(RocketController rocketController, 
             ObjectPoolStorage objectPoolStorage, 
             GameStateController gameStateController,
             ICoroutineRunner coroutineRunner)
         {
-            var asteroid = new AssetProvider().LoadAsteroid();
+            var assetProvider = new AssetProvider();
             var objectController = new SpaceObjectLifeCycle(
-                new SpaceObjectPoolWorker(rocketMovementController, objectPoolStorage,asteroid),
-                rocketMovementController,this);
+                new SpaceObjectPoolWorker(objectPoolStorage,assetProvider),
+                rocketController,gameStateController,this);
 
             _spaceObjectSpawnController = new SpaceObjectSpawnController(coroutineRunner,objectController,
-                rocketMovementController,
-                asteroid.GetComponent<SphereCollider>());
+                rocketController.Movement,
+                assetProvider.LoadAsteroid().GetComponent<Collider>());
         }
 
         private void OnEnable()

@@ -7,20 +7,20 @@ namespace Common.Scripts.MissionSystem
     {
         public ISpawnPosition[] SpawnPositions { get; }
 
-        public SpawnPositionController(RocketMovementController rocketMovementController, 
+        public SpawnPositionController(RocketMovement rocketMovement, 
             LeftSpawnPosition leftSpawnPosition,
             RightSpawnPosition rightSpawnPosition,
             MiddleSpawnPosition middleSpawnPosition,
-            SphereCollider collider)
+            Collider collider)
         {
             SpawnPositions = new ISpawnPosition[]
             {
                 leftSpawnPosition,
-                new LeftMidSpawnPosition(rocketMovementController,
+                new LeftMidSpawnPosition(rocketMovement,
                     leftSpawnPosition,
                     middleSpawnPosition,collider),
                 rightSpawnPosition,
-                new RightMidSpawnPosition(rocketMovementController,
+                new RightMidSpawnPosition(rocketMovement,
                     rightSpawnPosition, 
                     middleSpawnPosition,collider),
                 middleSpawnPosition

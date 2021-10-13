@@ -8,10 +8,9 @@ namespace Common.Scripts.MissionSystem
     {
         private readonly ObjectPool _objectPool;
 
-        public  SpaceObjectPoolWorker(RocketMovementController rocketMovementController,
-            ObjectPoolStorage objectPoolStorage,GameObject prefab)
+        public  SpaceObjectPoolWorker(ObjectPoolStorage objectPoolStorage,AssetProvider assetProvider)
         {
-            _objectPool = objectPoolStorage.GetPool(prefab);
+            _objectPool = objectPoolStorage.GetPool(assetProvider.LoadAsteroid());
         }
                
         public GameObject PopFromPool (ISpawnPosition spawnPosition)

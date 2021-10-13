@@ -4943,11 +4943,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7980381319092247590}
-  - component: {fileID: -1203488835213373570}
   - component: {fileID: 3739997604464884810}
-  - component: {fileID: 3221616307045910671}
   - component: {fileID: 1130575692192250461}
   - component: {fileID: -6651498205218166536}
+  - component: {fileID: 3153652209372218220}
   m_Layer: 0
   m_Name: SpaceShuttel
   m_TagString: Untagged
@@ -4970,19 +4969,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1203488835213373570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7317173104841082524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fc9f89ba84f3514e830f1672228a843, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _cargoPrefab: {fileID: 9194714471267269330, guid: f6c77d8cfa575ce48b68ea7a2dad605f, type: 3}
 --- !u!54 &3739997604464884810
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4999,20 +4985,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
---- !u!114 &3221616307045910671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7317173104841082524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e10caf8fd35583a419f60a214d448dea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  accelerationTest: 0
-  _increasedAccelerationStep: 0
 --- !u!114 &1130575692192250461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5035,6 +5007,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0edf8f849dc94c4db853aa1d224b579a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3153652209372218220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7317173104841082524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4133260f2328a9d438bb1ce53a6b3236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7440320675955919920

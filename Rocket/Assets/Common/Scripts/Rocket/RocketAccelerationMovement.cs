@@ -10,7 +10,7 @@ namespace Common.Scripts.Rocket
 {
     public class RocketAccelerationMovement : IRocketMoveComponent
     {
-        private readonly RocketMovementController _rocketMovementController;
+        private readonly RocketMovement _rocketMovement;
         private readonly Transform _transform;
         private readonly InputManager _inputManager;
         private readonly MeshCollider _meshCollider;
@@ -24,10 +24,10 @@ namespace Common.Scripts.Rocket
         private Quaternion _targetRot;
 
 
-        public RocketAccelerationMovement(RocketMovementController rocketMovementController, Transform transform,
+        public RocketAccelerationMovement(RocketMovement rocketMovement, Transform transform,
             InputManager inputManager, Vector3 screenBounds)
         {
-            _rocketMovementController = rocketMovementController;
+            _rocketMovement = rocketMovement;
             _transform = transform;
             _inputManager = inputManager;
             _screenBounds = screenBounds;

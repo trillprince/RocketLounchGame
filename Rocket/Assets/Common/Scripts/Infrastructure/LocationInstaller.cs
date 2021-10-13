@@ -16,7 +16,7 @@ namespace Common.Scripts.Infrastructure
         private void BindRocket()
         {
             Container
-                .Bind(typeof(RocketCargo), typeof(RocketMovementController))
+                .Bind(typeof(RocketController))
                 .FromComponentInNewPrefab(_rocketPrefab)
                 .AsSingle()
                 .NonLazy();

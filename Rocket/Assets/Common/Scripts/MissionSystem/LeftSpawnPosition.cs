@@ -7,7 +7,7 @@ namespace Common.Scripts.MissionSystem
     public class LeftSpawnPosition : SpawnPosition,ISpawnPosition
     {
 
-        public LeftSpawnPosition(RocketMovementController rocketMovementController, SphereCollider asteroidCollider): base(rocketMovementController,asteroidCollider)
+        public LeftSpawnPosition(RocketMovement rocketMovement, Collider asteroidCollider): base(rocketMovement,asteroidCollider)
         {
             
         }
@@ -15,7 +15,7 @@ namespace Common.Scripts.MissionSystem
         public Vector3 GetSpawnPosition()
         {
             return new Vector3(
-                _screenBounds.x + _asteroidCollider.radius * 2,
+                _screenBounds.x + _asteroidCollider.transform.localScale.x,
                 -_screenBounds.y,
                 _rocketPosition.z);
                

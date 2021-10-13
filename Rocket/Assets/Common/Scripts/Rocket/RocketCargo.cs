@@ -7,26 +7,19 @@ using Zenject;
 
 namespace Common.Scripts.Rocket
 {
-    public class RocketCargo : MonoBehaviour
+    public class RocketCargo
     {
-        [SerializeField] private GameObject _cargoPrefab;
+        private readonly Transform _transform;
+        private GameObject _cargoPrefab;
         private ObjectPool _objectPool;
         private CargoController _currentCargoController;
-        private GameObject _currentCargo;
-        public event Action OnCargoDrop;
 
-        [Inject]
-        private void Constructor(ObjectPoolStorage objectPoolStorage)
+        public RocketCargo(ObjectPoolStorage objectPoolStorage,AssetProvider assetProvider,Transform transform)
         {
-            _objectPool = objectPoolStorage.GetPool(_cargoPrefab);
+            _transform = transform;
+            _objectPool = objectPoolStorage.GetPool(assetProvider.LoadCargo());
         }
 
-        public void DropCargo(ISpaceObject spaceObject)
-        {
-            OnCargoDrop?.Invoke();
-            var cargo = _objectPool.Pop(transform.position);
-            _currentCargoController = cargo.GetComponent<CargoController>();
-            _currentCargoController.Constructor(spaceObject, _objectPool);
-        }
+        
     }
 }
