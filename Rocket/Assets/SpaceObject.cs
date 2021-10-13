@@ -10,6 +10,7 @@ public class SpaceObject:MonoBehaviour,ISpaceObject,IInteractable
     private GameLoopController _gameLoopController;
     private GameStateController _gameStateController;
     private ISpawnPosition _spawnPosition;
+    private Collider _collider;
 
     public virtual void Constructor(RocketController rocketController, ISpaceObjectController spaceObjectController,
         GameLoopController gameLoopController, GameStateController gameStateController, ISpawnPosition spawnPosition)
@@ -19,11 +20,17 @@ public class SpaceObject:MonoBehaviour,ISpaceObject,IInteractable
         _gameLoopController = gameLoopController;
         _gameStateController = gameStateController;
         _spawnPosition = spawnPosition;
+        _collider = GetComponent<Collider>();
     }
     
     public Vector3 GetSpawnPosition()
     {
-        return _spawnPosition.GetSpawnPosition();
+        return _spawnPosition.GetSpawnPosition(GetCollider());
+    }
+
+    private Collider GetCollider()
+    {
+        return _collider;
     }
 
     public GameObject GetGameObject()

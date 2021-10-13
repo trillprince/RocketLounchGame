@@ -20,5 +20,9 @@ namespace Common.Scripts.MissionSystem
             return Resources.Load<GameObject>(path);
         }
 
+        public GameObject LoadCollectable()
+        {
+            return Load(AssetPath.Collectable);
+        }
     }
 }

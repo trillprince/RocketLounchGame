@@ -28,11 +28,11 @@ namespace Common.Scripts.MissionSystem
             _movableSpaceObjects = new Queue<ISpaceObject>(20);
         }
 
-        public ISpaceObject Spawn(ISpawnPosition spawnPosition)
+        public ISpaceObject Spawn(ISpawnPosition spawnPosition,GameObject prefab)
         {
             if (IsEnabled)
             {
-                ISpaceObject spaceObject = _spaceObjectPoolWorker.PopFromPool(spawnPosition).GetComponent<ISpaceObject>();
+                ISpaceObject spaceObject = _spaceObjectPoolWorker.PopFromPool(spawnPosition,prefab).GetComponent<ISpaceObject>();
                 spaceObject.Constructor(_rocketController,this,_gameLoopController,_gameStateController,spawnPosition);
                 _movableSpaceObjects.Enqueue(spaceObject);
                 return spaceObject;

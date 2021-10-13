@@ -10,16 +10,16 @@ namespace Common.Scripts.MissionSystem
 
         public LeftMidSpawnPosition(RocketMovement rocketMovement, 
             LeftSpawnPosition leftSpawnPosition, 
-            MiddleSpawnPosition middleSpawnPosition,Collider asteroidCollider) : base(rocketMovement,asteroidCollider)
+            MiddleSpawnPosition middleSpawnPosition) : base(rocketMovement)
         {
             _leftSpawnPosition = leftSpawnPosition;
             _middleSpawnPosition = middleSpawnPosition;
         }
 
-        public Vector3 GetSpawnPosition()
+        public Vector3 GetSpawnPosition(Collider collider)
         {
             return new Vector3(
-                (_leftSpawnPosition.GetSpawnPosition().x - _middleSpawnPosition.GetSpawnPosition().x) / 2,
+                (_leftSpawnPosition.GetSpawnPosition(collider).x - _middleSpawnPosition.GetSpawnPosition(collider).x) / 2,
                 -_screenBounds.y,
                 _rocketPosition.z);
         }

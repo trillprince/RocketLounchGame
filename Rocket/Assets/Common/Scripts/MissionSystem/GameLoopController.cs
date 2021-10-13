@@ -21,14 +21,12 @@ namespace Common.Scripts.MissionSystem
             GameStateController gameStateController,
             ICoroutineRunner coroutineRunner)
         {
-            var assetProvider = new AssetProvider();
             var objectController = new SpaceObjectLifeCycle(
-                new SpaceObjectPoolWorker(objectPoolStorage,assetProvider),
+                new SpaceObjectPoolWorker(objectPoolStorage),
                 rocketController,gameStateController,this);
 
             _spaceObjectSpawnController = new SpaceObjectSpawnController(coroutineRunner,objectController,
-                rocketController.Movement,
-                assetProvider.LoadAsteroid().GetComponent<Collider>());
+                rocketController.Movement);
         }
 
         private void OnEnable()

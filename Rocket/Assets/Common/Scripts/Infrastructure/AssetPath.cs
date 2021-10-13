@@ -6,5 +6,6 @@
         public static readonly string CoroutineRunner = "Prefabs/Bootstrap/CoroutineRunner";
         public static readonly string Asteroid = "Prefabs/Asteroids/Asteroid";
         public static readonly string Cargo = "Prefabs/Cargo/CubeCargo";
+        public static readonly string Collectable = "Prefabs/Collectables/Collectable";
     }
 }

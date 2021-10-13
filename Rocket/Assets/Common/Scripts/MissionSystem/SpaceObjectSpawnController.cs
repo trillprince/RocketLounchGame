@@ -18,21 +18,22 @@ namespace Common.Scripts.MissionSystem
         private ISpaceObjectController _spaceObjectController;
         private readonly MeshCollider _rocketMeshCollider;
         private int _spawnsBeforeCheckPoint = 25;
+        private ObjectsForSpawn _objectsForSpawn;
 
         public SpaceObjectSpawnController
         (
             ICoroutineRunner coroutineRunner,
             ISpaceObjectController spaceObjectController,
-            RocketMovement rocketMovement,
-            Collider asteroidCollider)
+            RocketMovement rocketMovement)
         {
+            _objectsForSpawn = new ObjectsForSpawn(new AssetProvider());
             _coroutineRunner = coroutineRunner;
             _spaceObjectController = spaceObjectController;
             _rocketMeshCollider = rocketMovement.GetMeshCollider();
             _spawnPositionController = new SpawnPositionController(rocketMovement,
-                new LeftSpawnPosition(rocketMovement, asteroidCollider),
-                new RightSpawnPosition(rocketMovement, asteroidCollider),
-                new MiddleSpawnPosition(rocketMovement, asteroidCollider), asteroidCollider);
+                new LeftSpawnPosition(rocketMovement),
+                new RightSpawnPosition(rocketMovement),
+                new MiddleSpawnPosition(rocketMovement));
         }
 
         private IEnumerator StartSpawning()
@@ -47,8 +48,8 @@ namespace Common.Scripts.MissionSystem
                 ShuffleIfSimilarPositions(i, ref shuffledArray, lastSpawnPos, random);
                 for (int j = 0; j < shuffledArray.Length; j++)
                 {
-                    if(randomIndexForRemove == j) continue; 
-                    var spaceObject = _spaceObjectController.Spawn(shuffledArray[j]);
+                    if(randomIndexForRemove == j) continue;
+                    var spaceObject = _spaceObjectController.Spawn(shuffledArray[j],_objectsForSpawn.GetRandomObject());
                     while ((spaceObject.GetSpawnPosition().y - spaceObject.GetTransform().position.y) <
                            _rocketMeshCollider.bounds.size.y * 1.5)
                     {

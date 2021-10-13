@@ -6,23 +6,24 @@ namespace Common.Scripts.MissionSystem
 {
     public class SpaceObjectPoolWorker: IPoolWorker
     {
-        private readonly ObjectPool _objectPool;
+        private readonly ObjectPoolStorage _objectPoolStorage;
 
-        public  SpaceObjectPoolWorker(ObjectPoolStorage objectPoolStorage,AssetProvider assetProvider)
+        public  SpaceObjectPoolWorker(ObjectPoolStorage objectPoolStorage)
         {
-            _objectPool = objectPoolStorage.GetPool(assetProvider.LoadAsteroid());
+            _objectPoolStorage = objectPoolStorage;
         }
                
-        public GameObject PopFromPool (ISpawnPosition spawnPosition)
+        public GameObject PopFromPool (ISpawnPosition spawnPosition,GameObject prefab)
         {
-            GameObject pooledObject = _objectPool.Pop(_objectPool.Root.position);
-            pooledObject.transform.position = spawnPosition.GetSpawnPosition();
+            var objectPool = _objectPoolStorage.GetPool(prefab);
+            GameObject pooledObject = objectPool.Pop(objectPool.Root.position);
+            pooledObject.transform.position = spawnPosition.GetSpawnPosition(prefab.GetComponent<Collider>());
             return pooledObject;
         }
 
         public void Dispose(GameObject gameObject)
         {
-            _objectPool.Push(gameObject);
+            _objectPoolStorage.GetPool(gameObject).Push(gameObject);
         }
 
     }

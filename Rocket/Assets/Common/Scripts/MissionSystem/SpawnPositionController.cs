@@ -10,19 +10,18 @@ namespace Common.Scripts.MissionSystem
         public SpawnPositionController(RocketMovement rocketMovement, 
             LeftSpawnPosition leftSpawnPosition,
             RightSpawnPosition rightSpawnPosition,
-            MiddleSpawnPosition middleSpawnPosition,
-            Collider collider)
+            MiddleSpawnPosition middleSpawnPosition)
         {
             SpawnPositions = new ISpawnPosition[]
             {
                 leftSpawnPosition,
                 new LeftMidSpawnPosition(rocketMovement,
                     leftSpawnPosition,
-                    middleSpawnPosition,collider),
+                    middleSpawnPosition),
                 rightSpawnPosition,
                 new RightMidSpawnPosition(rocketMovement,
                     rightSpawnPosition, 
-                    middleSpawnPosition,collider),
+                    middleSpawnPosition),
                 middleSpawnPosition
             };
         }
