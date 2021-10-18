@@ -11,20 +11,17 @@ namespace Common.Scripts.Rocket
     {
         private readonly IWindowModel _windowModel;
         private readonly Action<IUICreator<IPauseWindow>> _onEventAction;
-        private readonly IEventSubscriber<LandingStatus> _iEventSubscriber;
         private readonly string _key = "EndOfGame";
 
         public EndOfGameUI(IWindowModel windowModel,
-            Action<IUICreator<IPauseWindow>> onEventAction, 
-            IEventSubscriber<LandingStatus> iEventSubscriber)
+            Action<IUICreator<IPauseWindow>> onEventAction)
         {
             _windowModel = windowModel;
             _onEventAction = onEventAction;
-            _iEventSubscriber = iEventSubscriber;
             OnCreatorCreate();
         }
 
-        private void OnRocketLandingUiCreate(LandingStatus landingStatus)
+        private void OnGameOverUiCreate()
         {
             _onEventAction?.Invoke(this);
         }
@@ -36,12 +33,12 @@ namespace Common.Scripts.Rocket
 
         public void OnCreatorDestroy()
         {
-            _iEventSubscriber.Unsubscribe(OnRocketLandingUiCreate);
+            GameLoopController.OnGameOver -= OnGameOverUiCreate;
         }
 
         public void OnCreatorCreate()
         {
-            _iEventSubscriber.Subscribe(OnRocketLandingUiCreate);
+            GameLoopController.OnGameOver += OnGameOverUiCreate;
         }
         public string GetKey()
         {

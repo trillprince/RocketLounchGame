@@ -51,9 +51,9 @@ namespace Common.Scripts.MissionSystem
         public void Disable()
         {
             IsEnabled = false;
-            foreach (var spaceObject in _movableSpaceObjects)
+            for (int i = 0; i < _movableSpaceObjects.Count; i++)
             {
-                _spaceObjectPoolWorker.Dispose(spaceObject);
+                _spaceObjectPoolWorker.Dispose(_movableSpaceObjects[i]);
             }
             _movableSpaceObjects.Clear();
         }
@@ -61,9 +61,9 @@ namespace Common.Scripts.MissionSystem
 
         public void Execute()
         {
-            foreach (var t in _movableSpaceObjects)
+            for (int i = 0; i < _movableSpaceObjects.Count; i++)
             {
-                t.Execute();
+                _movableSpaceObjects[i].Execute();
             }
         }
 

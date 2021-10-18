@@ -15,10 +15,7 @@ using Zenject;
 public class EndOfGameWindow : MonoBehaviour,IPauseWindow
 {
     private GameStateMachine _gameStateMachine;
-    [SerializeField] private TextMeshProUGUI _cargoDropInfoText;
-    [SerializeField] private TextMeshProUGUI _landingInfoText;
     [SerializeField] private Button _menuButton;
-    private string _currentText;
     private LoadingCurtain _loadingCurtain;
     
     
@@ -38,7 +35,6 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
     private void Start()
     {
         PauseTheGame();
-        DisplayInfo();
     }
    
     private void Exit()
@@ -50,28 +46,13 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
         }));
     }
 
-    private void ShowCargoDropInfo()
-    {
-
-    }
-
-    private void ShowLandingInfo()
-    {
-    }
-
-    public void DisplayInfo()
-    {
-        ShowCargoDropInfo();
-        ShowLandingInfo();
-    }
-
     public void PauseTheGame()
     {
-        Time.timeScale = 0;
+        // Time.timeScale = 0;
     }
 
     public void UnpauseTheGame()
     {
-        Time.timeScale = 1;
+        // Time.timeScale = 1;
     }
 }

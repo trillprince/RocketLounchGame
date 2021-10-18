@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using UnityEngine;
+using Zenject;
 
 namespace Common.Scripts.UI
 {
@@ -20,6 +22,7 @@ namespace Common.Scripts.UI
             _buttonController = FindObjectOfType<ButtonManager>();
             InitUiCreatorDictionary();
         }
+        
 
         private void InitUiCreatorDictionary()
         {
@@ -29,12 +32,10 @@ namespace Common.Scripts.UI
             {
                 [typeof(EndOfGameUI)] = 
                     new EndOfGameUI(_windowModels.GetSpecificModel("EndOfGame"),
-                        CreateWindow, 
-                        new EndOfGameEventListener()),
+                        CreateWindow),
                 [typeof(PauseOfGameUI)] = 
                     new PauseOfGameUI(_windowModels.GetSpecificModel("PauseOfGame"),
-                        CreateWindow, 
-                        new PauseOfGameEventSubscriber())
+                        CreateWindow)
             };
         }
 

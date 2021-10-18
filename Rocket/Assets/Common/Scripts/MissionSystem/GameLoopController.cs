@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -14,6 +15,8 @@ namespace Common.Scripts.MissionSystem
     {
         private SpaceObjectSpawnController _spaceObjectSpawnController;
         private GameStateMachine _gameStateMachine;
+
+        public static event Action OnGameOver; 
 
 
         [Inject]
@@ -57,6 +60,7 @@ namespace Common.Scripts.MissionSystem
                     _gameStateMachine.Curtain.Show((() =>
                     {
                         _spaceObjectSpawnController.Disable();
+                        OnGameOver?.Invoke();
                     }));
                     break;
             }

@@ -13,10 +13,6 @@ namespace Common.Scripts.UI
         private GameStateMachine _gameStateMachine;
         private Action _onUnpauseAction;
 
-        public void Constructor(Action onUnpauseAction)
-        {
-            _onUnpauseAction = onUnpauseAction;
-        }
 
         private void Awake()
         {
@@ -35,6 +31,11 @@ namespace Common.Scripts.UI
         private void Start()
         {
             PauseTheGame();
+        }
+
+        public void Constructor(Action onUnpauseAction)
+        {
+            _onUnpauseAction = onUnpauseAction;
         }
 
         public void PauseTheGame()
