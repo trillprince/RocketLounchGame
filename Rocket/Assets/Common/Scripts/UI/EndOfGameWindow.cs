@@ -17,6 +17,7 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
     private GameStateMachine _gameStateMachine;
     [SerializeField] private Button _menuButton;
     private LoadingCurtain _loadingCurtain;
+    private Animator _animator;
     
     
     public void Constructor(Action onUnpauseAction)
@@ -30,16 +31,19 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
         _gameStateMachine = FindObjectOfType<BootstrapAgregator>().GetStateMachine();
         _loadingCurtain = _gameStateMachine.Curtain;
         _menuButton.onClick.AddListener(Exit);
+        _animator = GetComponent<Animator>();
     }
 
     private void Start()
     {
         PauseTheGame();
+        _animator.Play("Pop_up");
     }
    
     private void Exit()
     {
         UnpauseTheGame();
+        _animator.Play("Pop_down");
         _loadingCurtain.Show((() =>
         {
             _gameStateMachine.Enter<MenuBootStrapState>();

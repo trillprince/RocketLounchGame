@@ -48,29 +48,27 @@ namespace Common.Scripts.MissionSystem
                 ShuffleIfSimilarPositions(i, ref shuffledArray, lastSpawnPos, random);
                 for (int j = 0; j < shuffledArray.Length; j++)
                 {
-                    if(randomIndexForRemove == j) continue;
-                    if (_spaceObjectSystemActive)
+                    if (randomIndexForRemove == j) continue;
+
+                    var spaceObject = _spaceObjectLifeCycle.Spawn(shuffledArray[j], _objectsForSpawn.GetRandomObject());
+                    while ((spaceObject.GetSpawnPosition().y - spaceObject.GetTransform().position.y) <
+                           _rocketMeshCollider.bounds.size.y * 1.5)
                     {
-                        var spaceObject = _spaceObjectLifeCycle.Spawn(shuffledArray[j],_objectsForSpawn.GetRandomObject());
-                        while ((spaceObject.GetSpawnPosition().y - spaceObject.GetTransform().position.y) <
-                               _rocketMeshCollider.bounds.size.y * 1.5)
+                        if (!_spaceObjectSystemActive)
                         {
-                            yield return null;
+                            yield break;
                         }
-                        lastSpawnPos = shuffledArray[j];
+                        yield return null;
                     }
-                    else
-                    {
-                        yield break;
-                    }
-                    
+
+                    lastSpawnPos = shuffledArray[j];
                 }
-                
             }
         }
-        
 
-        private void ShuffleIfSimilarPositions(int index, ref ISpawnPosition[] shuffledArray,ISpawnPosition lastSpawnPos,Random random)
+
+        private void ShuffleIfSimilarPositions(int index, ref ISpawnPosition[] shuffledArray,
+            ISpawnPosition lastSpawnPos, Random random)
         {
             if (index > 0)
             {
@@ -81,7 +79,6 @@ namespace Common.Scripts.MissionSystem
                     shuffledArray = _spawnPositionController.SpawnPositions.OrderBy(x => random.Next()).ToArray();
                 }
             }
-            
         }
 
 

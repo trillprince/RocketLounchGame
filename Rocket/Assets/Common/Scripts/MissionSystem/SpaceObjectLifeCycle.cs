@@ -61,9 +61,12 @@ namespace Common.Scripts.MissionSystem
 
         public void Execute()
         {
-            for (int i = 0; i < _movableSpaceObjects.Count; i++)
+            if (IsEnabled)
             {
-                _movableSpaceObjects[i].Execute();
+                for (int i = 0; i < _movableSpaceObjects.Count; i++)
+                {
+                    _movableSpaceObjects[i].Execute();
+                }
             }
         }
 
