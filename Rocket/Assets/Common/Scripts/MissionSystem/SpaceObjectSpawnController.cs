@@ -13,7 +13,7 @@ namespace Common.Scripts.MissionSystem
     public class SpaceObjectSpawnController : IUpdatable
     {
         private SpawnPositionController _spawnPositionController;
-        private bool _satelliteSystemActive;
+        private bool _spaceObjectSystemActive;
         private readonly ICoroutineRunner _coroutineRunner;
         private ISpaceObjectLifeCycle _spaceObjectLifeCycle;
         private readonly MeshCollider _rocketMeshCollider;
@@ -49,13 +49,21 @@ namespace Common.Scripts.MissionSystem
                 for (int j = 0; j < shuffledArray.Length; j++)
                 {
                     if(randomIndexForRemove == j) continue;
-                    var spaceObject = _spaceObjectLifeCycle.Spawn(shuffledArray[j],_objectsForSpawn.GetRandomObject());
-                    while ((spaceObject.GetSpawnPosition().y - spaceObject.GetTransform().position.y) <
-                           _rocketMeshCollider.bounds.size.y * 1.5)
+                    if (_spaceObjectSystemActive)
                     {
-                        yield return null;
+                        var spaceObject = _spaceObjectLifeCycle.Spawn(shuffledArray[j],_objectsForSpawn.GetRandomObject());
+                        while ((spaceObject.GetSpawnPosition().y - spaceObject.GetTransform().position.y) <
+                               _rocketMeshCollider.bounds.size.y * 1.5)
+                        {
+                            yield return null;
+                        }
+                        lastSpawnPos = shuffledArray[j];
                     }
-                    lastSpawnPos = shuffledArray[j];
+                    else
+                    {
+                        yield break;
+                    }
+                    
                 }
                 
             }
@@ -79,7 +87,7 @@ namespace Common.Scripts.MissionSystem
 
         public void Execute()
         {
-            if (_satelliteSystemActive)
+            if (_spaceObjectSystemActive)
             {
                 _spaceObjectLifeCycle.Execute();
             }
@@ -87,13 +95,13 @@ namespace Common.Scripts.MissionSystem
 
         public void Disable()
         {
-            _satelliteSystemActive = false;
+            _spaceObjectSystemActive = false;
             _spaceObjectLifeCycle.Disable();
         }
 
         public void Enable()
         {
-            _satelliteSystemActive = true;
+            _spaceObjectSystemActive = true;
             _spaceObjectLifeCycle.Enable();
             _coroutineRunner.StartCoroutine(StartSpawning());
         }
