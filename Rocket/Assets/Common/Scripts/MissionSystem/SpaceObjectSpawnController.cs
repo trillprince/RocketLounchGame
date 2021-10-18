@@ -4,6 +4,7 @@ using System.Linq;
 using Common.Scripts.Cargo;
 using Common.Scripts.Infrastructure;
 using Common.Scripts.Rocket;
+using Common.Scripts.SpaceObjects;
 using UnityEngine;
 using Random = System.Random;
 using UnityRandom = UnityEngine.Random;
@@ -12,13 +13,13 @@ namespace Common.Scripts.MissionSystem
 {
     public class SpaceObjectSpawnController : IUpdatable
     {
-        private SpawnPositionController _spawnPositionController;
+        private readonly SpawnPositionController _spawnPositionController;
         private bool _spaceObjectSystemActive;
         private readonly ICoroutineRunner _coroutineRunner;
-        private ISpaceObjectLifeCycle _spaceObjectLifeCycle;
+        private readonly ISpaceObjectLifeCycle _spaceObjectLifeCycle;
         private readonly MeshCollider _rocketMeshCollider;
         private int _spawnsBeforeCheckPoint = 25;
-        private ObjectsForSpawn _objectsForSpawn;
+        private readonly ObjectsForSpawn _objectsForSpawn;
 
         public SpaceObjectSpawnController
         (
@@ -45,14 +46,13 @@ namespace Common.Scripts.MissionSystem
             for (int i = 0; i < _spawnsBeforeCheckPoint; i++)
             {
                 var randomIndexForRemove = UnityRandom.Range(0, shuffledArray.Length);
-                ShuffleIfSimilarPositions(i, ref shuffledArray, lastSpawnPos, random);
+                ShuffleOnSimilarPositions(i, ref shuffledArray, lastSpawnPos, random);
                 for (int j = 0; j < shuffledArray.Length; j++)
                 {
                     if (randomIndexForRemove == j) continue;
 
                     var spaceObject = _spaceObjectLifeCycle.Spawn(shuffledArray[j], _objectsForSpawn.GetRandomObject());
-                    while ((spaceObject.GetSpawnPosition().y - spaceObject.GetTransform().position.y) <
-                           _rocketMeshCollider.bounds.size.y * 1.5)
+                    while (ObjectCloseToSpawnPoint(spaceObject))
                     {
                         if (!_spaceObjectSystemActive)
                         {
@@ -66,8 +66,14 @@ namespace Common.Scripts.MissionSystem
             }
         }
 
+        private bool ObjectCloseToSpawnPoint(ISpaceObject spaceObject)
+        {
+            return (spaceObject.GetSpawnPosition().y - spaceObject.GetTransform().position.y) <
+                   _rocketMeshCollider.bounds.size.y * 1.5;
+        }
 
-        private void ShuffleIfSimilarPositions(int index, ref ISpawnPosition[] shuffledArray,
+
+        private void ShuffleOnSimilarPositions(int index, ref ISpawnPosition[] shuffledArray,
             ISpawnPosition lastSpawnPos, Random random)
         {
             if (index > 0)

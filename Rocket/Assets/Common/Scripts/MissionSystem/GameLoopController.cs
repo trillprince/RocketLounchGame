@@ -26,11 +26,11 @@ namespace Common.Scripts.MissionSystem
             ICoroutineRunner coroutineRunner, GameStateMachine gameStateMachine)
         {
             _gameStateMachine = gameStateMachine;
-            var objectController = new SpaceObjectLifeCycle(
+            var spaceObjectLifeCycle = new SpaceObjectLifeCycle(
                 new SpaceObjectPoolWorker(objectPoolStorage),
                 rocketController, gameStateController, this);
 
-            _spaceObjectSpawnController = new SpaceObjectSpawnController(coroutineRunner, objectController,
+            _spaceObjectSpawnController = new SpaceObjectSpawnController(coroutineRunner, spaceObjectLifeCycle,
                 rocketController.Movement);
         }
 

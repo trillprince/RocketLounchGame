@@ -14,7 +14,7 @@ namespace Common.Scripts.MissionSystem
         public GameObject GetRandomObject()
         {
             var randomValue = Random.Range(0, 101);
-            if (randomValue > 95)
+            if (randomValue > 98)
             {
                 return _assetProvider.LoadCollectable();
             }

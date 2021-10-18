@@ -18,14 +18,22 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
     [SerializeField] private Button _menuButton;
     private LoadingCurtain _loadingCurtain;
     private Animator _animator;
-    
-    
-    public void Constructor(Action onUnpauseAction)
+    private IGameTimeController _gameTimeController;
+
+    public void MainMenu()
     {
-        
+        _loadingCurtain.Show((() =>
+        {
+            _gameStateMachine.Enter<MenuBootStrapState>();
+        }));
     }
 
 
+    public void Constructor(Action onUnpauseAction, IGameTimeController gameTimeController)
+    {
+        _gameTimeController = gameTimeController;
+    }
+    
     private void Awake()
     {
         _gameStateMachine = FindObjectOfType<BootstrapAgregator>().GetStateMachine();
@@ -36,31 +44,24 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
 
     private void Start()
     {
-        PauseTheGame();
         _animator.Play("Pop_up");
+    }
+
+    public void Pause()
+    {
+        _gameTimeController.Pause();
+    }
+
+    public void UnPause()
+    {
+        _gameTimeController.UnPause();
     }
    
     private void Exit()
     {
-        UnpauseTheGame();
+        UnPause();
         _animator.SetBool("MainMenu",true);
     }
 
-    public void MainMenu()
-    {
-        _loadingCurtain.Show((() =>
-        {
-            _gameStateMachine.Enter<MenuBootStrapState>();
-        }));
-    }
-
-    public void PauseTheGame()
-    {
-        // Time.timeScale = 0;
-    }
-
-    public void UnpauseTheGame()
-    {
-        // Time.timeScale = 1;
-    }
+   
 }

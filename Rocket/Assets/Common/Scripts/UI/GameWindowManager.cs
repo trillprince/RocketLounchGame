@@ -16,6 +16,14 @@ namespace Common.Scripts.UI
         private IUICreator<IPauseWindow> _uiCreator;
         [SerializeField] private WindowModels _windowModels;
         private IButtonController _buttonController;
+        private IGameTimeController _gameTimeController;
+
+        
+        [Inject]
+        private void Constructor(IGameTimeController gameTimeController)
+        {
+            _gameTimeController = gameTimeController;
+        }
 
         private void Awake()
         {
@@ -23,7 +31,6 @@ namespace Common.Scripts.UI
             InitUiCreatorDictionary();
         }
         
-
         private void InitUiCreatorDictionary()
         {
             _dictionaryKeys = new[] {typeof(EndOfGameUI), typeof(PauseOfGameUI)};
@@ -52,7 +59,7 @@ namespace Common.Scripts.UI
             window.Constructor((() =>
             {
                 _buttonController.ButtonsActive(true);
-            }));
+            }),_gameTimeController);
             return window;
         }
 

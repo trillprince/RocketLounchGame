@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Common.Scripts.Infrastructure
 {
-    public class GameStateMachineInstaller : MonoInstaller
+    public class GameControllersInstaller : MonoInstaller
     {
         private GameBootstrapper _gameBootstrapper;
 
@@ -22,6 +22,7 @@ namespace Common.Scripts.Infrastructure
             _gameBootstrapper = FindObjectOfType<GameBootstrapper>();
             
             Container.Bind<IGameStateController>().FromInstance(gameStateController);
+            Container.Bind<IGameTimeController>().FromInstance(new GameTimeController());
             Container.Bind<ICoroutineRunner>().FromInstance(_gameBootstrapper.StateMachine.Loader.Runner);
             Container.Bind<GameStateMachine>().FromInstance(_gameBootstrapper.StateMachine);
             Container.Bind<LoadingCurtain>().FromInstance(_gameBootstrapper.StateMachine.Curtain);
