@@ -11,16 +11,14 @@ namespace Common.Scripts.Rocket
     {
         private Queue<Collider> _collisionList;
 
-
-        [Inject]
-        public void Constructor(GameStateController gameStateController)
+        private void Start()
         {
             _collisionList = new Queue<Collider>();
+
         }
         
         private void ApplyCollision(Collider collider)
         {
-            if(_collisionList.Contains(collider) || collider.GetComponent<SpaceObject>() == null) return;
             AddCollisionToList(collider);
             collider.GetComponent<SpaceObject>().Interact();
         }
@@ -32,12 +30,10 @@ namespace Common.Scripts.Rocket
         
         private void OnTriggerEnter(Collider other)
         {
-            ApplyCollision(other);
+            if (other.GetComponent<SpaceObject>() != null)
+            {
+                ApplyCollision(other);
+            }
         }
-    }
-
-    public interface IInteractable
-    {
-        public void Interact();
     }
 }

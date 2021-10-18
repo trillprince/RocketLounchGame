@@ -6,23 +6,23 @@ using UnityEngine;
 public class SpaceObject:MonoBehaviour,ISpaceObject,IInteractable
 {
     private RocketController _rocketController;
-    private ISpaceObjectController _spaceObjectController;
+    private ISpaceObjectLifeCycle _spaceObjectLifeCycle;
     private GameLoopController _gameLoopController;
-    private GameStateController _gameStateController;
+    private IGameStateController _gameStateController;
     private ISpawnPosition _spawnPosition;
     private Collider _collider;
 
-    public virtual void Constructor(RocketController rocketController, ISpaceObjectController spaceObjectController,
-        GameLoopController gameLoopController, GameStateController gameStateController, ISpawnPosition spawnPosition)
+    public virtual void Constructor(RocketController rocketController, ISpaceObjectLifeCycle spaceObjectLifeCycle,
+        GameLoopController gameLoopController, IGameStateController gameStateController, ISpawnPosition spawnPosition)
     {
         _rocketController = rocketController;
-        _spaceObjectController = spaceObjectController;
+        _spaceObjectLifeCycle = spaceObjectLifeCycle;
         _gameLoopController = gameLoopController;
         _gameStateController = gameStateController;
         _spawnPosition = spawnPosition;
         _collider = GetComponent<Collider>();
     }
-    
+
     public Vector3 GetSpawnPosition()
     {
         return _spawnPosition.GetSpawnPosition(GetCollider());
@@ -43,6 +43,7 @@ public class SpaceObject:MonoBehaviour,ISpaceObject,IInteractable
         return transform;
     }
 
+
     public virtual void Execute()
     {
         
@@ -50,6 +51,6 @@ public class SpaceObject:MonoBehaviour,ISpaceObject,IInteractable
 
     public virtual void Interact()
     {
-        
+       
     }
 }

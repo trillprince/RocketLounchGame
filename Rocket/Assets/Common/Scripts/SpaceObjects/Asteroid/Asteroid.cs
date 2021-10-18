@@ -16,21 +16,24 @@ namespace Common.Scripts.SpaceObjects.Asteroid
         
         
         public override void Constructor(RocketController rocketController,
-            ISpaceObjectController spaceObjectController,
-            GameLoopController gameLoopController, GameStateController gameStateController,
+            ISpaceObjectLifeCycle spaceObjectLifeCycle,
+            GameLoopController gameLoopController, IGameStateController gameStateController,
             ISpawnPosition spawnPosition)
         {
-            base.Constructor(rocketController, spaceObjectController, gameLoopController, gameStateController, spawnPosition);
+            base.Constructor(rocketController, spaceObjectLifeCycle, gameLoopController, gameStateController, spawnPosition);
             
             _asteroidMove = new AsteroidMove(rocketController.Movement, transform);
             _spawnPosition = spawnPosition;
-            _asteroidDelivery = new AsteroidDelivery(spaceObjectController,gameLoopController);
-            _asteroidInteraction = new AsteroidInteraction(gameStateController,rocketController.Health);
+            _asteroidDelivery = new AsteroidDelivery(spaceObjectLifeCycle,gameLoopController);
             _asteroidStateOnScreen = new AsteroidStateOnScreen( 
                 transform,
-                spaceObjectController,
-                _asteroidDelivery
+                spaceObjectLifeCycle,
+                _asteroidDelivery,
+                this
             );
+            _asteroidInteraction = new AsteroidInteraction(rocketController.Health,
+                _asteroidStateOnScreen.SpaceObjectLifeCycle,
+                this);
         }
         
         public override void Execute()

@@ -18,10 +18,10 @@ namespace Common.Scripts.Infrastructure
 
         private void BindGameStateMachine()
         {
-            var gameStateController = FindObjectOfType<GameStateController>();
+            IGameStateController gameStateController = FindObjectOfType<GameStateController>();
             _gameBootstrapper = FindObjectOfType<GameBootstrapper>();
             
-            Container.Bind<GameStateController>().FromInstance(gameStateController);
+            Container.Bind<IGameStateController>().FromInstance(gameStateController);
             Container.Bind<ICoroutineRunner>().FromInstance(_gameBootstrapper.StateMachine.Loader.Runner);
             Container.Bind<GameStateMachine>().FromInstance(_gameBootstrapper.StateMachine);
             Container.Bind<LoadingCurtain>().FromInstance(_gameBootstrapper.StateMachine.Curtain);

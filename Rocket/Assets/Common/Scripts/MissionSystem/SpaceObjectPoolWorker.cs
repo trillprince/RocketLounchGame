@@ -1,5 +1,6 @@
 ﻿using Common.Scripts.Infrastructure;
 using Common.Scripts.Rocket;
+using Common.Scripts.SpaceObjects;
 using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
@@ -21,9 +22,10 @@ namespace Common.Scripts.MissionSystem
             return pooledObject;
         }
 
-        public void Dispose(GameObject gameObject)
+        public void Dispose(ISpaceObject spaceObject)
         {
-            _objectPoolStorage.GetPool(gameObject).Push(gameObject);
+            var spaceObjectGo = spaceObject.GetGameObject();
+            _objectPoolStorage.GetPool(spaceObjectGo).Push(spaceObjectGo);
         }
 
     }

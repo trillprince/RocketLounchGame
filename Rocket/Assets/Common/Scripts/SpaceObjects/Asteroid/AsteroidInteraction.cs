@@ -1,28 +1,26 @@
-﻿using Common.Scripts.Rocket;
+﻿using Common.Scripts.MissionSystem;
+using Common.Scripts.Rocket;
 using UnityEngine;
 
 namespace Common.Scripts.SpaceObjects
 {
     public class AsteroidInteraction: IInteractable
     {
-        private GameStateController _gameStateController;
-        private RocketHealth _rocketHealth;
+        private readonly RocketHealth _rocketHealth;
+        private readonly ISpaceObjectLifeCycle _spaceObjectLifeCycle;
+        private readonly ISpaceObject _spaceObject;
 
-        public AsteroidInteraction(GameStateController gameStateController,RocketHealth rocketHealth)
+        public AsteroidInteraction(RocketHealth rocketHealth,ISpaceObjectLifeCycle spaceObjectLifeCycle,ISpaceObject spaceObject)
         {
-            _gameStateController = gameStateController;
             _rocketHealth = rocketHealth;
+            _spaceObjectLifeCycle = spaceObjectLifeCycle;
+            _spaceObject = spaceObject;
         }
 
         public void Interact()
         {
-            if (_rocketHealth.Health > 1)
-            {
-                _rocketHealth.Health -= 1;
-                return;
-            }
-            _rocketHealth.Health = 0;
-            _gameStateController.SetGameState(GameState.EndOfGame);
+            _rocketHealth.DamageRocket(1);
+            _spaceObjectLifeCycle.Dispose(_spaceObject);
         }
     }
 }

@@ -9,10 +9,9 @@ using Zenject;
 
 namespace Common.Scripts.Rocket
 {
-    public class GameStateController : MonoBehaviour
+    public class GameStateController : MonoBehaviour,IGameStateController
     {
-        private float _timeBeforeStateSwitch = 3f;
-        public GameState CurrentGameState { get; private set; }
+        private GameState CurrentGameState { get; set; }
 
         public delegate void StateSwitch(GameState state);
 
@@ -48,15 +47,12 @@ namespace Common.Scripts.Rocket
         
         public void SetGameState(GameState state,Action action = null)
         {
-            CurrentGameState = state;
-            OnStateSwitch?.Invoke(state);
-            action?.Invoke();
-        }
-
-        IEnumerator WaitTillStateSwitch(GameState gameState,Action action = null)
-        {
-            yield return new WaitForSeconds(_timeBeforeStateSwitch);
-            SetGameState(gameState,action);
+            if (CurrentGameState != state)
+            {
+                CurrentGameState = state;
+                OnStateSwitch?.Invoke(state);
+                action?.Invoke();
+            }
         }
     }
 

@@ -9,16 +9,19 @@ public class StateOnScreenPosition
     private readonly Transform _transform;
     private readonly Vector3 _screenBounds;
     private StateOnScreen _currentStateOnScreen;
-    protected readonly ISpaceObjectController SpaceObjectController;
+    public readonly ISpaceObjectLifeCycle SpaceObjectLifeCycle;
+    private ISpaceObject _spaceObject;
 
     protected StateOnScreenPosition(
         Transform transform,
-        ISpaceObjectController spaceObjectController)
+        ISpaceObjectLifeCycle spaceObjectLifeCycle,
+        ISpaceObject spaceObject)
     {
         _transform = transform;
-        SpaceObjectController = spaceObjectController;
-        
-            _screenBounds =
+        SpaceObjectLifeCycle = spaceObjectLifeCycle;
+        _spaceObject = spaceObject;
+
+        _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
                     Screen.width,
                     Screen.height,
@@ -38,7 +41,7 @@ public class StateOnScreenPosition
             case StateOnScreen.LowerRed:
                 break;
             case StateOnScreen.DisposeZone:
-                SpaceObjectController.DisposeLastObject();
+                SpaceObjectLifeCycle.Dispose(_spaceObject);
                 break;
         }
     }

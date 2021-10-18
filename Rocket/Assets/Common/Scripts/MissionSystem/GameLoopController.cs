@@ -18,7 +18,7 @@ namespace Common.Scripts.MissionSystem
         [Inject]
         private void Constructor(RocketController rocketController, 
             ObjectPoolStorage objectPoolStorage, 
-            GameStateController gameStateController,
+            IGameStateController gameStateController,
             ICoroutineRunner coroutineRunner)
         {
             var objectController = new SpaceObjectLifeCycle(

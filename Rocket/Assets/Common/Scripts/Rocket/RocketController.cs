@@ -11,12 +11,13 @@ namespace Common.Scripts.Rocket
     {
         public RocketCargo Cargo { get; private set; }
         public RocketMovement Movement { get; private set; }
-        public RocketHealth Health { get; set; }
+        public RocketHealth Health { get; private set; }
+        public RocketInventory Inventory { get; set; }
 
         private Dictionary<Type,IGameStateSubscriber> _gameStateSubscribers;
 
         [Inject]
-        private void Constructor(ObjectPoolStorage objectPoolStorage,InputManager inputManager)
+        private void Constructor(IGameStateController gameStateController,ObjectPoolStorage objectPoolStorage,InputManager inputManager)
         {
             Cargo = new RocketCargo(objectPoolStorage,new AssetProvider(),transform);
             Movement = new RocketMovement(
@@ -25,7 +26,7 @@ namespace Common.Scripts.Rocket
                 transform: transform,
                 GetComponentInChildren<MeshCollider>());
 
-            Health = new RocketHealth();
+            Health = new RocketHealth(gameStateController);
 
             _gameStateSubscribers = new Dictionary<Type, IGameStateSubscriber>
             {

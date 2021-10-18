@@ -15,7 +15,7 @@ namespace Common.Scripts.MissionSystem
         private SpawnPositionController _spawnPositionController;
         private bool _satelliteSystemActive;
         private readonly ICoroutineRunner _coroutineRunner;
-        private ISpaceObjectController _spaceObjectController;
+        private ISpaceObjectLifeCycle _spaceObjectLifeCycle;
         private readonly MeshCollider _rocketMeshCollider;
         private int _spawnsBeforeCheckPoint = 25;
         private ObjectsForSpawn _objectsForSpawn;
@@ -23,12 +23,12 @@ namespace Common.Scripts.MissionSystem
         public SpaceObjectSpawnController
         (
             ICoroutineRunner coroutineRunner,
-            ISpaceObjectController spaceObjectController,
+            ISpaceObjectLifeCycle spaceObjectLifeCycle,
             RocketMovement rocketMovement)
         {
             _objectsForSpawn = new ObjectsForSpawn(new AssetProvider());
             _coroutineRunner = coroutineRunner;
-            _spaceObjectController = spaceObjectController;
+            _spaceObjectLifeCycle = spaceObjectLifeCycle;
             _rocketMeshCollider = rocketMovement.GetMeshCollider();
             _spawnPositionController = new SpawnPositionController(rocketMovement,
                 new LeftSpawnPosition(rocketMovement),
@@ -49,7 +49,7 @@ namespace Common.Scripts.MissionSystem
                 for (int j = 0; j < shuffledArray.Length; j++)
                 {
                     if(randomIndexForRemove == j) continue;
-                    var spaceObject = _spaceObjectController.Spawn(shuffledArray[j],_objectsForSpawn.GetRandomObject());
+                    var spaceObject = _spaceObjectLifeCycle.Spawn(shuffledArray[j],_objectsForSpawn.GetRandomObject());
                     while ((spaceObject.GetSpawnPosition().y - spaceObject.GetTransform().position.y) <
                            _rocketMeshCollider.bounds.size.y * 1.5)
                     {
@@ -81,20 +81,20 @@ namespace Common.Scripts.MissionSystem
         {
             if (_satelliteSystemActive)
             {
-                _spaceObjectController.Execute();
+                _spaceObjectLifeCycle.Execute();
             }
         }
 
         public void Disable()
         {
             _satelliteSystemActive = false;
-            _spaceObjectController.Disable();
+            _spaceObjectLifeCycle.Disable();
         }
 
         public void Enable()
         {
             _satelliteSystemActive = true;
-            _spaceObjectController.Enable();
+            _spaceObjectLifeCycle.Enable();
             _coroutineRunner.StartCoroutine(StartSpawning());
         }
     }

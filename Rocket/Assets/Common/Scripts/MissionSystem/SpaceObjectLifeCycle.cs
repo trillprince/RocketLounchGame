@@ -5,38 +5,41 @@ using UnityEngine;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class SpaceObjectLifeCycle: ISpaceObjectController
+    public class SpaceObjectLifeCycle : ISpaceObjectLifeCycle
     {
         private readonly IPoolWorker _spaceObjectPoolWorker;
         private readonly RocketController _rocketController;
-        private readonly GameStateController _gameStateController;
+        private readonly IGameStateController _gameStateController;
         private readonly GameLoopController _gameLoopController;
-        
-        private Queue<ISpaceObject> _movableSpaceObjects;
+
+        private List<ISpaceObject> _movableSpaceObjects;
         private bool IsEnabled { get; set; }
 
         public SpaceObjectLifeCycle(
             IPoolWorker spaceObjectPoolWorker,
             RocketController rocketController,
-            GameStateController gameStateController,
+            IGameStateController gameStateController,
             GameLoopController gameLoopController)
         {
             _spaceObjectPoolWorker = spaceObjectPoolWorker;
             _rocketController = rocketController;
             _gameStateController = gameStateController;
             _gameLoopController = gameLoopController;
-            _movableSpaceObjects = new Queue<ISpaceObject>(20);
+            _movableSpaceObjects = new List<ISpaceObject>(20);
         }
 
-        public ISpaceObject Spawn(ISpawnPosition spawnPosition,GameObject prefab)
+        public ISpaceObject Spawn(ISpawnPosition spawnPosition, GameObject prefab)
         {
             if (IsEnabled)
             {
-                ISpaceObject spaceObject = _spaceObjectPoolWorker.PopFromPool(spawnPosition,prefab).GetComponent<ISpaceObject>();
-                spaceObject.Constructor(_rocketController,this,_gameLoopController,_gameStateController,spawnPosition);
-                _movableSpaceObjects.Enqueue(spaceObject);
+                ISpaceObject spaceObject = _spaceObjectPoolWorker.PopFromPool(spawnPosition, prefab)
+                    .GetComponent<ISpaceObject>();
+                spaceObject.Constructor(_rocketController, this, _gameLoopController, _gameStateController,
+                    spawnPosition);
+                _movableSpaceObjects.Add(spaceObject);
                 return spaceObject;
             }
+
             return default;
         }
 
@@ -45,33 +48,30 @@ namespace Common.Scripts.MissionSystem
             IsEnabled = true;
         }
 
-        public void DisposeLastObject()
-        {
-            GameObject gameObject = _movableSpaceObjects.Dequeue().GetGameObject();
-            _spaceObjectPoolWorker.Dispose(gameObject);
-        }
-
         public void Disable()
         {
             IsEnabled = false;
             for (int i = 0; i < _movableSpaceObjects.Count; i++)
             {
-                _spaceObjectPoolWorker.Dispose(_movableSpaceObjects.Dequeue().GetGameObject());
+                var currentObject = _movableSpaceObjects[i];
+                _movableSpaceObjects.Remove(currentObject);
+                _spaceObjectPoolWorker.Dispose(currentObject);
             }
         }
 
 
         public void Execute()
         {
-            if (_movableSpaceObjects.Count > 0)
+            for (int i = 0; i < _movableSpaceObjects.Count; i++)
             {
-                foreach (var spaceObject in _movableSpaceObjects.ToArray())
-                {
-                    spaceObject.Execute();
-                }
+                _movableSpaceObjects[i].Execute();
             }
         }
-        
 
+        public void Dispose(ISpaceObject spaceObject)
+        {
+            _movableSpaceObjects.Remove(spaceObject);
+            _spaceObjectPoolWorker.Dispose(spaceObject);
+        }
     }
 }
