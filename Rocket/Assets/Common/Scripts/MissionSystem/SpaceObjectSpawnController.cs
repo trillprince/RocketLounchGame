@@ -75,7 +75,6 @@ namespace Common.Scripts.MissionSystem
                 shuffledArray = _spawnPositionController.SpawnPositions.OrderBy(x => random.Next()).ToArray();
                 while (shuffledArray[0] == lastSpawnPos)
                 {
-                    Debug.Log("resort");
                     shuffledArray = _spawnPositionController.SpawnPositions.OrderBy(x => random.Next()).ToArray();
                 }
             }

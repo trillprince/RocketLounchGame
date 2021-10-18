@@ -43,7 +43,11 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
     private void Exit()
     {
         UnpauseTheGame();
-        _animator.Play("Pop_down");
+        _animator.SetBool("MainMenu",true);
+    }
+
+    public void MainMenu()
+    {
         _loadingCurtain.Show((() =>
         {
             _gameStateMachine.Enter<MenuBootStrapState>();
