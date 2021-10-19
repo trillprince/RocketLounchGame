@@ -1,5 +1,6 @@
 using System;
 using Common.Scripts.Infrastructure;
+using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,7 @@ namespace Common.Scripts.UI
         private IGameTimeController _gameTimeController;
         private RectTransform _rectTransform;
         private Animator _animator;
+        private IGameLoopController _gameLoopController;
 
 
         private void Awake()
@@ -33,12 +35,14 @@ namespace Common.Scripts.UI
         private void Start()
         {
             SetStartPosition();
+            Pause();
         }
 
-        public void Constructor(Action onUnpauseAction,IGameTimeController gameTimeController)
+        public void Constructor(Action onUnpauseAction,IGameTimeController gameTimeController,IGameLoopController gameLoopController)
         {
             _onUnpauseAction = onUnpauseAction;
             _gameTimeController = gameTimeController;
+            _gameLoopController = gameLoopController;
         }
 
         public void Pause()
@@ -48,6 +52,7 @@ namespace Common.Scripts.UI
 
         public void UnPause()
         {
+            _gameTimeController.UnPause();
             _onUnpauseAction?.Invoke();
             Destroy(transform.parent.gameObject);
         }
@@ -55,12 +60,13 @@ namespace Common.Scripts.UI
 
         private void Continue()
         {
-            _gameTimeController.UnPause();
             _animator.Play("Pop_down");
         }
 
         private void MainMenu()
         {
+            Continue();
+            _gameLoopController.DisableGameLoop();
             _gameStateMachine.Enter<MenuBootStrapState>();
         }
 

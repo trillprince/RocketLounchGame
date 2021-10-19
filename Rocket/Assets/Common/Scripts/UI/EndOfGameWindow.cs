@@ -19,19 +19,18 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
     private LoadingCurtain _loadingCurtain;
     private Animator _animator;
     private IGameTimeController _gameTimeController;
+    private IGameLoopController _gameLoopController;
 
     public void MainMenu()
     {
-        _loadingCurtain.Show((() =>
-        {
-            _gameStateMachine.Enter<MenuBootStrapState>();
-        }));
+        _gameStateMachine.Enter<MenuBootStrapState>();
     }
 
 
-    public void Constructor(Action onUnpauseAction, IGameTimeController gameTimeController)
+    public void Constructor(Action onUnpauseAction, IGameTimeController gameTimeController,IGameLoopController gameLoopController)
     {
         _gameTimeController = gameTimeController;
+        _gameLoopController = gameLoopController;
     }
     
     private void Awake()
@@ -44,6 +43,7 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
 
     private void Start()
     {
+        _gameLoopController.DisableGameLoop();
         _animator.Play("Pop_up");
     }
 

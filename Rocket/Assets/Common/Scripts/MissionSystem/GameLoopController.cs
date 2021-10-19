@@ -11,12 +11,12 @@ using Zenject;
 
 namespace Common.Scripts.MissionSystem
 {
-    public class GameLoopController : MonoBehaviour
+    public class GameLoopController : MonoBehaviour, IGameLoopController
     {
         private SpaceObjectSpawnController _spaceObjectSpawnController;
         private GameStateMachine _gameStateMachine;
 
-        public static event Action OnGameOver; 
+        public static event Action OnGameOver;
 
 
         [Inject]
@@ -57,13 +57,26 @@ namespace Common.Scripts.MissionSystem
                     _spaceObjectSpawnController.Enable();
                     break;
                 case GameState.EndOfGame:
-                    _gameStateMachine.Curtain.Show((() =>
-                    {
-                        _spaceObjectSpawnController.Disable();
-                        OnGameOver?.Invoke();
-                    }));
+                    DisableGameLoop();
+                    OnGameOver?.Invoke();
                     break;
             }
         }
+
+        public void EnableGameLoop()
+        {
+            _spaceObjectSpawnController.Enable();
+        }
+
+        public void DisableGameLoop()
+        {
+            _gameStateMachine.Curtain.Show(() => { _spaceObjectSpawnController.Disable(); });
+        }
+    }
+
+    public interface IGameLoopController
+    {
+        public void EnableGameLoop();
+        public void DisableGameLoop();
     }
 }

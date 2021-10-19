@@ -17,12 +17,14 @@ namespace Common.Scripts.UI
         [SerializeField] private WindowModels _windowModels;
         private IButtonController _buttonController;
         private IGameTimeController _gameTimeController;
+        private IGameLoopController _gameLoopController;
 
-        
+
         [Inject]
-        private void Constructor(IGameTimeController gameTimeController)
+        private void Constructor(IGameTimeController gameTimeController, IGameLoopController gameLoopController)
         {
             _gameTimeController = gameTimeController;
+            _gameLoopController = gameLoopController;
         }
 
         private void Awake()
@@ -59,7 +61,7 @@ namespace Common.Scripts.UI
             window.Constructor((() =>
             {
                 _buttonController.ButtonsActive(true);
-            }),_gameTimeController);
+            }),_gameTimeController,_gameLoopController);
             return window;
         }
 
