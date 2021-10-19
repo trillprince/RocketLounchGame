@@ -11,7 +11,7 @@ public class EditorInput : IInputPlatform
     private Coroutine _coroutine;
     public event Action <Vector3> OnInput;
     private ICoroutineRunner _coroutineRunner;
-    private float _updateTime = 0.01f;
+    private float _updateTime = 0.001f;
 
     public EditorInput(TouchControls touchControls, ICoroutineRunner coroutineRunner)
     {

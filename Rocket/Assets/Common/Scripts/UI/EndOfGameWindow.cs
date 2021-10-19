@@ -9,6 +9,7 @@ using Common.Scripts.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
@@ -16,6 +17,7 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
 {
     private GameStateMachine _gameStateMachine;
     [SerializeField] private Button _menuButton;
+    public Text _levelNumber;
     private LoadingCurtain _loadingCurtain;
     private Animator _animator;
     private IGameTimeController _gameTimeController;
@@ -41,8 +43,14 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
         _animator = GetComponent<Animator>();
     }
 
+    private void FillInfo()
+    {
+        _levelNumber.text = $"Level : {_gameLoopController.GetLevelInfo().GetLevelNumber()}";
+    }
+
     private void Start()
     {
+        FillInfo();
         _gameLoopController.DisableGameLoop();
         _animator.Play("Pop_up");
     }

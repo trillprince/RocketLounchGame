@@ -1,4 +1,4 @@
-﻿public interface ICollectable 
+﻿public interface ICollectable
 {
-    
+    public string Name { get; }
 }

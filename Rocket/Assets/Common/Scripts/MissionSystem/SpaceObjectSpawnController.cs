@@ -17,19 +17,25 @@ namespace Common.Scripts.MissionSystem
         private bool _spaceObjectSystemActive;
         private readonly ICoroutineRunner _coroutineRunner;
         private readonly ISpaceObjectLifeCycle _spaceObjectLifeCycle;
+        private readonly ILevelInfo _levelInfo;
         private readonly MeshCollider _rocketMeshCollider;
-        private int _spawnsBeforeCheckPoint = 25;
+        private int _spawnsBeforeCheckPoint = 15;
         private readonly ObjectsForSpawn _objectsForSpawn;
+        private RocketHealth _rocketHealth;
 
         public SpaceObjectSpawnController
         (
             ICoroutineRunner coroutineRunner,
             ISpaceObjectLifeCycle spaceObjectLifeCycle,
-            RocketMovement rocketMovement)
+            RocketMovement rocketMovement,
+            RocketHealth rocketHealth,
+            ILevelInfo levelInfo)
         {
             _objectsForSpawn = new ObjectsForSpawn(new AssetProvider());
             _coroutineRunner = coroutineRunner;
             _spaceObjectLifeCycle = spaceObjectLifeCycle;
+            _levelInfo = levelInfo;
+            _rocketHealth = rocketHealth;
             _rocketMeshCollider = rocketMovement.GetMeshCollider();
             _spawnPositionController = new SpawnPositionController(rocketMovement,
                 new LeftSpawnPosition(rocketMovement),
@@ -37,12 +43,15 @@ namespace Common.Scripts.MissionSystem
                 new MiddleSpawnPosition(rocketMovement));
         }
 
-        private IEnumerator StartSpawning()
+        private IEnumerator SpawnLoop()
         {
+            _levelInfo.NextLevel();
+            _rocketHealth.RestoreHealth();
             Random random = new Random();
             ISpawnPosition[] shuffledArray =
                 _spawnPositionController.SpawnPositions.OrderBy(x => random.Next()).ToArray();
             var lastSpawnPos = shuffledArray[shuffledArray.Length - 1];
+            SetSpawnsCount();
             for (int i = 0; i < _spawnsBeforeCheckPoint; i++)
             {
                 var randomIndexForRemove = UnityRandom.Range(0, shuffledArray.Length);
@@ -64,12 +73,26 @@ namespace Common.Scripts.MissionSystem
                     lastSpawnPos = shuffledArray[j];
                 }
             }
+            yield return new WaitForSeconds(4);
+            _coroutineRunner.StartCoroutine(SpawnLoop());
+        }
+
+        private void SetSpawnsCount()
+        {
+            if (_levelInfo.GetLevelNumber() > 0)
+            {
+                _spawnsBeforeCheckPoint += 2 * _levelInfo.GetLevelNumber();
+            }
+            else
+            {
+                _spawnsBeforeCheckPoint = 15;
+            }
         }
 
         private bool ObjectCloseToSpawnPoint(ISpaceObject spaceObject)
         {
             return (spaceObject.GetSpawnPosition().y - spaceObject.GetTransform().position.y) <
-                   _rocketMeshCollider.bounds.size.y * 1.5;
+                   _rocketMeshCollider.bounds.size.y * 2;
         }
 
 
@@ -105,7 +128,7 @@ namespace Common.Scripts.MissionSystem
         {
             _spaceObjectSystemActive = true;
             _spaceObjectLifeCycle.Enable();
-            _coroutineRunner.StartCoroutine(StartSpawning());
+            _coroutineRunner.StartCoroutine(SpawnLoop());
         }
     }
 }

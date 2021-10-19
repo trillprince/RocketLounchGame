@@ -1,19 +1,34 @@
-﻿using Common.Scripts.MissionSystem;
+﻿using System;
+using Common.Scripts.MissionSystem;
 using UnityEngine;
 using Zenject;
 
 namespace Common.Scripts.Rocket
 {
-    public class RocketSpeed : MonoBehaviour
+    public class RocketSpeed : MonoBehaviour, ISpeed
+
     {
-        private static float _currentSpeed;
+        private static float _currentSpeed = 150;
+        private int _speedStep = 25;
         private static Vector3 _rocketDirection;
-        private MilesCount _milesCount;
+        private IGameLoopController _gameLoopController;
+        private int _maxSpeed = 250;
+
 
         [Inject]
-        public void Constructor(MilesCount milesCount)
+        private void Constructor(IGameLoopController gameLoopController)
         {
-            _milesCount = milesCount;
+            _gameLoopController = gameLoopController;
+        }
+
+        private void Start()
+        {
+            _gameLoopController.GetLevelInfo().OnNextLevel += OnNextLevel;
+        }
+
+        private void OnNextLevel()
+        {
+            AddSpeed(_speedStep);
         }
 
         public static float CurrentSpeed
@@ -26,12 +41,6 @@ namespace Common.Scripts.Rocket
             get => _rocketDirection;
             private set => _rocketDirection = value;
         }
-
-        private void Start()
-        {
-            _currentSpeed = 150;
-        }
-
         void Update()
         {
             CheckRocketDirection();
@@ -45,6 +54,15 @@ namespace Common.Scripts.Rocket
         public static Vector3 GetRocketDirection()
         {
             return RocketDirection;
+        }
+
+        public void AddSpeed(int value)
+        {
+            if (_currentSpeed < _maxSpeed)
+            {
+                var newSpeed = _currentSpeed + value;
+                _currentSpeed = Mathf.Lerp(_currentSpeed, newSpeed, 2);
+            }
         }
 
     }

@@ -15,6 +15,7 @@ namespace Common.Scripts.Rocket
         public RocketInventory Inventory { get; set; }
 
         private Dictionary<Type,IGameStateSubscriber> _gameStateSubscribers;
+        private IGameLoopController _gameLoopController;
 
         [Inject]
         private void Constructor(IGameStateController gameStateController,ObjectPoolStorage objectPoolStorage,InputManager inputManager)
@@ -27,6 +28,8 @@ namespace Common.Scripts.Rocket
                 GetComponentInChildren<MeshCollider>());
 
             Health = new RocketHealth(gameStateController);
+
+            Inventory = new RocketInventory();
 
             _gameStateSubscribers = new Dictionary<Type, IGameStateSubscriber>
             {

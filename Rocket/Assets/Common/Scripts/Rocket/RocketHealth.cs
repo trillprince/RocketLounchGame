@@ -5,11 +5,13 @@ namespace Common.Scripts.Rocket
     public class RocketHealth
     {
         private readonly IGameStateController _gameStateController;
-        private int _health  = 2;
+        private int _health;
+        private int _startHealth = 2;
 
         public RocketHealth(IGameStateController gameStateController)
         {
             _gameStateController = gameStateController;
+            _health = _startHealth;
         }
 
         public void DamageRocket(int damageValue)
@@ -22,6 +24,11 @@ namespace Common.Scripts.Rocket
             _health = 0;
             _gameStateController.SetGameState(GameState.EndOfGame);
             
+        }
+
+        public void RestoreHealth()
+        {
+            _health = _startHealth;
         }
         
         

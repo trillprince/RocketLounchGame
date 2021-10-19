@@ -17,7 +17,8 @@ namespace Common.Scripts.SpaceObjects.Asteroid
         
         public override void Constructor(RocketController rocketController,
             ISpaceObjectLifeCycle spaceObjectLifeCycle,
-            GameLoopController gameLoopController, IGameStateController gameStateController,
+            GameLoopController gameLoopController, 
+            IGameStateController gameStateController,
             ISpawnPosition spawnPosition)
         {
             base.Constructor(rocketController, spaceObjectLifeCycle, gameLoopController, gameStateController, spawnPosition);

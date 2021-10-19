@@ -73,7 +73,6 @@ namespace Common.Scripts.UI
         private void SetStartPosition()
         {
             var yPos = Screen.height + _rectTransform.rect.height;
-            Debug.Log(yPos);
             _rectTransform.position = new Vector3(_rectTransform.position.x, yPos, _rectTransform.position.z);
         }
 

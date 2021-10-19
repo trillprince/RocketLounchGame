@@ -15,9 +15,9 @@ namespace Common.Scripts.MissionSystem
     {
         private SpaceObjectSpawnController _spaceObjectSpawnController;
         private GameStateMachine _gameStateMachine;
-
+        private ILevelInfo _levelInfo;
         public static event Action OnGameOver;
-
+        
 
         [Inject]
         private void Constructor(RocketController rocketController,
@@ -26,12 +26,15 @@ namespace Common.Scripts.MissionSystem
             ICoroutineRunner coroutineRunner, GameStateMachine gameStateMachine)
         {
             _gameStateMachine = gameStateMachine;
+            
             var spaceObjectLifeCycle = new SpaceObjectLifeCycle(
                 new SpaceObjectPoolWorker(objectPoolStorage),
                 rocketController, gameStateController, this);
 
+            _levelInfo = new LevelInfo();
+            
             _spaceObjectSpawnController = new SpaceObjectSpawnController(coroutineRunner, spaceObjectLifeCycle,
-                rocketController.Movement);
+                rocketController.Movement,rocketController.Health,_levelInfo);
         }
 
         private void OnEnable()
@@ -72,11 +75,10 @@ namespace Common.Scripts.MissionSystem
         {
             _gameStateMachine.Curtain.Show(() => { _spaceObjectSpawnController.Disable(); });
         }
-    }
 
-    public interface IGameLoopController
-    {
-        public void EnableGameLoop();
-        public void DisableGameLoop();
+        public ILevelInfo GetLevelInfo()
+        {
+            return _levelInfo;
+        }
     }
 }
