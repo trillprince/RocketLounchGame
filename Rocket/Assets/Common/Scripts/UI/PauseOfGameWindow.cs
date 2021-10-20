@@ -17,6 +17,7 @@ namespace Common.Scripts.UI
         private RectTransform _rectTransform;
         private Animator _animator;
         private IGameLoopController _gameLoopController;
+        private ILevelInfo _levelInfo;
 
 
         private void Awake()
@@ -38,11 +39,12 @@ namespace Common.Scripts.UI
             Pause();
         }
 
-        public void Constructor(Action onUnpauseAction,IGameTimeController gameTimeController,IGameLoopController gameLoopController)
+        public void Constructor(Action onUnpauseAction,IGameTimeController gameTimeController,IGameLoopController gameLoopController, ILevelInfo levelInfo)
         {
             _onUnpauseAction = onUnpauseAction;
             _gameTimeController = gameTimeController;
             _gameLoopController = gameLoopController;
+            _levelInfo = levelInfo;
         }
 
         public void Pause()

@@ -8,22 +8,16 @@ namespace Common.Scripts.Rocket
     public class RocketSpeed : MonoBehaviour, ISpeed
 
     {
-        private static float _currentSpeed = 150;
-        private int _speedStep = 25;
+        private static float _currentSpeed = 200;
+        private int _speedStep = 20;
         private static Vector3 _rocketDirection;
-        private IGameLoopController _gameLoopController;
-        private int _maxSpeed = 250;
+        private int _maxSpeed = 320;
 
 
         [Inject]
-        private void Constructor(IGameLoopController gameLoopController)
+        private void Constructor(ILevelInfo levelInfo)
         {
-            _gameLoopController = gameLoopController;
-        }
-
-        private void Start()
-        {
-            _gameLoopController.GetLevelInfo().OnNextLevel += OnNextLevel;
+            levelInfo.OnNextLevel += OnNextLevel;
         }
 
         private void OnNextLevel()

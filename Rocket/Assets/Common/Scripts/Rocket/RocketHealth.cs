@@ -1,34 +1,39 @@
-﻿using UnityEngine;
+﻿using Common.Scripts.MissionSystem;
+using UnityEngine;
 
 namespace Common.Scripts.Rocket
 {
     public class RocketHealth
     {
         private readonly IGameStateController _gameStateController;
-        private int _health;
-        private int _startHealth = 2;
+        private int _currentRepairs;
+        private int _maxRepairs = 2;
 
-        public RocketHealth(IGameStateController gameStateController)
+        public RocketHealth(IGameStateController gameStateController,ILevelInfo levelInfo)
         {
             _gameStateController = gameStateController;
-            _health = _startHealth;
+            levelInfo.OnNextLevel += RestoreHealth;
+            _currentRepairs = _maxRepairs;
         }
 
         public void DamageRocket(int damageValue)
         {
-            if (_health > damageValue)
+            if (_currentRepairs >= damageValue)
             {
-                _health -= damageValue;
+                _currentRepairs -= damageValue;
                 return;
             }
-            _health = 0;
             _gameStateController.SetGameState(GameState.EndOfGame);
             
         }
 
-        public void RestoreHealth()
+        private void RestoreHealth()
         {
-            _health = _startHealth;
+            if (_currentRepairs + 1 > _maxRepairs)
+            {
+                return;
+            }
+            _currentRepairs += 1;
         }
         
         

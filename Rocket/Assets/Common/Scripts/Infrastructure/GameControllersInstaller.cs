@@ -21,7 +21,8 @@ namespace Common.Scripts.Infrastructure
             IGameStateController gameStateController = FindObjectOfType<GameStateController>();
             _gameBootstrapper = FindObjectOfType<GameBootstrapper>();
 
-            Container.Bind<IGameLoopController>().FromInstance(FindObjectOfType<GameLoopController>()).NonLazy();
+            Container.Bind<IGameLoopController>().FromInstance(FindObjectOfType<GameLoopController>());
+            Container.Bind<ILevelInfo>().FromInstance(new LevelInfo());
             Container.Bind<IGameStateController>().FromInstance(gameStateController);
             Container.Bind<IGameTimeController>().FromInstance(new GameTimeController());
             Container.Bind<ICoroutineRunner>().FromInstance(_gameBootstrapper.StateMachine.Loader.Runner);

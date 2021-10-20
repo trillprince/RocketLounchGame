@@ -15,19 +15,25 @@ namespace Common.Scripts.Rocket
         public RocketInventory Inventory { get; set; }
 
         private Dictionary<Type,IGameStateSubscriber> _gameStateSubscribers;
-        private IGameLoopController _gameLoopController;
+        private ObjectPoolStorage _objectPoolStorage;
+        private InputManager _inputManager;
+        private IGameStateController _gameStateController;
 
         [Inject]
-        private void Constructor(IGameStateController gameStateController,ObjectPoolStorage objectPoolStorage,InputManager inputManager)
+        private void Constructor(IGameStateController gameStateController,ObjectPoolStorage objectPoolStorage,InputManager inputManager,ILevelInfo levelInfo)
         {
-            Cargo = new RocketCargo(objectPoolStorage,new AssetProvider(),transform);
+            _objectPoolStorage = objectPoolStorage;
+            _inputManager = inputManager;
+            _gameStateController = gameStateController;
+            
+            Cargo = new RocketCargo(_objectPoolStorage,new AssetProvider(),transform);
             Movement = new RocketMovement(
-                inputManager: inputManager,
+                inputManager: _inputManager,
                 GetComponent<Rigidbody>(),
                 transform: transform,
                 GetComponentInChildren<MeshCollider>());
 
-            Health = new RocketHealth(gameStateController);
+            Health = new RocketHealth(_gameStateController,levelInfo);
 
             Inventory = new RocketInventory();
 
@@ -37,6 +43,8 @@ namespace Common.Scripts.Rocket
 
             };
         }
+
+
         private void OnEnable()
         {
             GameStateController.OnStateSwitch += NotifyComponentsOnGameState;

@@ -18,13 +18,15 @@ namespace Common.Scripts.UI
         private IButtonController _buttonController;
         private IGameTimeController _gameTimeController;
         private IGameLoopController _gameLoopController;
+        private ILevelInfo _levelInfo;
 
 
         [Inject]
-        private void Constructor(IGameTimeController gameTimeController, IGameLoopController gameLoopController)
+        private void Constructor(IGameTimeController gameTimeController, IGameLoopController gameLoopController,ILevelInfo levelInfo)
         {
             _gameTimeController = gameTimeController;
             _gameLoopController = gameLoopController;
+            _levelInfo = levelInfo;
         }
 
         private void Awake()
@@ -61,7 +63,7 @@ namespace Common.Scripts.UI
             window.Constructor((() =>
             {
                 _buttonController.ButtonsActive(true);
-            }),_gameTimeController,_gameLoopController);
+            }),_gameTimeController,_gameLoopController,_levelInfo);
             return window;
         }
 

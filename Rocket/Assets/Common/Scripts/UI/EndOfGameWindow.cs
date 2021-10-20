@@ -22,6 +22,7 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
     private Animator _animator;
     private IGameTimeController _gameTimeController;
     private IGameLoopController _gameLoopController;
+    private ILevelInfo _levelInfo;
 
     public void MainMenu()
     {
@@ -29,10 +30,12 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
     }
 
 
-    public void Constructor(Action onUnpauseAction, IGameTimeController gameTimeController,IGameLoopController gameLoopController)
+    public void Constructor(Action onUnpauseAction, IGameTimeController gameTimeController,
+        IGameLoopController gameLoopController, ILevelInfo levelInfo)
     {
         _gameTimeController = gameTimeController;
         _gameLoopController = gameLoopController;
+        _levelInfo = levelInfo;
     }
     
     private void Awake()
@@ -45,7 +48,7 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
 
     private void FillInfo()
     {
-        _levelNumber.text = $"Level : {_gameLoopController.GetLevelInfo().GetLevelNumber()}";
+        _levelNumber.text = $"Level : {_levelInfo.GetLevelNumber()}";
     }
 
     private void Start()

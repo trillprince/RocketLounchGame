@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Common.Scripts.Cargo;
@@ -21,21 +22,21 @@ namespace Common.Scripts.MissionSystem
         private readonly MeshCollider _rocketMeshCollider;
         private int _spawnsBeforeCheckPoint = 15;
         private readonly ObjectsForSpawn _objectsForSpawn;
-        private RocketHealth _rocketHealth;
+        private ISpawnPosition _removedSpawnPos;
+        private ISpawnPosition _lastSpawnPos;
+        private ISpaceObject _lastSpawnedSpaceObject;
 
         public SpaceObjectSpawnController
         (
             ICoroutineRunner coroutineRunner,
             ISpaceObjectLifeCycle spaceObjectLifeCycle,
             RocketMovement rocketMovement,
-            RocketHealth rocketHealth,
             ILevelInfo levelInfo)
         {
             _objectsForSpawn = new ObjectsForSpawn(new AssetProvider());
             _coroutineRunner = coroutineRunner;
             _spaceObjectLifeCycle = spaceObjectLifeCycle;
             _levelInfo = levelInfo;
-            _rocketHealth = rocketHealth;
             _rocketMeshCollider = rocketMovement.GetMeshCollider();
             _spawnPositionController = new SpawnPositionController(rocketMovement,
                 new LeftSpawnPosition(rocketMovement),
@@ -46,22 +47,29 @@ namespace Common.Scripts.MissionSystem
         private IEnumerator SpawnLoop()
         {
             _levelInfo.NextLevel();
-            _rocketHealth.RestoreHealth();
             Random random = new Random();
             ISpawnPosition[] shuffledArray =
                 _spawnPositionController.SpawnPositions.OrderBy(x => random.Next()).ToArray();
-            var lastSpawnPos = shuffledArray[shuffledArray.Length - 1];
+            
+            FillSpawnLapInfo(shuffledArray);
             SetSpawnsCount();
             for (int i = 0; i < _spawnsBeforeCheckPoint; i++)
             {
-                var randomIndexForRemove = UnityRandom.Range(0, shuffledArray.Length);
-                ShuffleOnSimilarPositions(i, ref shuffledArray, lastSpawnPos, random);
+                ShuffleOnSimilarPositions(i, ref shuffledArray, random);
+                FillSpawnLapInfo(shuffledArray);
                 for (int j = 0; j < shuffledArray.Length; j++)
                 {
-                    if (randomIndexForRemove == j) continue;
-
+                    if (shuffledArray[j] == _removedSpawnPos)
+                    {
+                        while (ObjectCloseToSpawnPoint(_lastSpawnedSpaceObject,2))
+                        {
+                            yield return null;
+                        }
+                        continue;
+                    }
                     var spaceObject = _spaceObjectLifeCycle.Spawn(shuffledArray[j], _objectsForSpawn.GetRandomObject());
-                    while (ObjectCloseToSpawnPoint(spaceObject))
+                    _lastSpawnedSpaceObject = spaceObject;
+                    while (ObjectCloseToSpawnPoint(spaceObject,3))
                     {
                         if (!_spaceObjectSystemActive)
                         {
@@ -70,11 +78,23 @@ namespace Common.Scripts.MissionSystem
                         yield return null;
                     }
 
-                    lastSpawnPos = shuffledArray[j];
+                    _lastSpawnPos = shuffledArray[j];
                 }
             }
-            yield return new WaitForSeconds(4);
+            yield return new WaitForSeconds(5);
             _coroutineRunner.StartCoroutine(SpawnLoop());
+        }
+        
+        private void FillSpawnLapInfo(ISpawnPosition[] shuffledArray)
+        {
+            _removedSpawnPos = shuffledArray[UnityRandom.Range(1, shuffledArray.Length-1)];
+            _lastSpawnPos = shuffledArray[shuffledArray.Length - 1];
+        }
+        
+        private bool ObjectCloseToSpawnPoint(ISpaceObject spaceObject , int distanceMultiplayer)
+        {
+            return (spaceObject.GetSpawnPosition().y - spaceObject.GetTransform().position.y) <
+                   _rocketMeshCollider.bounds.size.y * distanceMultiplayer;
         }
 
         private void SetSpawnsCount()
@@ -85,24 +105,16 @@ namespace Common.Scripts.MissionSystem
             }
             else
             {
-                _spawnsBeforeCheckPoint = 15;
+                _spawnsBeforeCheckPoint = 4;
             }
         }
 
-        private bool ObjectCloseToSpawnPoint(ISpaceObject spaceObject)
-        {
-            return (spaceObject.GetSpawnPosition().y - spaceObject.GetTransform().position.y) <
-                   _rocketMeshCollider.bounds.size.y * 2;
-        }
-
-
-        private void ShuffleOnSimilarPositions(int index, ref ISpawnPosition[] shuffledArray,
-            ISpawnPosition lastSpawnPos, Random random)
+        private void ShuffleOnSimilarPositions(int index, ref ISpawnPosition[] shuffledArray, Random random)
         {
             if (index > 0)
             {
                 shuffledArray = _spawnPositionController.SpawnPositions.OrderBy(x => random.Next()).ToArray();
-                while (shuffledArray[0] == lastSpawnPos)
+                while (shuffledArray[0] == _lastSpawnPos || shuffledArray[0] == _removedSpawnPos)
                 {
                     shuffledArray = _spawnPositionController.SpawnPositions.OrderBy(x => random.Next()).ToArray();
                 }
