@@ -9,9 +9,9 @@ namespace Common.Scripts.Rocket
 
     {
         private static float _currentSpeed = 200;
-        private int _speedStep = 20;
+        private float _speedStep = 20;
         private static Vector3 _rocketDirection;
-        private int _maxSpeed = 320;
+        private float _maxSpeed = 320;
 
 
         [Inject]
@@ -50,7 +50,7 @@ namespace Common.Scripts.Rocket
             return RocketDirection;
         }
 
-        public void AddSpeed(int value)
+        public void AddSpeed(float value)
         {
             if (_currentSpeed < _maxSpeed)
             {
@@ -59,5 +59,10 @@ namespace Common.Scripts.Rocket
             }
         }
 
+
+        public float GetCurrentSpeed()
+        {
+            return _currentSpeed;
+        }
     }
 }
