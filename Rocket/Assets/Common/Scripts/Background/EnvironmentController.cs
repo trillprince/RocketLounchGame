@@ -27,7 +27,7 @@ public class EnvironmentController : MonoBehaviour, IGameStateDependable
     {
         _movableEnvironments = new List<IMovableEnvironment>
         {
-            new BgScroll(_movables[0].GetComponent<Renderer>(), _movesmootheness),
+            new BgScroll(_movables[0].GetComponent<Renderer>(), _movesmootheness * 2),
             new BgScroll(_movables[1].GetComponent<Renderer>(), _movesmootheness * 3),
             new PlanetMove(_movables[2].transform)
         };
