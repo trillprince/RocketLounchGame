@@ -1,34 +1,47 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Common.Scripts.Rocket
 {
     public class RocketParticles : MonoBehaviour
     {
-        [SerializeField] private List<ParticleSystem> _particles;
-        
+        [SerializeField] private List<ParticleSystem> _engineParticles;
+        [SerializeField] private List<ParticleSystem> _sparksParticles;
+        private RocketHealth _rocketHealth;
 
+        private void Awake()
+        {
+            _rocketHealth = GetComponentInParent<RocketController>().Health;
+            _rocketHealth.OnDamage += PlaySparksParticles;
+        }
+        
         private void OnEnable()
         {
-            EnableParticles(false);
+            LaunchManager.OnRocketLaunch += EnableEngineParticles;
         }
 
-        void EnableParticles(bool isEnabled)
+        private void OnDisable()
         {
-            if (isEnabled)
+            LaunchManager.OnRocketLaunch += EnableEngineParticles;
+            _rocketHealth.OnDamage -= PlaySparksParticles;
+        }
+
+        private void EnableEngineParticles()
+        {
+            foreach (ParticleSystem particle in _engineParticles)
             {
-                foreach (ParticleSystem particle in _particles)
-                {
-                    particle.Play();
-                }
-                return;
-            }
-            foreach (ParticleSystem particle in _particles)
-            {
-                particle.Stop();
+                particle.Play();
             }
         }
 
+        private void PlaySparksParticles()
+        {
+            foreach (var particle in _sparksParticles)
+            {
+                particle.Play();
+            }
+        }
     }
 }

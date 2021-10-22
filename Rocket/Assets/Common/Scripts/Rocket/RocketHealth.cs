@@ -1,4 +1,5 @@
-﻿using Common.Scripts.MissionSystem;
+﻿using System;
+using Common.Scripts.MissionSystem;
 using UnityEngine;
 
 namespace Common.Scripts.Rocket
@@ -8,6 +9,7 @@ namespace Common.Scripts.Rocket
         private readonly IGameStateController _gameStateController;
         private int _currentRepairs;
         private int _maxRepairs = 2;
+        public event Action OnDamage;
 
         public RocketHealth(IGameStateController gameStateController,ILevelInfo levelInfo)
         {
@@ -18,6 +20,7 @@ namespace Common.Scripts.Rocket
 
         public void DamageRocket(int damageValue)
         {
+            OnDamage?.Invoke();
             if (_currentRepairs >= damageValue)
             {
                 _currentRepairs -= damageValue;
