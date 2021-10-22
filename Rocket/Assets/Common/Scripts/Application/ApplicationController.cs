@@ -1,29 +1,24 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class ApplicationController : MonoBehaviour
+namespace Common.Scripts.Application
 {
-    private void Start()
+    public class ApplicationController : MonoBehaviour
     {
-        if (Application.platform == RuntimePlatform.Android)
+        private AccelerometerControl _accelerometerControl;
+        private ScreenControl _screenControl;
+        public event Action<bool> ApplicationFocused;
+        private void Start()
         {
-            InputSystem.EnableDevice(Accelerometer.current);
+            _accelerometerControl = new AccelerometerControl(UnityEngine.Application.platform,this);
+            _screenControl = new ScreenControl();
         }
-    }
 
-    private void OnApplicationFocus(bool hasFocus)
-    {
-        if (Application.platform == RuntimePlatform.Android)
+        private void OnApplicationFocus(bool hasFocus)
         {
-            if (hasFocus)
-            {
-                InputSystem.EnableDevice(Accelerometer.current);
-                return;
-            }
-            InputSystem.DisableDevice(Accelerometer.current);
+            ApplicationFocused?.Invoke(hasFocus);
         }
+    
+    
     }
 }
