@@ -7,7 +7,7 @@ namespace Common.Scripts.Rocket
     public class RocketHealth
     {
         private readonly IGameStateController _gameStateController;
-        private int _currentRepairs;
+        public int CurrentRepairs { get; private set; }
         private int _maxRepairs = 2;
         public event Action OnDamage;
 
@@ -15,15 +15,16 @@ namespace Common.Scripts.Rocket
         {
             _gameStateController = gameStateController;
             levelInfo.OnNextLevel += RestoreHealth;
-            _currentRepairs = _maxRepairs;
+            CurrentRepairs = _maxRepairs;
         }
 
-        public void DamageRocket(int damageValue)
+        public void DamageRocket()
         {
-            OnDamage?.Invoke();
-            if (_currentRepairs >= damageValue)
+            
+            if (CurrentRepairs > 0)
             {
-                _currentRepairs -= damageValue;
+                CurrentRepairs -= 1;
+                OnDamage?.Invoke();
                 return;
             }
             _gameStateController.SetGameState(GameState.EndOfGame);
@@ -32,11 +33,11 @@ namespace Common.Scripts.Rocket
 
         private void RestoreHealth()
         {
-            if (_currentRepairs + 1 > _maxRepairs)
+            if (CurrentRepairs + 1 > _maxRepairs)
             {
                 return;
             }
-            _currentRepairs += 1;
+            CurrentRepairs += 1;
         }
         
         

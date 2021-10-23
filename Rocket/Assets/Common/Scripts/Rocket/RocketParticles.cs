@@ -26,7 +26,7 @@ namespace Common.Scripts.Rocket
 
         private void OnDisable()
         {
-            LaunchManager.OnRocketLaunch += EnableEngineParticles;
+            LaunchManager.OnRocketLaunch -= EnableEngineParticles;
             _rocketHealth.OnDamage -= PlaySparksParticles;
         }
 

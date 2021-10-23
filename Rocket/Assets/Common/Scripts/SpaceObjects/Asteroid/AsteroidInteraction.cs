@@ -19,7 +19,7 @@ namespace Common.Scripts.SpaceObjects
 
         public void Interact()
         {
-            _rocketHealth.DamageRocket(1);
+            _rocketHealth.DamageRocket();
             _spaceObjectLifeCycle.Dispose(_spaceObject);
         }
     }
