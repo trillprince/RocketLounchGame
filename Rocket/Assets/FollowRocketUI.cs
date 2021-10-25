@@ -34,7 +34,7 @@ public class FollowRocketUI : MonoBehaviour
 
     private void UpdateText()
     {
-        _textMesh.text = $"{_rocketDistance.GetCoveredDistance()}\n<sprite=0>  x  {_rocketRepairCount.CurrentRepairs}";
+        _textMesh.text = $"{(int)_rocketDistance.CoveredDistance}\n<sprite=0>  x  {_rocketRepairCount.CurrentRepairs}";
     }
 
     private void UpdateUIPos()

@@ -5,52 +5,34 @@ using UnityEngine;
 
 namespace Common.Scripts.Rocket
 {
-    public class RocketDistance: IGameStateSubscriber
+    public class RocketDistance : IGameStateSubscriber,IUpdatable
     {
         private readonly RocketSpeed _rocketSpeed;
-        private readonly ICoroutineRunner _coroutineRunner;
-        private float _coveredDistance = 0;
+        public float CoveredDistance { get; private set; }
         private bool _launched;
-        private float _lerpDuration = 0.02f;
-        private float _timeElapsed;
-        private Coroutine _coroutine;
 
-        public RocketDistance(RocketSpeed rocketSpeed,ICoroutineRunner coroutineRunner)
+        public RocketDistance(RocketSpeed rocketSpeed)
         {
             _rocketSpeed = rocketSpeed;
-            _coroutineRunner = coroutineRunner;
         }
 
         public void OnGameStateChange(GameState gameState)
         {
             if (gameState == GameState.CargoDrop)
             {
-                _coroutine = _coroutineRunner.StartCoroutine(CalculateCoveredDistance());
+                _launched = true;
             }
         }
-        private IEnumerator CalculateCoveredDistance()
+
+        private void CalculateCoveredDistance()
         {
-            var coveredDistance = _coveredDistance;
-            while (_timeElapsed < _lerpDuration)
-            {
-                
-                _coveredDistance = Mathf.Lerp(_coveredDistance, coveredDistance + _rocketSpeed.GetCurrentSpeed()/50, _timeElapsed / _lerpDuration);
-                _timeElapsed += Time.deltaTime;
-                yield return null;
-            }
-            if (_timeElapsed >= _lerpDuration)
-            {
-                _timeElapsed = 0;
-                _coroutine = null;
-                _coroutine = _coroutineRunner.StartCoroutine(CalculateCoveredDistance());
-            }
-
+            if(!_launched) return;
+            CoveredDistance += _rocketSpeed.GetCurrentSpeed() * Time.deltaTime;
         }
 
-        public int GetCoveredDistance()
+        public void Execute()
         {
-            return (int)_coveredDistance;
+            CalculateCoveredDistance();
         }
-
     }
 }

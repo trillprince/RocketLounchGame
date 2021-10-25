@@ -8,10 +8,10 @@ namespace Common.Scripts.Rocket
     public class RocketSpeed : MonoBehaviour, ISpeed
 
     {
-        private static float _currentSpeed = 200;
-        private float _speedStep = 20;
+        private int _currentSpeed = 200;
+        private int _speedStep = 20;
         private static Vector3 _rocketDirection;
-        private float _maxSpeed = 320;
+        private int _maxSpeed = 320;
 
 
         [Inject]
@@ -25,7 +25,7 @@ namespace Common.Scripts.Rocket
             AddSpeed(_speedStep);
         }
 
-        public static float CurrentSpeed
+        public  int CurrentSpeed
         {
             get => _currentSpeed;
         }
@@ -45,22 +45,21 @@ namespace Common.Scripts.Rocket
             RocketDirection = transform.up;
         }
 
-        public static Vector3 GetRocketDirection()
+        public  Vector3 GetRocketDirection()
         {
             return RocketDirection;
         }
 
-        public void AddSpeed(float value)
+        public void AddSpeed(int value)
         {
             if (_currentSpeed < _maxSpeed)
             {
-                var newSpeed = _currentSpeed + value;
-                _currentSpeed = Mathf.Lerp(_currentSpeed, newSpeed, 2);
+                _currentSpeed += value;
             }
         }
 
 
-        public float GetCurrentSpeed()
+        public int GetCurrentSpeed()
         {
             return _currentSpeed;
         }

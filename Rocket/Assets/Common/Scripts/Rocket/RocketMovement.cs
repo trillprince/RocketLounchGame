@@ -11,6 +11,7 @@ namespace Common.Scripts.Rocket
     {
         private readonly Transform _transform;
         private readonly MeshCollider _meshCollider;
+        private readonly RocketSpeed _rocketSpeed;
         private IRocketMoveComponent _movementComponent;
         private Dictionary<Type, IRocketMoveComponent> _movementComponents;
         private IMovementTransition _movementTransition;
@@ -19,10 +20,12 @@ namespace Common.Scripts.Rocket
         private event Action<Transform, MovementState> OnMovementStateSwitch;
         public static event Action<LandingStatus> OnLanding;
 
-        public RocketMovement(InputManager inputManager,Rigidbody rigidbody,Transform transform, MeshCollider meshCollider)
+        public RocketMovement(InputManager inputManager,Rigidbody rigidbody,
+            Transform transform, MeshCollider meshCollider,RocketSpeed rocketSpeed)
         {
             _transform = transform;
             _meshCollider = meshCollider;
+            _rocketSpeed = rocketSpeed;
             Rigidbody = rigidbody;
             _screenBounds =
                 UnityEngine.Camera.main.ScreenToWorldPoint(new Vector3(
@@ -54,7 +57,7 @@ namespace Common.Scripts.Rocket
 
         public float GetRocketSpeed()
         {
-            return RocketSpeed.CurrentSpeed;
+            return _rocketSpeed.CurrentSpeed;
         }
 
         public Transform GetTransform()

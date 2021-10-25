@@ -17,12 +17,13 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
 {
     private GameStateMachine _gameStateMachine;
     [SerializeField] private Button _menuButton;
-    public Text _levelNumber;
+    public Text _highScoreText;
     private LoadingCurtain _loadingCurtain;
     private Animator _animator;
     private IGameTimeController _gameTimeController;
     private IGameLoopController _gameLoopController;
     private ILevelInfo _levelInfo;
+    private RocketDistance _coveredDistance;
 
     public void MainMenu()
     {
@@ -31,11 +32,11 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
 
 
     public void Constructor(Action onUnpauseAction, IGameTimeController gameTimeController,
-        IGameLoopController gameLoopController, ILevelInfo levelInfo)
+        IGameLoopController gameLoopController,RocketController rocketController)
     {
         _gameTimeController = gameTimeController;
         _gameLoopController = gameLoopController;
-        _levelInfo = levelInfo;
+        _coveredDistance = rocketController.CoveredDistance;
     }
     
     private void Awake()
@@ -48,7 +49,7 @@ public class EndOfGameWindow : MonoBehaviour,IPauseWindow
 
     private void FillInfo()
     {
-        _levelNumber.text = $"Level : {_levelInfo.GetLevelNumber()}";
+        _highScoreText.text = $"HighScore : {(int)_coveredDistance.CoveredDistance}";
     }
 
     private void Start()

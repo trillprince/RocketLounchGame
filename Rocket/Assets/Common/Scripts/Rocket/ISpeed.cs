@@ -2,8 +2,8 @@
 {
     public interface ISpeed
     {
-        public void AddSpeed(float value);
+        public void AddSpeed(int value);
 
-        public float GetCurrentSpeed();
+        public int GetCurrentSpeed();
     }
 }

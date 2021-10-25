@@ -12,12 +12,14 @@ namespace Common.Scripts.Planet
         private Vector3 _ladingPos;
         private int _moveSmoothness = 10;
         private Transform _planetTransform;
-        
+        private RocketSpeed _rocketSpeed;
 
-        public PlanetMove(Transform planetTransform)
+
+        public PlanetMove(Transform planetTransform,RocketSpeed rocketSpeed)
         {
             _planetTransform = planetTransform;
             _ladingPos = planetTransform.position;
+            _rocketSpeed = rocketSpeed;
         }
 
         void SetLandingPosition()
@@ -27,7 +29,7 @@ namespace Common.Scripts.Planet
 
         public void Move()
         {
-            _planetTransform.Translate(-RocketSpeed.GetRocketDirection() * RocketSpeed.CurrentSpeed/_moveSmoothness * Time.deltaTime);
+            _planetTransform.Translate(-_rocketSpeed.GetRocketDirection() * _rocketSpeed.CurrentSpeed/_moveSmoothness * Time.deltaTime);
         }
 
         public void OnGameStateSwitch(GameState gameState)

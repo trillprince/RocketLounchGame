@@ -22,9 +22,9 @@ namespace Common.Scripts.Infrastructure
             _gameBootstrapper = FindObjectOfType<GameBootstrapper>();
 
             Container.Bind<IGameLoopController>().FromInstance(FindObjectOfType<GameLoopController>());
-            Container.Bind<ILevelInfo>().FromInstance(new LevelInfo());
             Container.Bind<IGameStateController>().FromInstance(gameStateController);
             Container.Bind<IGameTimeController>().FromInstance(new GameTimeController());
+            Container.Bind<ILevelInfo>().FromInstance(new LevelInfo());
             Container.Bind<ICoroutineRunner>().FromInstance(_gameBootstrapper.StateMachine.Loader.Runner);
             Container.Bind<GameStateMachine>().FromInstance(_gameBootstrapper.StateMachine);
             Container.Bind<LoadingCurtain>().FromInstance(_gameBootstrapper.StateMachine.Curtain);

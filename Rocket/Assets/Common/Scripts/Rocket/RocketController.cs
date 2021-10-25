@@ -25,7 +25,7 @@ namespace Common.Scripts.Rocket
 
         [Inject]
         private void Constructor(IGameStateController gameStateController, ObjectPoolStorage objectPoolStorage,
-            InputManager inputManager, ILevelInfo levelInfo, ICoroutineRunner coroutineRunner)
+            InputManager inputManager, ILevelInfo levelInfo)
         {
             _objectPoolStorage = objectPoolStorage;
             _inputManager = inputManager;
@@ -36,19 +36,25 @@ namespace Common.Scripts.Rocket
                 inputManager: _inputManager,
                 GetComponent<Rigidbody>(),
                 transform: transform,
-                GetComponentInChildren<MeshCollider>());
+                GetComponentInChildren<MeshCollider>(),
+                GetComponent<RocketSpeed>());
 
             Health = new RocketHealth(_gameStateController, levelInfo);
 
             Inventory = new RocketInventory();
 
-            CoveredDistance = new RocketDistance(GetComponent<RocketSpeed>(),coroutineRunner);
+            CoveredDistance = new RocketDistance(GetComponent<RocketSpeed>());
 
             _gameStateSubscribers = new Dictionary<Type, IGameStateSubscriber>
             {
                 [typeof(RocketMovement)] = Movement,
                 [typeof(RocketDistance)] = CoveredDistance
             };
+        }
+
+        private void Update()
+        {
+            CoveredDistance.Execute();
         }
 
         private void OnEnable()
