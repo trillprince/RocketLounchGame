@@ -6,7 +6,7 @@ namespace Common.Scripts.Rocket
 {
     public interface IPauseWindow
     {
-        public void Constructor(Action onUnpauseAction,IGameTimeController gameTimeController, IGameLoopController gameLoopController,RocketController rocketController);
+        public void Constructor(Action onUnpauseAction,IGameTimeController gameTimeController, IGameLoopController gameLoopController,RocketController rocketController,PlayerDataSaver playerDataSaver);
         public void Pause();
         public void UnPause();
     }

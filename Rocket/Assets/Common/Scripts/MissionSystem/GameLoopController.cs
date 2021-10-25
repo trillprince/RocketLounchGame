@@ -15,6 +15,7 @@ namespace Common.Scripts.MissionSystem
     {
         private SpaceObjectSpawnController _spaceObjectSpawnController;
         private GameStateMachine _gameStateMachine;
+        private GameProgress _gameProgress;
         private ILevelInfo _levelInfo;
         public static event Action OnGameOver;
 
@@ -35,6 +36,7 @@ namespace Common.Scripts.MissionSystem
 
             _spaceObjectSpawnController = new SpaceObjectSpawnController(coroutineRunner, spaceObjectLifeCycle,
                 rocketController.Movement, _levelInfo);
+
         }
 
         private void OnEnable()

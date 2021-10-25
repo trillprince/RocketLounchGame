@@ -22,11 +22,13 @@ namespace Common.Scripts.Rocket
         private ObjectPoolStorage _objectPoolStorage;
         private InputManager _inputManager;
         private IGameStateController _gameStateController;
+        private PlayerDataSaver _playerDataSaver;
 
         [Inject]
         private void Constructor(IGameStateController gameStateController, ObjectPoolStorage objectPoolStorage,
-            InputManager inputManager, ILevelInfo levelInfo)
+            InputManager inputManager, ILevelInfo levelInfo, GameProgress gameProgress)
         {
+            _playerDataSaver = gameProgress.PlayerDataSaver;
             _objectPoolStorage = objectPoolStorage;
             _inputManager = inputManager;
             _gameStateController = gameStateController;
@@ -43,7 +45,7 @@ namespace Common.Scripts.Rocket
 
             Inventory = new RocketInventory();
 
-            CoveredDistance = new RocketDistance(GetComponent<RocketSpeed>());
+            CoveredDistance = new RocketDistance(GetComponent<RocketSpeed>(),_playerDataSaver);
 
             _gameStateSubscribers = new Dictionary<Type, IGameStateSubscriber>
             {

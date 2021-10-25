@@ -27,6 +27,7 @@ namespace Common.Scripts.Rocket
                 OnDamage?.Invoke();
                 return;
             }
+            OnDamage?.Invoke();
             _gameStateController.SetGameState(GameState.EndOfGame);
             
         }

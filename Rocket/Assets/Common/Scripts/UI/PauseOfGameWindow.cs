@@ -39,7 +39,7 @@ namespace Common.Scripts.UI
             Pause();
         }
 
-        public void Constructor(Action onUnpauseAction,IGameTimeController gameTimeController,IGameLoopController gameLoopController,RocketController rocketController)
+        public void Constructor(Action onUnpauseAction,IGameTimeController gameTimeController,IGameLoopController gameLoopController,RocketController rocketController,PlayerDataSaver playerDataSaver)
         {
             _onUnpauseAction = onUnpauseAction;
             _gameTimeController = gameTimeController;
