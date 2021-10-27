@@ -10,6 +10,7 @@ namespace Common.Scripts.Infrastructure
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
         private LoadingCurtain _loadingCurtain;
+        
 
         public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain)
         {

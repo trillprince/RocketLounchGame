@@ -8,7 +8,6 @@ namespace Common.Scripts.Infrastructure
     {
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
-        private MenuBootStrap _menuBootStrap;
         private LoadingCurtain _loadingCurtain;
 
 
@@ -29,10 +28,6 @@ namespace Common.Scripts.Infrastructure
         
         private void InitServices()
         {
-            /*_menuBootStrap = new MenuBootStrap((() =>
-            {
-                
-            }));*/
             _loadingCurtain.Hide();
         }
 

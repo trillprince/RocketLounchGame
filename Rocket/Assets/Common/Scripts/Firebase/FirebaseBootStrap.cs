@@ -7,9 +7,12 @@ namespace Common.Scripts.Firebase
 {
     public class FirebaseBootStrap
     {
+        private static Authentication _auth;
+
         public FirebaseBootStrap(Action onFireBaseInit)
         {
             Init(onFireBaseInit);
+            Debug.Log("firebasebootstrap");
         }
 
         private static void Init(Action onFireBaseInit)
@@ -21,9 +24,12 @@ namespace Common.Scripts.Firebase
                     Debug.Log("Failed to initialize firebase " + task.Exception);
                     return;
                 }
-
-                FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
-                onFireBaseInit?.Invoke();
+                if (task.IsCompleted)
+                {
+                    Debug.Log("dependencies");
+                    FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
+                    _auth = new Authentication((() => { onFireBaseInit?.Invoke(); }));   
+                }
             });
         }
     }

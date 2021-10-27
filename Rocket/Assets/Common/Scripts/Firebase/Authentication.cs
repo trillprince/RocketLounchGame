@@ -8,19 +8,14 @@ using UnityEngine;
 namespace Common.Scripts.Firebase
 {
 
-    public class Authentication : MonoBehaviour
+    public class Authentication
     {
-        private void OnEnable()
+        public Authentication(Action OnAuth)
         {
-            NetworkService.OnFireBaseInit += ConfigurePlayGames;
-        }
-
-        private void OnDisable()
-        {
-            NetworkService.OnFireBaseInit -= ConfigurePlayGames;
+            ConfigurePlayGames(OnAuth);
         }
         
-        void ConfigurePlayGames()
+        void ConfigurePlayGames(Action onAuth)
         {
             PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
                 .RequestServerAuthCode(false)
@@ -29,17 +24,18 @@ namespace Common.Scripts.Firebase
             PlayGamesPlatform.InitializeInstance(config);
             PlayGamesPlatform.Activate();
             PlayGamesPlatform.DebugLogEnabled = true;
-            Social.localUser.Authenticate((bool success) => {
+            Social.localUser.Authenticate((success) => {
                 if (success)
                 {
+                    Debug.Log("ConfigurePlayGames");
                     var authCode = PlayGamesPlatform.Instance.GetServerAuthCode();
-                    AuthenticatePlayer(authCode);
+                    AuthenticatePlayer(authCode,onAuth);
                 }
                 
             });
         }
         
-        void AuthenticatePlayer(string authCode)
+        void AuthenticatePlayer(string authCode, Action onAuth)
         {
             FirebaseAuth auth = FirebaseAuth.DefaultInstance;
             Credential credential =
@@ -57,6 +53,8 @@ namespace Common.Scripts.Firebase
                 FirebaseUser newUser = task.Result;
                 Debug.LogFormat("User signed in successfully: {0} ({1})",
                     newUser.DisplayName, newUser.UserId);
+                Debug.Log("AuthenticatePlayer");
+                onAuth?.Invoke();
             });
         }
         

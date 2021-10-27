@@ -7,11 +7,9 @@ namespace Common.Scripts.Infrastructure
     {
         private FirebaseBootStrap _firebase;
 
-        public static event Action OnFireBaseInit; 
-
-        public NetworkService()
+        public NetworkService(Action onFirebaseInit)
         {
-            _firebase = new FirebaseBootStrap(OnFireBaseInit);
+            _firebase = new FirebaseBootStrap(onFirebaseInit);
         }
     }
 }
