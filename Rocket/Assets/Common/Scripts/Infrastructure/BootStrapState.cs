@@ -17,7 +17,8 @@ namespace Common.Scripts.Infrastructure
 
         public void Enter()
         {
-            _menuBootstrap = new MenuBootStrap(new NetworkService((EnterMenu)));
+            // _menuBootstrap = new MenuBootStrap(new NetworkService((EnterMenu)));
+            EnterMenu();
         }
 
         private void EnterMenu()
