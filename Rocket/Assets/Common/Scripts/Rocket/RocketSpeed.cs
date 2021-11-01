@@ -12,12 +12,24 @@ namespace Common.Scripts.Rocket
         private int _speedStep = 20;
         private static Vector3 _rocketDirection;
         private int _maxSpeed = 320;
+        private ILevelInfo _levelInfo;
 
 
         [Inject]
         private void Constructor(ILevelInfo levelInfo)
         {
-            levelInfo.OnNextLevel += OnNextLevel;
+            _levelInfo = levelInfo;
+        }
+
+        private void OnEnable()
+        {
+            Debug.Log(_levelInfo);
+            _levelInfo.OnNextLevel += OnNextLevel;
+        }
+
+        private void OnDisable()
+        {
+            _levelInfo.OnNextLevel -= OnNextLevel;
         }
 
         private void OnNextLevel()

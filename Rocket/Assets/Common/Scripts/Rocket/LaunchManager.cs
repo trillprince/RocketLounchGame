@@ -10,8 +10,10 @@ namespace Common.Scripts.Rocket
         private Button _button;
         public delegate void Station();
         public static event Station OnRocketLaunch;
+        public static event Station RocketLaunching;
+
         
-        private float _timeTillLounch = 2f;
+        private float _timeTillLounch = 1.7f;
         private bool _interactable = true;
 
         private void Awake()
@@ -29,6 +31,7 @@ namespace Common.Scripts.Rocket
 
         IEnumerator WaitTillLaunch()
         {
+            RocketLaunching?.Invoke();
             yield return new WaitForSeconds(_timeTillLounch);
             OnRocketLaunch?.Invoke();
         }

@@ -10,8 +10,7 @@ namespace Common.Scripts.Boosters
         private bool _boostActive;
         private Action _endOfEffectAction;
 
-        public BlueShieldEffect(RocketHealth rocketHealth, GameObject effectGameObject) : base(rocketHealth,
-            effectGameObject)
+        public BlueShieldEffect(RocketHealth rocketHealth, GameObject effectGameObject) : base(rocketHealth,effectGameObject)
         {
             Health.OnDamage += OnDamage;
         }
