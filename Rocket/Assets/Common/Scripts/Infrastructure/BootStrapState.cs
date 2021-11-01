@@ -1,4 +1,5 @@
 using System;
+using Common.Scripts.Firebase;
 using Common.Scripts.UI;
 
 namespace Common.Scripts.Infrastructure
@@ -17,7 +18,7 @@ namespace Common.Scripts.Infrastructure
 
         public void Enter()
         {
-            // _menuBootstrap = new MenuBootStrap(new NetworkService((EnterMenu)));
+            _menuBootstrap = new MenuBootStrap(new FirebaseBootStrap(),new Authentication());
             EnterMenu();
         }
 

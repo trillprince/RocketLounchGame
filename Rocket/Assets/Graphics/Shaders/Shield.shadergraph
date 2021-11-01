@@ -17,6 +17,9 @@
         },
         {
             "m_Id": "77ce05aef16f4fb8929196e3c66bbb21"
+        },
+        {
+            "m_Id": "f3822626adf54903a0283f3fde9a8c71"
         }
     ],
     "m_Keywords": [],
@@ -107,6 +110,9 @@
         },
         {
             "m_Id": "d0bf5695f0f341e7b358a0e0478a0bdd"
+        },
+        {
+            "m_Id": "51307b35431647de9f5ba0702dbde1d9"
         }
     ],
     "m_GroupDatas": [],
@@ -208,6 +214,20 @@
                     "m_Id": "0ce384a05ed4476ca3542a9debe23446"
                 },
                 "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "51307b35431647de9f5ba0702dbde1d9"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "563f209b9b5346b1811ca9aed76886ef"
+                },
+                "m_SlotId": 1
             }
         },
         {
@@ -453,7 +473,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Occlusion",
     "m_StageCapability": 2,
-    "m_Value": 1.0,
+    "m_Value": 0.8700000047683716,
     "m_DefaultValue": 1.0,
     "m_Labels": []
 }
@@ -497,7 +517,7 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
-    "m_Value": 0.6000000238418579,
+    "m_Value": 100.0,
     "m_FloatType": 0,
     "m_RangeValues": {
         "x": 0.0,
@@ -546,13 +566,13 @@
     },
     "m_Name": "Fresnel Power",
     "m_DefaultReferenceName": "Vector1_06c0c58d6d13482dae0f5b8a79dc107e",
-    "m_OverrideReferenceName": "",
+    "m_OverrideReferenceName": "_fresnelPower",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
-    "m_Value": 2.0,
+    "m_Value": 5.0,
     "m_FloatType": 0,
     "m_RangeValues": {
         "x": 0.0,
@@ -1003,6 +1023,29 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector3MaterialSlot",
+    "m_ObjectId": "2deb3272cb924913a33a729e7d133858",
+    "m_Id": 0,
+    "m_DisplayName": "SideOfFresnel",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.BlockNode",
     "m_ObjectId": "2f662c2923454f43a6d314a8e10f23de",
     "m_Group": {
@@ -1043,7 +1086,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Metallic",
     "m_StageCapability": 2,
-    "m_Value": 0.0,
+    "m_Value": 0.5600000023841858,
     "m_DefaultValue": 0.0,
     "m_Labels": []
 }
@@ -1430,6 +1473,40 @@
     "m_PreviewExpanded": true,
     "m_CustomColors": {
         "m_SerializableColors": []
+    }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "51307b35431647de9f5ba0702dbde1d9",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -1439.2000732421875,
+            "y": 130.39999389648438,
+            "width": 153.5999755859375,
+            "height": 33.600006103515628
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "2deb3272cb924913a33a729e7d133858"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "f3822626adf54903a0283f3fde9a8c71"
     }
 }
 
@@ -2142,9 +2219,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1421.60009765625,
+            "x": -1424.7999267578125,
             "y": 307.9999694824219,
-            "width": 151.199951171875,
+            "width": 152.0,
             "height": 34.399993896484378
         }
     },
@@ -2805,9 +2882,9 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "r": 0.10440929234027863,
-        "g": 2.0495190620422365,
-        "b": 1.5517358779907227,
+        "r": 0.01592651754617691,
+        "g": 0.3041965067386627,
+        "b": 0.2309345155954361,
         "a": 0.0
     },
     "m_ColorMode": 1
@@ -3003,6 +3080,29 @@
         "y": 0.0
     },
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector3ShaderProperty",
+    "m_ObjectId": "f3822626adf54903a0283f3fde9a8c71",
+    "m_Guid": {
+        "m_GuidSerialized": "52553daa-dc08-46a8-82af-f15cf798bbcf"
+    },
+    "m_Name": "SideOfFresnel",
+    "m_DefaultReferenceName": "Vector3_f3822626adf54903a0283f3fde9a8c71",
+    "m_OverrideReferenceName": "_sideOfFresnel",
+    "m_GeneratePropertyBlock": true,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "x": 0.0,
+        "y": -180.0,
+        "z": -300.0,
+        "w": 0.0
+    }
 }
 
 {

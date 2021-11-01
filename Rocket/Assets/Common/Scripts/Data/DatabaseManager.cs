@@ -27,8 +27,8 @@ namespace Common.Scripts.Data
     
         void SaveData (string key, PlayerData data)
         {
-            var jsonData = JsonConvert.SerializeObject(data);
-            PlayerPrefs.SetString(key,jsonData);
+            // var jsonData = JsonConvert.SerializeObject(data);
+            // PlayerPrefs.SetString(key,jsonData);
            
         }
     

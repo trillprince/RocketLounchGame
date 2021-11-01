@@ -10,12 +10,7 @@ namespace Common.Scripts.Firebase
 
     public class Authentication
     {
-        public Authentication(Action OnAuth)
-        {
-            ConfigurePlayGames(OnAuth);
-        }
-        
-        void ConfigurePlayGames(Action onAuth)
+        public void ConfigurePlayGames()
         {
             PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
                 .RequestServerAuthCode(false)
@@ -29,13 +24,13 @@ namespace Common.Scripts.Firebase
                 {
                     Debug.Log("ConfigurePlayGames");
                     var authCode = PlayGamesPlatform.Instance.GetServerAuthCode();
-                    AuthenticatePlayer(authCode,onAuth);
+                    AuthenticatePlayer(authCode);
                 }
                 
             });
         }
         
-        void AuthenticatePlayer(string authCode, Action onAuth)
+        void AuthenticatePlayer(string authCode)
         {
             FirebaseAuth auth = FirebaseAuth.DefaultInstance;
             Credential credential =
@@ -54,7 +49,6 @@ namespace Common.Scripts.Firebase
                 Debug.LogFormat("User signed in successfully: {0} ({1})",
                     newUser.DisplayName, newUser.UserId);
                 Debug.Log("AuthenticatePlayer");
-                onAuth?.Invoke();
             });
         }
         

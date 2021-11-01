@@ -17,7 +17,8 @@ namespace Common.Scripts.Rocket
         public RocketHealth Health { get; private set; }
         public RocketInventory Inventory { get; set; }
         public RocketDistance CoveredDistance { get; set; }
-
+        public RocketBoosterController BoosterController { get; set; }
+        
         private Dictionary<Type, IGameStateSubscriber> _gameStateSubscribers;
         private ObjectPoolStorage _objectPoolStorage;
         private InputManager _inputManager;
@@ -41,11 +42,13 @@ namespace Common.Scripts.Rocket
                 GetComponentInChildren<MeshCollider>(),
                 GetComponent<RocketSpeed>());
 
-            Health = new RocketHealth(_gameStateController, levelInfo);
+            Health = new RocketHealth(_gameStateController);
 
             Inventory = new RocketInventory();
 
             CoveredDistance = new RocketDistance(GetComponent<RocketSpeed>(),_playerDataSaver);
+
+            BoosterController = new RocketBoosterController(Health,Movement,Instantiate,Destroy); 
 
             _gameStateSubscribers = new Dictionary<Type, IGameStateSubscriber>
             {
@@ -53,6 +56,7 @@ namespace Common.Scripts.Rocket
                 [typeof(RocketDistance)] = CoveredDistance
             };
         }
+
 
         private void Update()
         {

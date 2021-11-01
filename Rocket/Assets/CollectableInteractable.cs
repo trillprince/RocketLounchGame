@@ -1,6 +1,4 @@
-﻿using Common.Scripts.Rocket;
-
-public class CollectableInteractable: IInteractable
+﻿public class CollectableInteractable
 {
     public void Interact()
     {

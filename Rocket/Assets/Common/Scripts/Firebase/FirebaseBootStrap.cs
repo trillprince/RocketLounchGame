@@ -7,15 +7,9 @@ namespace Common.Scripts.Firebase
 {
     public class FirebaseBootStrap
     {
-        private static Authentication _auth;
+        public event Action OnInit;
 
-        public FirebaseBootStrap(Action onFireBaseInit)
-        {
-            Init(onFireBaseInit);
-            Debug.Log("firebasebootstrap");
-        }
-
-        private static void Init(Action onFireBaseInit)
+        public void Init()
         {
             FirebaseApp.CheckDependenciesAsync().ContinueWith(task =>
             {
@@ -28,7 +22,7 @@ namespace Common.Scripts.Firebase
                 {
                     Debug.Log("dependencies");
                     FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
-                    _auth = new Authentication((() => { onFireBaseInit?.Invoke(); }));   
+                    OnInit?.Invoke();
                 }
             });
         }

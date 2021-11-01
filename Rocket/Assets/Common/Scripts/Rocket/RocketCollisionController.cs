@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Common.Scripts.MissionSystem;
 using Common.Scripts.SpaceObjects;
@@ -14,11 +15,11 @@ namespace Common.Scripts.Rocket
         private void Start()
         {
             _collisionList = new Queue<Collider>();
-
         }
-        
+
         private void ApplyCollision(Collider collider)
         {
+            
             AddCollisionToList(collider);
             collider.GetComponent<SpaceObject>().Interact();
         }
@@ -27,7 +28,7 @@ namespace Common.Scripts.Rocket
         {
             _collisionList.Enqueue(collider);
         }
-        
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.GetComponent<SpaceObject>() != null)
@@ -36,4 +37,5 @@ namespace Common.Scripts.Rocket
             }
         }
     }
+    
 }

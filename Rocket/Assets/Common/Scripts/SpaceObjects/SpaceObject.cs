@@ -3,7 +3,7 @@ using Common.Scripts.Rocket;
 using Common.Scripts.SpaceObjects;
 using UnityEngine;
 
-public class SpaceObject:MonoBehaviour,ISpaceObject,IInteractable
+public class SpaceObject:MonoBehaviour,ISpaceObject
 {
     private RocketController _rocketController;
     private ISpaceObjectLifeCycle _spaceObjectLifeCycle;

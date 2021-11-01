@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Common.Scripts.SpaceObjects
 {
-    public class AsteroidInteraction: IInteractable
+    public class AsteroidInteraction
     {
         private readonly RocketHealth _rocketHealth;
         private readonly ISpaceObjectLifeCycle _spaceObjectLifeCycle;
@@ -19,7 +19,7 @@ namespace Common.Scripts.SpaceObjects
 
         public void Interact()
         {
-            _rocketHealth.DamageRocket();
+            _rocketHealth.DamageRocket(1);
             _spaceObjectLifeCycle.Dispose(_spaceObject);
         }
     }

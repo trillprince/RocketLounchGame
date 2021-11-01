@@ -80,8 +80,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_04c606f99e904e11a8384dd1241bc4e8: 1.7
-    - Vector1_06c0c58d6d13482dae0f5b8a79dc107e: 2
+    - Vector1_04c606f99e904e11a8384dd1241bc4e8: 3
+    - Vector1_06c0c58d6d13482dae0f5b8a79dc107e: 6
     - Vector1_77ce05aef16f4fb8929196e3c66bbb21: 0.1
     - _AlphaClip: 0
     - _Blend: 0
@@ -110,11 +110,13 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_d7a646e3e44347c5a5732ffcfb2d4aa6: {r: 0, g: 0.43920818, b: 0.4301988, a: 0}
+    - Color_d7a646e3e44347c5a5732ffcfb2d4aa6: {r: 0, g: 0.4301988, b: 0.4301988, a: 0.5686275}
+    - Vector3_f3822626adf54903a0283f3fde9a8c71: {r: 1.99, g: -8.85, b: -34.83, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _sideOfFresnel: {r: 0, g: -250, b: -666.57, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &2854781368247369860
 MonoBehaviour:
