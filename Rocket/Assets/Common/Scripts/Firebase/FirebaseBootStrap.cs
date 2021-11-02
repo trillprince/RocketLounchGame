@@ -20,7 +20,6 @@ namespace Common.Scripts.Firebase
                 }
                 if (task.IsCompleted)
                 {
-                    Debug.Log("dependencies");
                     FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
                     OnInit?.Invoke();
                 }

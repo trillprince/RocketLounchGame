@@ -1,13 +1,15 @@
 using Common.Scripts.Rocket;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour, IAudioManager
 {
     [SerializeField] private CustomAudio[] _fxAudioClips;
     [SerializeField] private CustomAudio[] _musicAudioClips;
-    public static AudioManager instance = null;
+    public static AudioManager Instance;
     private FxAudioController _fxAudioController;
     private MusicAudioController _musicAudioController;
+
 
     private void Awake()
     {
@@ -18,40 +20,26 @@ public class AudioManager : MonoBehaviour, IAudioManager
         _musicAudioController.CreateAudioSources();
     }
 
-    private void OnEnable()
+    public void FxAudioClipIsActive(string soundClipName, bool isActive)
     {
-        LaunchManager.RocketLaunching += RocketLaunchingSound;
-        LaunchManager.OnRocketLaunch += OnRocketLaunch;
+        _fxAudioController.AudioClipIsActive(soundClipName, isActive);
     }
 
-    private void OnDisable()
+    public void MusicAudioClipIsActive(string soundClipName, bool isActive)
     {
-        LaunchManager.RocketLaunching -= RocketLaunchingSound;
-        LaunchManager.OnRocketLaunch -= OnRocketLaunch;
-    }
-
-    private void OnRocketLaunch()
-    {
-        _fxAudioController.AudioClipIsActive("Rocket Fly Loop", true);
-    }
-
-    private void RocketLaunchingSound()
-    {
-        _fxAudioController.AudioClipIsActive("Launch Sound", true);
+        _musicAudioController.AudioClipIsActive(soundClipName, isActive);
     }
 
     void Start()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
-        else if (instance == this)
+        else if (Instance == this)
         {
             Destroy(gameObject);
         }
-
-        _musicAudioController.AudioClipIsActive("Music", true);
     }
 
     public void FxSetActive(bool isActive)
@@ -64,13 +52,14 @@ public class AudioManager : MonoBehaviour, IAudioManager
         AudioSetActive(isActive, _musicAudioController);
     }
 
-    private void AudioSetActive(bool isActive,IAudioController audioController)
+    private void AudioSetActive(bool isActive, IAudioController audioController)
     {
         if (isActive)
         {
             audioController.AudioClipsAreMuted(false);
             return;
         }
+
         audioController.AudioClipsAreMuted(true);
     }
 }

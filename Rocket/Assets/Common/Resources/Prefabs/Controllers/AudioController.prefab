@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8813675984868787897}
   - component: {fileID: 8813675984868787902}
+  - component: {fileID: 5630382252010667222}
   m_Layer: 0
   m_Name: AudioController
   m_TagString: Untagged
@@ -47,7 +48,7 @@ MonoBehaviour:
   - Name: Rocket Fly Loop
     AudioClip: {fileID: 8300000, guid: 256d070ff320bfa4e9f25b6fd42d9250, type: 3}
     AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
-    Loop: 0
+    Loop: 1
     Volume: 0.15
   - Name: Launch Sound
     AudioClip: {fileID: 8300000, guid: 8c7013e6b5077ba45a8b61b94fd31b80, type: 3}
@@ -60,3 +61,15 @@ MonoBehaviour:
     AudioMixerGroup: {fileID: 2352690748989567134, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
     Loop: 0
     Volume: 0.3
+--- !u!114 &5630382252010667222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8813675984868787900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff1b8bfa46f31842a59ca8c21c60c29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

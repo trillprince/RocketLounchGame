@@ -9,6 +9,7 @@ namespace Common.Scripts.Infrastructure
     public class GameControllersInstaller : MonoInstaller
     {
         private GameBootstrapper _gameBootstrapper;
+        [SerializeField] private LaunchManager _launchManager;
 
 
         public override void InstallBindings()
@@ -28,7 +29,8 @@ namespace Common.Scripts.Infrastructure
             Container.Bind<ICoroutineRunner>().FromInstance(_gameBootstrapper.StateMachine.Loader.Runner);
             Container.Bind<GameStateMachine>().FromInstance(_gameBootstrapper.StateMachine);
             Container.Bind<LoadingCurtain>().FromInstance(_gameBootstrapper.StateMachine.Curtain);
-            Container.Bind<AudioManager>().FromInstance(AudioManager.instance);
+            Container.Bind<IAudioManager>().FromInstance(AudioManager.Instance).NonLazy();
+            Container.Bind<LaunchManager>().FromInstance(_launchManager).NonLazy();
 
         }
 

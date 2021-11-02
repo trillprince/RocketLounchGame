@@ -5,12 +5,12 @@ public class AudioController : IAudioController
     private readonly CustomAudio[] _customAudios;
     private readonly GameObject _parent;
 
-    protected AudioController(CustomAudio[] customAudios,GameObject parent)
+    protected AudioController(CustomAudio[] customAudios, GameObject parent)
     {
         _customAudios = customAudios;
         _parent = parent;
     }
-    
+
     public void CreateAudioSources()
     {
         foreach (var customAudio in _customAudios)
@@ -24,8 +24,8 @@ public class AudioController : IAudioController
             audioSource.volume = customAudio.Volume;
         }
     }
-    
-    public void AudioClipIsActive(string audioName,bool isActive)
+
+    public void AudioClipIsActive(string audioName, bool isActive)
     {
         foreach (var customAudio in _customAudios)
         {
@@ -33,11 +33,12 @@ public class AudioController : IAudioController
             {
                 switch (isActive)
                 {
-                    case true : customAudio.Play();
+                    case true:
+                        customAudio.Play();
                         break;
-                    case false : customAudio.Stop();
+                    case false:
+                        customAudio.Stop();
                         break;
- 
                 }
             }
         }
@@ -52,6 +53,7 @@ public class AudioController : IAudioController
                 customAudio.MuteVolume();
                 return;
             }
+
             customAudio.UnmuteVolume();
         }
     }

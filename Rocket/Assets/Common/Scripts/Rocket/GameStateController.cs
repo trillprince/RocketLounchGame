@@ -17,6 +17,13 @@ namespace Common.Scripts.Rocket
 
         public static event StateSwitch OnStateSwitch;
         private LoadingCurtain _loadingCurtain;
+        private LaunchManager _launchManager;
+
+        [Inject]
+        public void Constructor(LaunchManager launchManager)
+        {
+            _launchManager = launchManager;
+        }
 
         private void Awake()
         {
@@ -31,12 +38,12 @@ namespace Common.Scripts.Rocket
 
         void OnEnable()
         {
-            LaunchManager.OnRocketLaunch += SetStateOnRocketLaunch;
+            _launchManager.OnRocketLaunch += SetStateOnRocketLaunch;
         }
 
         private void OnDisable()
         {
-            LaunchManager.OnRocketLaunch -= SetStateOnRocketLaunch;
+            _launchManager.OnRocketLaunch -= SetStateOnRocketLaunch;
         }
 
         void SetStateOnRocketLaunch()

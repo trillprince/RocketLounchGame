@@ -15,10 +15,11 @@ namespace Common.Scripts.Rocket
         public RocketCargo Cargo { get; private set; }
         public RocketMovement Movement { get; private set; }
         public RocketHealth Health { get; private set; }
-        public RocketInventory Inventory { get; set; }
-        public RocketDistance CoveredDistance { get; set; }
-        public RocketBoosterController BoosterController { get; set; }
-        
+        public RocketInventory Inventory { get; private set; }
+        public RocketDistance CoveredDistance { get; private set; }
+        public RocketBoosterController BoosterController { get; private set; }
+        public RocketAudio Audio { get; private set; }
+
         private Dictionary<Type, IGameStateSubscriber> _gameStateSubscribers;
         private ObjectPoolStorage _objectPoolStorage;
         private InputManager _inputManager;
@@ -27,7 +28,8 @@ namespace Common.Scripts.Rocket
 
         [Inject]
         private void Constructor(IGameStateController gameStateController, ObjectPoolStorage objectPoolStorage,
-            InputManager inputManager, ILevelInfo levelInfo, GameProgress gameProgress)
+            InputManager inputManager, ILevelInfo levelInfo, GameProgress gameProgress,LaunchManager launchManager,
+            IAudioManager audioManager)
         {
             _playerDataSaver = gameProgress.PlayerDataSaver;
             _objectPoolStorage = objectPoolStorage;
@@ -46,9 +48,11 @@ namespace Common.Scripts.Rocket
 
             Inventory = new RocketInventory();
 
-            CoveredDistance = new RocketDistance(GetComponent<RocketSpeed>(),_playerDataSaver);
+            CoveredDistance = new RocketDistance(GetComponent<RocketSpeed>(), _playerDataSaver);
 
-            BoosterController = new RocketBoosterController(Health,Movement,Instantiate,Destroy); 
+            BoosterController = new RocketBoosterController(Health, Movement, Instantiate, Destroy);
+
+            Audio = new RocketAudio(audioManager,launchManager);
 
             _gameStateSubscribers = new Dictionary<Type, IGameStateSubscriber>
             {
@@ -66,11 +70,13 @@ namespace Common.Scripts.Rocket
         private void OnEnable()
         {
             GameStateController.OnStateSwitch += NotifyComponentsOnGameState;
+            Audio.Enable();
         }
 
         private void OnDisable()
         {
             GameStateController.OnStateSwitch -= NotifyComponentsOnGameState;
+            Audio.Disable();
         }
 
         private void NotifyComponentsOnGameState(GameState gameState)

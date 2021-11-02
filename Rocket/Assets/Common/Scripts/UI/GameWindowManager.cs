@@ -21,13 +21,13 @@ namespace Common.Scripts.UI
         private ILevelInfo _levelInfo;
         private RocketController _rocketController;
         private PlayerDataSaver _playerDataSaver;
-        public event Action OnWindowCreate;
-        public event Action OnWindowClose;
+        private IAudioManager _audioManager;
 
         [Inject]
         private void Constructor(IGameTimeController gameTimeController, IGameLoopController gameLoopController,
-            RocketController rocketController,GameProgress gameProgress)
+            RocketController rocketController,GameProgress gameProgress, IAudioManager audioManager)
         {
+            _audioManager = audioManager;
             _gameTimeController = gameTimeController;
             _gameLoopController = gameLoopController;
             _rocketController = rocketController;
@@ -60,7 +60,7 @@ namespace Common.Scripts.UI
             _buttonController.ButtonsActive(false);
             _currentUiCreator = uiCreator;
             _currentWindow = CreateUI(_currentUiCreator);
-            OnWindowCreate?.Invoke();
+            _audioManager.FxSetActive(false);
         }
 
         private IPauseWindow CreateUI(IUICreator<IPauseWindow> uiCreator)
@@ -69,7 +69,7 @@ namespace Common.Scripts.UI
             window.Constructor((() =>
             {
                 _buttonController.ButtonsActive(true);
-                OnWindowClose?.Invoke();
+                _audioManager.FxSetActive(true);
             }),_gameTimeController,_gameLoopController,_rocketController,_playerDataSaver);
             return window;
         }

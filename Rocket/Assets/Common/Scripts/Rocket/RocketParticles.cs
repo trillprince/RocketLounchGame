@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Zenject;
 
 namespace Common.Scripts.Rocket
 {
@@ -12,6 +13,14 @@ namespace Common.Scripts.Rocket
         private RocketHealth _rocketHealth;
         private RocketSpeed _rocketSpeed;
 
+        private LaunchManager _launchManager;
+
+        [Inject]
+        public void Constructor(LaunchManager launchManager)
+        {
+            _launchManager = launchManager;
+        }
+        
         private void Awake()
         {
             _rocketHealth = GetComponentInParent<RocketController>().Health;
@@ -21,12 +30,12 @@ namespace Common.Scripts.Rocket
         
         private void OnEnable()
         {
-            LaunchManager.OnRocketLaunch += EnableEngineParticles;
+            _launchManager.OnRocketLaunch += EnableEngineParticles;
         }
 
         private void OnDisable()
         {
-            LaunchManager.OnRocketLaunch -= EnableEngineParticles;
+            _launchManager.OnRocketLaunch -= EnableEngineParticles;
             _rocketHealth.OnDamage -= PlaySparksParticles;
         }
 

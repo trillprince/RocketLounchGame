@@ -5,14 +5,16 @@ using UnityEngine.UI;
 
 namespace Common.Scripts.Rocket
 {
-    public class LaunchManager : MonoBehaviour,IControlledButton
+    public class LaunchManager : MonoBehaviour, IControlledButton
     {
         private Button _button;
-        public delegate void Station();
-        public static event Station OnRocketLaunch;
-        public static event Station RocketLaunching;
 
-        
+        public delegate void Station();
+
+        public event Station OnRocketLaunch;
+        public event Station RocketLaunching;
+
+
         private float _timeTillLounch = 1.7f;
         private bool _interactable = true;
 

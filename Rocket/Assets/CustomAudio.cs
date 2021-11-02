@@ -37,12 +37,13 @@ public class CustomAudio
 
     public void MuteVolume()
     {
-        AudioMixerGroup.audioMixer.GetFloat(Name, out _savedVolume);
-        AudioMixerGroup.audioMixer.SetFloat(Name, 0);
+        Debug.Log($"{AudioMixerGroup}Volume");
+        AudioMixerGroup.audioMixer.GetFloat($"{AudioMixerGroup}Volume", out _savedVolume);
+        AudioMixerGroup.audioMixer.SetFloat($"{AudioMixerGroup}Volume", -80);
     }
 
     public void UnmuteVolume()
     {
-        AudioMixerGroup.audioMixer.SetFloat(Name,_savedVolume);
+        AudioMixerGroup.audioMixer.SetFloat($"{AudioMixerGroup}Volume", _savedVolume);
     }
 }
