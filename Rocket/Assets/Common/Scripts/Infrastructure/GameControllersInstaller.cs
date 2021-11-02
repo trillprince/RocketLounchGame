@@ -28,6 +28,7 @@ namespace Common.Scripts.Infrastructure
             Container.Bind<ICoroutineRunner>().FromInstance(_gameBootstrapper.StateMachine.Loader.Runner);
             Container.Bind<GameStateMachine>().FromInstance(_gameBootstrapper.StateMachine);
             Container.Bind<LoadingCurtain>().FromInstance(_gameBootstrapper.StateMachine.Curtain);
+            Container.Bind<AudioManager>().FromInstance(AudioManager.instance);
 
         }
 

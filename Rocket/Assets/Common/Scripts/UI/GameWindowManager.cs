@@ -21,10 +21,12 @@ namespace Common.Scripts.UI
         private ILevelInfo _levelInfo;
         private RocketController _rocketController;
         private PlayerDataSaver _playerDataSaver;
-
+        public event Action OnWindowCreate;
+        public event Action OnWindowClose;
 
         [Inject]
-        private void Constructor(IGameTimeController gameTimeController, IGameLoopController gameLoopController,RocketController rocketController,GameProgress gameProgress)
+        private void Constructor(IGameTimeController gameTimeController, IGameLoopController gameLoopController,
+            RocketController rocketController,GameProgress gameProgress)
         {
             _gameTimeController = gameTimeController;
             _gameLoopController = gameLoopController;
@@ -58,6 +60,7 @@ namespace Common.Scripts.UI
             _buttonController.ButtonsActive(false);
             _currentUiCreator = uiCreator;
             _currentWindow = CreateUI(_currentUiCreator);
+            OnWindowCreate?.Invoke();
         }
 
         private IPauseWindow CreateUI(IUICreator<IPauseWindow> uiCreator)
@@ -66,6 +69,7 @@ namespace Common.Scripts.UI
             window.Constructor((() =>
             {
                 _buttonController.ButtonsActive(true);
+                OnWindowClose?.Invoke();
             }),_gameTimeController,_gameLoopController,_rocketController,_playerDataSaver);
             return window;
         }

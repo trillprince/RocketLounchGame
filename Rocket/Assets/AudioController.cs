@@ -1,62 +1,58 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Common.Scripts.Rocket;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class AudioController : MonoBehaviour
+public class AudioController : IAudioController
 {
-    [SerializeField] private CustomAudio[] _audioClips;
+    private readonly CustomAudio[] _customAudios;
+    private readonly GameObject _parent;
 
-    private void Awake()
+    protected AudioController(CustomAudio[] customAudios,GameObject parent)
     {
-        foreach (var audioClip in _audioClips)
+        _customAudios = customAudios;
+        _parent = parent;
+    }
+    
+    public void CreateAudioSources()
+    {
+        foreach (var customAudio in _customAudios)
         {
-            var audioSource = gameObject.AddComponent<AudioSource>();
-            audioClip.Source = audioSource;
-            
-            audioSource.name = audioClip.Name;
-            audioSource.clip = audioClip.AudioClip;
-            audioSource.loop = audioClip.Loop;
-            audioSource.volume = audioClip.Volume;
+            var audioSource = _parent.AddComponent<AudioSource>();
+            customAudio.Source = audioSource;
+
+            audioSource.outputAudioMixerGroup = customAudio.AudioMixerGroup;
+            audioSource.clip = customAudio.AudioClip;
+            audioSource.loop = customAudio.Loop;
+            audioSource.volume = customAudio.Volume;
         }
     }
-
-    private void OnEnable()
+    
+    public void AudioClipIsActive(string audioName,bool isActive)
     {
-        LaunchManager.RocketLaunching += RocketLaunchingSound;
-        LaunchManager.OnRocketLaunch += OnRocketLaunch;
-    }
-
-    private void OnDisable()
-    {
-        LaunchManager.RocketLaunching -= RocketLaunchingSound;
-        LaunchManager.OnRocketLaunch -= OnRocketLaunch;
-    }
-
-    private void OnRocketLaunch()
-    {
-        PlayAudioClip("Rocket Fly Loop");
-    }
-
-    private void RocketLaunchingSound()
-    {
-        PlayAudioClip("Launch Sound");
-    }
-
-    void Start()
-    {
-        PlayAudioClip("Music");
-    }
-
-    private void PlayAudioClip(string audioName)
-    {
-        foreach (var customAudio in _audioClips)
+        foreach (var customAudio in _customAudios)
         {
             if (customAudio.Name == audioName)
             {
-                customAudio.Play();
+                switch (isActive)
+                {
+                    case true : customAudio.Play();
+                        break;
+                    case false : customAudio.Stop();
+                        break;
+ 
+                }
             }
+        }
+    }
+
+    public void AudioClipsAreMuted(bool muted)
+    {
+        foreach (var customAudio in _customAudios)
+        {
+            if (muted)
+            {
+                customAudio.MuteVolume();
+                return;
+            }
+            customAudio.UnmuteVolume();
         }
     }
 }
