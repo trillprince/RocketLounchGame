@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common.Scripts.Audio;
 using Common.Scripts.Cargo;
 using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
@@ -10,7 +11,8 @@ namespace Common.Scripts.SpaceObjects
     public interface ISpaceObject: IUpdatable
     {
         public void Constructor(RocketController rocketController, ISpaceObjectLifeCycle spaceObjectLifeCycle,
-            GameLoopController gameLoopController, IGameStateController gameStateController, ISpawnPosition spawnPosition);
+            GameLoopController gameLoopController, IGameStateController gameStateController, 
+            ISpawnPosition spawnPosition,IAudioManager audioManager);
         
         
 

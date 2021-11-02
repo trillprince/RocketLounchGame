@@ -55,6 +55,16 @@ MonoBehaviour:
     AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
     Loop: 0
     Volume: 0.15
+  - Name: Energy Shield
+    AudioClip: {fileID: 8300000, guid: 0b19a9d8e87d21b488e80e44eb82f434, type: 3}
+    AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
+    Loop: 1
+    Volume: 0.8
+  - Name: Energy Shield Damage
+    AudioClip: {fileID: 8300000, guid: ce4e88b332d7f6941a363b59bceba97f, type: 3}
+    AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
+    Loop: 0
+    Volume: 0.5
   _musicAudioClips:
   - Name: Music
     AudioClip: {fileID: 8300000, guid: e1830682891ea664fb312fefdf0b6220, type: 3}

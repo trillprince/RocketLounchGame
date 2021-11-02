@@ -12,7 +12,8 @@ namespace Common.Scripts.Rocket
         private RocketEffect _rocketEffect;
         private GameObject _currentEffectObject;
 
-        public RocketBoosterController(RocketHealth health, RocketMovement movement,Func<GameObject,Transform,GameObject> instantiate,Action<GameObject> destroyGo)
+        public RocketBoosterController(RocketHealth health, RocketMovement movement,
+            Func<GameObject,Transform,GameObject> instantiate,Action<GameObject> destroyGo)
         {
             _health = health;
             _movement = movement;

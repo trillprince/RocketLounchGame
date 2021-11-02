@@ -1,4 +1,5 @@
-﻿using Common.Scripts.MissionSystem;
+﻿using Common.Scripts.Audio;
+using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using Common.Scripts.Satellite;
 using UnityEngine;
@@ -19,9 +20,11 @@ namespace Common.Scripts.SpaceObjects.Asteroid
             ISpaceObjectLifeCycle spaceObjectLifeCycle,
             GameLoopController gameLoopController, 
             IGameStateController gameStateController,
-            ISpawnPosition spawnPosition)
+            ISpawnPosition spawnPosition,
+            IAudioManager audioManager)
         {
-            base.Constructor(rocketController, spaceObjectLifeCycle, gameLoopController, gameStateController, spawnPosition);
+            base.Constructor(rocketController, spaceObjectLifeCycle, gameLoopController, gameStateController, 
+                spawnPosition,audioManager);
             
             _asteroidMove = new AsteroidMove(rocketController.Movement, transform);
             _spawnPosition = spawnPosition;

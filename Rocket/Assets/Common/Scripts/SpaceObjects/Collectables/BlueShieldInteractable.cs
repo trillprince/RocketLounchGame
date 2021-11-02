@@ -11,11 +11,12 @@ public class BlueShieldInteractable : IInteractable
     private readonly RocketEffect _rocketEffect;
 
     public BlueShieldInteractable(ICollectableDisposer collectableDisposer,
-        RocketBoosterController rocketBoosterController, RocketHealth rocketHealth, GameObject effectGameObject)
+        RocketBoosterController rocketBoosterController, RocketHealth rocketHealth, GameObject effectGameObject,
+        BlueShieldAudio blueShieldAudio)
     {
         _collectableDisposer = collectableDisposer;
         _rocketBoosterController = rocketBoosterController;
-        _rocketEffect = new BlueShieldEffect(rocketHealth,effectGameObject);
+        _rocketEffect = new BlueShieldEffect(rocketHealth,effectGameObject,blueShieldAudio);
     }
 
     public void Interact()

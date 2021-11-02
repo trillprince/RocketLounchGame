@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection.Emit;
+using Common.Scripts.Audio;
 using Common.Scripts.Cargo;
 using Common.Scripts.Infrastructure;
 using Common.Scripts.Rocket;
@@ -26,13 +27,14 @@ namespace Common.Scripts.MissionSystem
             IGameStateController gameStateController,
             ICoroutineRunner coroutineRunner, 
             GameStateMachine gameStateMachine,
-            ILevelInfo levelInfo)
+            ILevelInfo levelInfo,
+            IAudioManager audioManager)
         {
             _levelInfo = levelInfo;
             _gameStateMachine = gameStateMachine;
             var spaceObjectLifeCycle = new SpaceObjectLifeCycle(
                 new SpaceObjectPoolWorker(objectPoolStorage),
-                rocketController, gameStateController, this);
+                rocketController, gameStateController, this,audioManager);
 
             _spaceObjectSpawnController = new SpaceObjectSpawnController(coroutineRunner, spaceObjectLifeCycle,
                 rocketController.Movement, _levelInfo);

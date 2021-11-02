@@ -1,4 +1,5 @@
-﻿using Common.Scripts.MissionSystem;
+﻿using Common.Scripts.Audio;
+using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using Common.Scripts.SpaceObjects;
 using UnityEngine;
@@ -11,10 +12,13 @@ public class SpaceObject:MonoBehaviour,ISpaceObject
     private IGameStateController _gameStateController;
     private ISpawnPosition _spawnPosition;
     private Collider _collider;
+    private IAudioManager _audioManager;
 
     public virtual void Constructor(RocketController rocketController, ISpaceObjectLifeCycle spaceObjectLifeCycle,
-        GameLoopController gameLoopController, IGameStateController gameStateController, ISpawnPosition spawnPosition)
+        GameLoopController gameLoopController, IGameStateController gameStateController, ISpawnPosition spawnPosition,
+        IAudioManager audioManager)
     {
+        _audioManager = audioManager;
         _rocketController = rocketController;
         _spaceObjectLifeCycle = spaceObjectLifeCycle;
         _gameLoopController = gameLoopController;

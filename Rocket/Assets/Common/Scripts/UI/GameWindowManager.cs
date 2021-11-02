@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Common.Scripts.Audio;
 using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using UnityEngine;
@@ -76,6 +77,7 @@ namespace Common.Scripts.UI
 
         private void OnDisable()
         {
+            _audioManager.FxSetActive(true);
             foreach (Type type in _dictionaryKeys)
             {
                 _uiCreators[type].OnCreatorDestroy();

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Common.Scripts.Audio;
 using Common.Scripts.Rocket;
 using Common.Scripts.SpaceObjects;
 using UnityEngine;
@@ -13,18 +14,21 @@ namespace Common.Scripts.MissionSystem
         private readonly GameLoopController _gameLoopController;
 
         private List<ISpaceObject> _movableSpaceObjects;
+        private IAudioManager _audioManager;
         private bool IsEnabled { get; set; }
 
         public SpaceObjectLifeCycle(
             IPoolWorker spaceObjectPoolWorker,
             RocketController rocketController,
             IGameStateController gameStateController,
-            GameLoopController gameLoopController)
+            GameLoopController gameLoopController,
+            IAudioManager audioManager)
         {
             _spaceObjectPoolWorker = spaceObjectPoolWorker;
             _rocketController = rocketController;
             _gameStateController = gameStateController;
             _gameLoopController = gameLoopController;
+            _audioManager = audioManager;
             _movableSpaceObjects = new List<ISpaceObject>(20);
         }
 
@@ -35,7 +39,7 @@ namespace Common.Scripts.MissionSystem
                 ISpaceObject spaceObject = _spaceObjectPoolWorker.PopFromPool(spawnPosition, prefab)
                     .GetComponent<ISpaceObject>();
                 spaceObject.Constructor(_rocketController, this, _gameLoopController, _gameStateController,
-                    spawnPosition);
+                    spawnPosition,_audioManager);
                 _movableSpaceObjects.Add(spaceObject);
                 return spaceObject;
             }
