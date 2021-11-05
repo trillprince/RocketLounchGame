@@ -7,5 +7,6 @@ namespace Common.Scripts.Input
     public interface IInputPlatform : IControllableInput
     {
         public event Action <Vector3> OnInput;
+        public event Action OnTouch;
     }
 }

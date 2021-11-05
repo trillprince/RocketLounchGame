@@ -1,14 +1,14 @@
 using System;
 using System.Collections;
+using Common.Scripts.Input;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Common.Scripts.Rocket
 {
-    public class LaunchManager : MonoBehaviour, IControlledButton
+    public class LaunchManager : MonoBehaviour
     {
-        private Button _button;
-
         public delegate void Station();
 
         public event Station OnRocketLaunch;
@@ -16,35 +16,37 @@ namespace Common.Scripts.Rocket
 
 
         private float _timeTillLounch = 1.7f;
-        private bool _interactable = true;
+        private InputManager _inputManager;
+        private bool _rocketLauched;
 
-        private void Awake()
+        [Inject]
+        public void Constructor(InputManager inputManager)
         {
-            _button = GetComponentInChildren<Button>();
-            _button.onClick.AddListener(Launch);
+            _inputManager = inputManager;
+        }
+
+        private void OnEnable()
+        {
+            _inputManager.OnTouch += Launch;
+        }
+
+        private void OnDisable()
+        {
+            _inputManager.OnTouch -= Launch;
         }
 
         private void Launch()
         {
+            if(_rocketLauched) return;
             StartCoroutine(WaitTillLaunch());
-            SetInteractStatus(false);
-            _interactable = false;
         }
 
         IEnumerator WaitTillLaunch()
         {
+            _rocketLauched = true;
             RocketLaunching?.Invoke();
             yield return new WaitForSeconds(_timeTillLounch);
             OnRocketLaunch?.Invoke();
-        }
-
-        public void SetInteractStatus(bool isActive)
-        {
-            if (!_interactable && isActive)
-            {
-                return;
-            }
-            _button.gameObject.SetActive(isActive);
         }
     }
 }

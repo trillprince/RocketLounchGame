@@ -10,6 +10,8 @@ public class EditorInput : IInputPlatform
     private readonly TouchControls _touchControls;
     private Coroutine _coroutine;
     public event Action <Vector3> OnInput;
+    public event Action OnTouch;
+    
     private ICoroutineRunner _coroutineRunner;
     private float _updateTime = 0.001f;
 
@@ -23,12 +25,19 @@ public class EditorInput : IInputPlatform
     {
         _touchControls.Enable();
         _touchControls.EditorInput.ArrowPress.started += OnInputPerformed;
+        _touchControls.EditorInput.MouseClick.started += OnMouseClickPerformed;
+    }
+
+    private void OnMouseClickPerformed(InputAction.CallbackContext context)
+    {
+        OnTouch?.Invoke();
     }
 
     public void Disable()
     {
         _touchControls.Disable();
         _touchControls.EditorInput.ArrowPress.started -= OnInputPerformed;
+        _touchControls.EditorInput.MouseClick.started -= OnMouseClickPerformed;
     }
 
     private void OnInputPerformed(InputAction.CallbackContext context)

@@ -1,4 +1,5 @@
 using System;
+using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,13 +7,13 @@ using Zenject;
 
 namespace Common.Scripts.Input
 {
-    public class InputManager : MonoBehaviour
+    public class InputManager: IEnablable
     {
         private IInputPlatform _inputPlatform;
         public event Action<Vector3> OnInput;
-
-        [Inject]
-        public void Constructor(IInputPlatform inputPlatform)
+        public event Action OnTouch;
+        
+        public InputManager(IInputPlatform inputPlatform)
         {
             _inputPlatform = inputPlatform;
         }
@@ -22,16 +23,23 @@ namespace Common.Scripts.Input
             OnInput?.Invoke(inputContext);
         }
 
-        private void OnEnable()
+        private void OnTouchListener()
+        {
+            OnTouch?.Invoke();
+        }
+
+        public void Enable()
         {
             _inputPlatform.Enable();
             _inputPlatform.OnInput += OnInputListener;
+            _inputPlatform.OnTouch += OnTouchListener;
         }
-        
-        private void OnDisable()
+
+        public void Disable()
         {
             _inputPlatform.Disable();
             _inputPlatform.OnInput -= OnInputListener;
+            _inputPlatform.OnTouch -= OnTouchListener;
         }
     }
 }

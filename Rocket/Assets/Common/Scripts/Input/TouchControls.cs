@@ -25,6 +25,14 @@ public class @TouchControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector3"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Touch"",
+                    ""type"": ""Value"",
+                    ""id"": ""d251e10f-7dde-45d6-b16d-89dea15b80bf"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -38,6 +46,17 @@ public class @TouchControls : IInputActionCollection, IDisposable
                     ""action"": ""Acceleration"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7d10e5de-7226-47c9-b5e4-dc7d94e264fc"",
+                    ""path"": ""<Touchscreen>/position"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Touch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -49,6 +68,14 @@ public class @TouchControls : IInputActionCollection, IDisposable
                     ""name"": ""ArrowPress"",
                     ""type"": ""Button"",
                     ""id"": ""79ec4452-2d05-4d23-b9a9-6dd75e97f4e3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""MouseClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""4d0fbcca-ccd6-4556-817e-ea6f89a1c7aa"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -87,6 +114,17 @@ public class @TouchControls : IInputActionCollection, IDisposable
                     ""action"": ""ArrowPress"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""19ef2599-cfd2-4822-b662-44fcc7adbb0d"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -96,9 +134,11 @@ public class @TouchControls : IInputActionCollection, IDisposable
         // AndroidInput
         m_AndroidInput = asset.FindActionMap("AndroidInput", throwIfNotFound: true);
         m_AndroidInput_Acceleration = m_AndroidInput.FindAction("Acceleration", throwIfNotFound: true);
+        m_AndroidInput_Touch = m_AndroidInput.FindAction("Touch", throwIfNotFound: true);
         // EditorInput
         m_EditorInput = asset.FindActionMap("EditorInput", throwIfNotFound: true);
         m_EditorInput_ArrowPress = m_EditorInput.FindAction("ArrowPress", throwIfNotFound: true);
+        m_EditorInput_MouseClick = m_EditorInput.FindAction("MouseClick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -149,11 +189,13 @@ public class @TouchControls : IInputActionCollection, IDisposable
     private readonly InputActionMap m_AndroidInput;
     private IAndroidInputActions m_AndroidInputActionsCallbackInterface;
     private readonly InputAction m_AndroidInput_Acceleration;
+    private readonly InputAction m_AndroidInput_Touch;
     public struct AndroidInputActions
     {
         private @TouchControls m_Wrapper;
         public AndroidInputActions(@TouchControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Acceleration => m_Wrapper.m_AndroidInput_Acceleration;
+        public InputAction @Touch => m_Wrapper.m_AndroidInput_Touch;
         public InputActionMap Get() { return m_Wrapper.m_AndroidInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -166,6 +208,9 @@ public class @TouchControls : IInputActionCollection, IDisposable
                 @Acceleration.started -= m_Wrapper.m_AndroidInputActionsCallbackInterface.OnAcceleration;
                 @Acceleration.performed -= m_Wrapper.m_AndroidInputActionsCallbackInterface.OnAcceleration;
                 @Acceleration.canceled -= m_Wrapper.m_AndroidInputActionsCallbackInterface.OnAcceleration;
+                @Touch.started -= m_Wrapper.m_AndroidInputActionsCallbackInterface.OnTouch;
+                @Touch.performed -= m_Wrapper.m_AndroidInputActionsCallbackInterface.OnTouch;
+                @Touch.canceled -= m_Wrapper.m_AndroidInputActionsCallbackInterface.OnTouch;
             }
             m_Wrapper.m_AndroidInputActionsCallbackInterface = instance;
             if (instance != null)
@@ -173,6 +218,9 @@ public class @TouchControls : IInputActionCollection, IDisposable
                 @Acceleration.started += instance.OnAcceleration;
                 @Acceleration.performed += instance.OnAcceleration;
                 @Acceleration.canceled += instance.OnAcceleration;
+                @Touch.started += instance.OnTouch;
+                @Touch.performed += instance.OnTouch;
+                @Touch.canceled += instance.OnTouch;
             }
         }
     }
@@ -182,11 +230,13 @@ public class @TouchControls : IInputActionCollection, IDisposable
     private readonly InputActionMap m_EditorInput;
     private IEditorInputActions m_EditorInputActionsCallbackInterface;
     private readonly InputAction m_EditorInput_ArrowPress;
+    private readonly InputAction m_EditorInput_MouseClick;
     public struct EditorInputActions
     {
         private @TouchControls m_Wrapper;
         public EditorInputActions(@TouchControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @ArrowPress => m_Wrapper.m_EditorInput_ArrowPress;
+        public InputAction @MouseClick => m_Wrapper.m_EditorInput_MouseClick;
         public InputActionMap Get() { return m_Wrapper.m_EditorInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -199,6 +249,9 @@ public class @TouchControls : IInputActionCollection, IDisposable
                 @ArrowPress.started -= m_Wrapper.m_EditorInputActionsCallbackInterface.OnArrowPress;
                 @ArrowPress.performed -= m_Wrapper.m_EditorInputActionsCallbackInterface.OnArrowPress;
                 @ArrowPress.canceled -= m_Wrapper.m_EditorInputActionsCallbackInterface.OnArrowPress;
+                @MouseClick.started -= m_Wrapper.m_EditorInputActionsCallbackInterface.OnMouseClick;
+                @MouseClick.performed -= m_Wrapper.m_EditorInputActionsCallbackInterface.OnMouseClick;
+                @MouseClick.canceled -= m_Wrapper.m_EditorInputActionsCallbackInterface.OnMouseClick;
             }
             m_Wrapper.m_EditorInputActionsCallbackInterface = instance;
             if (instance != null)
@@ -206,6 +259,9 @@ public class @TouchControls : IInputActionCollection, IDisposable
                 @ArrowPress.started += instance.OnArrowPress;
                 @ArrowPress.performed += instance.OnArrowPress;
                 @ArrowPress.canceled += instance.OnArrowPress;
+                @MouseClick.started += instance.OnMouseClick;
+                @MouseClick.performed += instance.OnMouseClick;
+                @MouseClick.canceled += instance.OnMouseClick;
             }
         }
     }
@@ -213,9 +269,11 @@ public class @TouchControls : IInputActionCollection, IDisposable
     public interface IAndroidInputActions
     {
         void OnAcceleration(InputAction.CallbackContext context);
+        void OnTouch(InputAction.CallbackContext context);
     }
     public interface IEditorInputActions
     {
         void OnArrowPress(InputAction.CallbackContext context);
+        void OnMouseClick(InputAction.CallbackContext context);
     }
 }

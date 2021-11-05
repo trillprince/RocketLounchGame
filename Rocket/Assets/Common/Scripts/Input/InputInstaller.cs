@@ -16,13 +16,13 @@ public class InputInstaller : MonoInstaller
     private void InstallActionMap()
     {
         BuildInputOnPlatform();
-        Container.Bind<InputManager>().FromInstance(FindObjectOfType<InputManager>());
+        
     }
 
     private void BuildInputOnPlatform()
     {
         var coroutineRunner = FindObjectOfType<GameBootstrapper>().StateMachine.Loader.Runner;
         _inputFactory = new InputFactory(coroutineRunner);
-        Container.Bind<IInputPlatform>().FromInstance(_inputFactory.BuildPlatform(Application.platform));
+        Container.Bind<InputManager>().FromInstance(new InputManager(_inputFactory.BuildPlatform(Application.platform)));
     }
 }

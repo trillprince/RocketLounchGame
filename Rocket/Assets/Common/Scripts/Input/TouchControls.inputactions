@@ -12,6 +12,14 @@
                     "expectedControlType": "Vector3",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Touch",
+                    "type": "Value",
+                    "id": "d251e10f-7dde-45d6-b16d-89dea15b80bf",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -25,6 +33,17 @@
                     "action": "Acceleration",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7d10e5de-7226-47c9-b5e4-dc7d94e264fc",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Touch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -36,6 +55,14 @@
                     "name": "ArrowPress",
                     "type": "Button",
                     "id": "79ec4452-2d05-4d23-b9a9-6dd75e97f4e3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "MouseClick",
+                    "type": "Button",
+                    "id": "4d0fbcca-ccd6-4556-817e-ea6f89a1c7aa",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -74,6 +101,17 @@
                     "action": "ArrowPress",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "19ef2599-cfd2-4822-b662-44fcc7adbb0d",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
