@@ -1,23 +1,24 @@
-﻿namespace Common.Scripts.MissionSystem
+﻿using UnityEngine;
+
+namespace Common.Scripts.MissionSystem
 {
     public class PlayerDataSaver
     {
-        private readonly PlayerData _playerData;
 
-        public PlayerDataSaver(PlayerData playerData)
+        public PlayerDataSaver()
         {
-            _playerData = playerData;
+            
         }
 
         public void SaveScore(int score)
         {
-            if(score <= _playerData.GetHighScore()) return;
-            _playerData.SetHighScore(score);
+            if(score <= PlayerPrefs.GetInt("HighScore")) return;
+            PlayerPrefs.SetInt("HighScore",score);
         }
 
         public int GetScore()
         {
-            return _playerData.GetHighScore();
+            return PlayerPrefs.GetInt("HighScore");
         }
         
     }

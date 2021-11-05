@@ -21,12 +21,6 @@ public class EndOfGameWindow : MonoBehaviour, IPauseWindow
     private PlayerDataSaver _playerDataSaver;
     private string[] _animationNames;
 
-    private void PlayAgain()
-    {
-        UnPause();
-    }
-
-
     public void Constructor(Action onUnpauseAction, IGameTimeController gameTimeController,
         IGameLoopController gameLoopController, RocketController rocketController, PlayerDataSaver playerDataSaver)
     {
@@ -90,10 +84,15 @@ public class EndOfGameWindow : MonoBehaviour, IPauseWindow
         _gameTimeController.UnPause();
     }
 
-    private void Exit()
+    private void PlayAgain()
     {
         UnPause();
         _animator.SetBool("Pop_Down", true);
+    }
+
+    public void TransitionToLevelStart()
+    {
+        _gameStateMachine.Enter<GameLoopState,string>("LaunchScene");
     }
 
 }

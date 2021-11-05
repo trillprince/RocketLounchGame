@@ -8,7 +8,6 @@ using Zenject;
 
 public class DataInstaller : MonoInstaller
 {
-    public PlayerData playerData;
     public override void InstallBindings()
     {
         InstallPlayerDataSaver();
@@ -16,6 +15,6 @@ public class DataInstaller : MonoInstaller
 
     private void InstallPlayerDataSaver()
     {
-        Container.Bind<GameProgress>().FromInstance(new GameProgress(new PlayerDataSaver(playerData)));
+        Container.Bind<GameProgress>().FromInstance(new GameProgress(new PlayerDataSaver()));
     }
 }

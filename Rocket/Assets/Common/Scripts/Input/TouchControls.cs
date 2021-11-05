@@ -117,8 +117,8 @@ public class @TouchControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""19ef2599-cfd2-4822-b662-44fcc7adbb0d"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""id"": ""5ee37357-c9c8-45bd-bc34-4acc2e5ba5b5"",
+                    ""path"": ""<Mouse>/middleButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

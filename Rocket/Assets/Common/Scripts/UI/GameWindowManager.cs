@@ -17,28 +17,29 @@ namespace Common.Scripts.UI
         private Type[] _dictionaryKeys;
         private IUICreator<IPauseWindow> _uiCreator;
         [SerializeField] private WindowModels _windowModels;
-        private IButtonController _buttonController;
         private IGameTimeController _gameTimeController;
         private IGameLoopController _gameLoopController;
         private ILevelInfo _levelInfo;
         private RocketController _rocketController;
         private PlayerDataSaver _playerDataSaver;
         private IAudioManager _audioManager;
+        private IUIController _uiController;
 
         [Inject]
         private void Constructor(IGameTimeController gameTimeController, IGameLoopController gameLoopController,
-            RocketController rocketController,GameProgress gameProgress, IAudioManager audioManager)
+            RocketController rocketController,GameProgress gameProgress, IAudioManager audioManager,
+            IUIController uiController)
         {
             _audioManager = audioManager;
             _gameTimeController = gameTimeController;
             _gameLoopController = gameLoopController;
             _rocketController = rocketController;
             _playerDataSaver = gameProgress.PlayerDataSaver;
+            _uiController = uiController;
         }
 
         private void Awake()
         {
-            _buttonController = FindObjectOfType<ButtonManager>();
             InitUiCreatorDictionary();
         }
         
@@ -59,7 +60,7 @@ namespace Common.Scripts.UI
 
         private void CreateWindow(IUICreator<IPauseWindow> uiCreator)
         {
-            _buttonController.ButtonsActive(false);
+            _uiController.UIActive(false);
             _currentUiCreator = uiCreator;
             _currentWindow = CreateUI(_currentUiCreator);
             _audioManager.FxSetActive(false);
@@ -70,7 +71,7 @@ namespace Common.Scripts.UI
             var window = Instantiate(uiCreator.GetWindowModel().GetWindowObject(),transform).GetComponentInChildren<IPauseWindow>();
             window.Constructor((() =>
             {
-                _buttonController.ButtonsActive(true);
+                _uiController.UIActive(true);
                 _audioManager.FxSetActive(true);
             }),_gameTimeController,_gameLoopController,_rocketController,_playerDataSaver);
             return window;
