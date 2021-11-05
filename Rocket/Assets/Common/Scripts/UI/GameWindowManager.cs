@@ -5,6 +5,7 @@ using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using UnityEngine;
 using Zenject;
+using Random = System.Random;
 
 namespace Common.Scripts.UI
 {

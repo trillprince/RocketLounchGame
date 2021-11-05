@@ -13,13 +13,8 @@ namespace Common.Scripts.Infrastructure
 
         public void Load(string name, Action onLoaded = null) => Runner.StartCoroutine(LoadScene(name, onLoaded));
 
-        public IEnumerator LoadScene(string nextScene, Action onLoaded = null)
+        private IEnumerator LoadScene(string nextScene, Action onLoaded = null)
         {
-            if (SceneManager.GetActiveScene().name == nextScene)
-            {
-                onLoaded?.Invoke();
-                yield break;
-            }
             AsyncOperation waitNextScene = SceneManager.LoadSceneAsync(nextScene);
             while (!waitNextScene.isDone)
                 yield return null;

@@ -18,8 +18,6 @@ namespace Common.Scripts.Infrastructure
             _states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootStrapState)] = new BootStrapState(this, sceneLoader),
-                [typeof(MenuBootStrapState)] = new MenuBootStrapState(this,sceneLoader,loadingCurtain),
-                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, loadingCurtain),
                 [typeof(GameLoopState)] = new GameLoopState(this,sceneLoader,loadingCurtain)
             };
         }

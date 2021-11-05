@@ -23,7 +23,6 @@ namespace Common.Scripts.Rocket
 
         private void OnEnable()
         {
-            Debug.Log(_levelInfo);
             _levelInfo.OnNextLevel += OnNextLevel;
         }
 

@@ -68,7 +68,6 @@ namespace Common.Scripts.UI
         {
             Continue();
             _gameLoopController.DisableGameLoop();
-            _gameStateMachine.Enter<MenuBootStrapState>();
         }
 
         private void SetStartPosition()

@@ -8,7 +8,6 @@ namespace Common.Scripts.Infrastructure
     {
         private readonly GameStateMachine _stateMachine;
         private SceneLoader _sceneLoader;
-        private MenuBootStrap _menuBootstrap;
 
         public BootStrapState(GameStateMachine stateMachine, SceneLoader sceneLoader)
         {
@@ -18,13 +17,12 @@ namespace Common.Scripts.Infrastructure
 
         public void Enter()
         {
-            _menuBootstrap = new MenuBootStrap(new FirebaseBootStrap(),new Authentication());
             EnterMenu();
         }
 
         private void EnterMenu()
         {
-            _stateMachine.Enter<MenuBootStrapState>();
+            
         }
 
         public void Exit()

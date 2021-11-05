@@ -54,7 +54,6 @@ namespace Common.Scripts.Audio
 
         private void AudioSetActive(bool isActive, IAudioController audioController)
         {
-            Debug.Log($"Fx set active {isActive}");
             if (isActive)
             {
                 audioController.AudioClipsAreMuted(false);

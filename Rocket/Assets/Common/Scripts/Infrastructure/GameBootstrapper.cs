@@ -22,8 +22,12 @@ namespace Common.Scripts.Infrastructure
 
         private void Start()
         {
-            StateMachine.Enter<BootStrapState>();
+            LoadLevelScene();
         }
 
+        private void LoadLevelScene()
+        {
+            StateMachine.Enter<GameLoopState, string>("LaunchScene");
+        }
     }
 }

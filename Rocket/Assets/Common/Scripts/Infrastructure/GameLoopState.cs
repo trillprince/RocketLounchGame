@@ -3,7 +3,7 @@ using Common.Scripts.UI;
 
 namespace Common.Scripts.Infrastructure
 {
-    public class GameLoopState : IState
+    public class GameLoopState : IPayloadedState<string>
     {
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
@@ -16,14 +16,18 @@ namespace Common.Scripts.Infrastructure
             _loadingCurtain = loadingCurtain;
         }
 
+        public void Enter(string payload)
+        {
+            _sceneLoader.Load(payload,(() =>
+            {
+                _loadingCurtain.Hide();
+            }));
+        }
+
         public void Exit()
         {
            
         }
 
-        public void Enter()
-        {
-            _loadingCurtain.Hide();
-        }
     }
 }

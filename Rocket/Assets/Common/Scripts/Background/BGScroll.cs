@@ -21,7 +21,7 @@ namespace Common.Scripts.Background
             _moveSmoothness = moveSmoothness;
             _rocketSpeed = rocketSpeed;
         }
-        
+            
         private void ReinitializeOffset()
         {
             _offset = new Vector2(_xVelocity, _yVelocity).normalized * _rocketSpeed.CurrentSpeed/_moveSmoothness;

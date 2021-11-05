@@ -23,7 +23,6 @@ namespace Common.Scripts.Rocket
             if (CurrentHealth - value > 0)
             {
                 CurrentHealth -= value;
-                Debug.Log(CurrentHealth);
                 OnDamage?.Invoke();
                 return;
             }
