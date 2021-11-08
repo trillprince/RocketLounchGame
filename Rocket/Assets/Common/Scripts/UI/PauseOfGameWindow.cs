@@ -31,8 +31,13 @@ namespace Common.Scripts.UI
 
         private void OnEnable()
         {
-            _tryAgainButton.onClick.AddListener(MainMenu);
+            _tryAgainButton.onClick.AddListener(ReplayAnim);
             _continueButton.onClick.AddListener(Continue);
+        }
+
+        private void ReplayAnim()
+        {
+            _animator.Play("Pop_downToReplay");
         }
 
         private void Start()
@@ -62,6 +67,7 @@ namespace Common.Scripts.UI
         {
             _gameTimeController.UnPause();
             _onUnpauseAction?.Invoke();
+            Destroy(transform.parent.gameObject);
         }
 
 
@@ -70,7 +76,7 @@ namespace Common.Scripts.UI
             _animator.Play("Pop_down");
         }
 
-        private void MainMenu()
+        private void Replay()
         {
             UnPause();
             _gameStateMachine.Curtain.Show((() =>

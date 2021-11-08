@@ -15,4 +15,9 @@ public class UIInstaller : MonoInstaller
     {
         Container.Bind<IUIController>().FromInstance(new UIController());
     }
+
+    private void BindWindows()
+    {
+        
+    }
 }
