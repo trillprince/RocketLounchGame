@@ -22,7 +22,8 @@ public class EndOfGameWindow : MonoBehaviour, IPauseWindow
     private string[] _animationNames;
 
     public void Constructor(Action onUnpauseAction, IGameTimeController gameTimeController,
-        IGameLoopController gameLoopController, RocketController rocketController, PlayerDataSaver playerDataSaver)
+        IGameLoopController gameLoopController, RocketController rocketController, PlayerDataSaver playerDataSaver,
+        IGameStateController gameStateController)
     {
         _gameTimeController = gameTimeController;
         _gameLoopController = gameLoopController;
@@ -70,7 +71,6 @@ public class EndOfGameWindow : MonoBehaviour, IPauseWindow
     private void Start()
     {
         FillInfo();
-        _gameLoopController.DisableGameLoop();
         _animator.Play(_animationNames[0]);
     }
 
@@ -92,7 +92,7 @@ public class EndOfGameWindow : MonoBehaviour, IPauseWindow
 
     public void TransitionToLevelStart()
     {
-        _gameStateMachine.Enter<GameLoopState,string>("LaunchScene");
+        UnPause();
+        _gameStateMachine.Enter<GameLoopState, string>("LaunchScene");
     }
-
 }

@@ -7,6 +7,7 @@ using Common.Scripts.Cargo;
 using Common.Scripts.Infrastructure;
 using Common.Scripts.Rocket;
 using Common.Scripts.SpaceObjects;
+using Common.Scripts.UI;
 using UnityEngine;
 using Zenject;
 
@@ -18,6 +19,9 @@ namespace Common.Scripts.MissionSystem
         private GameStateMachine _gameStateMachine;
         private GameProgress _gameProgress;
         private ILevelInfo _levelInfo;
+        private RocketHealth _rocketHealth;
+        private IGameTimeController _gameTimeController;
+        private IGameStateController _gameStateController;
         public static event Action OnGameOver;
 
 
@@ -28,27 +32,31 @@ namespace Common.Scripts.MissionSystem
             ICoroutineRunner coroutineRunner, 
             GameStateMachine gameStateMachine,
             ILevelInfo levelInfo,
-            IAudioManager audioManager)
+            IAudioManager audioManager,
+            IGameTimeController gameTimeController)
         {
             _levelInfo = levelInfo;
+            _rocketHealth = rocketController.Health; 
             _gameStateMachine = gameStateMachine;
+            _gameStateController = gameStateController;
             var spaceObjectLifeCycle = new SpaceObjectLifeCycle(
                 new SpaceObjectPoolWorker(objectPoolStorage),
                 rocketController, gameStateController, this,audioManager);
 
             _spaceObjectSpawnController = new SpaceObjectSpawnController(coroutineRunner, spaceObjectLifeCycle,
                 rocketController.Movement, _levelInfo);
-
+            _gameTimeController = gameTimeController;
         }
 
         private void OnEnable()
         {
-            GameStateController.OnStateSwitch += GameStateListener;
+            _gameStateController.OnStateSwitch += GameStateListener;
         }
 
         private void OnDisable()
         {
-            GameStateController.OnStateSwitch -= GameStateListener;
+            DisableGameLoop();
+            _gameStateController.OnStateSwitch -= GameStateListener;
         }
 
         private void Update()
@@ -64,8 +72,12 @@ namespace Common.Scripts.MissionSystem
                     _spaceObjectSpawnController.Enable();
                     break;
                 case GameState.EndOfGame:
-                    DisableGameLoop();
-                    OnGameOver?.Invoke();
+                    _gameStateMachine.Curtain.Show((() =>
+                    {
+                        DisableGameLoop();  
+                        _gameTimeController.Pause();
+                        OnGameOver?.Invoke();
+                    }));
                     break;
             }
         }
@@ -77,7 +89,7 @@ namespace Common.Scripts.MissionSystem
 
         public void DisableGameLoop()
         {
-            _gameStateMachine.Curtain.Show(() => { _spaceObjectSpawnController.Disable(); });
+            _spaceObjectSpawnController.Disable();
         }
 
     }

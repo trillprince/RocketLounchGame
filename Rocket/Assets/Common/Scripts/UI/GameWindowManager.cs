@@ -24,11 +24,13 @@ namespace Common.Scripts.UI
         private PlayerDataSaver _playerDataSaver;
         private IAudioManager _audioManager;
         private IUIController _uiController;
+        private LaunchManager _launchManager;
+        private IGameStateController _gameStateController;
 
         [Inject]
         private void Constructor(IGameTimeController gameTimeController, IGameLoopController gameLoopController,
             RocketController rocketController,GameProgress gameProgress, IAudioManager audioManager,
-            IUIController uiController)
+            IUIController uiController,LaunchManager launchManager,IGameStateController gameStateController)
         {
             _audioManager = audioManager;
             _gameTimeController = gameTimeController;
@@ -36,13 +38,27 @@ namespace Common.Scripts.UI
             _rocketController = rocketController;
             _playerDataSaver = gameProgress.PlayerDataSaver;
             _uiController = uiController;
+            _launchManager = launchManager;
+            _gameStateController = gameStateController;
         }
+
+        private void OnEnable()
+        {
+            _launchManager.OnRocketLaunch += () => {_uiController.UIActive(true);};
+        }
+        
 
         private void Awake()
         {
             InitUiCreatorDictionary();
         }
-        
+
+        private void Start()
+        {
+            _uiController.UIActive(false);
+        }
+
+
         private void InitUiCreatorDictionary()
         {
             _dictionaryKeys = new[] {typeof(EndOfGameUI), typeof(PauseOfGameUI)};
@@ -73,7 +89,7 @@ namespace Common.Scripts.UI
             {
                 _uiController.UIActive(true);
                 _audioManager.FxSetActive(true);
-            }),_gameTimeController,_gameLoopController,_rocketController,_playerDataSaver);
+            }),_gameTimeController,_gameLoopController,_rocketController,_playerDataSaver,_gameStateController);
             return window;
         }
 

@@ -13,16 +13,17 @@ namespace Common.Scripts.Rocket
     {
         private GameState CurrentGameState { get; set; }
 
-        public delegate void StateSwitch(GameState state);
 
-        public static event StateSwitch OnStateSwitch;
+        public event Action <GameState>  OnStateSwitch;
         private LoadingCurtain _loadingCurtain;
         private LaunchManager _launchManager;
+        private RocketController _rocketController;
 
         [Inject]
-        public void Constructor(LaunchManager launchManager)
+        public void Constructor(LaunchManager launchManager, RocketController rocketController)
         {
             _launchManager = launchManager;
+            _rocketController = rocketController;
         }
 
         private void Awake()
@@ -39,6 +40,7 @@ namespace Common.Scripts.Rocket
         void OnEnable()
         {
             _launchManager.OnRocketLaunch += SetStateOnRocketLaunch;
+            _rocketController.Health.OnRocketDestroy += (() => { SetGameState(GameState.EndOfGame);});
         }
 
         private void OnDisable()

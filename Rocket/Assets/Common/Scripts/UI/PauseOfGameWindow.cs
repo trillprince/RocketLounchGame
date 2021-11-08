@@ -3,13 +3,14 @@ using Common.Scripts.Infrastructure;
 using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Common.Scripts.UI
 {
     public class PauseOfGameWindow : MonoBehaviour, IPauseWindow
     {
-        [SerializeField] private Button _munuButton;
+        [SerializeField] private Button _tryAgainButton;
         [SerializeField] private Button _continueButton;
         private GameStateMachine _gameStateMachine;
         private Action _onUnpauseAction;
@@ -18,6 +19,7 @@ namespace Common.Scripts.UI
         private Animator _animator;
         private IGameLoopController _gameLoopController;
         private ILevelInfo _levelInfo;
+        private IGameStateController _gameStateController;
 
 
         private void Awake()
@@ -29,22 +31,27 @@ namespace Common.Scripts.UI
 
         private void OnEnable()
         {
-            _munuButton.onClick.AddListener(MainMenu);
+            _tryAgainButton.onClick.AddListener(MainMenu);
             _continueButton.onClick.AddListener(Continue);
         }
 
         private void Start()
         {
-            SetStartPosition();
             Pause();
+            SetStartPosition();
         }
 
-        public void Constructor(Action onUnpauseAction,IGameTimeController gameTimeController,IGameLoopController gameLoopController,RocketController rocketController,PlayerDataSaver playerDataSaver)
+        public void Constructor(Action onUnpauseAction,IGameTimeController gameTimeController,
+            IGameLoopController gameLoopController,RocketController rocketController,PlayerDataSaver playerDataSaver,
+            IGameStateController gameStateController)
         {
             _onUnpauseAction = onUnpauseAction;
             _gameTimeController = gameTimeController;
             _gameLoopController = gameLoopController;
+            _gameStateController = gameStateController;
+            
         }
+        
 
         public void Pause()
         {
@@ -55,7 +62,6 @@ namespace Common.Scripts.UI
         {
             _gameTimeController.UnPause();
             _onUnpauseAction?.Invoke();
-            Destroy(transform.parent.gameObject);
         }
 
 
@@ -66,8 +72,12 @@ namespace Common.Scripts.UI
 
         private void MainMenu()
         {
-            Continue();
-            _gameLoopController.DisableGameLoop();
+            UnPause();
+            _gameStateMachine.Curtain.Show((() =>
+            {
+                _gameLoopController.DisableGameLoop();
+                _gameStateMachine.Enter<GameLoopState,string>("LaunchScene");
+            }));
         }
 
         private void SetStartPosition()

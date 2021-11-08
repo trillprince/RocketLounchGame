@@ -70,13 +70,13 @@ namespace Common.Scripts.Rocket
 
         private void OnEnable()
         {
-            GameStateController.OnStateSwitch += NotifyComponentsOnGameState;
+            _gameStateController.OnStateSwitch += NotifyComponentsOnGameState;
             Audio.Enable();
         }
 
         private void OnDisable()
         {
-            GameStateController.OnStateSwitch -= NotifyComponentsOnGameState;
+            _gameStateController.OnStateSwitch -= NotifyComponentsOnGameState;
             Audio.Disable();
         }
 

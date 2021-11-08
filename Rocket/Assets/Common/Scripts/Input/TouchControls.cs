@@ -28,9 +28,9 @@ public class @TouchControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Touch"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""d251e10f-7dde-45d6-b16d-89dea15b80bf"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -50,8 +50,8 @@ public class @TouchControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""7d10e5de-7226-47c9-b5e4-dc7d94e264fc"",
-                    ""path"": ""<Touchscreen>/position"",
-                    ""interactions"": ""Tap"",
+                    ""path"": ""<Touchscreen>/press"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Touch"",

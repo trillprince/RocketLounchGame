@@ -11,6 +11,7 @@ namespace Common.Scripts.Rocket
 
         public int _maxHealth = 3;
         public event Action OnDamage;
+        public event Action OnRocketDestroy;
 
         public RocketHealth(IGameStateController gameStateController)
         {
@@ -26,9 +27,8 @@ namespace Common.Scripts.Rocket
                 OnDamage?.Invoke();
                 return;
             }
-            OnDamage?.Invoke();
+            OnRocketDestroy?.Invoke();
             _gameStateController.SetGameState(GameState.EndOfGame);
-            
         }
 
         public void AddHealth(int value)

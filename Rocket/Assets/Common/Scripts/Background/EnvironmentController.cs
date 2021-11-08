@@ -14,21 +14,23 @@ public class EnvironmentController : MonoBehaviour, IGameStateDependable
     private GameState _currentGameState;
     [SerializeField] private float _movesmootheness = 500;
     private RocketController _rocketController;
+    private IGameStateController _gameStateController;
 
     [Inject]
-    private void Constructor(RocketController rocketController)
+    private void Constructor(RocketController rocketController,IGameStateController gameStateController)
     {
         _rocketController = rocketController;
+        _gameStateController = gameStateController;
     }
 
     private void OnEnable()
     {
-        GameStateController.OnStateSwitch += OnGameStateSwitch;
+        _gameStateController.OnStateSwitch += OnGameStateSwitch;
     }
 
     private void OnDisable()
     {
-        GameStateController.OnStateSwitch -= OnGameStateSwitch;
+        _gameStateController.OnStateSwitch -= OnGameStateSwitch;
     }
 
     private void Awake()

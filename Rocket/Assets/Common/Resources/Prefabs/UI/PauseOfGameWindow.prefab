@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Menu
+  m_Text: Try Again
 --- !u!1 &1005223183
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 1234169319}
   - component: {fileID: 1234169318}
   m_Layer: 5
-  m_Name: MenuButton
+  m_Name: TryAgainButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -491,7 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 834965d69dec2094485a4e6bef429cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _munuButton: {fileID: 1234169318}
+  _tryAgainButton: {fileID: 1234169318}
   _continueButton: {fileID: 1005223185}
 --- !u!95 &3434038813156154718
 Animator:

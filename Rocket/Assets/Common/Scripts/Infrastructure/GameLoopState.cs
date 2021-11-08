@@ -26,7 +26,6 @@ namespace Common.Scripts.Infrastructure
 
         public void Exit()
         {
-           
         }
 
     }
