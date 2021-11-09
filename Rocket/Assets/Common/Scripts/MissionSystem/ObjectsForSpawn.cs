@@ -18,7 +18,7 @@ namespace Common.Scripts.MissionSystem
             {
                 return _assetProvider.LoadCollectable();
             }
-            return _assetProvider.LoadAsteroid();
+            return _assetProvider.LoadRandomAsteroid();
         }
     }
 }
