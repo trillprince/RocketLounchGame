@@ -1,6 +1,8 @@
+using System.Data;
 using Common.Scripts.Audio;
 using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
+using Common.Scripts.SpaceObjects.Asteroid;
 
 namespace Common.Scripts.SpaceObjects.Collectables.Coins
 {
@@ -22,7 +24,7 @@ namespace Common.Scripts.SpaceObjects.Collectables.Coins
             _collectableStateOnScreen = new DogCoinStateOnScreen(transform, spaceObjectLifeCycle, this);
             _disposer = new CollectableDisposer(spaceObjectLifeCycle, this);
             _interactable = new DogCoinInteractable(_disposer);
-            _movable = new CollectableMove(rocketController.Movement, transform);
+            _movable = new DogCoinMove(rocketController.Movement, transform);
         }
         
         

@@ -16,7 +16,7 @@ namespace Common.Scripts.SpaceObjects.Asteroid
             _transform = transform;
         }
 
-        public void Move()
+        public virtual void Move()
         {
             _transform.Translate((-_rocketMovement.GetRocketDirection()*_rocketMovement.GetRocketSpeed())/_moveSmoothness * Time.deltaTime);
 

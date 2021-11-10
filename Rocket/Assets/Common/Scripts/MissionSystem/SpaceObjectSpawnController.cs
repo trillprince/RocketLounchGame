@@ -27,6 +27,7 @@ namespace Common.Scripts.MissionSystem
         private ISpaceObject _lastSpawnedSpaceObject;
         private int _maxCoinsPerSpawn = 3;
         private int _spawnPosForCoin;
+        private ISpaceObject _coin;
 
         public SpaceObjectSpawnController
         (
@@ -71,8 +72,8 @@ namespace Common.Scripts.MissionSystem
                         continue;
                     }
 
-                    var spaceObject = _spaceObjectLifeCycle.Spawn(shuffledArray[j], _objectsForSpawn.GetRandomObject());
-                    _spaceObjectLifeCycle.Spawn(_removedSpawnPos, _objectsForSpawn.GetCoin());
+                    var spaceObject = SpawnSpaceObject(shuffledArray, j);
+                    SpawnCoin();
                     _lastSpawnedSpaceObject = spaceObject;
                     while (ObjectCloseToSpawnPoint(spaceObject, 3))
                     {
@@ -91,6 +92,23 @@ namespace Common.Scripts.MissionSystem
             yield return new WaitForSeconds(5);
             _coroutineRunner.StartCoroutine(SpawnLoop());
         }
+
+        private ISpaceObject SpawnSpaceObject(ISpawnPosition[] shuffledArray, int j)
+        {
+            var spaceObject = _spaceObjectLifeCycle.Spawn(shuffledArray[j], _objectsForSpawn.GetRandomObject());
+            return spaceObject;
+        }
+
+        private void SpawnCoin()
+        {
+            var spawnedCoin = _spaceObjectLifeCycle.Spawn(_removedSpawnPos, _objectsForSpawn.GetCoin());
+            if (_coin != null)
+            {
+                spawnedCoin.GetTransform().rotation = _coin.GetTransform().rotation;
+            }
+            _coin = spawnedCoin;
+        }
+
         private void FillSpawnLapInfo(ISpawnPosition[] shuffledArray)
         {
             _removedSpawnPos = shuffledArray[UnityRandom.Range(1, shuffledArray.Length - 1)];
