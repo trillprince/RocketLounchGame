@@ -40,5 +40,10 @@ namespace Common.Scripts.MissionSystem
         {
             return Load(AssetPath.Collectable);
         }
+
+        public GameObject LoadCoin()
+        {
+            return Load(AssetPath.DogCoin);
+        }
     }
 }

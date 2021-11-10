@@ -20,5 +20,10 @@ namespace Common.Scripts.MissionSystem
             }
             return _assetProvider.LoadRandomAsteroid();
         }
+
+        public GameObject GetCoin()
+        {
+            return _assetProvider.LoadCoin();
+        }
     }
 }

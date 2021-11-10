@@ -10,5 +10,6 @@
         public static readonly string Asteroid4 = "Prefabs/Asteroids/Asteroid4/Asteroid4Pref";
         public static readonly string Cargo = "Prefabs/Cargo/CubeCargo";
         public static readonly string Collectable = "Prefabs/Collectables/Collectable";
+        public static readonly string DogCoin = "Prefabs/Coins/DogCoinPref";
     }
 }

@@ -25,6 +25,8 @@ namespace Common.Scripts.MissionSystem
         private ISpawnPosition _removedSpawnPos;
         private ISpawnPosition _lastSpawnPos;
         private ISpaceObject _lastSpawnedSpaceObject;
+        private int _maxCoinsPerSpawn = 3;
+        private int _spawnPosForCoin;
 
         public SpaceObjectSpawnController
         (
@@ -50,7 +52,7 @@ namespace Common.Scripts.MissionSystem
             Random random = new Random();
             ISpawnPosition[] shuffledArray =
                 _spawnPositionController.SpawnPositions.OrderBy(x => random.Next()).ToArray();
-            
+
             FillSpawnLapInfo(shuffledArray);
             SetSpawnsCount();
             for (int i = 0; i < _spawnsBeforeCheckPoint; i++)
@@ -61,37 +63,54 @@ namespace Common.Scripts.MissionSystem
                 {
                     if (shuffledArray[j] == _removedSpawnPos)
                     {
-                        while (ObjectCloseToSpawnPoint(_lastSpawnedSpaceObject,2))
+                        while (ObjectCloseToSpawnPoint(_lastSpawnedSpaceObject, 2))
                         {
                             yield return null;
                         }
+
                         continue;
                     }
+
                     var spaceObject = _spaceObjectLifeCycle.Spawn(shuffledArray[j], _objectsForSpawn.GetRandomObject());
+                    GetSpawnPosForCoins(shuffledArray,j);
+                    _spaceObjectLifeCycle.Spawn(shuffledArray[_spawnPosForCoin], _objectsForSpawn.GetCoin());
                     _lastSpawnedSpaceObject = spaceObject;
-                    while (ObjectCloseToSpawnPoint(spaceObject,3))
+                    while (ObjectCloseToSpawnPoint(spaceObject, 3))
                     {
                         if (!_spaceObjectSystemActive)
                         {
                             yield break;
                         }
+
                         yield return null;
                     }
 
                     _lastSpawnPos = shuffledArray[j];
                 }
             }
+
             yield return new WaitForSeconds(5);
             _coroutineRunner.StartCoroutine(SpawnLoop());
         }
-        
+
+        private void GetSpawnPosForCoins(ISpawnPosition [] spawnPosition,int spaceObjectSpawnIndex)
+        {
+            if (spaceObjectSpawnIndex == 0)
+            {
+                do
+                {
+                    _spawnPosForCoin = UnityRandom.Range(0, spawnPosition.Length - 1);
+                } while (_spawnPosForCoin == spaceObjectSpawnIndex);
+            }
+        }
+
         private void FillSpawnLapInfo(ISpawnPosition[] shuffledArray)
         {
-            _removedSpawnPos = shuffledArray[UnityRandom.Range(1, shuffledArray.Length-1)];
+            _removedSpawnPos = shuffledArray[UnityRandom.Range(1, shuffledArray.Length - 1)];
             _lastSpawnPos = shuffledArray[shuffledArray.Length - 1];
         }
-        
-        private bool ObjectCloseToSpawnPoint(ISpaceObject spaceObject , int distanceMultiplayer)
+
+        private bool ObjectCloseToSpawnPoint(ISpaceObject spaceObject, int distanceMultiplayer)
         {
             return (spaceObject.GetSpawnPosition().y - spaceObject.GetTransform().position.y) <
                    _rocketMeshCollider.bounds.size.y * distanceMultiplayer;
