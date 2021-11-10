@@ -23,10 +23,20 @@ namespace Common.Scripts.Rocket
 
         public void ApplyHealthBooster(RocketEffect rocketEffect)
         {
-            _rocketEffect?.DiscardEffect();
+            if(rocketEffect == _rocketEffect) return;
             _rocketEffect = rocketEffect;
             _rocketEffect.Boost(DiscardEffect);
             InstantiateEffect(_rocketEffect.GetEffectGameObject());
+        }
+
+        public bool ContainsBooster()
+        {
+            if (_rocketEffect != null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void InstantiateEffect(GameObject gameObject)
@@ -39,5 +49,6 @@ namespace Common.Scripts.Rocket
             _rocketEffect = null;
             _destroyGo?.Invoke(_currentEffectObject);
         }
+        
     }
 }

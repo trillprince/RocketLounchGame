@@ -72,8 +72,7 @@ namespace Common.Scripts.MissionSystem
                     }
 
                     var spaceObject = _spaceObjectLifeCycle.Spawn(shuffledArray[j], _objectsForSpawn.GetRandomObject());
-                    GetSpawnPosForCoins(shuffledArray,j);
-                    _spaceObjectLifeCycle.Spawn(shuffledArray[_spawnPosForCoin], _objectsForSpawn.GetCoin());
+                    _spaceObjectLifeCycle.Spawn(_removedSpawnPos, _objectsForSpawn.GetCoin());
                     _lastSpawnedSpaceObject = spaceObject;
                     while (ObjectCloseToSpawnPoint(spaceObject, 3))
                     {
@@ -92,18 +91,6 @@ namespace Common.Scripts.MissionSystem
             yield return new WaitForSeconds(5);
             _coroutineRunner.StartCoroutine(SpawnLoop());
         }
-
-        private void GetSpawnPosForCoins(ISpawnPosition [] spawnPosition,int spaceObjectSpawnIndex)
-        {
-            if (spaceObjectSpawnIndex == 0)
-            {
-                do
-                {
-                    _spawnPosForCoin = UnityRandom.Range(0, spawnPosition.Length - 1);
-                } while (_spawnPosForCoin == spaceObjectSpawnIndex);
-            }
-        }
-
         private void FillSpawnLapInfo(ISpawnPosition[] shuffledArray)
         {
             _removedSpawnPos = shuffledArray[UnityRandom.Range(1, shuffledArray.Length - 1)];
