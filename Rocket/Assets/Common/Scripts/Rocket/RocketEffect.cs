@@ -5,14 +5,19 @@ namespace Common.Scripts.Rocket
 {
     public class RocketEffect
     {
-        public BlueShieldAudio ShieldAudio { get; }
+        public IEffectAudio EffectAudio { get; }
         protected GameObject EffectGameObject { get; }
         protected RocketHealth Health { get; }
 
-        protected RocketEffect(RocketHealth rocketHealth, GameObject effectGameObject, BlueShieldAudio blueShieldAudio)
+        protected RocketEffect(RocketHealth rocketHealth, GameObject effectGameObject, IEffectAudio effectAudio)
         {
-            ShieldAudio = blueShieldAudio;
+            EffectAudio = effectAudio;
             EffectGameObject = effectGameObject;
+            Health = rocketHealth;
+        }
+        protected RocketEffect(RocketHealth rocketHealth,IEffectAudio effectAudio)
+        {
+            EffectAudio = effectAudio;
             Health = rocketHealth;
         }
 
@@ -28,7 +33,12 @@ namespace Common.Scripts.Rocket
 
         public GameObject GetEffectGameObject()
         {
-            return EffectGameObject;
+            if (EffectGameObject != null)
+            {
+                return EffectGameObject;
+            }
+
+            return null;
         }
     }
 }

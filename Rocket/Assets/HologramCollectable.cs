@@ -1,20 +1,16 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Common.Scripts.Audio;
 using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
-using Common.Scripts.Satellite;
 using UnityEngine;
 
-public class BlueShieldCollectable : SpaceObject
+public class HologramCollectable : SpaceObject
 {
+    private CollectableDisposer _disposer;
+    private StateOnScreen _stateOnScreen;
+    private CollectableMove _movable;
     private IInteractable _interactable;
-    private ICollectableDisposer _disposer;
-    private IMoveComponent _movable;
-    private StateOnScreen _collectableStateOnScreen;
-    public GameObject _effectGameObject;
-    private BlueShieldAudio _collectableAudio;
 
     public override void Constructor(RocketController rocketController, ISpaceObjectLifeCycle spaceObjectLifeCycle,
         GameLoopController gameLoopController, IGameStateController gameStateController, ISpawnPosition spawnPosition,
@@ -23,11 +19,10 @@ public class BlueShieldCollectable : SpaceObject
         base.Constructor(rocketController, spaceObjectLifeCycle, gameLoopController, gameStateController,
             spawnPosition, audioManager);
 
-        _collectableStateOnScreen = new StateOnScreen(transform, spaceObjectLifeCycle, this);
+        _stateOnScreen = new StateOnScreen(transform, spaceObjectLifeCycle, this);
         _disposer = new CollectableDisposer(spaceObjectLifeCycle, this);
-        _collectableAudio = new BlueShieldAudio(audioManager);
-        _interactable = new BlueShieldInteractable(_disposer, rocketController.BoosterController,
-            rocketController.Health, _effectGameObject,_collectableAudio);
+        _interactable = new HologramInteractable(_disposer, rocketController.BoosterController,
+            rocketController.Health);
         _movable = new CollectableMove(rocketController.Movement, transform);
     }
 
@@ -39,6 +34,6 @@ public class BlueShieldCollectable : SpaceObject
     public override void Execute()
     {
         _movable.Move();
-        _collectableStateOnScreen.StateCheck();
+        _stateOnScreen.StateCheck();
     }
 }

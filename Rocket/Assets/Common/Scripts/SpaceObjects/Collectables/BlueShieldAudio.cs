@@ -1,6 +1,6 @@
 ﻿using Common.Scripts.Audio;
 
-public class BlueShieldAudio
+public class BlueShieldAudio: IEffectAudio
 {
     private readonly IAudioManager _audioManager;
 
@@ -9,13 +9,13 @@ public class BlueShieldAudio
         _audioManager = audioManager;
     }
 
-    public void ShieldSoundActive(bool isActive)
+    public void SoundActive(bool isActive)
     {
         _audioManager.FxAudioClipIsActive("Energy Shield", isActive);
     }
 
-    public void ShieldDamageSound()
+    public void PlayFxAudioClip(string name)
     {
-        _audioManager.FxAudioClipIsActive("Energy Shield Damage", true);
+        _audioManager.FxAudioClipIsActive(name, true);
     }
 }

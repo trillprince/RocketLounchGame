@@ -9,11 +9,13 @@ namespace Common.Scripts.MissionSystem
     {
         private readonly AssetProvider _assetProvider;
         private readonly RandomAsteroidProvider _asteroidProvider;
+        private readonly RandomBoosterProvider _boosterProvider;
 
         public ObjectsProvider(AssetProvider assetProvider)
         {
             _assetProvider = assetProvider;
             _asteroidProvider = new RandomAsteroidProvider(assetProvider);
+            _boosterProvider = new RandomBoosterProvider(assetProvider);
         }
 
         public GameObject GetRandomSpaceObject()
@@ -23,7 +25,7 @@ namespace Common.Scripts.MissionSystem
             {
                 return _asteroidProvider.GetRandomAsteroid();
             }
-            return _assetProvider.Load(AssetPath.Collectable);
+            return _boosterProvider.GetRandomBooster();
         }
 
         public GameObject GetCoin()

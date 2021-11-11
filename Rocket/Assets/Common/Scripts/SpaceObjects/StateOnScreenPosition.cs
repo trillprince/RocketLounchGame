@@ -8,7 +8,7 @@ public class StateOnScreenPosition
 {
     private readonly Transform _transform;
     private readonly Vector3 _screenBounds;
-    private StateOnScreen _currentStateOnScreen;
+    private Common.Scripts.SpaceObjects.StateOnScreen _currentStateOnScreen;
     public readonly ISpaceObjectLifeCycle SpaceObjectLifeCycle;
     private ISpaceObject _spaceObject;
 
@@ -28,19 +28,19 @@ public class StateOnScreenPosition
                     UnityEngine.Camera.main.transform.position.z - _transform.position.z));
     }
 
-    protected virtual void OnStateChange(StateOnScreen state)
+    protected virtual void OnStateChange(Common.Scripts.SpaceObjects.StateOnScreen state)
     {
         switch (state)
         {
-            case StateOnScreen.UpperRed:
+            case Common.Scripts.SpaceObjects.StateOnScreen.UpperRed:
                 break;
-            case StateOnScreen.Yellow:
+            case Common.Scripts.SpaceObjects.StateOnScreen.Yellow:
                 break;
-            case StateOnScreen.Green:
+            case Common.Scripts.SpaceObjects.StateOnScreen.Green:
                 break;
-            case StateOnScreen.LowerRed:
+            case Common.Scripts.SpaceObjects.StateOnScreen.LowerRed:
                 break;
-            case StateOnScreen.DisposeZone:
+            case Common.Scripts.SpaceObjects.StateOnScreen.DisposeZone:
                 SpaceObjectLifeCycle.Dispose(_spaceObject);
                 break;
         }
@@ -50,35 +50,35 @@ public class StateOnScreenPosition
     {
         if (_transform.position.y < -_screenBounds.y && 
             _transform.position.y >= -_screenBounds.y * 0.5f &&
-            _currentStateOnScreen != StateOnScreen.LowerRed)
+            _currentStateOnScreen != Common.Scripts.SpaceObjects.StateOnScreen.LowerRed)
         {
-            _currentStateOnScreen = StateOnScreen.UpperRed;
+            _currentStateOnScreen = Common.Scripts.SpaceObjects.StateOnScreen.UpperRed;
             OnStateChange(_currentStateOnScreen);
         }
         else if (_transform.position.y < -_screenBounds.y * 0.5f &&
                  _transform.position.y >= 0 &&
-                 _currentStateOnScreen != StateOnScreen.Yellow)
+                 _currentStateOnScreen != Common.Scripts.SpaceObjects.StateOnScreen.Yellow)
         {
-            _currentStateOnScreen = StateOnScreen.Yellow;
+            _currentStateOnScreen = Common.Scripts.SpaceObjects.StateOnScreen.Yellow;
             OnStateChange(_currentStateOnScreen);
         }
         else if (_transform.position.y < 0 &&
                  _transform.position.y >= _screenBounds.y * 0.5f &&
-                 _currentStateOnScreen != StateOnScreen.Green)
+                 _currentStateOnScreen != Common.Scripts.SpaceObjects.StateOnScreen.Green)
         {
-            _currentStateOnScreen = StateOnScreen.Green;
+            _currentStateOnScreen = Common.Scripts.SpaceObjects.StateOnScreen.Green;
             OnStateChange(_currentStateOnScreen);
         }
         else if (_transform.position.y < _screenBounds.y * 0.5f &&
                  _transform.position.y >= _screenBounds.y &&
-                 _currentStateOnScreen != StateOnScreen.LowerRed)
+                 _currentStateOnScreen != Common.Scripts.SpaceObjects.StateOnScreen.LowerRed)
         {
-            _currentStateOnScreen = StateOnScreen.LowerRed;
+            _currentStateOnScreen = Common.Scripts.SpaceObjects.StateOnScreen.LowerRed;
             OnStateChange(_currentStateOnScreen);
         }
-        else if (_transform.position.y < _screenBounds.y && _currentStateOnScreen != StateOnScreen.DisposeZone )
+        else if (_transform.position.y < _screenBounds.y && _currentStateOnScreen != Common.Scripts.SpaceObjects.StateOnScreen.DisposeZone )
         {
-            _currentStateOnScreen = StateOnScreen.DisposeZone;
+            _currentStateOnScreen = Common.Scripts.SpaceObjects.StateOnScreen.DisposeZone;
             OnStateChange(_currentStateOnScreen);
         }
         

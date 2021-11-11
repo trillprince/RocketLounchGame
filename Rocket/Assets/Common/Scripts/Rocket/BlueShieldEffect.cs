@@ -9,8 +9,8 @@ namespace Common.Scripts.Boosters
         private bool _boostActive;
         private Action _endOfEffectAction;
 
-        public BlueShieldEffect(RocketHealth rocketHealth, GameObject effectGameObject, BlueShieldAudio blueShieldAudio)
-            : base(rocketHealth, effectGameObject, blueShieldAudio)
+        public BlueShieldEffect(RocketHealth rocketHealth, GameObject effectGameObject, IEffectAudio effectAudio)
+            : base(rocketHealth, effectGameObject, effectAudio)
         {
             Health.OnDamage += OnDamage;
         }
@@ -19,14 +19,14 @@ namespace Common.Scripts.Boosters
         {
             if (_boostActive)
             {
-                ShieldAudio.ShieldDamageSound();
+                EffectAudio.PlayFxAudioClip("Energy Shield Damage");
                 DiscardEffect();
             }
         }
 
         public override void Boost(Action endOfEffectAction)
         {
-            ShieldAudio.ShieldSoundActive(true);
+            EffectAudio.SoundActive(true);
             _endOfEffectAction = endOfEffectAction;
             _boostActive = true;
             Health.AddHealth(1);
@@ -34,7 +34,7 @@ namespace Common.Scripts.Boosters
 
         public override void DiscardEffect()
         {
-            ShieldAudio.ShieldSoundActive(false);
+            EffectAudio.SoundActive(false);
             Health.OnDamage -= OnDamage;
             _boostActive = false;
             _endOfEffectAction?.Invoke();
