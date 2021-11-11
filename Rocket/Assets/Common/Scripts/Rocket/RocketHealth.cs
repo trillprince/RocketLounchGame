@@ -9,39 +9,32 @@ namespace Common.Scripts.Rocket
         private readonly IGameStateController _gameStateController;
         public int CurrentHealth { get; private set; }
 
-        public int _maxHealth = 3;
         public event Action OnDamage;
         public event Action OnRocketDestroy;
 
         public RocketHealth(IGameStateController gameStateController)
         {
             _gameStateController = gameStateController;
-            CurrentHealth = 1;
+            CurrentHealth = 0;
         }
 
         public void DamageRocket(int value)
         {
-            if (CurrentHealth - value > 0)
+            if (CurrentHealth - value >= 0)
             {
                 CurrentHealth -= value;
                 OnDamage?.Invoke();
-                return;
             }
-            OnRocketDestroy?.Invoke();
-            _gameStateController.SetGameState(GameState.EndOfGame);
+            else if (CurrentHealth - value < 0)
+            {
+                OnRocketDestroy?.Invoke();
+                _gameStateController.SetGameState(GameState.EndOfGame);
+            }
         }
 
         public void AddHealth(int value)
         {
-            if (CurrentHealth + value ! > _maxHealth)
-            {
-                CurrentHealth += value;
-            }
-            else
-            {
-                CurrentHealth = _maxHealth;
-            }
+            CurrentHealth += value;
         }
-
     }
 }

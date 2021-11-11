@@ -6,28 +6,22 @@ namespace Common.Scripts.Boosters
 {
     public class BlueShieldEffect : RocketEffect
     {
-        private int _currentShieldPoints = 2;
         private bool _boostActive;
         private Action _endOfEffectAction;
 
         public BlueShieldEffect(RocketHealth rocketHealth, GameObject effectGameObject, BlueShieldAudio blueShieldAudio)
-            : base(rocketHealth,effectGameObject,blueShieldAudio)
+            : base(rocketHealth, effectGameObject, blueShieldAudio)
         {
             Health.OnDamage += OnDamage;
         }
 
         private void OnDamage()
         {
-            if (_boostActive && _currentShieldPoints > 0)
+            if (_boostActive)
             {
                 ShieldAudio.ShieldDamageSound();
-                _currentShieldPoints--;
-                if (_currentShieldPoints < 1)
-                {
-                    DiscardEffect();
-                }
+                DiscardEffect();
             }
-            
         }
 
         public override void Boost(Action endOfEffectAction)
@@ -35,14 +29,13 @@ namespace Common.Scripts.Boosters
             ShieldAudio.ShieldSoundActive(true);
             _endOfEffectAction = endOfEffectAction;
             _boostActive = true;
-            Health.AddHealth(2);
+            Health.AddHealth(1);
         }
 
         public override void DiscardEffect()
         {
             ShieldAudio.ShieldSoundActive(false);
             Health.OnDamage -= OnDamage;
-            Health.DamageRocket(_currentShieldPoints);
             _boostActive = false;
             _endOfEffectAction?.Invoke();
         }

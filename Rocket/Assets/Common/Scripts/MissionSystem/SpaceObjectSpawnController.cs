@@ -21,7 +21,7 @@ namespace Common.Scripts.MissionSystem
         private readonly ILevelInfo _levelInfo;
         private readonly MeshCollider _rocketMeshCollider;
         private int _spawnsBeforeCheckPoint = 15;
-        private readonly ObjectsForSpawn _objectsForSpawn;
+        private readonly ObjectsProvider _objectsProvider;
         private ISpawnPosition _removedSpawnPos;
         private ISpawnPosition _lastSpawnPos;
         private ISpaceObject _lastSpawnedSpaceObject;
@@ -36,7 +36,7 @@ namespace Common.Scripts.MissionSystem
             RocketMovement rocketMovement,
             ILevelInfo levelInfo)
         {
-            _objectsForSpawn = new ObjectsForSpawn(new AssetProvider());
+            _objectsProvider = new ObjectsProvider(new AssetProvider());
             _coroutineRunner = coroutineRunner;
             _spaceObjectLifeCycle = spaceObjectLifeCycle;
             _levelInfo = levelInfo;
@@ -75,7 +75,7 @@ namespace Common.Scripts.MissionSystem
                     var spaceObject = SpawnSpaceObject(shuffledArray, j);
                     SpawnCoin();
                     _lastSpawnedSpaceObject = spaceObject;
-                    while (ObjectCloseToSpawnPoint(spaceObject, 3))
+                    while (ObjectCloseToSpawnPoint(spaceObject,UnityRandom.Range(1.2f,2.3f) ))
                     {
                         if (!_spaceObjectSystemActive)
                         {
@@ -95,13 +95,13 @@ namespace Common.Scripts.MissionSystem
 
         private ISpaceObject SpawnSpaceObject(ISpawnPosition[] shuffledArray, int j)
         {
-            var spaceObject = _spaceObjectLifeCycle.Spawn(shuffledArray[j], _objectsForSpawn.GetRandomObject());
+            var spaceObject = _spaceObjectLifeCycle.Spawn(shuffledArray[j], _objectsProvider.GetRandomSpaceObject());
             return spaceObject;
         }
 
         private void SpawnCoin()
         {
-            var spawnedCoin = _spaceObjectLifeCycle.Spawn(_removedSpawnPos, _objectsForSpawn.GetCoin());
+            var spawnedCoin = _spaceObjectLifeCycle.Spawn(_removedSpawnPos, _objectsProvider.GetCoin());
             if (_coin != null)
             {
                 spawnedCoin.GetTransform().rotation = _coin.GetTransform().rotation;
@@ -115,7 +115,7 @@ namespace Common.Scripts.MissionSystem
             _lastSpawnPos = shuffledArray[shuffledArray.Length - 1];
         }
 
-        private bool ObjectCloseToSpawnPoint(ISpaceObject spaceObject, int distanceMultiplayer)
+        private bool ObjectCloseToSpawnPoint(ISpaceObject spaceObject, float distanceMultiplayer)
         {
             return (spaceObject.GetSpawnPosition().y - spaceObject.GetTransform().position.y) <
                    _rocketMeshCollider.bounds.size.y * distanceMultiplayer;

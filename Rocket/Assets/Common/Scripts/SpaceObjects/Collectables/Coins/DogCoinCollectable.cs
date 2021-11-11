@@ -23,7 +23,7 @@ namespace Common.Scripts.SpaceObjects.Collectables.Coins
 
             _collectableStateOnScreen = new DogCoinStateOnScreen(transform, spaceObjectLifeCycle, this);
             _disposer = new CollectableDisposer(spaceObjectLifeCycle, this);
-            _interactable = new DogCoinInteractable(_disposer);
+            _interactable = new DogCoinInteractable(_disposer,rocketController.Inventory);
             _movable = new DogCoinMove(rocketController.Movement, transform);
         }
         

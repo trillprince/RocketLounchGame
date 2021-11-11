@@ -1,23 +1,15 @@
 ﻿using System.Collections.Generic;
+using GooglePlayGames.BasicApi;
+using UnityEngine;
 
 namespace Common.Scripts.Rocket
 {
     public class RocketInventory
     {
-        private Queue<ICollectable> _collectables = new Queue<ICollectable>();
 
-        public void AddCollectable(ICollectable collectable)
+        public void AddCoinValue(int addValue)
         {
-            _collectables.Enqueue(collectable);
+            PlayerPrefs.SetInt("DogCoins",PlayerPrefs.GetInt("DogCoins") + addValue);
         }
-
-        public void CountCollectable()
-        {
-            for (int i = 0; i < _collectables.Count; i++)
-            {
-                _collectables.Dequeue();
-            }
-        }
-        
     }
 }

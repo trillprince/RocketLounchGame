@@ -66,7 +66,7 @@ namespace Common.Scripts.Rocket
             var processedAcceleration = GetProcessedAcceleration(accelerationValue);
                 
             float smoothedX = Mathf.SmoothDamp(_transform.position.x,
-                (_screenBounds.x + _meshCollider.bounds.size.x * 2) / 2 * processedAcceleration / _maxAcceleration,
+                (_screenBounds.x) / 2 * processedAcceleration / _maxAcceleration,
                 ref _xVelocity, 0.2f);
 
             _transform.position = new Vector3(smoothedX,

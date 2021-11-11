@@ -54,7 +54,7 @@ namespace Common.Scripts.Rocket
             BoosterController = new RocketBoosterController(Health, Movement, Instantiate, Destroy);
 
             Audio = new RocketAudio(audioManager,launchManager);
-
+            
             _gameStateSubscribers = new Dictionary<Type, IGameStateSubscriber>
             {
                 [typeof(RocketMovement)] = Movement,
