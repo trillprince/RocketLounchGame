@@ -29,10 +29,10 @@ namespace Common.Scripts.MissionSystem
         public GameObject GetRandomBooster()
         {
             var range = Random.Range(0, 10);
-            if (range <= 4)
-            {
-                return GetBlueShield();
-            }
+            // if (range <= 4)
+            // {
+            //     return GetBlueShield();
+            // }
             return GetHologram();
         }
     }

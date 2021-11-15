@@ -26,6 +26,7 @@ namespace Common.Scripts.Rocket
         private InputManager _inputManager;
         private IGameStateController _gameStateController;
         private PlayerDataSaver _playerDataSaver;
+        public RocketGraphics Graphics { get; private set; }
 
         [Inject]
         private void Constructor(IGameStateController gameStateController, ObjectPoolStorage objectPoolStorage,
@@ -60,6 +61,8 @@ namespace Common.Scripts.Rocket
                 [typeof(RocketMovement)] = Movement,
                 [typeof(RocketDistance)] = CoveredDistance
             };
+
+            Graphics = GetComponent<RocketGraphics>();
         }
 
 
