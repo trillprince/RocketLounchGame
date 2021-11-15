@@ -29,6 +29,13 @@ namespace Common.Scripts.Rocket
             InstantiateEffect(_rocketEffect.GetEffectGameObject());
         }
 
+        public void ApplyBooster(RocketEffect rocketEffect)
+        {
+            if(rocketEffect == _rocketEffect) return;
+            _rocketEffect = rocketEffect;
+            _rocketEffect.Boost(DiscardEffect);
+        }
+
         public bool ContainsBooster()
         {
             if (_rocketEffect != null)

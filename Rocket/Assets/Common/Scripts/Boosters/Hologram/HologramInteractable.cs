@@ -1,4 +1,5 @@
 ﻿using Common.Scripts.Rocket;
+using UnityEngine;
 
 public class HologramInteractable : IInteractable
 {
@@ -20,8 +21,8 @@ public class HologramInteractable : IInteractable
 
     public void Interact()
     {
-        
-        _rocketBoosterController.ApplyHealthBooster(_rocketEffect);
+        _rocketGraphics.SetShader(Shader.Find("Shader Graphs/Hologram"));
+        _rocketBoosterController.ApplyBooster(_rocketEffect);
         _disposer.DisposeCollectable();
     }
 }
