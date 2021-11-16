@@ -1,9 +1,10 @@
 ﻿using System;
+using Common.Scripts.Cargo;
 using UnityEngine;
 
 namespace Common.Scripts.Rocket
 {
-    public class RocketBoosterController
+    public class RocketBoosterController: IUpdatable
     {
         private readonly RocketHealth _health;
         private readonly RocketMovement _movement;
@@ -56,6 +57,11 @@ namespace Common.Scripts.Rocket
             _rocketEffect = null;
             _destroyGo?.Invoke(_currentEffectObject);
         }
-        
+
+        public void Execute()
+        {
+            if(_rocketEffect == null) return;
+            _rocketEffect.Execute();
+        }
     }
 }

@@ -26,6 +26,7 @@ namespace Common.Scripts.Rocket
         private InputManager _inputManager;
         private IGameStateController _gameStateController;
         private PlayerDataSaver _playerDataSaver;
+        public RocketCollisionController CollisionController { get; private set; }
         public RocketGraphics Graphics { get; private set; }
 
         [Inject]
@@ -55,6 +56,8 @@ namespace Common.Scripts.Rocket
             BoosterController = new RocketBoosterController(Health, Movement, Instantiate, Destroy);
 
             Audio = new RocketAudio(audioManager,launchManager);
+
+            CollisionController = GetComponent<RocketCollisionController>();
             
             _gameStateSubscribers = new Dictionary<Type, IGameStateSubscriber>
             {
@@ -69,6 +72,7 @@ namespace Common.Scripts.Rocket
         private void Update()
         {
             CoveredDistance.Execute();
+            BoosterController.Execute();
         }
 
         private void OnEnable()

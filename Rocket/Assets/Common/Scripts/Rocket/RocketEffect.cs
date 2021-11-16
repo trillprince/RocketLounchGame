@@ -1,24 +1,24 @@
 ﻿using System;
+using Common.Scripts.Cargo;
 using UnityEngine;
 
 namespace Common.Scripts.Rocket
 {
-    public class RocketEffect
-    {
+    public class RocketEffect: IUpdatable    {
+        protected RocketController RocketController { get; }
         public IEffectAudio EffectAudio { get; }
         protected GameObject EffectGameObject { get; }
-        protected RocketHealth Health { get; }
 
-        protected RocketEffect(RocketHealth rocketHealth, GameObject effectGameObject, IEffectAudio effectAudio)
+        protected RocketEffect(RocketController rocketController, GameObject effectGameObject, IEffectAudio effectAudio)
         {
+            RocketController = rocketController;
             EffectAudio = effectAudio;
             EffectGameObject = effectGameObject;
-            Health = rocketHealth;
         }
-        protected RocketEffect(RocketHealth rocketHealth,IEffectAudio effectAudio)
+        protected RocketEffect(RocketController rocketController,IEffectAudio effectAudio)
         {
             EffectAudio = effectAudio;
-            Health = rocketHealth;
+            RocketController = rocketController;
         }
 
         public virtual void Boost(Action endOfEffectAction)
@@ -39,6 +39,11 @@ namespace Common.Scripts.Rocket
             }
 
             return null;
+        }
+
+        public virtual void Execute()
+        {
+            
         }
     }
 }

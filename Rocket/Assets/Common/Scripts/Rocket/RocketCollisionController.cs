@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Common.Scripts.MissionSystem;
 using Common.Scripts.SpaceObjects;
@@ -11,6 +10,14 @@ namespace Common.Scripts.Rocket
     public class RocketCollisionController : MonoBehaviour
     {
         private Queue<Collider> _collisionList;
+        public IRocketCollisionBehaviour RocketCollisionBehaviour { get; set; }
+        public IRocketCollisionBehaviour DefaultCollisionBehaviour { get; private set; }
+
+        private void Awake()
+        {
+            DefaultCollisionBehaviour = new DefaultRocketCollisionBehaviour();
+            RocketCollisionBehaviour = DefaultCollisionBehaviour;
+        }
 
         private void Start()
         {
@@ -31,11 +38,15 @@ namespace Common.Scripts.Rocket
 
         private void OnTriggerEnter(Collider other)
         {
+            RocketCollisionBehaviour.Collide(other, ApplyCollision);
+        }
+
+        private void DefaultCollisionAction(Collider other)
+        {
             if (other.GetComponent<SpaceObject>() != null)
             {
                 ApplyCollision(other);
             }
         }
     }
-    
 }

@@ -18,5 +18,10 @@ namespace Common.Scripts.SpaceObjects.Collectables.Coins
             _rocketInventory.AddCoinValue(1);
             _disposer.DisposeCollectable();
         }
+
+        public void Execute()
+        {
+            
+        }
     }
 }

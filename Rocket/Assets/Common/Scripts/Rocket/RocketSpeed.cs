@@ -39,6 +39,7 @@ namespace Common.Scripts.Rocket
         public  int CurrentSpeed
         {
             get => _currentSpeed;
+            set => _currentSpeed = value;
         }
 
         public static Vector3 RocketDirection

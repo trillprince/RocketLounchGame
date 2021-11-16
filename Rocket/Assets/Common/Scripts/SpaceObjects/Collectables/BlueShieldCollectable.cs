@@ -27,7 +27,7 @@ public class BlueShieldCollectable : SpaceObject
         _disposer = new CollectableDisposer(spaceObjectLifeCycle, this);
         _collectableAudio = new BlueShieldAudio(audioManager);
         _interactable = new BlueShieldInteractable(_disposer, rocketController.BoosterController,
-            rocketController.Health, _effectGameObject,_collectableAudio);
+            rocketController, _effectGameObject,_collectableAudio);
         _movable = new CollectableMove(rocketController.Movement, transform);
     }
 
