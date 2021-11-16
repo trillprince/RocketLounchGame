@@ -11,12 +11,12 @@ namespace Common.Scripts.Rocket
     {
         private Queue<Collider> _collisionList;
         public IRocketCollisionBehaviour RocketCollisionBehaviour { get; set; }
-        public IRocketCollisionBehaviour DefaultCollisionBehaviour { get; private set; }
+        private IRocketCollisionBehaviour _defaultCollisionBehaviour;
 
         private void Awake()
         {
-            DefaultCollisionBehaviour = new DefaultRocketCollisionBehaviour();
-            RocketCollisionBehaviour = DefaultCollisionBehaviour;
+            _defaultCollisionBehaviour = new DefaultRocketCollisionBehaviour();
+            RocketCollisionBehaviour = _defaultCollisionBehaviour;
         }
 
         private void Start()
@@ -47,6 +47,11 @@ namespace Common.Scripts.Rocket
             {
                 ApplyCollision(other);
             }
+        }
+
+        public void SetCollisionBehaviorToDefault()
+        {
+            RocketCollisionBehaviour = _defaultCollisionBehaviour;
         }
     }
 }

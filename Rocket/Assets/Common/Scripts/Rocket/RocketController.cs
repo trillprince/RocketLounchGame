@@ -53,7 +53,7 @@ namespace Common.Scripts.Rocket
 
             CoveredDistance = new RocketDistance(GetComponent<RocketSpeed>(), _playerDataSaver);
 
-            BoosterController = new RocketBoosterController(Health, Movement, Instantiate, Destroy);
+            BoosterController = new RocketBoosterController(this, Instantiate, Destroy);
 
             Audio = new RocketAudio(audioManager,launchManager);
 

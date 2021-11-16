@@ -8,16 +8,16 @@ namespace Common.Scripts.Rocket
     {
         private readonly RocketHealth _health;
         private readonly RocketMovement _movement;
+        private readonly RocketController _controller;
         private Func<GameObject,Transform,GameObject> _instantiate;
         private readonly Action<GameObject> _destroyGo;
         private RocketEffect _rocketEffect;
         private GameObject _currentEffectObject;
 
-        public RocketBoosterController(RocketHealth health, RocketMovement movement,
+        public RocketBoosterController(RocketController controller,
             Func<GameObject,Transform,GameObject> instantiate,Action<GameObject> destroyGo)
         {
-            _health = health;
-            _movement = movement;
+            _controller = controller;
             _instantiate = instantiate;
             _destroyGo = destroyGo;
         }
@@ -56,6 +56,7 @@ namespace Common.Scripts.Rocket
         {
             _rocketEffect = null;
             _destroyGo?.Invoke(_currentEffectObject);
+            _controller.CollisionController.SetCollisionBehaviorToDefault();
         }
 
         public void Execute()
