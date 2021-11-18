@@ -24,6 +24,11 @@ namespace Common.Scripts.Audio
         {
             _fxAudioController.AudioClipSetActive(soundClipName, isActive);
         }
+        
+        public void FxAudioClipSetActiveWithRandomPitch(string soundClipName, bool isActive,float min,float max)
+        {
+            _fxAudioController.RandomPitchAudioClipSetActive(soundClipName,isActive,min,max);
+        }
 
         public void MusicAudioClipSetActive(string soundClipName, bool isActive)
         {
@@ -34,7 +39,7 @@ namespace Common.Scripts.Audio
         {
             return _fxAudioController.AudioIsPlaying(name);
         }
-
+        
         void Start()
         {
             if (Instance == null)

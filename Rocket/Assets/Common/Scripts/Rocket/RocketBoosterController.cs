@@ -1,4 +1,5 @@
 ﻿using System;
+using Common.Scripts.Audio;
 using Common.Scripts.Cargo;
 using UnityEngine;
 
@@ -12,11 +13,13 @@ namespace Common.Scripts.Rocket
         public event Action OnEffectDiscard;
         private RocketEffect _rocketEffect;
         private GameObject _currentEffectObject;
+        private IAudioManager _audioManager;
 
         public RocketBoosterController(RocketController controller,
             Func<GameObject, Transform, GameObject> instantiate, Action<GameObject> destroyGo)
         {
             _controller = controller;
+            _audioManager = _controller.Audio.GetAudioManager();
             _instantiate = instantiate;
             _destroyGo = destroyGo;
         }
@@ -32,6 +35,8 @@ namespace Common.Scripts.Rocket
         public void ApplyBooster(RocketEffect rocketEffect)
         {
             if(rocketEffect == _rocketEffect) return;
+            _audioManager.FxAudioClipSetActive("Booster Pick Up",true);
+            rocketEffect.AudioActive(true);
             _rocketEffect = rocketEffect;
             _rocketEffect.Boost(DiscardEffect);
         }
@@ -53,6 +58,7 @@ namespace Common.Scripts.Rocket
 
         private void DiscardEffect()
         {
+            _rocketEffect.AudioActive(false);
             _rocketEffect = null;
             _destroyGo?.Invoke(_currentEffectObject);
             OnEffectDiscard?.Invoke();

@@ -31,7 +31,7 @@ namespace Common.Scripts.Rocket
 
         [Inject]
         private void Constructor(IGameStateController gameStateController, ObjectPoolStorage objectPoolStorage,
-            InputManager inputManager, ILevelInfo levelInfo, GameProgress gameProgress,LaunchManager launchManager,
+            InputManager inputManager, ILevelInfo levelInfo, GameProgress gameProgress, LaunchManager launchManager,
             IAudioManager audioManager)
         {
             _playerDataSaver = gameProgress.PlayerDataSaver;
@@ -53,12 +53,13 @@ namespace Common.Scripts.Rocket
 
             CoveredDistance = new RocketDistance(GetComponent<RocketSpeed>(), _playerDataSaver);
 
+            Audio = new RocketAudio(audioManager, launchManager);
+
             BoosterController = new RocketBoosterController(this, Instantiate, Destroy);
 
-            Audio = new RocketAudio(audioManager,launchManager);
 
             CollisionController = GetComponent<RocketCollisionController>();
-            
+
             _gameStateSubscribers = new Dictionary<Type, IGameStateSubscriber>
             {
                 [typeof(RocketMovement)] = Movement,
@@ -66,7 +67,6 @@ namespace Common.Scripts.Rocket
             };
 
             Graphics = GetComponent<RocketGraphics>();
-
         }
 
 

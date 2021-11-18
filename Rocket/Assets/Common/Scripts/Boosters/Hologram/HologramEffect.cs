@@ -49,4 +49,9 @@ public class HologramEffect : RocketEffect
             _endOfEffectAction?.Invoke();
         } 
     }
+
+    public override void AudioActive(bool isActive)
+    {
+        RocketController.Audio.GetAudioManager().FxAudioClipSetActive("Space Ship Sound",isActive);
+    }
 }

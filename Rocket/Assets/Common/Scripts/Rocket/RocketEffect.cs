@@ -45,5 +45,10 @@ namespace Common.Scripts.Rocket
         {
             
         }
+
+        public virtual void AudioActive(bool isActive)
+        {
+            
+        }
     }
 }

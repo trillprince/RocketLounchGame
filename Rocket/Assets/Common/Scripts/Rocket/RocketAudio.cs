@@ -40,6 +40,7 @@ namespace Common.Scripts.Rocket
             _launchManager.RocketLaunching -= PlayLaunchSound;
             _launchManager.OnRocketLaunch -= PlayFlyLoopSound;
             _audioManager.FxAudioClipSetActive("Rocket Fly Loop", false);
+            _audioManager.FxAudioClipSetActive("Space Ship Sound", false);
         }
 
         public void Execute()
@@ -53,6 +54,11 @@ namespace Common.Scripts.Rocket
                     _flyLoopReady = false;
                 }
             }
+        }
+
+        public IAudioManager GetAudioManager()
+        {
+            return _audioManager;
         }
     }
 }

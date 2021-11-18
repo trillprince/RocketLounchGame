@@ -44,6 +44,25 @@ public class AudioController : IAudioController
             }
         }
     }
+    
+    public void RandomPitchAudioClipSetActive(string soundClipName, bool isActive, float min, float max)
+    {
+        var audioClip = FindAudioClip(soundClipName);
+
+        if (audioClip != null)
+        {
+            switch (isActive)
+            {
+                case true:
+                    audioClip.pitch = Random.Range(min, max);
+                    audioClip.Play();
+                    break;
+                case false:
+                    audioClip.Stop();
+                    break;
+            }
+        }
+    }
 
     public bool AudioIsPlaying(string audioName)
     {
