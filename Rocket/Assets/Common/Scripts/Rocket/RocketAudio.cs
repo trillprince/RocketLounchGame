@@ -1,12 +1,16 @@
 ﻿using Common.Scripts.Audio;
+using Common.Scripts.Cargo;
 using Common.Scripts.MissionSystem;
+using UnityEditor;
+using UnityEngine;
 
 namespace Common.Scripts.Rocket
 {
-    public class RocketAudio : IEnablable
+    public class RocketAudio : IEnablable,IUpdatable
     {
         private readonly IAudioManager _audioManager;
         private readonly LaunchManager _launchManager;
+        private bool _flyLoopReady;
 
         public RocketAudio(IAudioManager audioManager, LaunchManager launchManager)
         {
@@ -16,12 +20,13 @@ namespace Common.Scripts.Rocket
 
         private void PlayLaunchSound()
         {
-            _audioManager.FxAudioClipIsActive("Launch Sound", true);
+            _audioManager.FxAudioClipSetActive("Launch Count Down", true);
         }
 
         private void PlayFlyLoopSound()
         {
-            _audioManager.FxAudioClipIsActive("Rocket Fly Loop", true);
+            _audioManager.FxAudioClipSetActive("Launch Sound", true);
+            _flyLoopReady = true;
         }
 
         public void Enable()
@@ -34,7 +39,20 @@ namespace Common.Scripts.Rocket
         {
             _launchManager.RocketLaunching -= PlayLaunchSound;
             _launchManager.OnRocketLaunch -= PlayFlyLoopSound;
-            _audioManager.FxAudioClipIsActive("Rocket Fly Loop", false);
+            _audioManager.FxAudioClipSetActive("Rocket Fly Loop", false);
+        }
+
+        public void Execute()
+        {
+            if (_flyLoopReady)
+            {
+                bool isActive = _audioManager.FxIsPlaying("Launch Sound");
+                if (!isActive)
+                {
+                    _audioManager.FxAudioClipSetActive("Rocket Fly Loop", true);
+                    _flyLoopReady = false;
+                }
+            }
         }
     }
 }

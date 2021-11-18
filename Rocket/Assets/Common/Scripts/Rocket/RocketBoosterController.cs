@@ -6,16 +6,15 @@ namespace Common.Scripts.Rocket
 {
     public class RocketBoosterController: IUpdatable
     {
-        private readonly RocketHealth _health;
-        private readonly RocketMovement _movement;
         private readonly RocketController _controller;
         private Func<GameObject,Transform,GameObject> _instantiate;
         private readonly Action<GameObject> _destroyGo;
+        public event Action OnEffectDiscard;
         private RocketEffect _rocketEffect;
         private GameObject _currentEffectObject;
 
         public RocketBoosterController(RocketController controller,
-            Func<GameObject,Transform,GameObject> instantiate,Action<GameObject> destroyGo)
+            Func<GameObject, Transform, GameObject> instantiate, Action<GameObject> destroyGo)
         {
             _controller = controller;
             _instantiate = instantiate;
@@ -49,15 +48,16 @@ namespace Common.Scripts.Rocket
 
         private void InstantiateEffect(GameObject gameObject)
         {
-            _currentEffectObject = _instantiate?.Invoke(gameObject,_movement.GetTransform());
+            _currentEffectObject = _instantiate?.Invoke(gameObject,_controller.Movement.GetTransform());
         }
 
         private void DiscardEffect()
         {
             _rocketEffect = null;
             _destroyGo?.Invoke(_currentEffectObject);
-            _controller.CollisionController.SetCollisionBehaviorToDefault();
+            OnEffectDiscard?.Invoke();
         }
+
 
         public void Execute()
         {

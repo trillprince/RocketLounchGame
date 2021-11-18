@@ -45,6 +45,7 @@ public class HologramEffect : RocketEffect
             float f = _secondsSoFar / _secondsToRotate * 3;
             _rocketSpeed.CurrentSpeed = (int) Mathf.Lerp(_rocketSpeed.CurrentSpeed, _increasedSpeed - _savedRocketSpeed, f);
             RocketController.Graphics.SetShadersDefault();
+            RocketController.CollisionController.SetCollisionBehaviorToDefault();
             _endOfEffectAction?.Invoke();
         } 
     }

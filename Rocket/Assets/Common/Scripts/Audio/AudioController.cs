@@ -25,24 +25,35 @@ public class AudioController : IAudioController
             audioSource.volume = customAudio.Volume;
         }
     }
+    
 
-    public void AudioClipIsActive(string audioName, bool isActive)
+    public void AudioClipSetActive(string audioName, bool isActive)
     {
-        foreach (var customAudio in _customAudios)
+        var audioClip = FindAudioClip(audioName);
+
+        if (audioClip != null)
         {
-            if (customAudio.Name == audioName)
+            switch (isActive)
             {
-                switch (isActive)
-                {
-                    case true:
-                        customAudio.Play();
-                        break;
-                    case false:
-                        customAudio.Stop();
-                        break;
-                }
+                case true:
+                    audioClip.Play();
+                    break;
+                case false:
+                    audioClip.Stop();
+                    break;
             }
         }
+    }
+
+    public bool AudioIsPlaying(string audioName)
+    {
+        var audioClip = FindAudioClip(audioName);
+        if (audioClip != null)
+        {
+            return audioClip.isPlaying;
+        }
+        Debug.Log("is null audioisplaying");
+        return false;
     }
 
     public void AudioClipsAreMuted(bool muted)
@@ -57,5 +68,18 @@ public class AudioController : IAudioController
 
             customAudio.UnmuteVolume();
         }
+    }
+
+    private AudioSource FindAudioClip(string audioName)
+    {
+        foreach (var customAudio in _customAudios)
+        {
+            if (customAudio.Name == audioName)
+            {
+                return customAudio.Source;
+            }
+        }
+        Debug.Log("is null find audio clip null");
+        return null;
     }
 }

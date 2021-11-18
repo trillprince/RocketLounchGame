@@ -12,7 +12,7 @@ namespace Common.Scripts.Audio
 
         private void Start()
         {
-            _audioManager.MusicAudioClipIsActive("Music",true);
+            _audioManager.MusicAudioClipSetActive("Music",true);
         }
     }
 }

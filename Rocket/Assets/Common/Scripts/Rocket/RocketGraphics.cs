@@ -9,6 +9,18 @@ namespace Common.Scripts.Rocket
     {
         private List<Material> _materials;
         private List<MeshRenderer> _renderers;
+        private RocketController _rocketController;
+
+        private void OnEnable()
+        {
+            _rocketController = GetComponent<RocketController>();
+            _rocketController.BoosterController.OnEffectDiscard += SetShadersDefault;
+        }
+
+        private void OnDisable()
+        {
+            _rocketController.BoosterController.OnEffectDiscard -= SetShadersDefault;
+        }
 
         private void Awake()
         {

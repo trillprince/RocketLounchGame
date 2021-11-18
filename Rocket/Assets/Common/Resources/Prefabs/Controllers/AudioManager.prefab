@@ -46,12 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fxAudioClips:
   - Name: Rocket Fly Loop
-    AudioClip: {fileID: 8300000, guid: 256d070ff320bfa4e9f25b6fd42d9250, type: 3}
+    AudioClip: {fileID: 8300000, guid: 70a8078b32fc80a448318e6df7433bdd, type: 3}
     AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
     Loop: 1
-    Volume: 0.15
+    Volume: 0.25
   - Name: Launch Sound
-    AudioClip: {fileID: 8300000, guid: 8c7013e6b5077ba45a8b61b94fd31b80, type: 3}
+    AudioClip: {fileID: 8300000, guid: cc8a41f4575db8e44b641ad0bfa7e842, type: 3}
     AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
     Loop: 0
     Volume: 0.15
@@ -62,6 +62,11 @@ MonoBehaviour:
     Volume: 0.8
   - Name: Energy Shield Damage
     AudioClip: {fileID: 8300000, guid: ce4e88b332d7f6941a363b59bceba97f, type: 3}
+    AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
+    Loop: 0
+    Volume: 0.5
+  - Name: Launch Count Down
+    AudioClip: {fileID: 8300000, guid: ef1cd0e1f7d4ef94c8fee6568e445767, type: 3}
     AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
     Loop: 0
     Volume: 0.5

@@ -66,6 +66,7 @@ namespace Common.Scripts.Rocket
             };
 
             Graphics = GetComponent<RocketGraphics>();
+
         }
 
 
@@ -73,6 +74,7 @@ namespace Common.Scripts.Rocket
         {
             CoveredDistance.Execute();
             BoosterController.Execute();
+            Audio.Execute();
         }
 
         private void OnEnable()

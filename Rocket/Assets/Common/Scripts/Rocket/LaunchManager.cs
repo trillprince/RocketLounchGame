@@ -15,7 +15,7 @@ namespace Common.Scripts.Rocket
         public event Station RocketLaunching;
 
 
-        private float _timeTillLounch = 1.7f;
+        private float _timeTillLounch = 3;
         private InputManager _inputManager;
         private bool _rocketLauched;
 

@@ -20,14 +20,19 @@ namespace Common.Scripts.Audio
             _musicAudioController.CreateAudioSources();
         }
 
-        public void FxAudioClipIsActive(string soundClipName, bool isActive)
+        public void FxAudioClipSetActive(string soundClipName, bool isActive)
         {
-            _fxAudioController.AudioClipIsActive(soundClipName, isActive);
+            _fxAudioController.AudioClipSetActive(soundClipName, isActive);
         }
 
-        public void MusicAudioClipIsActive(string soundClipName, bool isActive)
+        public void MusicAudioClipSetActive(string soundClipName, bool isActive)
         {
-            _musicAudioController.AudioClipIsActive(soundClipName, isActive);
+            _musicAudioController.AudioClipSetActive(soundClipName, isActive);
+        }
+
+        public bool FxIsPlaying(string audioName)
+        {
+            return _fxAudioController.AudioIsPlaying(name);
         }
 
         void Start()
