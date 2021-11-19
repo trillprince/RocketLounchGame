@@ -10,12 +10,15 @@ namespace Common.Scripts.Rocket
     {
         private readonly IAudioManager _audioManager;
         private readonly LaunchManager _launchManager;
+        private readonly RocketHealth _rocketHealth;
         private bool _flyLoopReady;
 
-        public RocketAudio(IAudioManager audioManager, LaunchManager launchManager)
+        public RocketAudio(IAudioManager audioManager, LaunchManager launchManager,RocketHealth rocketHealth)
         {
             _audioManager = audioManager;
             _launchManager = launchManager;
+            _rocketHealth = rocketHealth;
+            _rocketHealth.OnRocketDestroy += PlayRocketDestroySound;
         }
 
         private void PlayLaunchSound()
@@ -27,6 +30,13 @@ namespace Common.Scripts.Rocket
         {
             _audioManager.FxAudioClipSetActive("Launch Sound", true);
             _flyLoopReady = true;
+        }
+
+
+        private void PlayRocketDestroySound()
+        {
+            _audioManager.FxAudioClipSetActive("Rocket Destroy",true);
+            _rocketHealth.OnRocketDestroy -= PlayRocketDestroySound;
         }
 
         public void Enable()

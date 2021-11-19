@@ -67,9 +67,9 @@ MonoBehaviour:
     Volume: 0.5
   - Name: Launch Count Down
     AudioClip: {fileID: 8300000, guid: ef1cd0e1f7d4ef94c8fee6568e445767, type: 3}
-    AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
+    AudioMixerGroup: {fileID: -224262698321147397, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
     Loop: 0
-    Volume: 0.5
+    Volume: 0.3
   - Name: Booster Pick Up
     AudioClip: {fileID: 8300000, guid: bd51ce9f7ecc5c149ab9cfbd214dc3c1, type: 3}
     AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
@@ -77,20 +77,25 @@ MonoBehaviour:
     Volume: 0.6
   - Name: Coin Collect
     AudioClip: {fileID: 8300000, guid: 20e1c5ce68180f64a96c59ee27ad824c, type: 3}
+    AudioMixerGroup: {fileID: -1832594841121800370, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
+    Loop: 0
+    Volume: 0.15
+  - Name: Hologram
+    AudioClip: {fileID: 8300000, guid: 3c1db1d7278723f439b758117e30a12a, type: 3}
+    AudioMixerGroup: {fileID: -1374416138802278391, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
+    Loop: 1
+    Volume: 0.2
+  - Name: Rocket Destroy
+    AudioClip: {fileID: 8300000, guid: 699f1d3e960382a42bd9a67368950c6f, type: 3}
     AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
     Loop: 0
     Volume: 0.2
-  - Name: Space Ship Sound
-    AudioClip: {fileID: 8300000, guid: 474342f32dbfaa84d8c2819590631fdf, type: 3}
-    AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
-    Loop: 1
-    Volume: 1
   _musicAudioClips:
-  - Name: Music
-    AudioClip: {fileID: 8300000, guid: e1830682891ea664fb312fefdf0b6220, type: 3}
+  - Name: Space Ambient
+    AudioClip: {fileID: 8300000, guid: f0893613d4926fa4395c2648646ded58, type: 3}
     AudioMixerGroup: {fileID: 2352690748989567134, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
-    Loop: 0
-    Volume: 0.3
+    Loop: 1
+    Volume: 0.15
 --- !u!114 &5630382252010667222
 MonoBehaviour:
   m_ObjectHideFlags: 0

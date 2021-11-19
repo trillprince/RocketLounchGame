@@ -68,7 +68,7 @@ namespace Common.Scripts.MissionSystem
                         {
                             yield return null;
                         }
-
+                        SpawnCoin();
                         continue;
                     }
 

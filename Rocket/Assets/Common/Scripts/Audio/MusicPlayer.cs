@@ -12,7 +12,7 @@ namespace Common.Scripts.Audio
 
         private void Start()
         {
-            _audioManager.MusicAudioClipSetActive("Music",true);
+            _audioManager.MusicAudioClipSetActive("Space Ambient",true);
         }
     }
 }

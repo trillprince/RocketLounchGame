@@ -52,6 +52,6 @@ public class HologramEffect : RocketEffect
 
     public override void AudioActive(bool isActive)
     {
-        RocketController.Audio.GetAudioManager().FxAudioClipSetActive("Space Ship Sound",isActive);
+        RocketController.Audio.GetAudioManager().FxAudioClipSetActive("Hologram",isActive);
     }
 }
