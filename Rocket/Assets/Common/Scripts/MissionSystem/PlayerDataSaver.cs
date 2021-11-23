@@ -20,6 +20,16 @@ namespace Common.Scripts.MissionSystem
         {
             return PlayerPrefs.GetInt("HighScore");
         }
+
+        public void SaveCoins(int coinsValue)
+        {
+            PlayerPrefs.SetInt("Dog Coins",PlayerPrefs.GetInt("Dog Coins") + coinsValue);
+        }
+
+        public int GetCoins()
+        {
+            return PlayerPrefs.GetInt("Dog Coins");
+        }
         
     }
 }

@@ -22,7 +22,7 @@ public class HologramCollectable : SpaceObject
         _stateOnScreen = new StateOnScreen(transform, spaceObjectLifeCycle, this);
         _disposer = new CollectableDisposer(spaceObjectLifeCycle, this);
         _interactable = new HologramInteractable(_disposer, rocketController.BoosterController,
-            rocketController,rocketController.Graphics);
+            rocketController,rocketController.Graphics,audioManager);
         _movable = new CollectableMove(rocketController.Movement, transform);
     }
 

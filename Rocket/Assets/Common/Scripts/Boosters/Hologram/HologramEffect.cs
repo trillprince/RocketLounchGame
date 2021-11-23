@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class HologramEffect : RocketEffect
 {
+    private readonly IEffectAudio _effectAudio;
     private RocketSpeed _rocketSpeed;
     private int _increasedSpeed;
     private readonly float _secondsToRotate = 5;
@@ -17,13 +18,14 @@ public class HologramEffect : RocketEffect
     public HologramEffect(RocketController rocketController, IEffectAudio effectAudio)
         : base(rocketController, effectAudio)
     {
+        _effectAudio = effectAudio;
         _rocketSpeed = RocketController.Movement.RocketSpeed;
     }
 
     public override void Boost(Action endOfEffectAction)
     {
         _endOfEffectAction = endOfEffectAction;
-        RocketController.CollisionController.RocketCollisionBehaviour = new HologramCollisionBehaviour();
+        RocketController.CollisionController.RocketCollisionBehaviour = new HologramCollisionBehaviour(_effectAudio);
         IncreaseSpeed();
     }
 

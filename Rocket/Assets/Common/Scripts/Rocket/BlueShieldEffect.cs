@@ -19,7 +19,7 @@ namespace Common.Scripts.Boosters
         {
             if (_boostActive)
             {
-                EffectAudio.PlayFxAudioClip("Energy Shield Damage");
+                EffectAudio.PlayFxAudioClip();
                 DiscardEffect();
             }
         }

@@ -11,6 +11,7 @@ namespace Common.Scripts.MissionSystem
         {
             _assetProvider = assetProvider;
         }
+
         private GameObject GetBlueShield()
         {
             return Load(AssetPath.BlueShield);
@@ -23,16 +24,17 @@ namespace Common.Scripts.MissionSystem
 
         private GameObject Load(string path)
         {
-            return  _assetProvider.Load(path);
+            return _assetProvider.Load(path);
         }
 
         public GameObject GetRandomBooster()
         {
             var range = Random.Range(0, 10);
-            // if (range <= 4)
-            // {
-            //     return GetBlueShield();
-            // }
+            if (range <= 4)
+            {
+                return GetBlueShield();
+            }
+
             return GetHologram();
         }
     }

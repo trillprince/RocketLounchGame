@@ -90,6 +90,11 @@ MonoBehaviour:
     AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
     Loop: 0
     Volume: 0.2
+  - Name: Hologram Collision
+    AudioClip: {fileID: 8300000, guid: 508feea1c7a37924a9a9bd44e6172b18, type: 3}
+    AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
+    Loop: 0
+    Volume: 0.2
   _musicAudioClips:
   - Name: Space Ambient
     AudioClip: {fileID: 8300000, guid: f0893613d4926fa4395c2648646ded58, type: 3}

@@ -14,8 +14,8 @@ public class BlueShieldAudio: IEffectAudio
         _audioManager.FxAudioClipSetActive("Energy Shield", isActive);
     }
 
-    public void PlayFxAudioClip(string name)
+    public void PlayFxAudioClip()
     {
-        _audioManager.FxAudioClipSetActive(name, true);
+        _audioManager.FxAudioClipSetActive("Energy Shield Damage", true);
     }
 }

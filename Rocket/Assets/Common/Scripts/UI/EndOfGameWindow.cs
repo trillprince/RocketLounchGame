@@ -3,6 +3,7 @@ using Common.Scripts.Infrastructure;
 using Common.Scripts.MissionSystem;
 using Common.Scripts.Rocket;
 using Common.Scripts.UI;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class EndOfGameWindow : MonoBehaviour, IPauseWindow
     [SerializeField] private Button _playAgainButton;
     public Text _highScoreText;
     public Text _scoreText;
+    public TextMeshProUGUI _rewardInfo;
     private LoadingCurtain _loadingCurtain;
     private Animator _animator;
     private IGameTimeController _gameTimeController;
@@ -20,6 +22,7 @@ public class EndOfGameWindow : MonoBehaviour, IPauseWindow
     private RocketDistance _coveredDistance;
     private PlayerDataSaver _playerDataSaver;
     private string[] _animationNames;
+    private RocketController _rocketController;
 
     public void Constructor(Action onUnpauseAction, IGameTimeController gameTimeController,
         IGameLoopController gameLoopController, RocketController rocketController, PlayerDataSaver playerDataSaver,
@@ -28,6 +31,7 @@ public class EndOfGameWindow : MonoBehaviour, IPauseWindow
         _gameTimeController = gameTimeController;
         _gameLoopController = gameLoopController;
         _coveredDistance = rocketController.CoveredDistance;
+        _rocketController = rocketController;
         _playerDataSaver = playerDataSaver;
     }
 
@@ -68,8 +72,16 @@ public class EndOfGameWindow : MonoBehaviour, IPauseWindow
         }
     }
 
+    private void SetRewardInfo()
+    {
+       _rewardInfo.text = $"+ {_rocketController.Inventory.GetCurrentCoinValue()} DogCoins " +
+                          $"\n Current value : {_playerDataSaver.GetCoins()}";
+    }
+
     private void Start()
     {
+        _playerDataSaver.SaveCoins(_rocketController.Inventory.GetCurrentCoinValue());
+        SetRewardInfo();
         FillInfo();
         _animator.Play(_animationNames[0]);
     }
