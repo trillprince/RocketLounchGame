@@ -24,6 +24,7 @@ namespace Common.Scripts.Rocket
         private void PlayLaunchSound()
         {
             _audioManager.FxAudioClipSetActive("Launch Count Down", true);
+            _audioManager.FxAudioClipSetActive("Before Launch Effect", true);
         }
 
         private void PlayFlyLoopSound()

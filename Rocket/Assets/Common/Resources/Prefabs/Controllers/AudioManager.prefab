@@ -95,6 +95,11 @@ MonoBehaviour:
     AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
     Loop: 0
     Volume: 0.2
+  - Name: Before Launch Effect
+    AudioClip: {fileID: 8300000, guid: 58ba1bbc534ddeb4c8de3cacb575d4b7, type: 3}
+    AudioMixerGroup: {fileID: -3385727157735623073, guid: 1c25426a30fc37948930f1427cca7cc1, type: 2}
+    Loop: 0
+    Volume: 0.8
   _musicAudioClips:
   - Name: Space Ambient
     AudioClip: {fileID: 8300000, guid: f0893613d4926fa4395c2648646ded58, type: 3}
