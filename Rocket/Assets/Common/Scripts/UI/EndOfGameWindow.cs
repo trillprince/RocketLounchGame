@@ -74,7 +74,7 @@ public class EndOfGameWindow : MonoBehaviour, IPauseWindow
 
     private void SetRewardInfo()
     {
-       _rewardInfo.text = $"+ {_rocketController.Inventory.GetCurrentCoinValue()} DogCoins " +
+       _rewardInfo.text = $"{_rocketController.Inventory.GetCurrentCoinValue()} <sprite=0> " +
                           $"\n Current value : {_playerDataSaver.GetCoins()}";
     }
 
